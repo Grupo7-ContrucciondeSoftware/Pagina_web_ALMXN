@@ -1,8 +1,6 @@
 package Project.ALMXN.Controllers;
 
 import Project.ALMXN.Services.CategoriaService;
-import Project.ALMXN.Services.CategoriaServiceImpl;
-import Project.ALMXN.models.Categoria;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

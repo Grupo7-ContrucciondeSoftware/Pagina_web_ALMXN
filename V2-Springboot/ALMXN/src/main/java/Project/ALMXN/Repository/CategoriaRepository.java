@@ -1,7 +1,6 @@
 package Project.ALMXN.Repository;
 
 import java.util.List;
-
 import Project.ALMXN.models.Categoria;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

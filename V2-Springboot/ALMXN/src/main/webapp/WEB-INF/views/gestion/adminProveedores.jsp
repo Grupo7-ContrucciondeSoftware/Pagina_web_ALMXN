@@ -76,13 +76,13 @@
                     </thead>
 
                     <tbody class="body-tabla">
-                        <c:forEach var="proveedor" items="${proveedores}">
+                        <c:forEach var="proveedor" items="${listaProveedores}">
                             <tr>
                                 <td class="body-tabla">${proveedor.idProveedor}</td>
-                                <td class="body-tabla">${proveedor.ruc}</td>
-                                <td class="body-tabla">${proveedor.razonSocial}</td>
-                                <td class="body-tabla">${proveedor.telefono}</td>
-                                <td class="body-tabla">${proveedor.correo}</td>
+                                <td class="body-tabla">${proveedor.rucProveedor}</td>
+                                <td class="body-tabla">${proveedor.razonSocialProveedor}</td>
+                                <td class="body-tabla">${proveedor.telefonoProveedor}</td>
+                                <td class="body-tabla">${proveedor.correoProveedor}</td>
                                 <td class="body-tabla">
                                     <a class="btn btn-secundario btn-editar">Editar</a>
                                     <a class="btn btn-secundario btn-eliminar">Eliminar</a>

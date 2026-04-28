@@ -11,6 +11,7 @@ public class CategoriaServiceImpl implements CategoriaService{
     private final CategoriaDAO CategoriaDAO;
 
     public CategoriaServiceImpl(CategoriaDAO CategoriaDAO){
+        
         this.CategoriaDAO = CategoriaDAO;
     }
 
