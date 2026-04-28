@@ -42,6 +42,7 @@ CREATE TABLE usuario (
 CREATE TABLE producto (
     id_producto INT AUTO_INCREMENT PRIMARY KEY,
     codigo VARCHAR(50) UNIQUE NOT NULL,
+    fecha_creacion DATE NOT NULL,
     nombre VARCHAR(150) NOT NULL,
     id_categoria INT NOT NULL,
     stock_actual INT NOT NULL DEFAULT 0,

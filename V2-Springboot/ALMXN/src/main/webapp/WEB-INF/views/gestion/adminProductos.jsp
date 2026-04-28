@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -127,7 +129,8 @@
                     <!-- HEADER DE LA TABLA -->
                     <thead class="header-tabla">
                         <tr>
-                            <th class="header-tabla">Sku</th>
+                            <th class="header-tabla">ID</th>
+                            <th class="header-tabla">Codigo</th>
                             <th class="header-tabla">Fecha de Adición</th>
                             <th class="header-tabla">Producto</th>
                             <th class="header-tabla">Categoría</th>
@@ -141,50 +144,23 @@
 
                     <!-- CONTENIDO DE LA TABLA -->
                     <tbody class="body-tabla">
-                        <tr>
-                            <td class="body-tabla">1</td>
-                            <td class="body-tabla">07-04-2026</td>
-                            <td class="body-tabla">Lata Leche Gloria</td>
-                            <td class="body-tabla">Lácteos</td>
-                            <td class="body-tabla">10</td>
-                            <td class="body-tabla">Unidad</td>
-                            <td class="body-tabla">S/3.90</td>
-                            <td class="body-tabla">Leche entera</td>
-                            <td class="body-tabla">
-                                <a class="btn btn-secundario btn-editar" href="../index/adminProducto.html">Editar</a>
-                                <a class="btn btn-secundario btn-eliminar">Eliminar</a>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="body-tabla">2</td>
-                            <td class="body-tabla">03-04-2026</td>
-                            <td class="body-tabla">Pan</td>
-                            <td class="body-tabla">Pastelería</td>
-                            <td class="body-tabla">10</td>
-                            <td class="body-tabla">kg</td>
-                            <td class="body-tabla">S/7.90 x 1kg</td>
-                            <td class="body-tabla">Ninguno</td>
-                            <td class="body-tabla">
-                                <a class="btn btn-secundario btn-editar" href="../index/adminProducto.html">Editar</a>
-                                <a class="btn btn-secundario btn-eliminar">Eliminar</a>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="body-tabla">3</td>
-                            <td class="body-tabla">09-04-2026</td>
-                            <td class="body-tabla">Manzana</td>
-                            <td class="body-tabla">Frutas</td>
-                            <td class="body-tabla">3</td>
-                            <td class="body-tabla">Kg</td>
-                            <td class="body-tabla">S/8.90 x 1kg</td>
-                            <td class="body-tabla">Ninguno</td>
-                            <td class="body-tabla">
-                                <a class="btn btn-secundario btn-editar" href="../index/editarProducto.html">Editar</a>
-                                <a class="btn btn-secundario btn-eliminar">Eliminar</a>
-                            </td>
-                        </tr>
+                        <c:forEach var="producto" items="${listaProductos}">
+                            <tr>
+                                <td class="body-tabla">${producto.idProducto}</td>
+                                <td class="body-tabla">${producto.codigoProducto}</td>
+                                <td class="body-tabla">${producto.fechaCreacionProducto}</td>
+                                <td class="body-tabla">${producto.nombreProducto}</td>
+                                <td class="body-tabla">${producto.categoria.nombreCategoria}</td>
+                                <td class="body-tabla">${producto.stockActualProducto}</td>
+                                <td class="body-tabla">${producto.unidadMedidaProducto}</td>
+                                <td class="body-tabla">S/${producto.precioVentaProducto}</td>
+                                <td class="body-tabla">${producto.descripcionProducto}</td>
+                                <td class="body-tabla">
+                                    <a class="btn btn-secundario btn-editar">Editar</a>
+                                    <a class="btn btn-secundario btn-eliminar">Eliminar</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
 
