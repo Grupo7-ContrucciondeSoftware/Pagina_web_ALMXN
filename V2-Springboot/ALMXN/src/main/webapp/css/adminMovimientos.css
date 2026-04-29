@@ -35,3 +35,34 @@
     font-size: 13px;
     font-weight: 800;
 }
+
+.formulario {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.lista {
+    margin-top: 20px;
+}
+
+.producto-lista {
+    text-align: center;
+    padding: 2rem;
+    color: var(--texto-secundario);
+}
+
+.total-lista {
+    text-align: right;
+    padding: 1rem;
+}
+
+.total-lista-precio {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.cantidad {
+    width: 15%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

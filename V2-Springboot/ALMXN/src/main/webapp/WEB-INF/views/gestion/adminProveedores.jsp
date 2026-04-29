@@ -101,12 +101,13 @@
                             <div class="form-grupo">
                                 <label for="ruc-proveedor" class="form-label">RUC</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     id="ruc-proveedor"
                                     name="rucProveedor"
                                     class="form-control"
                                     placeholder="Ej: 20123456789"
                                     maxlength="11"
+                                    min="10000000000"
                                     required
                                 >
                             </div>
@@ -126,10 +127,12 @@
                             <div class="form-grupo">
                                 <label for="telefono-proveedor" class="form-label">Teléfono</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     id="telefono-proveedor"
                                     name="telefonoProveedor"
                                     class="form-control"
+                                    min="900000000"
+                                    maxlength="9"
                                     placeholder="Ej: 987654321"
                                 >
                             </div>

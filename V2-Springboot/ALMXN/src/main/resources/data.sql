@@ -33,7 +33,7 @@ INSERT INTO proveedor (ruc, razon_social, telefono, correo) VALUES
 
 
 -- ==========================================
--- 4. INSERTAR PRODUCTOS (Alineados a tu CRUD)
+-- 4. INSERTAR PRODUCTOS
 -- ==========================================
 -- Nota: id_categoria 1=Almacenamiento, 2=Periféricos, 3=Componentes, 4=Monitores
 INSERT INTO producto (codigo, nombre, fecha_creacion ,id_categoria, stock_actual, unidad_medida, stock_minimo, precio_costo, precio_venta, descripcion) VALUES
@@ -42,3 +42,26 @@ INSERT INTO producto (codigo, nombre, fecha_creacion ,id_categoria, stock_actual
 ('PROD-BEB-001', 'Gaseosa Inca Kola 3L', '2026-04-28', 3, 60,'Botella',  12, 8.50, 11.50, 'Bebida gaseosa sabor original, envase no retornable'),
 ('PROD-SNA-001', 'Galletas Casino Menta', '2026-04-28', 4, 100,'Paquete',  15, 0.80, 1.30, 'Galletas dulces rellenas con crema sabor a menta'),
 ('PROD-LIM-001', 'Detergente Ariel 1kg', '2026-04-28', 6, 45,'Bolsa',  10, 10.00, 14.50, 'Detergente en polvo para ropa blanca y de color');
+
+-- ==========================================
+-- INSERTS TABLA MOVIMIENTO
+-- ==========================================
+
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Ingreso', '2026-04-28', 'Compra de mercadería semanal', 'Almacén Principal', 'Ingreso con guía de remisión 001-456. Todo conforme.', 1, 1, 390.00);
+
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Salida', '2026-04-29', 'Reabastecimiento urgente', 'Almacén Frío', 'Lote con vencimiento a 6 meses.', 2, 2, 640.00);
+
+-- ==========================================
+-- INSERTS TABLA DETALLE_MOVIMIENTO
+-- ==========================================
+
+INSERT INTO detalle_movimiento (id_movimiento, id_producto, cantidad, precio_unitario, subtotal)
+VALUES (1, 1, 100, 3.50, 350.00);
+
+INSERT INTO detalle_movimiento (id_movimiento, id_producto, cantidad, precio_unitario, subtotal)
+VALUES (1, 4, 50, 0.80, 40.00);
+
+INSERT INTO detalle_movimiento (id_movimiento, id_producto, cantidad, precio_unitario, subtotal)
+VALUES (2, 2, 200, 3.20, 640.00);

@@ -181,11 +181,11 @@
 
                         <!-- Código -->
                         <div class="form-grupo">
-                            <label for="sku-producto" class="form-label">Sku</label>
+                            <label for="codigo-producto" class="form-label">Código</label>
                             <input
                                 type="number"
-                                id="sku-producto"
-                                name="sku-producto"
+                                id="codigp-producto"
+                                name="codigoProducto"
                                 class="form-control"
                                 placeholder="Escriba el SKU"
                                 min="0"
@@ -199,34 +199,29 @@
                             <input
                                 type="text"
                                 id="nombre-producto"
-                                name="nombre-producto"
+                                name="nombreProducto"
                                 class="form-control"
                                 placeholder="Ej: Platano Bizcochito"
                                 required
                             >
                         </div>
 
-                        <!-- Categoría -->
+                        <!-- SELECCIONAR CATEGORÍA -->
+
                         <div class="form-grupo">
-                            <label for="categoria-producto" class="form-label">Categoría</label>
-                            <select id="categoria-producto" name="categoria-producto" class="form-control">
+                            <label for="categoriaProducto" class="form-label">Categoría</label>
+                            <select id="categoriaProducto" name="idCategoria" class="form-control">
                                 <option value="" disabled selected>Seleccione una categoría</option>
-                                <option value="Abarrotes">Abarrotes</option>
-                                <option value="Lacteos y Huevos">Lácteos y Huevos</option>
-                                <option value="Bebidas y Licores">Bebidas y Licores</option>
-                                <option value="Snacks y Confiteria">Snacks y Confitería</option>
-                                <option value="Frutas y Verduras">Frutras y Verduras</option>
-                                <option value="Limpieza y Hogar">Limpieza y Hogar</option>
-                                <option value="Cuidado Personal">Cuidado Personal</option>
-                                <option value="Embutidos y Fríos">Embutidos y Fríos</option>
-                                <option value="Panadería y Pastelería">Panadería y Pastelería</option>
+                                <c:forEach items="${listaCategorias}" var="catProducto">
+                                    <option value="${catProducto.idCategoria}">${catProducto.nombreCategoria}</option>
+                                </c:forEach>
                             </select>
                         </div>
 
                         <!-- Unidad de Medida -->
                         <div class="form-grupo">
                             <label for="unidad-medida" class="form-label">Unidad de medida</label>
-                            <select id="unidad-medida" name="unidad-medida" class="form-control">
+                            <select id="unidad-medida" name="unidadMedidaProducto" class="form-control">
                                 <option value="" disabled selected>Seleccione una unidad</option>
                                 <option value="unidad">Unidad</option>
                                 <option value="kg">Kilogramo (kg)</option>
@@ -238,11 +233,11 @@
 
                         <!-- Stock inicial -->
                         <div class="form-grupo">
-                            <label for="stock-inicial" class="form-label">Stock inicial</label>
+                            <label for="stock-actual" class="form-label">Stock inicial</label>
                             <input
                                 type="number"
-                                id="stock-inicial"
-                                name="stock-inicial"
+                                id="stock-actual"
+                                name="stockActualProducto"
                                 class="form-control"
                                 placeholder="Ej: 70"
                                 min="0"
@@ -256,7 +251,7 @@
                             <input
                                 type="number"
                                 id="stock-minimo"
-                                name="stock-minimo"
+                                name="stockMinimoProducto"
                                 class="form-control"
                                 placeholder="Ej: 10"
                                 min="0"
@@ -270,7 +265,7 @@
                             <input
                                 type="number"
                                 id="precio-costo"
-                                name="precio-costo"
+                                name="precioCostoProducto"
                                 class="form-control"
                                 placeholder="Ej: 40"
                                 min="0"
@@ -284,7 +279,7 @@
                             <input
                                 type="number"
                                 id="precio-unidad"
-                                name="precio-unidad"
+                                name="precioVentaProducto"
                                 class="form-control"
                                 placeholder="Ej: 10"
                                 min="0"
@@ -298,7 +293,7 @@
                         <label for="descripcion-producto" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
                         <textarea
                             id="descripcion-producto"
-                            name="descripcion-producto"
+                            name="descripcionProducto"
                             class="form-control"
                             placeholder="Descripción breve del producto..."
                             rows="3"

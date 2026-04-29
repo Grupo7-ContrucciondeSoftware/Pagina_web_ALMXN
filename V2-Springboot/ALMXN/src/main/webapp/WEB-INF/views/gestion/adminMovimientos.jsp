@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -14,6 +16,7 @@
     <link rel="stylesheet" href="/css/adminMovimientos.css">
 
     <script src="../js/tema.js" defer></script>
+    <script src="../js/movimientos.js" defer></script>
 </head>
 <body>
 
@@ -57,155 +60,120 @@
             ============================================ -->
             <div class="pestaña-contenido" id="contenido-salida">
 
-                <!-- Nombre de producto -->
-                <section class="form-grupo">
-                    <label for="nombre-producto-salida" class="form-label">Nombre del producto</label>
+                <form action="/gestion/movimientos/registrar-salida" method="POST">
 
-                    <div class="buscador-boton">
-                        <input
-                            type="text"
-                            id="nombre-producto-salida"
-                            name="nombre-producto-salida"
-                            class="form-control"
-                            placeholder="Ej: Leche Gloria"
-                            required
-                        >
-                        <button class="btn btn-primario">Buscar</button>
-                    </div>
-                </section>
+                    <section class="gestion-inicio">
+                        <div class="formulario">
+                            <div class="form-grupo">
+                                <label for="fecha-salida" class="form-label">Fecha del Movimiento</label>
+                                <input
+                                    type="date"
+                                    id="fecha-salida"
+                                    name="fecha"
+                                    class="form-control"
+                                    required>
+                            </div>
 
-                <!-- TABLA -->
-                <section class="form-grupo">
-                    <label class="form-label">Seleccione producto</label>
+                            <div class="form-grupo">
+                                <label for="motivo-salida" class="form-label">Motivo de Salida</label>
+                                <select id="motivo-salida" name="motivo" class="form-control" required>
+                                    <option value="" disabled selected>Seleccione motivo</option>
+                                    <option value="Despacho">Despacho</option>
+                                    <option value="Merma">Merma</option>
+                                    <option value="Devolución">Devolución a Proveedor</option>
+                                </select>
+                            </div>
 
-                    <table class="tabla">
-                        <thead class="header-tabla">
-                            <tr>
-                                <th class="header-tabla">Codigo</th>
-                                <th class="header-tabla">Producto</th>
-                                <th class="header-tabla">Categoría</th>
-                                <th class="header-tabla">Stock Actual</th>
-                                <th class="header-tabla">Unidad de medida</th>
-                                <th class="header-tabla">Precio x Unidad</th>
-                                <th class="header-tabla">Descripción</th>
-                                <th class="header-tabla">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody class="body-tabla">
-                            <tr>
-                                <td class="body-tabla">1</td>
-                                <td class="body-tabla">Lata Leche Gloria</td>
-                                <td class="body-tabla">Lácteos</td>
-                                <td class="body-tabla">10</td>
-                                <td class="body-tabla">Unidad</td>
-                                <td class="body-tabla">S/3.90</td>
-                                <td class="body-tabla">Leche entera</td>
-                                <td class="body-tabla">
-                                   <a class="btn btn-secundario" id="btn-elegir">Elegir</a>
-                                </td>
-                            </tr>
+                            <div class="form-grupo">
+                                <label for="destino-salida" class="form-label">Destino (Opcional)</label>
+                                <input
+                                    type="text"
+                                    id="destino-salida"
+                                    name="destino"
+                                    class="form-control"
+                                    placeholder="Ej: Tienda Huancayo">
+                            </div>
+                        </div>
 
-                            <tr>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                            </tr>
-
-                            <tr>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
-
-                <!-- FORMULARIO -->
-                <section class="form-grupo">
-
-                    <div class="formulario">
-
-                        <!-- Cantidad -->
-                        <div class="form-grupo">
-                            <label for="cantidad-salida" class="form-label">Cantidad</label>
-                            <input
-                                type="number"
-                                id="cantidad-salida"
-                                name="cantidad-salida"
+                        <div class="form-grupo form-textarea">
+                            <label for="observacion-salida" class="form-label">Observaciones Generales (Opcional)</label>
+                            <textarea
+                                id="observacion-salida"
+                                name="observaciones"
                                 class="form-control"
-                                placeholder="Ej: 10"
-                                min="0"
-                                required
-                            >
+                                rows="2"
+                                placeholder="Escriba una descripción.."
+                            ></textarea>
+                        </div>
+                    </section>
+
+                    <section class="form-grupo">
+                        <p class="form-label lista">Añadir Productos a la Lista</p>
+
+                        <div class="buscador-boton">
+                            <input type="text" id="busqueda-prod" class="form-control" placeholder="Buscar producto por nombre o código...">
+                            <button type="button" class="btn btn-primario">Buscar</button>
                         </div>
 
-                        <!-- Fecha -->
-                        <div class="form-grupo">
-                            <label for="fecha-salida" class="form-label">Fecha</label>
-                            <input
-                                type="date"
-                                id="fecha-salida"
-                                name="fecha-salida"
-                                class="form-control"
-                                required
-                            >
+                        <table class="tabla" >
+                            <thead class="header-tabla">
+                                <tr>
+                                    <th class="header-tabla">Código</th>
+                                    <th class="header-tabla">Producto</th>
+                                    <th class="header-tabla">Stock</th>
+                                    <th class="header-tabla">Precio</th>
+                                    <th class="header-tabla">Cantidad</th>
+                                    <th class="header-tabla">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody class="body-tabla">
+                                <tr>
+                                    <td>HW-MON-24</td>
+                                    <td>Monitor LG 24"</td>
+                                    <td>15</td>
+                                    <td>S/ 680.00</td>
+                                    <td><input type="number" class="form-control cantidad" value="1" min="1"></td>
+                                    <td><button type="button" class="btn btn-secundario">+ Añadir</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="form-grupo">
+                        <p class="form-label lista">Productos en este Movimiento</p>
+                        <table class="tabla">
+                            <thead class="header-tabla">
+                                <tr>
+                                    <th class="header-tabla">Código</th>
+                                    <th class="header-tabla">Producto</th>
+                                    <th class="header-tabla">Cantidad</th>
+                                    <th class="header-tabla">Precio Unit.</th>
+                                    <th class="header-tabla">Subtotal</th>
+                                    <th class="header-tabla">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="body-tabla" id="tabla-detalles">
+                                <tr>
+                                    <td colspan="6" class="producto-lista" >
+                                        No hay productos en la lista. Use el buscador de arriba.
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4" class="total-lista"><strong>TOTAL DEL MOVIMIENTO:</strong></td>
+                                    <td colspan="2" class="total-lista-precio"><span id="total-movimiento" style="">S/ 0.00</span></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <div class="formulario-acciones">
+                            <button type="reset" class="btn btn-secundario">Cancelar Todo</button>
+                            <button type="submit" class="btn btn-primario">Confirmar y Registrar Salida</button>
                         </div>
+                    </section>
 
-                        <!-- Motivo -->
-                        <div class="form-grupo">
-                            <label for="motivo-salida" class="form-label">Motivo</label>
-                            <select id="motivo-salida" name="motivo-salida" class="form-control">
-                                <option value="" disabled selected>Seleccione un motivo</option>
-                                <option value="1">Despacho</option>
-                                <option value="2">Merma</option>
-                                <option value="3">Otro</option>
-                            </select>
-                        </div>
-
-                        <!-- Destino -->
-                        <div class="form-grupo">
-                            <label for="destino-salida" class="form-label">Destino (opcional)</label>
-                            <input
-                                type="text"
-                                id="destino-salida"
-                                name="destino-salida"
-                                class="form-control"
-                                placeholder="Ej: Tienda centro"
-                                required
-                            >
-                        </div>
-                    </div>
-
-                    <!-- Observaciones -->
-                    <div class="form-grupo form-textarea">
-                        <label for="observacion-salida" class="form-label">Observaciones (opcional)</label>
-                        <textarea
-                            id="observacion-salida"
-                            name="observacion-salida"
-                            class="form-control"
-                            placeholder="Observacion sobre la salida..."
-                            rows="3"
-                        ></textarea>
-                    </div>
-
-                    <!-- Botones Guardar/Limpiar -->
-                    <div class="formulario-acciones">
-                        <button type="reset" class="btn btn-secundario">Limpiar</button>
-                        <button type="submit" class="btn btn-primario">Registrar Salida</button>
-                    </div>
-
-                </section>
-
+                </form>
             </div>
 
 
@@ -216,154 +184,121 @@
 
             <div class="pestaña-contenido" id="contenido-ingreso">
 
-                <!-- Nombre de Producto -->
-                <section class="form-grupo">
-                    <label for="nombre-producto-ingreso" class="form-label">Nombre del producto</label>
-                    <div class="buscador-boton">
-                        <input
-                        type="text"
-                        id="nombre-producto-ingreso"
-                        name="nombre-producto-ingreso"
-                        class="form-control"
-                        placeholder="Ej: Paneton Bimbo"
-                        required
-                        >
-                        <button class="btn btn-primario">Buscar</button>
-                    </div>
-                </section>
+                <form action="/gestion/movimientos/registrar-ingreso" method="POST">
 
-                <!-- TABLA -->
-                <section class="form-grupo">
+                    <section class="gestion-inicio">
+                        <div class="formulario">
+                            <div class="form-grupo">
+                                <label for="fecha-ingreso" class="form-label">Fecha del Movimiento</label>
+                                <input
+                                    type="date"
+                                    id="fecha-ingreso"
+                                    name="fecha"
+                                    class="form-control"
+                                    required>
+                            </div>
 
-                    <label class="form-label">Seleccione producto</label>
+                             <div class="form-grupo">
+                                <label for="motivo-ingreso" class="form-label">Motivo de Ingreso</label>
+                                <select id="motivo-ingreso" name="motivo-ingreso" class="form-control">
+                                    <option value="" disabled selected>Seleccione motivo</option>
+                                    <option value="1">Compra</option>
+                                    <option value="2">Devolución</option>
+                                    <option value="3">Otros</option>
+                                </select>
+                            </div>
 
-                    <table class="tabla">
-                        <thead class="header-tabla">
-                            <tr>
-                                <th class="header-tabla">Codigo</th>
-                                <th class="header-tabla">Producto</th>
-                                <th class="header-tabla">Categoría</th>
-                                <th class="header-tabla">Stock Actual</th>
-                                <th class="header-tabla">Unidad de medida</th>
-                                <th class="header-tabla">Precio x Unidad</th>
-                                <th class="header-tabla">Descripción</th>
-                                <th class="header-tabla">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody class="body-tabla">
-                            <tr>
-                                <td class="body-tabla">1</td>
-                                <td class="body-tabla">Lata Leche Gloria</td>
-                                <td class="body-tabla">Lácteos</td>
-                                <td class="body-tabla">10</td>
-                                <td class="body-tabla">Unidad</td>
-                                <td class="body-tabla">S/3.90</td>
-                                <td class="body-tabla">Leche entera</td>
-                                <td class="body-tabla">
-                                    <a class="btn btn-secundario" id="btn-elegir">Elegir</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                            </tr>
-                            <tr>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
+                            <div class="form-grupo">
+                                <label for="proveedor-ingreso" class="form-label">Proveedor</label>
+                                <select id="proveedor-ingreso" name="idProveedores" class="form-control" required>
+                                    <option value="" disabled selected>Seleccione un proveedor</option>
+                                    <c:forEach items="${listaProveedores}" var="proveedorIngreso">
+                                        <option value="${proveedorIngreso.idProveedor}">${proveedorIngreso.razonSocialProveedor}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
 
-                <!-- FORMULARIO -->
-                <section class="form-grupo">
-
-                    <div class="formulario">
-
-                        <!-- Cantidad -->
-                        <div class="form-grupo">
-                            <label for="cantidad-ingreso" class="form-label">Cantidad</label>
-                            <input
-                                type="number"
-                                id="cantidad-ingreso"
-                                name="cantidad-ingreso"
+                        <div class="form-grupo form-textarea">
+                            <label for="observacion-ingreso" class="form-label">Observaciones Generales (Opcional)</label>
+                            <textarea
+                                id="observacion-ingreso"
+                                name="observaciones"
                                 class="form-control"
-                                placeholder="Ej: 50"
-                                min="0"
-                                required>
-                        </div>
-
-                        <!-- Fecha -->
-                        <div class="form-grupo">
-                            <label for="fecha-ingreso" class="form-label">Fecha</label>
-                            <input
-                                type="date"
-                                id="fecha-ingreso"
-                                name="fecha-ingreso"
-                                class="form-control"
-                                required
-                            >
-                        </div>
-
-                        <!-- Motivo -->
-                        <div class="form-grupo">
-                            <label for="motivo-ingreso" class="form-label">Motivo</label>
-                            <select id="motivo-ingreso" name="motivo-ingreso" class="form-control">
-                                <option value="" disabled selected>Seleccione un motivo</option>
-                                <option value="1">Compra</option>
-                                <option value="2">Devolución</option>
-                                <option value="3">Otros</option>
-                            </select>
-                        </div>
-
-                        <!-- Proveedor -->
-                        <div class="form-grupo">
-                            <label for="proveedor-ingreso" class="form-label">Proveedor (opcional)</label>
-                            <input
-                                type="text"
-                                id="proveedor-ingreso"
-                                name="proveedor-ingreso"
-                                class="form-control"
-                                placeholder="Ej: Distribuidora Lima"
-                            >
-                        </div>
-
-                    </div>
-
-                    <!-- Observaciones -->
-                    <div class="form-grupo form-textarea">
-                        <label for="observacion-ingreso" class="form-label">Observaciones (opcional)</label>
-                        <textarea
-                            id="observacion-ingreso"
-                            name="observacion-ingreso"
-                            class="form-control"
-                            placeholder="Detalle del ingreso..."
-                            rows="3"
+                                rows="2"
+                                placeholder="Escriba una descripción.."
                             ></textarea>
-                    </div>
+                        </div>
+                    </section>
 
-                    <!-- Botones Guardar/Limpiar -->
-                    <div class="formulario-acciones">
-                        <button type="reset" class="btn btn-secundario">Limpiar</button>
-                        <button type="submit" class="btn btn-primario">Registrar Ingreso</button>
-                    </div>
+                    <section class="form-grupo">
+                        <p class="form-label lista">Añadir Productos a la Lista</p>
 
-                </section>
+                        <div class="buscador-boton">
+                            <input type="text" id="busqueda-prod" class="form-control" placeholder="Buscar producto por nombre o código...">
+                            <button type="button" class="btn btn-primario">Buscar</button>
+                        </div>
 
+                        <table class="tabla" >
+                            <thead class="header-tabla">
+                                <tr>
+                                    <th class="header-tabla">Código</th>
+                                    <th class="header-tabla">Producto</th>
+                                    <th class="header-tabla">Stock</th>
+                                    <th class="header-tabla">Precio</th>
+                                    <th class="header-tabla">Cantidad</th>
+                                    <th class="header-tabla">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody class="body-tabla">
+                                <tr>
+                                    <td>HW-MON-24</td>
+                                    <td>Monitor LG 24"</td>
+                                    <td>15</td>
+                                    <td>S/ 680.00</td>
+                                    <td><input type="number" class="form-control cantidad" value="1" min="1"></td>
+                                    <td><button type="button" class="btn btn-secundario">+ Añadir</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="form-grupo">
+                        <p class="form-label lista">Productos en este Movimiento</p>
+                        <table class="tabla">
+                            <thead class="header-tabla">
+                                <tr>
+                                    <th class="header-tabla">Código</th>
+                                    <th class="header-tabla">Producto</th>
+                                    <th class="header-tabla">Cantidad</th>
+                                    <th class="header-tabla">Precio Unit.</th>
+                                    <th class="header-tabla">Subtotal</th>
+                                    <th class="header-tabla">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="body-tabla" id="tabla-detalles">
+                                <tr>
+                                    <td colspan="6" class="producto-lista" >
+                                        No hay productos en la lista. Use el buscador de arriba.
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4" class="total-lista"><strong>TOTAL DEL MOVIMIENTO:</strong></td>
+                                    <td colspan="2" class="total-lista-precio"><span id="total-movimiento" style="">S/ 0.00</span></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <div class="formulario-acciones">
+                            <button type="reset" class="btn btn-secundario">Cancelar Todo</button>
+                            <button type="submit" class="btn btn-primario">Confirmar y Registrar Salida</button>
+                        </div>
+                    </section>
+
+                </form>
             </div>
-
 
             <!-- ============================================
                            HISTORIAL DE MOVIMIENTOS
@@ -372,61 +307,40 @@
 
             <div class="pestaña-contenido" id="contenido-historial">
 
-                <!-- FILTROS -->
                 <div class="filtro-container">
 
-                    <!-- Nombre -->
-                    <div class="filtro-grupo">
-                        <label class="form-label" for="nombre-filtro">Nombre: </label>
-                        <input class="form-control nombreFiltro" type="text" id="nombre-filtro" placeholder="Ej: Leche Gloria">
-                    </div>
-
-                    <!-- Categoría -->
-                    <div class="filtro-grupo">
-                        <label class="form-label" for="categoria-filtro">Categoría:</label>
-                        <select class="form-control categoriaFiltro" id="categoria-filtro">
-                            <option value="">Sin Filtro</option>
-                                <option value="Abarrotes">Abarrotes</option>
-                                <option value="Lacteos y Huevos">Lácteos y Huevos</option>
-                                <option value="Bebidas y Licores">Bebidas y Licores</option>
-                                <option value="Snacks y Confiteria">Snacks y Confitería</option>
-                                <option value="Frutas y Verduras">Frutras y Verduras</option>
-                                <option value="Limpieza y Hogar">Limpieza y Hogar</option>
-                                <option value="Cuidado Personal">Cuidado Personal</option>
-                                <option value="Embutidos y Fríos">Embutidos y Fríos</option>
-                                <option value="Panadería y Pastelería">Panadería y Pastelería</option>
-                        </select>
-                    </div>
-
-                    <!-- Tipo -->
                     <div class="filtro-grupo">
                         <label class="form-label" for="tipo-filtro">Tipo:</label>
                         <select class="form-control" id="tipo-filtro">
-                            <option value="">Sin Filtro</option>
-                            <option value="Ingreso">Ingreso</option>
-                            <option value="Salida">Salida</option>
+                            <option value="">Todos</option>
+                            <option value="ENTRADA">Entrada</option>
+                            <option value="SALIDA">Salida</option>
                         </select>
                     </div>
 
-                    <!-- Cantidad -->
                     <div class="filtro-grupo">
-                        <label class="form-label" for="cantidad-filtro">Cantidad:</label>
+                        <label class="form-label" for="origen-filtro">Origen / Destino:</label>
+                        <input class="form-control" type="text" id="origen-filtro" placeholder="Ej: Alicorp, Almacén 2">
+                    </div>
+
+                    <div class="filtro-grupo">
+                        <label class="form-label" for="usuario-filtro">Responsable:</label>
+                        <select id="usuario-filtro" name="idUsuarios" class="form-control">
+                            <option value="" selected>Todos los usuarios</option>
+                            <c:forEach items="${listaUsuarios}" var="usuarioFiltro">
+                                <option value="${usuarioFiltro.idUsuario}">${usuarioFiltro.nombres} ${usuarioFiltro.apellidos}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+
+                    <div class="filtro-grupo">
+                        <label class="form-label">Rango de Fechas: </label>
                         <div class="filtro-doble">
-                            <input class="form-control" type="number" id="cantidad-min-filtro" placeholder="Mín">
-                            <input class="form-control" type="number" id="cantidad-max-filtro" placeholder="Máx">
+                            <input class="form-control fechaFiltro" type="date" id="fechaMin-filtro" title="Desde">
+                            <input class="form-control fechaFiltro" type="date" id="fechaMax-filtro" title="Hasta">
                         </div>
                     </div>
 
-                    <!-- Fecha -->
-                    <div class="filtro-grupo">
-                        <label class="form-label">Fecha: </label>
-                        <div class="filtro-doble">
-                            <input class="form-control fechaFiltro" type="date" id="fechaMin-filtro">
-                            <input class="form-control fechaFiltro" type="date" id="fechaMax-filtro">
-                        </div>
-                    </div>
-
-                    <!-- Botones -->
                     <div class="filtro-acciones">
                         <button class="btn btn-secundario" id="btnFiltrar">Filtrar</button>
                         <button class="btn btn-secundario" id="btnLimpiar">Limpiar</button>
@@ -434,55 +348,34 @@
 
                 </div>
 
-                <!-- TABLA -->
                 <table class="tabla">
                     <thead class="header-tabla">
                         <tr>
-                            <th class="header-tabla">ID</th>
+                            <th class="header-tabla">ID Mov.</th>
                             <th class="header-tabla">Fecha</th>
-                            <th class="header-tabla">Producto</th>
-                            <th class="header-tabla">Categoría</th>
                             <th class="header-tabla">Tipo</th>
-                            <th class="header-tabla">Cantidad</th>
-                            <th class="header-tabla">Paquete</th>
+                            <th class="header-tabla">Responsable</th>
+                            <th class="header-tabla">Origen / Destino</th>
                             <th class="header-tabla">Motivo</th>
-                            <th class="header-tabla">Detalle</th>
+                            <th class="header-tabla">Total (S/)</th>
+                            <th class="header-tabla">Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="body-tabla">
-                        <tr>
-                            <td class="body-tabla">1</td>
-                            <td class="body-tabla">07-04-2026</td>
-                            <td class="body-tabla">Inca Kola 600 ml</td>
-                            <td class="body-tabla">Bebidas y Licores</td>
-                            <td class="body-tabla"><span class="tipo-ingreso">Ingreso</span></td>
-                            <td class="body-tabla">30</td>
-                            <td class="body-tabla">Unidad</td>
-                            <td class="body-tabla">Compra</td>
-                            <td class="body-tabla">Ninguno</td>
-                        </tr>
-                        <tr>
-                            <td class="body-tabla">2</td>
-                            <td class="body-tabla">03-04-2026</td>
-                            <td class="body-tabla">Piqueo Snacks</td>
-                            <td class="body-tabla">Snacks y Confitería</td>
-                            <td class="body-tabla"><span class="tipo-salida">Salida</span></td>
-                            <td class="body-tabla">10</td>
-                            <td class="body-tabla">Unidad</td>
-                            <td class="body-tabla">Despacho</td>
-                            <td class="body-tabla">Venta</td>
-                        </tr>
-                        <tr>
-                            <td class="body-tabla">3</td>
-                            <td class="body-tabla">09-04-2026</td>
-                            <td class="body-tabla">Manzana</td>
-                            <td class="body-tabla">Frutas y Verduras</td>
-                            <td class="body-tabla"><span class="tipo-salida">Salida</span></td>
-                            <td class="body-tabla">3</td>
-                            <td class="body-tabla">Kg</td>
-                            <td class="body-tabla">Despacho</td>
-                            <td class="body-tabla">Venta</td>
-                        </tr>
+                        <c:forEach var="mov" items="${listaMovimientos}">
+                            <tr>
+                                <td class="body-tabla">#${mov.idMovimiento}</td>
+                                <td class="body-tabla">${mov.fechaMovimiento}</td>
+                                <td class="body-tabla"><span class="tipo-${mov.tipoMovimiento.toLowerCase()}" >${mov.tipoMovimiento}</span></td>
+                                <td class="body-tabla">${mov.usuario.nombres}</td>
+                                <td class="body-tabla">${mov.proveedor.razonSocialProveedor}</td>
+                                <td class="body-tabla">${mov.motivoMovimiento}</td>
+                                <td class="body-tabla">${mov.totalMovimiento}</td>
+                                <td class="body-tabla">
+                                    <a class="btn btn-primario btn-editar">Ver Detalles</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
 

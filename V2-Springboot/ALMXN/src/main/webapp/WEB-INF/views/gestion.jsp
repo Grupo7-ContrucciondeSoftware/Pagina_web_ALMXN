@@ -79,13 +79,13 @@
 
                     <a class="opc gestion-adminCategorias" id="gestion-adminCategorias"
                         href="/gestion/adminCategorias">
-                        <img src="/img/icono-ingresos.svg" class="img img-funcion">
+                        <img src="/img/icono-administrarcategorias.svg" class="img img-funcion">
                         <h3 class="opc-titulo">Administrar Categorías</h3>
                     </a>
 
                     <a class="opc gestion-adminProveedores" id="gestion-adminProveedores"
                         href="/gestion/adminProveedores">
-                        <img src="/img/icono-ingresos.svg" class="img img-funcion">
+                        <img src="/img/icono-administrarproveedores.svg" class="img img-funcion">
                         <h3 class="opc-titulo">Administrar Proveedores</h3>
                     </a>
 

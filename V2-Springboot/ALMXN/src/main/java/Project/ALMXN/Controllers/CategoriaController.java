@@ -22,7 +22,7 @@ public class CategoriaController {
 
         model.addAttribute("listaCategorias", CategoriaService.obtenerTodasLasCategorias());
         model.addAttribute("paginaActiva", "gestion");
-        return "gestion/adminCategorias";
+        return "/gestion/adminCategorias";
     }
 
     @PostMapping("/guardar")

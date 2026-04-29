@@ -234,6 +234,11 @@ ul {
     gap: 20px;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
 /* BUSCADOR */
 
@@ -433,3 +438,4 @@ body:has(#theme-toggle:checked) .icono-oscuro { display: none; }
     color: var(--texto-muted);
     letter-spacing: 0.02em;
 }
+

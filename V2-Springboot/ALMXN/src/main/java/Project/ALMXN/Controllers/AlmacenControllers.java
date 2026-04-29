@@ -25,12 +25,6 @@ public class AlmacenControllers {
         return "gestion";
     }
 
-    @GetMapping("/gestion/adminMovimientos")
-    public String mostrarPaginaAdminMovimientos(Model model) {
-        model.addAttribute("paginaActiva", "gestion");
-        return "gestion/adminMovimientos";
-    }
-
     @GetMapping("/contacto")
     public String mostrarPaginaContacto(Model model) {
         model.addAttribute("paginaActiva", "contacto");
