@@ -11,13 +11,18 @@ public class CategoriaServiceImpl implements CategoriaService{
     private final CategoriaDAO CategoriaDAO;
 
     public CategoriaServiceImpl(CategoriaDAO CategoriaDAO){
-        
+
         this.CategoriaDAO = CategoriaDAO;
     }
 
     @Override
     public List<Categoria> obtenerTodasLasCategorias(){
         return CategoriaDAO.listaCategorias();
+    }
+
+    @Override
+    public void guardarCategoria(Categoria categoria) {
+        CategoriaDAO.guardar(categoria);
     }
 
 }

@@ -14,7 +14,7 @@
 /* Resalta visualmente el label de la pestaña activa. */
 #pestaña-listaCategorias:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-listaCategorias"],
 #pestaña-agregarCategorias:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-agregarCategorias"],
-#pestaña-editarCagetorias:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-editarCategorias"]{
+#pestaña-editarCategorias:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-editarCategorias"]{
     color: var(--texto-principal);
     border-bottom: 2px solid var(--color-rol);
     background-color: var(--color-rol);

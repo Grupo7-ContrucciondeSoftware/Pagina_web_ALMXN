@@ -27,4 +27,10 @@ public class CategoriaRepository implements CategoriaDAO{
         return jdbcTemplate.query(query, CategoriaRowMapper);
     }
 
+    @Override
+    public void guardar(Categoria Categoria) {
+        String sql = "INSERT INTO categoria (nombre, descripcion) VALUES (?, ?)";
+        jdbcTemplate.update(sql, Categoria.getNombreCategoria(), Categoria.getDescripcionCategoria());
+    }
+
 }

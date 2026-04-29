@@ -7,4 +7,6 @@ public interface CategoriaService {
 
     public List<Categoria> obtenerTodasLasCategorias();
 
+    public void guardarCategoria(Categoria categoria);
+
 }

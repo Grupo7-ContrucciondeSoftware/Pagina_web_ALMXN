@@ -84,17 +84,19 @@
                 </table>
             </div>
 
+            <%-- AGREGAR CATEGORIAS --%>
+
             <div class="pestaña-contenido" id="contenido-agregarCategorias">
 
                 <section class="form-grupo">
-                    <form action="/gestion/categorias/guardar" method="POST">
+                    <form action="/gestion/adminCategorias/guardar" method="POST">
                         <div class="formulario">
                             <div class="form-grupo">
                                 <label for="nombre-categoria" class="form-label">Nombre de la Categoría</label>
                                 <input
                                     type="text"
                                     id="nombre-categoria"
-                                    name="nombre"
+                                    name="nombreCategoria"
                                     class="form-control"
                                     placeholder="Ej: Abarrotes"
                                     required
@@ -106,7 +108,7 @@
                             <label for="descripcion-categoria" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
                             <textarea
                                 id="descripcion-categoria"
-                                name="descripcion"
+                                name="descripcionCategoria"
                                 class="form-control"
                                 placeholder="Descripción breve de la categoría..."
                                 rows="3"
@@ -161,7 +163,7 @@
                 </section>
 
                 <section class="form-grupo">
-                    <form action="/gestion/categorias/actualizar" method="POST">
+                    <form action=" " method="POST">
                         <input type="hidden" name="idCategoria" id="editar-id-categoria">
 
                         <div class="formulario">
