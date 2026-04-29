@@ -96,14 +96,14 @@
             <div class="pestaña-contenido" id="contenido-agregarProveedores">
 
                 <section class="form-grupo">
-                    <form action="/gestion/proveedores/guardar" method="POST">
+                    <form action="/gestion/adminProveedores/guardar" method="POST">
                         <div class="formulario">
                             <div class="form-grupo">
                                 <label for="ruc-proveedor" class="form-label">RUC</label>
                                 <input
                                     type="text"
                                     id="ruc-proveedor"
-                                    name="ruc"
+                                    name="rucProveedor"
                                     class="form-control"
                                     placeholder="Ej: 20123456789"
                                     maxlength="11"
@@ -116,7 +116,7 @@
                                 <input
                                     type="text"
                                     id="razonsocial-proveedor"
-                                    name="razonSocial"
+                                    name="razonSocialProveedor"
                                     class="form-control"
                                     placeholder="Ej: Alicorp S.A.A."
                                     required
@@ -128,7 +128,7 @@
                                 <input
                                     type="text"
                                     id="telefono-proveedor"
-                                    name="telefono"
+                                    name="telefonoProveedor"
                                     class="form-control"
                                     placeholder="Ej: 987654321"
                                 >
@@ -139,7 +139,7 @@
                                 <input
                                     type="email"
                                     id="email-proveedor"
-                                    name="correo"
+                                    name="correoProveedor"
                                     class="form-control"
                                     placeholder="Ej: ventas@empresa.com"
                                 >

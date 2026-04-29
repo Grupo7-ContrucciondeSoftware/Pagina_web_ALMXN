@@ -29,4 +29,10 @@ public class ProveedorRepository implements ProveedorDAO{
         return jdbcTemplate.query(query, ProveedorRowMapper);
     }
 
+    @Override
+    public void guardarProveedor(Proveedor Proveedor){
+        String sql = "INSERT INTO proveedor (ruc, razon_social, telefono, correo) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, Proveedor.getRucProveedor(), Proveedor.getRazonSocialProveedor(), Proveedor.getTelefonoProveedor(), Proveedor.getCorreoProveedor());
+    }
+
 }

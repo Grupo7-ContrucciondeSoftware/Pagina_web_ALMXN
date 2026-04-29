@@ -7,4 +7,6 @@ public interface ProveedorDAO {
 
     public List<Proveedor> listaProveedores();
 
+    public void guardarProveedor(Proveedor proveedor);
+
 }

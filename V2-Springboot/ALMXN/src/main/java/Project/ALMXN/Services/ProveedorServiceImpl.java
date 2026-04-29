@@ -19,4 +19,9 @@ public class ProveedorServiceImpl implements ProveedorService{
         return ProveedorDAO.listaProveedores();
     }
 
+    @Override
+    public void guardarProveedor(Proveedor proveedor) {
+        ProveedorDAO.guardarProveedor(proveedor);
+    }
+
 }

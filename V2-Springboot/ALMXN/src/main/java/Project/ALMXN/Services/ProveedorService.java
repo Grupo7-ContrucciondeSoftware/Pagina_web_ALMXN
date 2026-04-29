@@ -7,4 +7,5 @@ public interface ProveedorService {
 
     public List<Proveedor> obtenerTodosLosProveedores();
 
+    public void guardarProveedor(Proveedor proveedor);
 }

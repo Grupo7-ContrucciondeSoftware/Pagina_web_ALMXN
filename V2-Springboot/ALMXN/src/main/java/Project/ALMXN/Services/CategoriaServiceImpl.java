@@ -11,7 +11,6 @@ public class CategoriaServiceImpl implements CategoriaService{
     private final CategoriaDAO CategoriaDAO;
 
     public CategoriaServiceImpl(CategoriaDAO CategoriaDAO){
-
         this.CategoriaDAO = CategoriaDAO;
     }
 
@@ -22,7 +21,7 @@ public class CategoriaServiceImpl implements CategoriaService{
 
     @Override
     public void guardarCategoria(Categoria categoria) {
-        CategoriaDAO.guardar(categoria);
+        CategoriaDAO.guardarCategoria(categoria);
     }
 
 }
