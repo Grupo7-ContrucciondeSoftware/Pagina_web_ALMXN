@@ -8,4 +8,5 @@ public interface UsuarioDAO {
 
     List<Usuario> listarTodos();
 
+    public void guardarUsuario(Usuario Usuario);
 }

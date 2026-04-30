@@ -29,10 +29,10 @@ CREATE TABLE usuario (
     nombres VARCHAR(100) NOT NULL,
     apellidos VARCHAR(100) NOT NULL,
     correo VARCHAR(100) UNIQUE NOT NULL,
-    fechaCreacion DATE NOT NULL,
+    fechaCreacion DATE DEFAULT CURRENT_DATE,
     contraseña VARCHAR(255) NOT NULL,
     rol VARCHAR(20) NOT NULL,
-    estado VARCHAR(20) NOT NULL
+    estado VARCHAR(20) DEFAULT 'Activo'
 );
 
 -- ==========================================
@@ -42,7 +42,7 @@ CREATE TABLE usuario (
 CREATE TABLE producto (
     id_producto INT AUTO_INCREMENT PRIMARY KEY,
     codigo VARCHAR(50) UNIQUE NOT NULL,
-    fecha_creacion DATE NOT NULL,
+    fecha_creacion DATE DEFAULT CURRENT_DATE,
     nombre VARCHAR(150) NOT NULL,
     id_categoria INT NOT NULL,
     stock_actual INT NOT NULL DEFAULT 0,

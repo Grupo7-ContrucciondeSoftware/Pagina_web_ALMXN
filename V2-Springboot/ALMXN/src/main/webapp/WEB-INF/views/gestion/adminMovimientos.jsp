@@ -372,13 +372,77 @@
                                 <td class="body-tabla">${mov.motivoMovimiento}</td>
                                 <td class="body-tabla">${mov.totalMovimiento}</td>
                                 <td class="body-tabla">
-                                    <a class="btn btn-primario btn-editar">Ver Detalles</a>
+                                    <button type="button" class="btn btn-primario btn-ver-detalle">
+                                        Ver Detalles
+                                    </button>
                                 </td>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
 
+            </div>
+
+            <div id="modal-detalle-movimiento" class="modal-oculto">
+
+                <div class="modal-contenedor">
+
+                    <div class="modal-header">
+                        <h2>Detalle de Movimiento <span id="detalle-id-mov">#001</span></h2>
+                        <button id="btn-cerrar-modal-superior" class="btn-cerrar-modal" >&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <section class="modal-info" >
+                            <div>
+                                <p><strong>Tipo:</strong> <span id="detalle-tipo" class="estado activo">Salida</span></p>
+                                <p><strong>Fecha y Hora:</strong> <span id="detalle-fecha">28-04-2026 10:30</span></p>
+                                <p><strong>Responsable:</strong> <span id="detalle-responsable">Carlos Sánchez</span></p>
+                            </div>
+                            <div>
+                                <p><strong>Origen/Destino:</strong> <span id="detalle-origen">Alicorp S.A.A.</span></p>
+                                <p><strong>Motivo:</strong> <span id="detalle-motivo">Compra semanal</span></p>
+                                <p><strong>Observaciones:</strong> <span id="detalle-obs">Todo conforme.</span></p>
+                            </div>
+                        </section>
+
+                        <h3 class="form-label">Productos Involucrados</h3>
+                        <table class="tabla">
+                            <thead class="header-tabla">
+                                <tr>
+                                    <th class="header-tabla">Código</th>
+                                    <th class="header-tabla">Producto</th>
+                                    <th class="header-tabla">Cantidad</th>
+                                    <th class="header-tabla">Precio Unit.</th>
+                                    <th class="header-tabla">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody class="body-tabla" id="detalle-tabla-cuerpo">
+                                <tr>
+                                    <td class="body-tabla">PROD-ABA-001</td>
+                                    <td class="body-tabla">Arroz Costeño Extra 1kg</td>
+                                    <td class="body-tabla">100</td>
+                                    <td class="body-tabla">S/ 3.50</td>
+                                    <td class="body-tabla">S/ 350.00</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4" class="total-lista"><strong>TOTAL:</strong></td>
+                                    <td><strong id="detalle-total-dinero" class="total-lista-precio">S/ 390.00</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+
+                    <div class="modal-acciones">
+                        <button class="btn btn-secundario" id="btn-cerrar-modal-inferior">Cerrar</button>
+                        <button class="btn btn-primario" onclick="window.print()">Imprimir Recibo</button>
+                    </div>
+
+                </div>
             </div>
 
         </div>

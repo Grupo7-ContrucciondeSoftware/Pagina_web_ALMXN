@@ -42,6 +42,10 @@ public class Usuario {
     public LocalDate getFechaCreacion() { return fechaCreacion; }
     public void setFechaCreacion(LocalDate fechaCreacion) { this.fechaCreacion = fechaCreacion; }
 
+    public String getContraseña() { return contraseña; }
+
+    public void setContraseña(String contraseña) { this.contraseña = contraseña; }
+
     public String getRol() { return rol; }
     public void setRol(String rol) { this.rol = rol; }
 

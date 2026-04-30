@@ -105,3 +105,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const modal = document.getElementById("modal-detalle-movimiento");
+    const botonesVer = document.querySelectorAll(".btn-ver-detalle");
+    const btnCerrarSuperior = document.getElementById("btn-cerrar-modal-superior");
+    const btnCerrarInferior = document.getElementById("btn-cerrar-modal-inferior");
+
+    // Abrir modal
+    botonesVer.forEach(btn => {
+        btn.addEventListener("click", () => {
+            modal.classList.remove("modal-oculto");
+            modal.classList.add("modal-activo");
+        });
+    });
+
+    // Cerrar modal
+    btnCerrarSuperior.addEventListener("click", () => {
+        modal.classList.remove("modal-activo");
+        modal.classList.add("modal-oculto");
+    });
+
+    btnCerrarInferior.addEventListener("click", () => {
+        modal.classList.remove("modal-activo");
+        modal.classList.add("modal-oculto");
+    });
+
+    // Cerrar haciendo click fuera del modal
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.classList.remove("modal-activo");
+            modal.classList.add("modal-oculto");
+        }
+    });
+
+});

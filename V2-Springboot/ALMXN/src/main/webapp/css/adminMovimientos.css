@@ -66,3 +66,77 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.btn-ver-detalle {
+    width: 80%;
+}
+
+.modal-oculto {
+    display: none;
+}
+
+.modal-activo {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-contenedor{
+    background: var(--color-fondo);
+    width: 80%;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    overflow: hidden;"
+}
+
+.modal-header{
+    background: var(--color-fondo);
+    color: var(--texto-principal);
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-cerrar-modal {
+    background: none;
+    border: none;
+    color: var(--texto-principal);
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.btn-secundario {
+    
+}
+
+.modal-body {
+    padding: 2rem;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.modal-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 7px;
+    padding: 1rem;
+}
+
+.modal-acciones {
+    padding: 1.5rem;
+    display: flex;
+    border-top: 1px solid var(--color-borde);
+    align-items: center;
+    gap: 16px;
+    margin-top: 15px;
+    justify-content: space-between;
+}

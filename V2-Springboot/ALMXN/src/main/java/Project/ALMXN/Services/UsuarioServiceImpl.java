@@ -1,6 +1,7 @@
 package Project.ALMXN.Services;
 
 import Project.ALMXN.Repository.UsuarioDAO;
+import Project.ALMXN.Repository.UsuarioRepository;
 import Project.ALMXN.models.Usuario;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -19,4 +20,8 @@ public class UsuarioServiceImpl implements UsuarioService{
         return UsuarioDAO.listarTodos();
     }
 
+    @Override
+    public void guardarUsuario(Usuario Usuario){
+        UsuarioDAO.guardarUsuario(Usuario);
+    }
 }

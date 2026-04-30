@@ -167,89 +167,92 @@
                 <!-- FORMULARIO -->
                 <section class="form-grupo">
 
-                    <div class="formulario">
+                    <form action="/gestion/adminUsuarios/guardar" method="POST">
+                        <div class="formulario">
 
-                        <!-- Nombres -->
-                        <div class="form-grupo">
-                            <label for="nombres-usuario" class="form-label">Nombres</label>
-                            <input
-                                type="text"
-                                id="nombres-usuario"
-                                name="nombres-usuario"
-                                class="form-control"
-                                placeholder="Ej: Juan Eduardo"
-                                required
-                            >
+                            <!-- Nombres -->
+                            <div class="form-grupo">
+                                <label for="nombres-usuario" class="form-label">Nombres</label>
+                                <input
+                                    type="text"
+                                    id="nombres-usuario"
+                                    name="nombres"
+                                    class="form-control"
+                                    placeholder="Ej: Juan Eduardo"
+                                    required
+                                >
+                            </div>
+
+                            <!-- Apellidos -->
+                            <div class="form-grupo">
+                                <label for="apellidos-usuario" class="form-label">Apellidos</label>
+                                <input
+                                    type="text"
+                                    id="apellidos-usuario"
+                                    name="apellidos"
+                                    class="form-control"
+                                    placeholder="Ej: Ramos Pérez"
+                                    required
+                                >
+                            </div>
+
+                            <!-- Correo electrónico -->
+                            <div class="form-grupo">
+                                <label for="email-usuario" class="form-label">Correo electrónico</label>
+                                <input
+                                    type="email"
+                                    id="email-usuario"
+                                    name="correo"
+                                    class="form-control"
+                                    placeholder="Ej: juan@email.com"
+                                    required
+                                >
+                            </div>
+
+                            <!-- Rol -->
+                            <div class="form-grupo">
+                                <label for="usuario-rol" class="form-label">Rol</label>
+                                <select id="usuario-rol" name="rol" class="form-control" required>
+                                    <option value="" disabled selected>Seleccione un rol</option>
+                                    <option value="Admin">Administrador</option>
+                                    <option value="Usuario">Usuario</option>
+                                </select>
+                            </div>
+
+                            <!-- Contraeña -->
+                            <div class="form-grupo">
+                                <label for="contraseña-usuario" class="form-label">Contraseña</label>
+                                <input
+                                    type="password"
+                                    id="contraseña-usuario"
+                                    name="contraseña"
+                                    class="form-control"
+                                    placeholder="**********"
+                                    required
+                                >
+                            </div>
+
+                            <!-- Confirmar contraeña -->
+                            <div class="form-grupo">
+                                <label for="confirmar-contraseña-usuario" class="form-label">Confirmar Contraseña</label>
+                                <input
+                                    type="password"
+                                    id="confirmar-contraseña-usuario"
+                                    name="confirmarContraseña"
+                                    class="form-control"
+                                    placeholder="**********"
+                                    required
+                                >
+                            </div>
                         </div>
 
-                        <!-- Apellidos -->
-                        <div class="form-grupo">
-                            <label for="apellidos-usuario" class="form-label">Apellidos</label>
-                            <input
-                                type="text"
-                                id="apellidos-usuario"
-                                name="apellidos-usuario"
-                                class="form-control"
-                                placeholder="Ej: Ramos Pérez"
-                                required
-                            >
+                        <!-- Botones Guardar/Limpiar -->
+                        <div class="formulario-acciones">
+                            <button type="reset" class="btn btn-secundario">Limpiar</button>
+                            <button type="submit" class="btn btn-primario">Agregar Usuario</button>
                         </div>
 
-                        <!-- Correo electrónico -->
-                        <div class="form-grupo">
-                            <label for="email-usuario" class="form-label">Correo electrónico</label>
-                            <input
-                                type="email"
-                                id="email-usuario"
-                                name="email-usuario"
-                                class="form-control"
-                                placeholder="Ej: juan@email.com"
-                                required
-                            >
-                        </div>
-
-                        <!-- Rol -->
-                        <div class="form-grupo">
-                            <label for="usuario-rol" class="form-label">Rol</label>
-                            <select id="usuario-rol" name="usuario-rol" class="form-control">
-                                <option value="" disabled selected>Seleccione un rol</option>
-                                <option value="1">Administrador</option>
-                                <option value="2">Usuario</option>
-                            </select>
-                        </div>
-
-                        <!-- Contraeña -->
-                        <div class="form-grupo">
-                            <label for="contraseña-usuario" class="form-label">Contraseña</label>
-                            <input
-                                type="password"
-                                id="contraseña-usuario"
-                                name="contraseña-usuario"
-                                class="form-control"
-                                placeholder="**********"
-                                required
-                            >
-                        </div>
-
-                        <!-- Confirmar contraeña -->
-                        <div class="form-grupo">
-                            <label for="confirmar-contraseña-usuario" class="form-label">Confirmar Contraseña</label>
-                            <input
-                                type="password"
-                                id="confirmar-contraseña-usuario"
-                                name="confirmar-contraseña-usuario"
-                                class="form-control"
-                                placeholder="**********"
-                                required
-                            >
-                        </div>
-                    </div>
-
-                    <!-- Botones Guardar/Limpiar -->
-                    <div class="formulario-acciones">
-                        <button type="reset" class="btn btn-secundario">Limpiar</button>
-                        <button type="submit" class="btn btn-primario">Agregar Usuario</button>
-                    </div>
+                    </form>
 
                 </section>
 

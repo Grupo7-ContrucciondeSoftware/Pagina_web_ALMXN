@@ -7,4 +7,6 @@ public interface UsuarioService {
 
     public List<Usuario> obtenerTodosLosUsuarios();
 
+    public void guardarUsuario(Usuario Usuario);
+
 }

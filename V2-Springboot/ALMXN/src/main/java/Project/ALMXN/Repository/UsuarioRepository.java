@@ -34,4 +34,18 @@ public class UsuarioRepository implements UsuarioDAO {
         return jdbcTemplate.query(query, UsuarioRowMapper);
     }
 
+    @Override
+    public void guardarUsuario(Usuario Usuario){
+        String query = "INSERT INTO usuario (nombres, apellidos, correo, contraseña, rol) "+
+                "VALUES ( ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(query,
+                Usuario.getNombres(),
+                Usuario.getApellidos(),
+                Usuario.getCorreo(),
+                Usuario.getContraseña(),
+                Usuario.getRol()
+        );
+
+    }
+
 }
