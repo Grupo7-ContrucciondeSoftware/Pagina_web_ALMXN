@@ -27,7 +27,6 @@
         <!-- ===== INPUTS PARA CAMBIAR DE PESTAÑAS ===== -->
         <input type="radio" name="tab" id="pestaña-listaUsuario" checked style="display:none">
         <input type="radio" name="tab" id="pestaña-agregarUsuario" style="display:none">
-        <input type="radio" name="tab" id="pestaña-editarUsuario" style="display:none">
 
         <div class="centro-pagina-gestion">
 
@@ -42,7 +41,6 @@
                 </div>
             </section>
 
-
             <!-- ============================================
                            PESTAÑAS
             ============================================ -->
@@ -51,7 +49,6 @@
             <div class="pestañas">
                 <label for="pestaña-listaUsuario" class="pestaña">Lista de Usuario</label>
                 <label for="pestaña-agregarUsuario" class="pestaña">Agregar Usuario</label>
-                <label for="pestaña-editarUsuario" class="pestaña">Editar Usuario</label>
             </div>
 
 
@@ -145,7 +142,7 @@
                                     </span>
                                 </td>
                                 <td class="body-tabla">
-                                    <a class="btn btn-secundario" id="btn-editar">Editar</a>
+                                    <a href="/gestion/adminUsuarios/editar?id=${usuario.idUsuario}" class="btn btn-secundario" id="btn-editar">Editar</a>
                                     <a class="btn btn-secundario" id="btn-eliminar">Eliminar</a>
                                 </td>
                             </tr>
@@ -253,176 +250,6 @@
                         </div>
 
                     </form>
-
-                </section>
-
-            </div>
-
-
-            <!-- ============================================
-                           EDITAR USUARIO
-            ============================================ -->
-
-
-            <div class="pestaña-contenido" id="contenido-editarUsuario">
-
-                <!-- Nombre de Usuario -->
-                <section class="form-grupo">
-
-                    <label for="nombre-usuario-editar" class="form-label">Nombre del producto</label>
-                    <div class="buscador-boton">
-                        <input
-                        type="text"
-                        id="nombre-usuario-editar"
-                        name="nombre-usuario-editar"
-                        class="form-control"
-                        placeholder="Ej: Juan Ramos"
-                        required
-                        >
-                        <button class="btn btn-primario">Buscar</button>
-                    </div>
-                </section>
-
-                <!-- TABLA -->
-                <section class="form-grupo">
-                    <label class="form-label">Seleccione usuario</label>
-
-                    <table class="tabla">
-
-                    <!-- HEADER DE LA TABLA -->
-                    <thead class="header-tabla">
-                        <tr>
-                            <th class="header-tabla">ID</th>
-                            <th class="header-tabla">Nombre</th>
-                            <th class="header-tabla">Correo</th>
-                            <th class="header-tabla">Fecha Registro</th>
-                            <th class="header-tabla">Rol</th>
-                            <th class="header-tabla">Estado</th>
-                            <th class="header-tabla">Acciones</th>
-                        </tr>
-                    </thead>
-
-                    <!-- CONTENIDO DE LA TABLA -->
-                    <tbody class="body-tabla">
-                        <tr>
-                            <td class="body-tabla">1</td>
-                            <td class="body-tabla">Juan Ramos</td>
-                            <td class="body-tabla">juan@gmail.com</td>
-                            <td class="body-tabla">14-04-2026</td>
-                            <td class="body-tabla"><span class="rol admin">Admin</span></td>
-                            <td class="body-tabla"><span class="estado activo">Activo</span></td>
-                            <td class="body-tabla">
-                                <a class="btn btn-secundario btn-elegir">Elegir</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="body-tabla">-</td>
-                            <td class="body-tabla">-</td>
-                            <td class="body-tabla">-</td>
-                            <td class="body-tabla">-</td>
-                            <td class="body-tabla">-</td>
-                            <td class="body-tabla">-</td>
-                            <td class="body-tabla">-</td>
-                        </tr>
-                        <tr>
-                            <td class="body-tabla">-</td>
-                            <td class="body-tabla">-</td>
-                            <td class="body-tabla">-</td>
-                            <td class="body-tabla">-</td>
-                            <td class="body-tabla">-</td>
-                            <td class="body-tabla">-</td>
-                            <td class="body-tabla">-</td>
-                        </tr>
-                    </tbody>
-                </table>
-                </section>
-
-                <!-- FORMULARIO -->
-                <section class="form-grupo">
-
-                    <div class="formulario">
-
-                        <!-- Nombres -->
-                        <div class="form-grupo">
-                            <label for="nombres-usuario" class="form-label">Nombres</label>
-                            <input
-                                type="text"
-                                id="nombres-usuario"
-                                name="nombres-usuario"
-                                class="form-control"
-                                placeholder="Ej: Juan Eduardo"
-                                required
-                            >
-                        </div>
-
-                        <!-- Apellidos -->
-                        <div class="form-grupo">
-                            <label for="apellidos-usuario" class="form-label">Apellidos</label>
-                            <input
-                                type="text"
-                                id="apellidos-usuario"
-                                name="apellidos-usuario"
-                                class="form-control"
-                                placeholder="Ej: Ramos Pérez"
-                                required
-                            >
-                        </div>
-
-                        <!-- Correo electrónico -->
-                        <div class="form-grupo">
-                            <label for="email-usuario" class="form-label">Correo electrónico</label>
-                            <input
-                                type="email"
-                                id="email-usuario"
-                                name="email-usuario"
-                                class="form-control"
-                                placeholder="Ej: juan@email.com"
-                                required
-                            >
-                        </div>
-
-                        <!-- Rol -->
-                        <div class="form-grupo">
-                            <label for="usuario-rol" class="form-label">Rol</label>
-                            <select id="usuario-rol" name="usuario-rol" class="form-control">
-                                <option value="" disabled selected>Seleccione un rol</option>
-                                <option value="1">Administrador</option>
-                                <option value="2">Usuario</option>
-                            </select>
-                        </div>
-
-                        <!-- Contraeña -->
-                        <div class="form-grupo">
-                            <label for="contraseña-usuario" class="form-label">Contraseña</label>
-                            <input
-                                type="password"
-                                id="contraseña-usuario"
-                                name="contraseña-usuario"
-                                class="form-control"
-                                placeholder="**********"
-                                required
-                            >
-                        </div>
-
-                        <!-- Confirmar contraeña -->
-                        <div class="form-grupo">
-                            <label for="confirmar-contraseña-usuario" class="form-label">Confirmar Contraseña</label>
-                            <input
-                                type="password"
-                                id="confirmar-contraseña-usuario"
-                                name="confirmar-contraseña-usuario"
-                                class="form-control"
-                                placeholder="**********"
-                                required
-                            >
-                        </div>
-                    </div>
-
-                    <!-- Botones Guardar/Limpiar -->
-                    <div class="formulario-acciones">
-                        <button type="reset" class="btn btn-secundario">Limpiar</button>
-                        <button type="submit" class="btn btn-primario">Guardar Cambios</button>
-                    </div>
 
                 </section>
 

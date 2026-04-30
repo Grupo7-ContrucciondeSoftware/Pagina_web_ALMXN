@@ -24,4 +24,14 @@ public class UsuarioServiceImpl implements UsuarioService{
     public void guardarUsuario(Usuario usuario){
         usuarioDAO.guardarUsuario(usuario);
     }
+
+    @Override
+    public Usuario buscarUsuarioPorId(int idUsuario) {
+        return usuarioDAO.buscarUsuarioPorId(idUsuario);
+    }
+
+    @Override
+    public void actualizarUsuario(Usuario usuario) {
+        usuarioDAO.actualizarUsuario(usuario);
+    }
 }

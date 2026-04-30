@@ -40,7 +40,7 @@ public class ProveedorController {
     @PostMapping("/actualizar")
     public String procesarActualizacion(@ModelAttribute Proveedor proveedorModificado){
         proveedorService.actualizarProveedor(proveedorModificado);
-        return ("redirect:/gestion/adminProveedores");
+        return "redirect:/gestion/adminProveedores";
     }
 
 }

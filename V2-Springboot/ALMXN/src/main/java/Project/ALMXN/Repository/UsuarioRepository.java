@@ -45,7 +45,27 @@ public class UsuarioRepository implements UsuarioDAO {
                 usuario.getContraseña(),
                 usuario.getRol()
         );
+    }
 
+    @Override
+    public Usuario buscarUsuarioPorId(int idUsuario) {
+        String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
+        return jdbcTemplate.queryForObject(sql, UsuarioRowMapper, idUsuario);
+    }
+
+    @Override
+    public void actualizarUsuario(Usuario usuario) {
+        String sql = "UPDATE usuario SET nombres = ?, apellidos = ?, correo = ?, " +
+                "rol = ?, estado = ? WHERE id_usuario = ?";
+
+        jdbcTemplate.update(sql,
+                usuario.getNombres(),
+                usuario.getApellidos(),
+                usuario.getCorreo(),
+                usuario.getRol(),
+                usuario.getEstado(),
+                usuario.getIdUsuario() // El ID para el WHERE
+        );
     }
 
 }

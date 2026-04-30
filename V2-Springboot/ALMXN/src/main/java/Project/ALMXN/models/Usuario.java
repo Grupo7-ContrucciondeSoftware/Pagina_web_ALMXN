@@ -28,7 +28,7 @@ public class Usuario {
     }
 
     public int getIdUsuario() { return idUsuario; }
-    public void seIdUsuario(int idUsuario) { this.idUsuario = idUsuario; }
+    public void setIdUsuario(int idUsuario) { this.idUsuario = idUsuario; }
 
     public String getNombres() { return nombres; }
     public void setNombres(String nombres) { this.nombres = nombres;}

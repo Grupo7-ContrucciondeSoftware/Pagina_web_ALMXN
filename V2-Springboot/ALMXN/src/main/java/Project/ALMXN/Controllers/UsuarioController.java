@@ -4,10 +4,7 @@ import Project.ALMXN.Services.UsuarioService;
 import org.springframework.ui.Model;
 import Project.ALMXN.models.Usuario;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -30,6 +27,19 @@ public class UsuarioController {
     @PostMapping("/guardar")
     public String guardarNuevoUsuario(@ModelAttribute Usuario usuario){
         usuarioService.guardarUsuario(usuario);
+        return "redirect:/gestion/adminUsuarios";
+    }
+
+    @GetMapping("/editar")
+    public String mostrarEditar(@RequestParam("id") int idUsuario, Model model) {
+        Usuario usuarioExistente = usuarioService.buscarUsuarioPorId(idUsuario);
+        model.addAttribute("usuario", usuarioExistente);
+        return "gestion/editar/editarUsuario";
+    }
+
+    @PostMapping("/actualizar")
+    public String procesarActualizacion(@ModelAttribute Usuario usuarioModificado) {
+        usuarioService.actualizarUsuario(usuarioModificado);
         return "redirect:/gestion/adminUsuarios";
     }
 
