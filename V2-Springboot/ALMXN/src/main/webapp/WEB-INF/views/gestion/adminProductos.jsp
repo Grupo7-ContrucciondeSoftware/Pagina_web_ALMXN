@@ -177,134 +177,136 @@
                 <!-- FORMULARIO -->
                 <section class="form-grupo">
 
-                    <div class="formulario">
+                    <form action="/gestion/adminProductos/guardar" method="POST">
+                        <div class="formulario">
 
-                        <!-- Código -->
-                        <div class="form-grupo">
-                            <label for="codigo-producto" class="form-label">Código</label>
-                            <input
-                                type="number"
-                                id="codigp-producto"
-                                name="codigoProducto"
+                            <!-- Código -->
+                            <div class="form-grupo">
+                                <label for="codigo-producto" class="form-label">Código</label>
+                                <input
+                                    type="number"
+                                    id="codigp-producto"
+                                    name="codigoProducto"
+                                    class="form-control"
+                                    placeholder="Escriba el SKU"
+                                    min="0"
+                                    required
+                                >
+                            </div>
+
+                            <!-- Nombre de producto -->
+                            <div class="form-grupo">
+                                <label for="nombre-producto" class="form-label">Nombre del producto</label>
+                                <input
+                                    type="text"
+                                    id="nombre-producto"
+                                    name="nombreProducto"
+                                    class="form-control"
+                                    placeholder="Ej: Platano Bizcochito"
+                                    required
+                                >
+                            </div>
+
+                            <!-- SELECCIONAR CATEGORÍA -->
+
+                            <div class="form-grupo">
+                                <label for="categoriaProducto" class="form-label">Categoría</label>
+                                <select id="categoriaProducto" name="idCategoria" class="form-control">
+                                    <option value="" disabled selected>Seleccione una categoría</option>
+                                    <c:forEach items="${listaCategorias}" var="catProducto">
+                                        <option value="${catProducto.idCategoria}">${catProducto.nombreCategoria}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+
+                            <!-- Unidad de Medida -->
+                            <div class="form-grupo">
+                                <label for="unidad-medida" class="form-label">Unidad de medida</label>
+                                <select id="unidad-medida" name="unidadMedidaProducto" class="form-control">
+                                    <option value="" disabled selected>Seleccione una unidad</option>
+                                    <option value="unidad">Unidad</option>
+                                    <option value="kg">Bolsa</option>
+                                    <option value="litro">Litro (L)</option>
+                                    <option value="caja">Caja</option>
+                                    <option value="paquete">Paquete</option>
+                                </select>
+                            </div>
+
+                            <!-- Stock inicial -->
+                            <div class="form-grupo">
+                                <label for="stock-actual" class="form-label">Stock inicial</label>
+                                <input
+                                    type="number"
+                                    id="stock-actual"
+                                    name="stockActualProducto"
+                                    class="form-control"
+                                    placeholder="Ej: 70"
+                                    min="0"
+                                    required
+                                >
+                            </div>
+
+                            <!-- Stock mínimo -->
+                            <div class="form-grupo">
+                                <label for="stock-minimo" class="form-label">Stock mínimo</label>
+                                <input
+                                    type="number"
+                                    id="stock-minimo"
+                                    name="stockMinimoProducto"
+                                    class="form-control"
+                                    placeholder="Ej: 10"
+                                    min="0"
+                                    required
+                                >
+                            </div>
+
+                            <!-- Precio de Costo -->
+                            <div class="form-grupo">
+                                <label for="precio-costo" class="form-label">Precio de Costo</label>
+                                <input
+                                    type="number"
+                                    id="precio-costo"
+                                    name="precioCostoProducto"
+                                    class="form-control"
+                                    placeholder="Ej: 40"
+                                    min="0"
+                                    required
+                                >
+                            </div>
+
+                            <!-- Precio por Unidad -->
+                            <div class="form-grupo">
+                                <label for="precio-unidad" class="form-label">Precio por unidad</label>
+                                <input
+                                    type="number"
+                                    id="precio-unidad"
+                                    name="precioVentaProducto"
+                                    class="form-control"
+                                    placeholder="Ej: 10"
+                                    min="0"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Descripción -->
+                        <div class="form-grupo form-textarea">
+                            <label for="descripcion-producto" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
+                            <textarea
+                                id="descripcion-producto"
+                                name="descripcionProducto"
                                 class="form-control"
-                                placeholder="Escriba el SKU"
-                                min="0"
-                                required
-                            >
+                                placeholder="Descripción breve del producto..."
+                                rows="3"
+                            ></textarea>
                         </div>
 
-                        <!-- Nombre de producto -->
-                        <div class="form-grupo">
-                            <label for="nombre-producto" class="form-label">Nombre del producto</label>
-                            <input
-                                type="text"
-                                id="nombre-producto"
-                                name="nombreProducto"
-                                class="form-control"
-                                placeholder="Ej: Platano Bizcochito"
-                                required
-                            >
+                        <!-- Botones Guardar/Limpiar -->
+                        <div class="formulario-acciones">
+                            <button type="reset" class="btn btn-secundario">Limpiar</button>
+                            <button type="submit" class="btn btn-primario">Agregar Producto</button>
                         </div>
-
-                        <!-- SELECCIONAR CATEGORÍA -->
-
-                        <div class="form-grupo">
-                            <label for="categoriaProducto" class="form-label">Categoría</label>
-                            <select id="categoriaProducto" name="idCategoria" class="form-control">
-                                <option value="" disabled selected>Seleccione una categoría</option>
-                                <c:forEach items="${listaCategorias}" var="catProducto">
-                                    <option value="${catProducto.idCategoria}">${catProducto.nombreCategoria}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-
-                        <!-- Unidad de Medida -->
-                        <div class="form-grupo">
-                            <label for="unidad-medida" class="form-label">Unidad de medida</label>
-                            <select id="unidad-medida" name="unidadMedidaProducto" class="form-control">
-                                <option value="" disabled selected>Seleccione una unidad</option>
-                                <option value="unidad">Unidad</option>
-                                <option value="kg">Kilogramo (kg)</option>
-                                <option value="litro">Litro (L)</option>
-                                <option value="caja">Caja</option>
-                                <option value="paquete">Paquete</option>
-                            </select>
-                        </div>
-
-                        <!-- Stock inicial -->
-                        <div class="form-grupo">
-                            <label for="stock-actual" class="form-label">Stock inicial</label>
-                            <input
-                                type="number"
-                                id="stock-actual"
-                                name="stockActualProducto"
-                                class="form-control"
-                                placeholder="Ej: 70"
-                                min="0"
-                                required
-                            >
-                        </div>
-
-                        <!-- Stock mínimo -->
-                        <div class="form-grupo">
-                            <label for="stock-minimo" class="form-label">Stock mínimo</label>
-                            <input
-                                type="number"
-                                id="stock-minimo"
-                                name="stockMinimoProducto"
-                                class="form-control"
-                                placeholder="Ej: 10"
-                                min="0"
-                                required
-                            >
-                        </div>
-
-                        <!-- Precio de Costo -->
-                        <div class="form-grupo">
-                            <label for="precio-costo" class="form-label">Precio de Costo</label>
-                            <input
-                                type="number"
-                                id="precio-costo"
-                                name="precioCostoProducto"
-                                class="form-control"
-                                placeholder="Ej: 40"
-                                min="0"
-                                required
-                            >
-                        </div>
-
-                        <!-- Precio por Unidad -->
-                        <div class="form-grupo">
-                            <label for="precio-unidad" class="form-label">Precio por unidad</label>
-                            <input
-                                type="number"
-                                id="precio-unidad"
-                                name="precioVentaProducto"
-                                class="form-control"
-                                placeholder="Ej: 10"
-                                min="0"
-                                required
-                            >
-                        </div>
-                    </div>
-
-                    <!-- Descripción -->
-                    <div class="form-grupo form-textarea">
-                        <label for="descripcion-producto" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
-                        <textarea
-                            id="descripcion-producto"
-                            name="descripcionProducto"
-                            class="form-control"
-                            placeholder="Descripción breve del producto..."
-                            rows="3"
-                        ></textarea>
-                    </div>
-
-                    <!-- Botones Guardar/Limpiar -->
-                    <div class="formulario-acciones">
-                        <button type="reset" class="btn btn-secundario">Limpiar</button>
-                        <button type="submit" class="btn btn-primario">Agregar Producto</button>
-                    </div>
+                    </form>
                 </section>
             </div>
 

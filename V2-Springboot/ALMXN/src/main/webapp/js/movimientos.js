@@ -106,38 +106,90 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
 
     const modal = document.getElementById("modal-detalle-movimiento");
-    const botonesVer = document.querySelectorAll(".btn-ver-detalle");
+
+    // --- FUNCIÓN PARA CERRAR EL MODAL ---
+    const cerrarModal = () => {
+        // Dependiendo de tu CSS, usamos display none o las clases
+        modal.style.display = 'none';
+        modal.classList.remove("modal-activo");
+        modal.classList.add("modal-oculto");
+    };
+
+    // Asignar los botones de cerrar
     const btnCerrarSuperior = document.getElementById("btn-cerrar-modal-superior");
     const btnCerrarInferior = document.getElementById("btn-cerrar-modal-inferior");
 
-    // Abrir modal
-    botonesVer.forEach(btn => {
-        btn.addEventListener("click", () => {
+    if(btnCerrarSuperior) btnCerrarSuperior.addEventListener("click", cerrarModal);
+    if(btnCerrarInferior) btnCerrarInferior.addEventListener("click", cerrarModal);
+
+    // Cerrar haciendo clic fuera del modal (en el fondo oscuro)
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) cerrarModal();
+    });
+
+    // --- FUNCIÓN PARA ABRIR EL MODAL Y TRAER DATOS ---
+    document.addEventListener('click', async (e) => {
+
+        if (e.target && (e.target.classList.contains('btn-ver-detalle'))) {
+            const btn = e.target;
+
+            // 1. Llenamos la cabecera
+            const idMovimiento = btn.getAttribute('data-id');
+            document.getElementById('detalle-id-mov').innerText = `#${idMovimiento}`;
+            document.getElementById('detalle-tipo').innerText = btn.getAttribute('data-tipo');
+            document.getElementById('detalle-fecha').innerText = btn.getAttribute('data-fecha');
+            document.getElementById('detalle-responsable').innerText = btn.getAttribute('data-responsable');
+            document.getElementById('detalle-origen').innerText = btn.getAttribute('data-origen');
+            document.getElementById('detalle-motivo').innerText = btn.getAttribute('data-motivo');
+            document.getElementById('detalle-obs').innerText = btn.getAttribute('data-observaciones');
+            document.getElementById('detalle-total-dinero').innerText = `S/ ${parseFloat(btn.getAttribute('data-total')).toFixed(2)}`;
+
+            // 2. Mostramos el modal
+            modal.style.display = 'flex';
             modal.classList.remove("modal-oculto");
             modal.classList.add("modal-activo");
-        });
-    });
 
-    // Cerrar modal
-    btnCerrarSuperior.addEventListener("click", () => {
-        modal.classList.remove("modal-activo");
-        modal.classList.add("modal-oculto");
-    });
+            // 3. Limpiamos la tabla mientras carga
+            const tbodyDetalle = document.getElementById('detalle-tabla-cuerpo');
+            tbodyDetalle.innerHTML = '<tr><td colspan="5" class="body-tabla">Cargando productos...</td></tr>';
 
-    btnCerrarInferior.addEventListener("click", () => {
-        modal.classList.remove("modal-activo");
-        modal.classList.add("modal-oculto");
-    });
+            // 4. Pedimos los productos a Java
+            try {
+                const respuesta = await fetch(`/gestion/adminMovimientos/obtenerDetalles?id=${idMovimiento}`);
 
-    // Cerrar haciendo click fuera del modal
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            modal.classList.remove("modal-activo");
-            modal.classList.add("modal-oculto");
+                // VERIFICACIÓN CLAVE: Revisamos si Java nos devolvió un error 404 o 500
+                if (!respuesta.ok) {
+                    throw new Error(`Error del servidor: ${respuesta.status}`);
+                }
+
+                const productos = await respuesta.json();
+                tbodyDetalle.innerHTML = '';
+
+                if (productos.length === 0) {
+                    tbodyDetalle.innerHTML = '<tr><td colspan="5">No hay productos registrados.</td></tr>';
+                    return;
+                }
+
+                productos.forEach(detalle => {
+                    const fila = document.createElement('tr');
+                    fila.innerHTML = `
+                        <td class="body-tabla">${detalle.producto.codigoProducto}</td>
+                        <td class="body-tabla">${detalle.producto.nombreProducto}</td>
+                        <td class="body-tabla">${detalle.cantidadDetalleMovimiento}</td>
+                        <td class="body-tabla">S/ ${detalle.precioUnitarioDetalleMovimiento.toFixed(2)}</td>
+                        <td class="body-tabla">S/ ${detalle.subtotalDetalleMovimiento.toFixed(2)}</td>
+                    `;
+                    tbodyDetalle.appendChild(fila);
+                });
+
+            } catch (error) {
+                console.error("Error en Fetch:", error);
+
+                tbodyDetalle.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red;">Error al cargar los productos. Revisa la consola (F12).</td></tr>';
+            }
         }
     });
-
 });

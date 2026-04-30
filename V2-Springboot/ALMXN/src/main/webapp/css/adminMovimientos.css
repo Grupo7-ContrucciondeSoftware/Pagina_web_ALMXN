@@ -90,7 +90,7 @@
 .modal-contenedor{
     background: var(--color-fondo);
     width: 80%;
-    max-width: 800px;
+    max-width: 1000px;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     overflow: hidden;"
@@ -113,12 +113,8 @@
     cursor: pointer;
 }
 
-.btn-secundario {
-    
-}
-
 .modal-body {
-    padding: 2rem;
+    padding: 30px;
     max-height: 70vh;
     overflow-y: auto;
 }
@@ -126,9 +122,9 @@
 .modal-info {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: 2rem;
     margin-bottom: 7px;
-    padding: 1rem;
+    padding: 20px;
 }
 
 .modal-acciones {

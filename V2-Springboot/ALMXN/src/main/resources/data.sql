@@ -51,7 +51,22 @@ INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, obse
 VALUES ('Ingreso', '2026-04-28', 'Compra de mercadería semanal', 'Almacén Principal', 'Ingreso con guía de remisión 001-456. Todo conforme.', 1, 1, 390.00);
 
 INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Salida', '2026-04-29', 'Reabastecimiento urgente', 'Almacén Frío', 'Lote con vencimiento a 6 meses.', 2, 2, 640.00);
+VALUES ('Salida', '2026-04-29', 'Reabastecimiento urgente', 'Almacén Frío', 'Lote con vencimiento a 6 meses.', 2, null, 640.00);
+
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Ingreso', '2026-04-10', 'Compra', 'Almacén Principal', 'Factura F001-998', 1, 1, 650.00);
+
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Ingreso', '2026-04-12', 'Compra', 'Almacén Frío', 'Ingreso de lácteos por falta de stock', 2, 2, 156.00);
+
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Salida', '2026-04-15', 'Despacho', 'Tienda Sede Centro', 'Traslado matutino', 1, null, 40);
+
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Salida', '2026-04-18', 'Merma', 'Desechos', 'Cajas abolladas', 2, null, 11.70);
+
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Ingreso', '2026-04-25', 'Devolución', 'Almacén Principal', 'La tienda devolvió stock', 1, 1, 90.00);
 
 -- ==========================================
 -- INSERTS TABLA DETALLE_MOVIMIENTO
@@ -65,3 +80,26 @@ VALUES (1, 4, 50, 0.80, 40.00);
 
 INSERT INTO detalle_movimiento (id_movimiento, id_producto, cantidad, precio_unitario, subtotal)
 VALUES (2, 2, 200, 3.20, 640.00);
+
+INSERT INTO detalle_movimiento (id_movimiento, id_producto, cantidad, precio_unitario, subtotal)
+VALUES (3, 1, 50, 7.00, 350.00);
+
+INSERT INTO detalle_movimiento (id_movimiento, id_producto, cantidad, precio_unitario, subtotal)
+VALUES (3, 2, 100, 3.00, 300.00);
+
+INSERT INTO detalle_movimiento (id_movimiento, id_producto, cantidad, precio_unitario, subtotal)
+VALUES (4, 3, 40, 3.90, 156.00);
+
+INSERT INTO detalle_movimiento (id_movimiento, id_producto, cantidad, precio_unitario, subtotal)
+VALUES (4, 1, 15, 7.00, 105.00);
+
+INSERT INTO detalle_movimiento (id_movimiento, id_producto, cantidad, precio_unitario, subtotal)
+VALUES (5, 4, 10, 4.00, 40.00);
+
+INSERT INTO detalle_movimiento (id_movimiento, id_producto, cantidad, precio_unitario, subtotal)
+VALUES (6, 3, 3, 3.90, 11.70);
+
+INSERT INTO detalle_movimiento (id_movimiento, id_producto, cantidad, precio_unitario, subtotal)
+VALUES (7, 5, 30, 3.00, 90.00);
+
+

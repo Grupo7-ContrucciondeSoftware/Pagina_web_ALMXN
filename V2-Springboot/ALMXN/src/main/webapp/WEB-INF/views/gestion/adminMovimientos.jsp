@@ -367,12 +367,20 @@
                                 <td class="body-tabla">#${mov.idMovimiento}</td>
                                 <td class="body-tabla">${mov.fechaMovimiento}</td>
                                 <td class="body-tabla"><span class="tipo-${mov.tipoMovimiento.toLowerCase()}" >${mov.tipoMovimiento}</span></td>
-                                <td class="body-tabla">${mov.usuario.nombres}</td>
+                                <td class="body-tabla">${mov.usuario.nombres} ${mov.usuario.apellidos}</td>
                                 <td class="body-tabla">${mov.proveedor.razonSocialProveedor}</td>
                                 <td class="body-tabla">${mov.motivoMovimiento}</td>
                                 <td class="body-tabla">${mov.totalMovimiento}</td>
                                 <td class="body-tabla">
-                                    <button type="button" class="btn btn-primario btn-ver-detalle">
+                                    <button class="btn btn-primario btn-ver-detalle"
+                                            data-id="${mov.idMovimiento}"
+                                            data-tipo="${mov.tipoMovimiento}"
+                                            data-fecha="${mov.fechaMovimiento}"
+                                            data-responsable="${mov.usuario.nombres} ${mov.usuario.apellidos}"
+                                            data-origen="${mov.proveedor.razonSocialProveedor != null ? mov.proveedor.razonSocialProveedor : mov.destinoMovimiento}"
+                                            data-motivo="${mov.motivoMovimiento}"
+                                            data-observaciones="${mov.observacionesMovimiento}"
+                                            data-total="${mov.totalMovimiento}">
                                         Ver Detalles
                                     </button>
                                 </td>
@@ -396,14 +404,14 @@
 
                         <section class="modal-info" >
                             <div>
-                                <p><strong>Tipo:</strong> <span id="detalle-tipo" class="estado activo">Salida</span></p>
-                                <p><strong>Fecha y Hora:</strong> <span id="detalle-fecha">28-04-2026 10:30</span></p>
-                                <p><strong>Responsable:</strong> <span id="detalle-responsable">Carlos Sánchez</span></p>
+                                <p><strong>Tipo:</strong> <span id="detalle-tipo" class="estado activo">-</span></p>
+                                <p><strong>Fecha y Hora:</strong> <span id="detalle-fecha">-</span></p>
+                                <p><strong>Responsable:</strong> <span id="detalle-responsable">-</span></p>
                             </div>
                             <div>
-                                <p><strong>Origen/Destino:</strong> <span id="detalle-origen">Alicorp S.A.A.</span></p>
-                                <p><strong>Motivo:</strong> <span id="detalle-motivo">Compra semanal</span></p>
-                                <p><strong>Observaciones:</strong> <span id="detalle-obs">Todo conforme.</span></p>
+                                <p><strong>Origen/Destino:</strong> <span id="detalle-origen">-</span></p>
+                                <p><strong>Motivo:</strong> <span id="detalle-motivo">-</span></p>
+                                <p><strong>Observaciones:</strong> <span id="detalle-obs">-</span></p>
                             </div>
                         </section>
 
@@ -419,18 +427,14 @@
                                 </tr>
                             </thead>
                             <tbody class="body-tabla" id="detalle-tabla-cuerpo">
-                                <tr>
-                                    <td class="body-tabla">PROD-ABA-001</td>
-                                    <td class="body-tabla">Arroz Costeño Extra 1kg</td>
-                                    <td class="body-tabla">100</td>
-                                    <td class="body-tabla">S/ 3.50</td>
-                                    <td class="body-tabla">S/ 350.00</td>
-                                </tr>
+
                             </tbody>
+
                             <tfoot>
                                 <tr>
                                     <td colspan="4" class="total-lista"><strong>TOTAL:</strong></td>
-                                    <td><strong id="detalle-total-dinero" class="total-lista-precio">S/ 390.00</strong></td>
+                                    <!-- El total arranca en 0, el JS lo actualizará -->
+                                    <td><strong id="detalle-total-dinero" class="total-lista-precio">S/ 0.00</strong></td>
                                 </tr>
                             </tfoot>
                         </table>
