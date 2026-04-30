@@ -9,4 +9,7 @@ public interface ProductoDAO {
 
     public void guardarProducto(Producto producto);
 
+    public Producto buscarProductoPorId(int idProducto);
+
+    public void actualizarProducto(Producto producto);
 }

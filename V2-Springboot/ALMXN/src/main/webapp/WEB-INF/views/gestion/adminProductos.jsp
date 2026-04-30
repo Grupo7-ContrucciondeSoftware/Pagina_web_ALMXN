@@ -27,7 +27,6 @@
         <!-- ===== INPUTS PARA CAMBIAR DE PESTAÑAS ===== -->
         <input type="radio" name="tab" id="pestaña-listaProducto" checked style="display:none">
         <input type="radio" name="tab" id="pestaña-agregarProducto" style="display:none">
-        <input type="radio" name="tab" id="pestaña-editarProducto" style="display:none">
 
         <div class="centro-pagina-gestion">
 
@@ -52,7 +51,6 @@
             <div class="pestañas">
                 <label for="pestaña-listaProducto" class="pestaña">Lista de Productos</label>
                 <label for="pestaña-agregarProducto" class="pestaña">Agregar Producto</label>
-                <label for="pestaña-editarProducto" class="pestaña">Editar Producto</label>
             </div>
 
 
@@ -151,7 +149,7 @@
                                 <td class="body-tabla">S/${producto.precioVentaProducto}</td>
                                 <td class="body-tabla">${producto.descripcionProducto}</td>
                                 <td class="body-tabla">
-                                    <a class="btn btn-secundario btn-editar">Editar</a>
+                                    <a href="/gestion/adminProductos/editar?id=${producto.idProducto}" class="btn btn-secundario btn-editar">Editar</a>
                                     <a class="btn btn-secundario btn-eliminar">Eliminar</a>
                                 </td>
                             </tr>
@@ -183,7 +181,7 @@
                                     id="codigp-producto"
                                     name="codigoProducto"
                                     class="form-control"
-                                    placeholder="Escriba el Código"
+                                    placeholder="PROD-CAT-###"
                                     min="0"
                                     required
                                 >
@@ -306,198 +304,6 @@
                         </div>
                     </form>
                 </section>
-            </div>
-
-
-            <!-- ============================================
-                            EDITAR PRODUCTO
-            ============================================ -->
-
-
-            <div class="pestaña-contenido" id="contenido-editarProducto">
-
-                <!-- Nombre de Producto -->
-                <section class="form-grupo">
-
-                    <label for="nombre-producto-ingreso" class="form-label">Nombre del producto</label>
-                    <div class="buscador-boton">
-                        <input
-                        type="text"
-                        id="nombre-producto-ingreso"
-                        name="nombre-producto-ingreso"
-                        class="form-control"
-                        placeholder="Ej: Leche Gloria"
-                        required
-                        >
-                        <button class="btn btn-primario">Buscar</button>
-                    </div>
-                </section>
-
-                <!-- TABLA -->
-                <section class="form-grupo">
-                    <label class="form-label">Seleccione producto</label>
-
-                    <table class="tabla">
-                        <thead class="header-tabla">
-                            <tr>
-                                <th class="header-tabla">Codigo</th>
-                                <th class="header-tabla">Producto</th>
-                                <th class="header-tabla">Categoría</th>
-                                <th class="header-tabla">Stock Actual</th>
-                                <th class="header-tabla">Unidad de medida</th>
-                                <th class="header-tabla">Precio x Unidad</th>
-                                <th class="header-tabla">Descripción</th>
-                                <th class="header-tabla">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody class="body-tabla">
-                            <tr>
-                                <td class="body-tabla">1</td>
-                                <td class="body-tabla">Lata Leche Gloria</td>
-                                <td class="body-tabla">Lácteos</td>
-                                <td class="body-tabla">10</td>
-                                <td class="body-tabla">Unidad</td>
-                                <td class="body-tabla">S/3.90</td>
-                                <td class="body-tabla">Leche entera</td>
-                                <td class="body-tabla">
-                                    <a class="btn btn-secundario btn-elegir">Elegir</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                            </tr>
-                            <tr>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                                <td class="body-tabla">-</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
-
-                <!-- FORMULARIO -->
-                <section class="form-grupo">
-
-                    <div class="formulario">
-
-                        <!-- Código -->
-                        <div class="form-grupo">
-                            <label for="codigo-producto" class="form-label">Código</label>
-                            <input
-                                type="number"
-                                id="codigo-producto"
-                                name="codigo-producto"
-                                class="form-control"
-                                placeholder="Escriba el código"
-                                min="0"
-                                required
-                            >
-                        </div>
-
-                        <!-- Nombre de producto -->
-                        <div class="form-grupo">
-                            <label for="nombre-producto" class="form-label">Nombre del producto</label>
-                            <input
-                                type="text"
-                                id="nombre-producto"
-                                name="nombre-producto"
-                                class="form-control"
-                                placeholder="Ej: Platano Isla"
-                                required
-                            >
-                        </div>
-
-                        <!-- Categoría -->
-                        <div class="form-grupo">
-                            <label for="categoria-producto" class="form-label">Categoría</label>
-                            <select id="categoria-producto" name="categoria-producto" class="form-control">
-                                <option value="" disabled selected>Seleccione una categoría</option>
-                                <option value="Abarrotes">Abarrotes</option>
-                                <option value="Lacteos y Huevos">Lácteos y Huevos</option>
-                                <option value="Bebidas y Licores">Bebidas y Licores</option>
-                                <option value="Snacks y Confiteria">Snacks y Confitería</option>
-                                <option value="Frutas y Verduras">Frutras y Verduras</option>
-                                <option value="Limpieza y Hogar">Limpieza y Hogar</option>
-                                <option value="Cuidado Personal">Cuidado Personal</option>
-                                <option value="Embutidos y Fríos">Embutidos y Fríos</option>
-                                <option value="Panadería y Pastelería">Panadería y Pastelería</option>
-                            </select>
-                        </div>
-
-                        <!-- Unidad de Medida -->
-                        <div class="form-grupo">
-                            <label for="unidad-medida" class="form-label">Unidad de medida</label>
-                            <select id="unidad-medida" name="unidad-medida" class="form-control">
-                                <option value="" disabled selected>Seleccione una unidad</option>
-                                <option value="unidad">Unidad</option>
-                                <option value="kg">Kilogramo (kg)</option>
-                                <option value="litro">Litro (L)</option>
-                                <option value="caja">Caja</option>
-                                <option value="paquete">Paquete</option>
-                            </select>
-                        </div>
-
-                        <!-- Stock mínimo -->
-                        <div class="form-grupo">
-                            <label for="stock-minimo" class="form-label">Stock mínimo</label>
-                            <input
-                                type="number"
-                                id="stock-minimo"
-                                name="stock-minimo"
-                                class="form-control"
-                                placeholder="Ej: 10"
-                                min="0"
-                                required
-                            >
-                        </div>
-
-                        <!-- Precio Unidad -->
-                        <div class="form-grupo">
-                            <label for="precio-unidad" class="form-label">Precio por unidad</label>
-                            <input
-                                type="number"
-                                id="precio-unidad"
-                                name="precio-unidad"
-                                class="form-control"
-                                placeholder="Ej: 10"
-                                min="0"
-                                required
-                            >
-                        </div>
-                    </div>
-
-                    <!-- Descripción -->
-                    <div class="form-grupo form-textarea">
-                            <label for="descripcion-producto" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
-                            <textarea
-                                id="descripcion-producto"
-                                name="descripcion-producto"
-                                class="form-control"
-                                placeholder="Descripción breve del producto..."
-                                rows="3"
-                            ></textarea>
-                    </div>
-
-                    <!-- Botones Guardar/Limpiar -->
-                    <div class="formulario-acciones">
-                        <button type="reset" class="btn btn-secundario">Limpiar</button>
-                        <button type="submit" class="btn btn-primario">Guardar cambios</button>
-                    </div>
-
-                </section>
-
             </div>
 
         </div>

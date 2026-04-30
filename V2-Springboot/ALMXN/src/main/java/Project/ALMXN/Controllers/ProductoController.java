@@ -5,10 +5,7 @@ import Project.ALMXN.Services.ProductoService;
 import Project.ALMXN.models.Producto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/gestion/adminProductos")
@@ -36,4 +33,17 @@ public class ProductoController {
         return ("redirect:/gestion/adminProductos");
     }
 
+    @GetMapping("/editar")
+    public String mostrarFormularioEdicion(@RequestParam("id") int idProducto, Model model) {
+        Producto productoExistente = productoService.buscarProductoPorId(idProducto);
+        model.addAttribute("producto", productoExistente);
+        model.addAttribute("listaCategorias", categoriaService.obtenerTodasLasCategorias());
+        return "gestion/editar/editarProducto";
+    }
+
+    @PostMapping("/actualizar")
+    public String procesarActualizacion(@ModelAttribute Producto productoModificado){
+        productoService.actualizarProducto(productoModificado);
+        return "redirect:/gestion/adminProductos";
+    }
 }

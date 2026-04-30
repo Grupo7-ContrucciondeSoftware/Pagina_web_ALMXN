@@ -62,4 +62,36 @@ public class ProductoRepository implements ProductoDAO {
         );
     }
 
+    @Override
+    public Producto buscarProductoPorId(int idProducto) {
+        String sql = "SELECT p.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion " +
+                "FROM producto p " +
+                "INNER JOIN categoria c ON p.id_categoria = c.id_categoria " +
+                "WHERE p.id_producto = ?";
+
+        // Usamos queryForObject porque el ID es único y solo traerá 1 fila
+        return jdbcTemplate.queryForObject(sql, ProductoRowMapper, idProducto);
+    }
+
+    @Override
+    public void actualizarProducto (Producto producto){
+        String sql = "UPDATE producto SET codigo = ?, nombre = ?, id_categoria = ?, " +
+                "stock_actual = ?, unidad_medida = ?, stock_minimo = ?, " +
+                "precio_costo = ?, precio_venta = ?, descripcion = ? " +
+                "WHERE id_producto = ?";
+
+        jdbcTemplate.update(sql,
+                producto.getCodigoProducto(),
+                producto.getNombreProducto(),
+                producto.getCategoria().getIdCategoria(),
+                producto.getStockActualProducto(),
+                producto.getUnidadMedidaProducto(),
+                producto.getStockMinimoProducto(),
+                producto.getPrecioCostoProducto(),
+                producto.getPrecioVentaProducto(),
+                producto.getDescripcionProducto(),
+                producto.getIdProducto()
+        );
+    }
+
 }

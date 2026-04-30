@@ -24,4 +24,14 @@ public class ProductoServiceImpl implements ProductoService {
         productoDAO.guardarProducto(producto);
     }
 
+    @Override
+    public Producto buscarProductoPorId(int id) {
+        return productoDAO.buscarProductoPorId(id);
+    }
+
+    @Override
+    public void actualizarProducto(Producto producto) {
+        productoDAO.actualizarProducto(producto);
+    }
+
 }
