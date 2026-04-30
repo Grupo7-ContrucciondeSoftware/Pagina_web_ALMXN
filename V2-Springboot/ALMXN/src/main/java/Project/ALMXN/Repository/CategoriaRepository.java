@@ -38,9 +38,7 @@ public class CategoriaRepository implements CategoriaDAO{
 
     @Override
     public Categoria buscarCategoriaPorId(int idCategoria){
-        String sql = "SELECT c.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion " +
-                "FROM categoria c " +
-                "WHERE c.id_categoria = ?";
+        String sql = "SELECT * FROM categoria WHERE id_categoria = ?";
         return jdbcTemplate.queryForObject(sql, CategoriaRowMapper, idCategoria);
     }
 

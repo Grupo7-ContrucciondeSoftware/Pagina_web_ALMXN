@@ -4,10 +4,7 @@ import Project.ALMXN.Services.ProveedorService;
 import Project.ALMXN.models.Proveedor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -31,6 +28,19 @@ public class ProveedorController {
     public String guardarNuevoProveedor(@ModelAttribute Proveedor proveedor){
         proveedorService.guardarProveedor(proveedor);
         return "redirect:/gestion/adminProveedores";
+    }
+
+    @GetMapping("/editar")
+    public String mostarEditar(@RequestParam("id") int idProveedor, Model model){
+        Proveedor proveedorExistente = proveedorService.buscarProveedorPorId(idProveedor);
+        model.addAttribute("proveedor", proveedorExistente);
+        return "gestion/editar/editarProveedor";
+    }
+
+    @PostMapping("/actualizar")
+    public String procesarActualizacion(@ModelAttribute Proveedor proveedorModificado){
+        proveedorService.actualizarProveedor(proveedorModificado);
+        return ("redirect:/gestion/adminProveedores");
     }
 
 }

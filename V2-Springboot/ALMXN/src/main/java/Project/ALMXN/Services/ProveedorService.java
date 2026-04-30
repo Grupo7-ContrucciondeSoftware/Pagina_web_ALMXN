@@ -8,4 +8,9 @@ public interface ProveedorService {
     public List<Proveedor> obtenerTodosLosProveedores();
 
     public void guardarProveedor(Proveedor proveedor);
+
+    public Proveedor buscarProveedorPorId(int idProveedor);
+
+    public void actualizarProveedor(Proveedor proveedor);
+
 }

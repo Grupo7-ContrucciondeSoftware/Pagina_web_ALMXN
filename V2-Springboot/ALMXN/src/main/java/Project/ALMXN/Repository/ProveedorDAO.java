@@ -9,4 +9,8 @@ public interface ProveedorDAO {
 
     public void guardarProveedor(Proveedor proveedor);
 
+    public Proveedor buscarProveedorPorId(int idProveedor);
+
+    public void actualizarProveedor(Proveedor proveedor);
+
 }

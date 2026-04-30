@@ -23,7 +23,6 @@
 
         <input type="radio" name="tab" id="pestaña-listaProveedores" checked style="display:none">
         <input type="radio" name="tab" id="pestaña-agregarProveedores" style="display:none">
-        <input type="radio" name="tab" id="pestaña-editarProveedores" style="display:none">
 
         <div class="centro-pagina-gestion">
 
@@ -41,7 +40,6 @@
             <div class="pestañas">
                 <label for="pestaña-listaProveedores" class="pestaña">Lista de Proveedores</label>
                 <label for="pestaña-agregarProveedores" class="pestaña">Agregar Proveedor</label>
-                <label for="pestaña-editarProveedores" class="pestaña">Editar Proveedor</label>
             </div>
 
             <div class="pestaña-contenido" id="contenido-listaProveedores">
@@ -84,7 +82,7 @@
                                 <td class="body-tabla">${proveedor.telefonoProveedor}</td>
                                 <td class="body-tabla">${proveedor.correoProveedor}</td>
                                 <td class="body-tabla">
-                                    <a class="btn btn-secundario btn-editar">Editar</a>
+                                    <a href="/gestion/adminProveedores/editar?id=${proveedor.idProveedor}" class="btn btn-secundario btn-editar">Editar</a>
                                     <a class="btn btn-secundario btn-eliminar">Eliminar</a>
                                 </td>
                             </tr>
@@ -157,105 +155,6 @@
                 </section>
             </div>
 
-            <div class="pestaña-contenido" id="contenido-editarProveedores">
-
-                <section class="form-grupo">
-                    <label for="buscar-proveedor-editar" class="form-label">Buscar Proveedor (RUC o Razón Social)</label>
-                    <div class="buscador-boton">
-                        <input
-                        type="text"
-                        id="buscar-proveedor-editar"
-                        class="form-control"
-                        placeholder="Ej: Alicorp"
-                        >
-                        <button class="btn btn-primario">Buscar</button>
-                    </div>
-                </section>
-
-                <section class="form-grupo">
-                    <label class="form-label">Seleccione proveedor a editar</label>
-                    <table class="tabla">
-                        <thead class="header-tabla">
-                            <tr>
-                                <th class="header-tabla">ID</th>
-                                <th class="header-tabla">RUC</th>
-                                <th class="header-tabla">Razón Social</th>
-                                <th class="header-tabla">Teléfono</th>
-                                <th class="header-tabla">Correo</th>
-                                <th class="header-tabla">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody class="body-tabla">
-                            <tr>
-                                <td class="body-tabla">1</td>
-                                <td class="body-tabla">20100055237</td>
-                                <td class="body-tabla">Alicorp S.A.A.</td>
-                                <td class="body-tabla">987654321</td>
-                                <td class="body-tabla">ventas@alicorp.com.pe</td>
-                                <td class="body-tabla">
-                                    <a class="btn btn-secundario btn-elegir">Elegir</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
-
-                <section class="form-grupo">
-                    <form action="/gestion/proveedores/actualizar" method="POST">
-                        <input type="hidden" name="idProveedor" id="editar-id-proveedor">
-
-                        <div class="formulario">
-                            <div class="form-grupo">
-                                <label for="editar-ruc-proveedor" class="form-label">RUC</label>
-                                <input
-                                    type="text"
-                                    id="editar-ruc-proveedor"
-                                    name="ruc"
-                                    class="form-control"
-                                    maxlength="11"
-                                    required
-                                >
-                            </div>
-
-                            <div class="form-grupo">
-                                <label for="editar-razonsocial-proveedor" class="form-label">Razón Social</label>
-                                <input
-                                    type="text"
-                                    id="editar-razonsocial-proveedor"
-                                    name="razonSocial"
-                                    class="form-control"
-                                    required
-                                >
-                            </div>
-
-                            <div class="form-grupo">
-                                <label for="editar-telefono-proveedor" class="form-label">Teléfono</label>
-                                <input
-                                    type="text"
-                                    id="editar-telefono-proveedor"
-                                    name="telefono"
-                                    class="form-control"
-                                >
-                            </div>
-
-                            <div class="form-grupo">
-                                <label for="editar-email-proveedor" class="form-label">Correo electrónico</label>
-                                <input
-                                    type="email"
-                                    id="editar-email-proveedor"
-                                    name="correo"
-                                    class="form-control"
-                                >
-                            </div>
-                        </div>
-
-                        <div class="formulario-acciones">
-                            <button type="reset" class="btn btn-secundario">Limpiar</button>
-                            <button type="submit" class="btn btn-primario">Guardar Cambios</button>
-                        </div>
-                    </form>
-                </section>
-            </div>
         </div>
     </main>
 

@@ -11,7 +11,9 @@ public class ProveedorRepository implements ProveedorDAO{
 
     public final JdbcTemplate jdbcTemplate;
 
-    public ProveedorRepository(JdbcTemplate jdbcTemplate) { this.jdbcTemplate = jdbcTemplate; }
+    public ProveedorRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     private final RowMapper<Proveedor> ProveedorRowMapper = (rs, rowNum) ->{
         return new Proveedor(
@@ -25,8 +27,8 @@ public class ProveedorRepository implements ProveedorDAO{
 
     @Override
     public List<Proveedor> listaProveedores(){
-        String query = "SELECT * FROM proveedor";
-        return jdbcTemplate.query(query, ProveedorRowMapper);
+        String sql = "SELECT * FROM proveedor";
+        return jdbcTemplate.query(sql, ProveedorRowMapper);
     }
 
     @Override
@@ -37,6 +39,24 @@ public class ProveedorRepository implements ProveedorDAO{
                 proveedor.getRazonSocialProveedor(),
                 proveedor.getTelefonoProveedor(),
                 proveedor.getCorreoProveedor()
+        );
+    }
+
+    @Override
+    public Proveedor buscarProveedorPorId(int idProveedor){
+        String sql = "SELECT * FROM proveedor WHERE id_proveedor = ?";
+        return jdbcTemplate.queryForObject(sql, ProveedorRowMapper, idProveedor);
+    }
+
+    @Override
+    public void actualizarProveedor(Proveedor proveedor){
+        String sql = "UPDATE proveedor SET ruc = ?, razon_social = ?, telefono = ?, correo = ? WHERE id_proveedor = ?";
+        jdbcTemplate.update(sql,
+                proveedor.getRucProveedor(),
+                proveedor.getRazonSocialProveedor(),
+                proveedor.getTelefonoProveedor(),
+                proveedor.getCorreoProveedor(),
+                proveedor.getIdProveedor()
         );
     }
 
