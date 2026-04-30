@@ -5,8 +5,9 @@ import Project.ALMXN.models.Usuario;
 
 public interface UsuarioService {
 
-    public List<Usuario> obtenerTodosLosUsuarios();
+    List<Usuario> obtenerTodosLosUsuarios();
 
-    public void guardarUsuario(Usuario usuario);
+    void guardarUsuario(Usuario usuario);
 
+    Usuario validarLogin(String correo, String contraseña);
 }
