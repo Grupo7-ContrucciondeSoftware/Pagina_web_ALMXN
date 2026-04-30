@@ -37,3 +37,17 @@
     cursor: pointer;
     letter-spacing: 0.02em;
 }
+
+.input-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.prefix {
+    color: #555;
+    padding-right: 5px;
+    font-weight: bold;
+}

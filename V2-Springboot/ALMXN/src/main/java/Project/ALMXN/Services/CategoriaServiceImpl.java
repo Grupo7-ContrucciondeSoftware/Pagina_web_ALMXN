@@ -8,20 +8,20 @@ import java.util.List;
 @Service
 public class CategoriaServiceImpl implements CategoriaService{
 
-    private final CategoriaDAO CategoriaDAO;
+    private final CategoriaDAO categoriaDAO;
 
-    public CategoriaServiceImpl(CategoriaDAO CategoriaDAO){
-        this.CategoriaDAO = CategoriaDAO;
+    public CategoriaServiceImpl(CategoriaDAO categoriaDAO){
+        this.categoriaDAO = categoriaDAO;
     }
 
     @Override
     public List<Categoria> obtenerTodasLasCategorias(){
-        return CategoriaDAO.listaCategorias();
+        return categoriaDAO.listaCategorias();
     }
 
     @Override
     public void guardarCategoria(Categoria categoria) {
-        CategoriaDAO.guardarCategoria(categoria);
+        categoriaDAO.guardarCategoria(categoria);
     }
 
 }

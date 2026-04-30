@@ -19,23 +19,23 @@ import java.util.List;
 @RequestMapping("/gestion/adminMovimientos")
 public class MovimientoController {
 
-    private final MovimientoService MovimientoService;
-    private final ProveedorService ProveedorService;
-    private final UsuarioService UsuarioService;
-    private final DetalleMovimientoService DetalleMovimientoService;
+    private final MovimientoService movimientoService;
+    private final ProveedorService proveedorService;
+    private final UsuarioService usuarioService;
+    private final DetalleMovimientoService detalleMovimientoService;
 
-    public MovimientoController(MovimientoService MovimientoService, ProveedorService ProveedorService, UsuarioService UsuarioService, DetalleMovimientoService DetalleMovimientoService) {
-        this.MovimientoService = MovimientoService;
-        this.ProveedorService = ProveedorService;
-        this.UsuarioService = UsuarioService;
-        this.DetalleMovimientoService = DetalleMovimientoService;
+    public MovimientoController(MovimientoService movimientoService, ProveedorService proveedorService, UsuarioService usuarioService, DetalleMovimientoService detalleMovimientoService) {
+        this.movimientoService = movimientoService;
+        this.proveedorService = proveedorService;
+        this.usuarioService = usuarioService;
+        this.detalleMovimientoService = detalleMovimientoService;
     }
 
     @GetMapping("")
     public String mostrarAdminMovimientos(Model model){
-        model.addAttribute("listaMovimientos", MovimientoService.obtenerTodosLosMovimientos());
-        model.addAttribute("listaUsuarios", UsuarioService.obtenerTodosLosUsuarios());
-        model.addAttribute("listaProveedores", ProveedorService.obtenerTodosLosProveedores());
+        model.addAttribute("listaMovimientos", movimientoService.obtenerTodosLosMovimientos());
+        model.addAttribute("listaUsuarios", usuarioService.obtenerTodosLosUsuarios());
+        model.addAttribute("listaProveedores", proveedorService.obtenerTodosLosProveedores());
         model.addAttribute("paginaActiva", "gestion");
         return "gestion/adminMovimientos";
     }
@@ -43,9 +43,7 @@ public class MovimientoController {
     @GetMapping("/obtenerDetalles")
     @ResponseBody
     public List<DetalleMovimiento> obtenerDetalles(@RequestParam("id") int idMovimiento) {
-        // Al tener @ResponseBody, Spring no busca un archivo JSP,
-        // sino que convierte la lista de productos a JSON automáticamente.
-        return DetalleMovimientoService.buscarPorIdMovimiento(idMovimiento);
+        return detalleMovimientoService.buscarPorIdMovimiento(idMovimiento);
     }
 
 }

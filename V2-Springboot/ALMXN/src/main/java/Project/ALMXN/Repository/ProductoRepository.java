@@ -43,4 +43,23 @@ public class ProductoRepository implements ProductoDAO {
                 "INNER JOIN categoria c ON p.id_categoria = c.id_categoria";
         return jdbcTemplate.query(sql, ProductoRowMapper);
     }
+
+    @Override
+    public void guardarProducto(Producto producto) {
+        String sql = "INSERT INTO producto (codigo, nombre, id_categoria, stock_actual, " +
+                "unidad_medida, stock_minimo, precio_costo, precio_venta, descripcion) VALUES "+
+                "(?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+        jdbcTemplate.update(sql,
+                producto.getCodigoProducto(),
+                producto.getNombreProducto(),
+                producto.getCategoria().getIdCategoria(),
+                producto.getStockActualProducto(),
+                producto.getUnidadMedidaProducto(),
+                producto.getStockMinimoProducto(),
+                producto.getPrecioCostoProducto(),
+                producto.getPrecioVentaProducto(),
+                producto.getDescripcionProducto()
+        );
+    }
+
 }

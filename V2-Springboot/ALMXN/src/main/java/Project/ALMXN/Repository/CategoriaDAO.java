@@ -7,5 +7,5 @@ public interface CategoriaDAO {
 
     List<Categoria> listaCategorias();
 
-    public void guardarCategoria(Categoria Categoria);
+    public void guardarCategoria(Categoria categoria);
 }

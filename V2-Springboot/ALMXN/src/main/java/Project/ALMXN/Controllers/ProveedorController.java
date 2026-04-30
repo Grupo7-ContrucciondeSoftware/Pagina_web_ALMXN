@@ -14,20 +14,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @RequestMapping("/gestion/adminProveedores")
 public class ProveedorController {
 
-    private final ProveedorService ProveedorService;
+    private final ProveedorService proveedorService;
 
-    public ProveedorController(ProveedorService ProveedorService) { this.ProveedorService = ProveedorService; }
+    public ProveedorController(ProveedorService proveedorService) {
+        this.proveedorService = proveedorService;
+    }
 
     @GetMapping("")
     public String mostrarAdminProveedores(Model model){
-        model.addAttribute("listaProveedores", ProveedorService.obtenerTodosLosProveedores());
+        model.addAttribute("listaProveedores", proveedorService.obtenerTodosLosProveedores());
         model.addAttribute("paginaActiva", "gestion");
         return "gestion/adminProveedores";
     }
 
     @PostMapping("/guardar")
     public String guardarNuevoProveedor(@ModelAttribute Proveedor proveedor){
-        ProveedorService.guardarProveedor(proveedor);
+        proveedorService.guardarProveedor(proveedor);
         return "redirect:/gestion/adminProveedores";
     }
 

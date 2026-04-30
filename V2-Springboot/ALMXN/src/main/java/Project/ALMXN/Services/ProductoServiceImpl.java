@@ -8,14 +8,20 @@ import java.util.List;
 @Service
 public class ProductoServiceImpl implements ProductoService {
 
-    private final ProductoDAO ProductoDAO;
+    private final ProductoDAO productoDAO;
 
-    public ProductoServiceImpl(ProductoDAO ProductoDAO) {
-        this.ProductoDAO = ProductoDAO;
+    public ProductoServiceImpl(ProductoDAO productoDAO) {
+        this.productoDAO = productoDAO;
     }
 
     @Override
     public List<Producto> obtenerTodosLosProductos() {
-        return ProductoDAO.listaProductos();
+        return productoDAO.listaProductos();
     }
+
+    @Override
+    public void guardarProducto(Producto producto){
+        productoDAO.guardarProducto(producto);
+    }
+
 }

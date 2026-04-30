@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/adminProductos.css">
 
     <script src="../js/tema.js" defer></script>
+    <script src="../js/validaciones.js" defer></script>
 </head>
 <body>
 
@@ -74,17 +75,11 @@
                     <!-- Categoría -->
                     <div class="filtro-grupo">
                         <label class="form-label" for="categoria-filtro">Categoría:</label>
-                        <select class="form-control" id="categoria-filtro">
-                            <option value="">Sin Filtro</option>
-                                <option value="Abarrotes">Abarrotes</option>
-                                <option value="Lacteos y Huevos">Lácteos y Huevos</option>
-                                <option value="Bebidas y Licores">Bebidas y Licores</option>
-                                <option value="Snacks y Confiteria">Snacks y Confitería</option>
-                                <option value="Frutas y Verduras">Frutras y Verduras</option>
-                                <option value="Limpieza y Hogar">Limpieza y Hogar</option>
-                                <option value="Cuidado Personal">Cuidado Personal</option>
-                                <option value="Embutidos y Fríos">Embutidos y Fríos</option>
-                                <option value="Panadería y Pastelería">Panadería y Pastelería</option>
+                        <select id="categoria-filtro" name="idCategoria" class="form-control">
+                            <option value="" selected>Sin filtro</option>
+                            <c:forEach items="${listaCategorias}" var="catProducto">
+                                <option value="${catProducto.idCategoria}">${catProducto.nombreCategoria}</option>
+                            </c:forEach>
                         </select>
                     </div>
 
@@ -177,18 +172,18 @@
                 <!-- FORMULARIO -->
                 <section class="form-grupo">
 
-                    <form action="/gestion/adminProductos/guardar" method="POST">
+                    <form action="/gestion/adminProductos/guardar" method="POST" class="form-validable">
                         <div class="formulario">
 
                             <!-- Código -->
                             <div class="form-grupo">
                                 <label for="codigo-producto" class="form-label">Código</label>
                                 <input
-                                    type="number"
+                                    type="text"
                                     id="codigp-producto"
                                     name="codigoProducto"
                                     class="form-control"
-                                    placeholder="Escriba el SKU"
+                                    placeholder="Escriba el Código"
                                     min="0"
                                     required
                                 >
@@ -211,7 +206,7 @@
 
                             <div class="form-grupo">
                                 <label for="categoriaProducto" class="form-label">Categoría</label>
-                                <select id="categoriaProducto" name="idCategoria" class="form-control">
+                                <select id="categoriaProducto" name="categoria.idCategoria" class="form-control">
                                     <option value="" disabled selected>Seleccione una categoría</option>
                                     <c:forEach items="${listaCategorias}" var="catProducto">
                                         <option value="${catProducto.idCategoria}">${catProducto.nombreCategoria}</option>
@@ -225,10 +220,11 @@
                                 <select id="unidad-medida" name="unidadMedidaProducto" class="form-control">
                                     <option value="" disabled selected>Seleccione una unidad</option>
                                     <option value="unidad">Unidad</option>
-                                    <option value="kg">Bolsa</option>
+                                    <option value="kg">Kg</option>
+                                    <option value="Bolsa">Bolsa</option>
                                     <option value="litro">Litro (L)</option>
-                                    <option value="caja">Caja</option>
-                                    <option value="paquete">Paquete</option>
+                                    <option value="Caja">Caja</option>
+                                    <option value="Paquete">Paquete</option>
                                 </select>
                             </div>
 
@@ -265,6 +261,7 @@
                                 <label for="precio-costo" class="form-label">Precio de Costo</label>
                                 <input
                                     type="number"
+                                    step="any""
                                     id="precio-costo"
                                     name="precioCostoProducto"
                                     class="form-control"
@@ -279,6 +276,7 @@
                                 <label for="precio-unidad" class="form-label">Precio por unidad</label>
                                 <input
                                     type="number"
+                                    step="any"
                                     id="precio-unidad"
                                     name="precioVentaProducto"
                                     class="form-control"

@@ -30,9 +30,14 @@ public class ProveedorRepository implements ProveedorDAO{
     }
 
     @Override
-    public void guardarProveedor(Proveedor Proveedor){
+    public void guardarProveedor(Proveedor proveedor){
         String sql = "INSERT INTO proveedor (ruc, razon_social, telefono, correo) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, Proveedor.getRucProveedor(), Proveedor.getRazonSocialProveedor(), Proveedor.getTelefonoProveedor(), Proveedor.getCorreoProveedor());
+        jdbcTemplate.update(sql,
+                proveedor.getRucProveedor(),
+                proveedor.getRazonSocialProveedor(),
+                proveedor.getTelefonoProveedor(),
+                proveedor.getCorreoProveedor()
+        );
     }
 
 }

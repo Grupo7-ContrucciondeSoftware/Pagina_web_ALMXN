@@ -7,4 +7,6 @@ public interface ProductoService {
 
     List<Producto> obtenerTodosLosProductos();
 
+    public void guardarProducto(Producto producto);
+
 }

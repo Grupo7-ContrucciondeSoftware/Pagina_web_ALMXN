@@ -9,19 +9,19 @@ import java.util.List;
 @Service
 public class UsuarioServiceImpl implements UsuarioService{
 
-    private final UsuarioDAO UsuarioDAO;
+    private final UsuarioDAO usuarioDAO;
 
-    public UsuarioServiceImpl(UsuarioDAO UsuarioDAO) {
-        this.UsuarioDAO = UsuarioDAO;
+    public UsuarioServiceImpl(UsuarioDAO usuarioDAO) {
+        this.usuarioDAO = usuarioDAO;
     }
 
     @Override
     public List<Usuario> obtenerTodosLosUsuarios(){
-        return UsuarioDAO.listarTodos();
+        return usuarioDAO.listarTodos();
     }
 
     @Override
-    public void guardarUsuario(Usuario Usuario){
-        UsuarioDAO.guardarUsuario(Usuario);
+    public void guardarUsuario(Usuario usuario){
+        usuarioDAO.guardarUsuario(usuario);
     }
 }

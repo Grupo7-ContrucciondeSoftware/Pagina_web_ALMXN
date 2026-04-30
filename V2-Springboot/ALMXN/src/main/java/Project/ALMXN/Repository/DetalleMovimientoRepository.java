@@ -24,14 +24,12 @@ public class DetalleMovimientoRepository implements DetalleMovimientoDAO{
         Movimiento mov = new Movimiento();
         mov.setIdMovimiento(rs.getInt("id_movimiento"));
 
-        // 2. Creamos el Detalle
         DetalleMovimiento detalle = new DetalleMovimiento();
         detalle.setIdDetalleMovimiento(rs.getInt("id_detalle"));
         detalle.setCantidadDetalleMovimiento(rs.getInt("cantidad"));
         detalle.setPrecioUnitarioDetalleMovimiento(rs.getDouble("precio_unitario"));
         detalle.setSubtotalDetalleMovimiento(rs.getDouble("subtotal"));
 
-        // Unimos el producto al detalle
         detalle.setProducto(prod);
         detalle.setMovimiento(mov);
 

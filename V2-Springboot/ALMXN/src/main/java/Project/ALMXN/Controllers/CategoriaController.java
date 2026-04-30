@@ -13,21 +13,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/gestion/adminCategorias")
 public class CategoriaController {
 
-    private final CategoriaService CategoriaService;
+    private final CategoriaService categoriaService;
 
-    public CategoriaController(CategoriaService CategoriaService) { this.CategoriaService = CategoriaService; }
+    public CategoriaController(CategoriaService categoriaService) {
+        this.categoriaService = categoriaService;
+    }
 
     @GetMapping("")
     public String mostrarAdminCategorias(Model model){
 
-        model.addAttribute("listaCategorias", CategoriaService.obtenerTodasLasCategorias());
+        model.addAttribute("listaCategorias", categoriaService.obtenerTodasLasCategorias());
         model.addAttribute("paginaActiva", "gestion");
         return "/gestion/adminCategorias";
     }
 
     @PostMapping("/guardar")
     public String guardarNuevaCategoria(@ModelAttribute Categoria categoria) {
-        CategoriaService.guardarCategoria(categoria);
+        categoriaService.guardarCategoria(categoria);
         return "redirect:/gestion/adminCategorias";
     }
 }

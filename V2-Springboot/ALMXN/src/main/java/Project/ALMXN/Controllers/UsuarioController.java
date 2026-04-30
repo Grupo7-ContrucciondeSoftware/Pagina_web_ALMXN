@@ -14,22 +14,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/gestion/adminUsuarios")
 public class UsuarioController {
 
-    private final UsuarioService UsuarioService;
+    private final UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioService UsuarioService) {
-        this.UsuarioService = UsuarioService;
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
     }
 
     @GetMapping("")
     public String mostrarAdminUsuarios(Model model){
-        model.addAttribute("listaUsuarios", UsuarioService.obtenerTodosLosUsuarios());
+        model.addAttribute("listaUsuarios", usuarioService.obtenerTodosLosUsuarios());
         model.addAttribute("paginaActiva", "gestion");
         return "gestion/adminUsuarios";
     }
 
     @PostMapping("/guardar")
-    public String guardarNuevoUsuario(@ModelAttribute Usuario Usuario){
-        UsuarioService.guardarUsuario(Usuario);
+    public String guardarNuevoUsuario(@ModelAttribute Usuario usuario){
+        usuarioService.guardarUsuario(usuario);
         return "redirect:/gestion/adminUsuarios";
     }
 

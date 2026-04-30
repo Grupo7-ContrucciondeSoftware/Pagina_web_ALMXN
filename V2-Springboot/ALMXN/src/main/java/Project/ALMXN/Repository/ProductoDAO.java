@@ -7,4 +7,6 @@ public interface ProductoDAO {
 
     List<Producto> listaProductos();
 
+    public void guardarProducto(Producto producto);
+
 }

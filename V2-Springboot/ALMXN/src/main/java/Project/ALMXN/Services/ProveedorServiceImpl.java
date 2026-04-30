@@ -8,20 +8,20 @@ import java.util.List;
 @Service
 public class ProveedorServiceImpl implements ProveedorService{
 
-    private final ProveedorDAO ProveedorDAO;
+    private final ProveedorDAO proveedorDAO;
 
-    public ProveedorServiceImpl(ProveedorDAO ProveedorDAO){
-        this.ProveedorDAO = ProveedorDAO;
+    public ProveedorServiceImpl(ProveedorDAO proveedorDAO){
+        this.proveedorDAO = proveedorDAO;
     }
 
     @Override
     public List<Proveedor> obtenerTodosLosProveedores(){
-        return ProveedorDAO.listaProveedores();
+        return proveedorDAO.listaProveedores();
     }
 
     @Override
     public void guardarProveedor(Proveedor proveedor) {
-        ProveedorDAO.guardarProveedor(proveedor);
+        proveedorDAO.guardarProveedor(proveedor);
     }
 
 }

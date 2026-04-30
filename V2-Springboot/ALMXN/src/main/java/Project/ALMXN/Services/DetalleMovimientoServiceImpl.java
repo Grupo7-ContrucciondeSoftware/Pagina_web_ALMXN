@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class DetalleMovimientoServiceImpl implements DetalleMovimientoService {
 
-    private final DetalleMovimientoDAO DetalleMovimientoDAO;
+    private final DetalleMovimientoDAO detalleMovimientoDAO;
 
-    public DetalleMovimientoServiceImpl(DetalleMovimientoDAO DetalleMovimientoDAO) {
-        this.DetalleMovimientoDAO = DetalleMovimientoDAO;
+    public DetalleMovimientoServiceImpl(DetalleMovimientoDAO detalleMovimientoDAO) {
+        this.detalleMovimientoDAO = detalleMovimientoDAO;
     }
 
     @Override
     public List<DetalleMovimiento> buscarPorIdMovimiento(int idMovimiento) {
-        return DetalleMovimientoDAO.buscarPorIdMovimiento(idMovimiento);
+        return detalleMovimientoDAO.buscarPorIdMovimiento(idMovimiento);
     }
 }

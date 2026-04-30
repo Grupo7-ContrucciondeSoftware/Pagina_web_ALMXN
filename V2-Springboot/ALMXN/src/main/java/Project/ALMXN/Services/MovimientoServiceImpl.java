@@ -8,15 +8,15 @@ import java.util.List;
 @Service
 public class MovimientoServiceImpl implements MovimientoService{
 
-    private final MovimientoDAO MovimientoDAO;
+    private final MovimientoDAO movimientoDAO;
 
-    public MovimientoServiceImpl(MovimientoDAO MovimientoDAO){
-        this.MovimientoDAO = MovimientoDAO;
+    public MovimientoServiceImpl(MovimientoDAO movimientoDAO){
+        this.movimientoDAO = movimientoDAO;
     }
 
     @Override
     public List<Movimiento> obtenerTodosLosMovimientos(){
-        return MovimientoDAO.listaMovimientos();
+        return movimientoDAO.listaMovimientos();
     }
 
 }
