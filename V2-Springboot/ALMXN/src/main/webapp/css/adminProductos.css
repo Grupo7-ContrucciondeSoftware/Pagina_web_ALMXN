@@ -5,8 +5,7 @@
 
 /* Muestra la pestaña del input que está marcado */
 #pestaña-listaProducto:checked ~ .centro-pagina-gestion #contenido-listaProducto,
-#pestaña-agregarProducto:checked ~ .centro-pagina-gestion #contenido-agregarProducto,
-#pestaña-editarProducto:checked ~ .centro-pagina-gestion #contenido-editarProducto {
+#pestaña-agregarProducto:checked ~ .centro-pagina-gestion #contenido-agregarProducto {
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -14,8 +13,7 @@
 
 /* Resalta visualmente el label de la pestaña activa. */
 #pestaña-listaProducto:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-listaProducto"],
-#pestaña-agregarProducto:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-agregarProducto"],
-#pestaña-editarProducto:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-editarProducto"]{
+#pestaña-agregarProducto:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-agregarProducto"] {
     color: var(--texto-principal);
     border-bottom: 2px solid var(--color-rol);
     background-color: var(--color-rol);

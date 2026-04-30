@@ -34,7 +34,7 @@ public class ProductoController {
     }
 
     @GetMapping("/editar")
-    public String mostrarFormularioEdicion(@RequestParam("id") int idProducto, Model model) {
+    public String mostrarEditar(@RequestParam("id") int idProducto, Model model) {
         Producto productoExistente = productoService.buscarProductoPorId(idProducto);
         model.addAttribute("producto", productoExistente);
         model.addAttribute("listaCategorias", categoriaService.obtenerTodasLasCategorias());

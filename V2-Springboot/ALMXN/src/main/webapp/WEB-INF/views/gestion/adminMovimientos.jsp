@@ -15,12 +15,12 @@
     <link rel="stylesheet" href="/css/globalGestion.css">
     <link rel="stylesheet" href="/css/adminMovimientos.css">
 
-    <script src="../js/tema.js" defer></script>
-    <script src="../js/movimientos.js" defer></script>
+    <script src="/js/tema.js" defer></script>
+    <script src="/js/movimientos.js" defer></script>
 </head>
 <body>
 
-    <%@ include file="../header.jsp" %>
+    <%@ include file="/WEB-INF/views/header.jsp" %>
 
     <!-- ===== CONTENIDO PRINCIPAL ===== -->
     <main id="contenido-principal-gestion">
@@ -454,7 +454,7 @@
     </main>
 
     <!-- ===== PIE DE PÁGINA ===== -->
-    <%@ include file="../footer.jsp" %>
+    <%@ include file="/WEB-INF/views/footer.jsp" %>
 
 </body>
 </html>

@@ -9,4 +9,8 @@ public interface CategoriaService {
 
     public void guardarCategoria(Categoria categoria);
 
+    public Categoria buscarCategoriaPorId (int idCategoria);
+
+    public void actualizarCategoria(Categoria categoria);
+
 }

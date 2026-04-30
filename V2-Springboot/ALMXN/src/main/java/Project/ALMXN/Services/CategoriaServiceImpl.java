@@ -24,4 +24,13 @@ public class CategoriaServiceImpl implements CategoriaService{
         categoriaDAO.guardarCategoria(categoria);
     }
 
+    @Override
+    public Categoria buscarCategoriaPorId(int idCategoria){
+        return categoriaDAO.buscarCategoriaPorId(idCategoria);
+    }
+
+    @Override
+    public void actualizarCategoria(Categoria categoria) {
+        categoriaDAO.actualizarCategoria(categoria);
+    }
 }

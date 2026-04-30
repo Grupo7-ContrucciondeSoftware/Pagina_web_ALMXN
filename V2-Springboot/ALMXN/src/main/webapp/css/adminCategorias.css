@@ -4,8 +4,7 @@
 
 /* Muestra la pestaña del input que está marcado */
 #pestaña-listaCategorias:checked ~ .centro-pagina-gestion #contenido-listaCategorias,
-#pestaña-agregarCategorias:checked ~ .centro-pagina-gestion #contenido-agregarCategorias,
-#pestaña-editarCategorias:checked ~ .centro-pagina-gestion #contenido-editarCategorias {
+#pestaña-agregarCategorias:checked ~ .centro-pagina-gestion #contenido-agregarCategorias {
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -13,8 +12,7 @@
 
 /* Resalta visualmente el label de la pestaña activa. */
 #pestaña-listaCategorias:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-listaCategorias"],
-#pestaña-agregarCategorias:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-agregarCategorias"],
-#pestaña-editarCategorias:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-editarCategorias"]{
+#pestaña-agregarCategorias:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-agregarCategorias"] {
     color: var(--texto-principal);
     border-bottom: 2px solid var(--color-rol);
     background-color: var(--color-rol);

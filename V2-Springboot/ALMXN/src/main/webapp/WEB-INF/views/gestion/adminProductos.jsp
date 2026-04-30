@@ -199,7 +199,6 @@
                                     required
                                 >
                             </div>
-
                             <!-- SELECCIONAR CATEGORÍA -->
 
                             <div class="form-grupo">

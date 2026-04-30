@@ -3,11 +3,9 @@ package Project.ALMXN.Controllers;
 import Project.ALMXN.Services.CategoriaService;
 import Project.ALMXN.models.Categoria;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/gestion/adminCategorias")
@@ -32,4 +30,18 @@ public class CategoriaController {
         categoriaService.guardarCategoria(categoria);
         return "redirect:/gestion/adminCategorias";
     }
+
+    @GetMapping("/editar")
+    public String mostrarEditar(@RequestParam("id") int idCategoria, Model model){
+        Categoria categoriaExistente = categoriaService.buscarCategoriaPorId(idCategoria);
+        model.addAttribute("categoria", categoriaExistente);
+        return "gestion/editar/editarCategoria";
+    }
+
+    @PostMapping("/actualizar")
+    public String procesarActualizacion(@ModelAttribute Categoria categoriaModificada){
+        categoriaService.actualizarCategoria(categoriaModificada);
+        return "redirect:/gestion/adminCategorias";
+    }
+
 }
