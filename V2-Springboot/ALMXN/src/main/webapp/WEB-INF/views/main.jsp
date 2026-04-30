@@ -45,10 +45,10 @@
                 <h1 class="titulo-seccion">¿Qué producto buscas hoy?</h1>
                 <p class="subtitulo-seccion">Ingresa el nombre o código del producto</p>
 
-                <form action="../index/adminproducto.html" class="buscador-formulario">
+                <form action="/gestion/adminProductos" method="get" class="buscador-formulario">
                     <div class="buscador-boton">
-                        <input type="text" id="busquedaGlobal" class="form-control"
-                            placeholder="Ej: Arroz Costeño 1kg ..." required>
+                        <input type="text" id="busquedaGlobal" name="busqueda" class="form-control"
+                               placeholder="Ej: Arroz Costeño 1kg ..." required>
                         <button type="submit" class="btn btn-primario btn-buscar">Buscar</button>
                     </div>
                 </form>
