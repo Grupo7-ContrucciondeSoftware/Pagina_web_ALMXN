@@ -6,48 +6,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ALMXN - Sistema de Gestión de Almacén</title>
-
-    <!-- ===== ESTILOS ===== -->
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/login.css">
 </head>
-
 <body>
 
-<!-- ===== CONTENIDO PRINCIPAL ===== -->
 <main class="login-contenedor">
-
-    <!-- MODULO DE LOGIN -->
     <article class="login-tarjeta">
 
         <a class="logo" href="/login">
             <img src="/img/logoGrandeALMXNAlt.png" alt="Logo ALMXN" class="img img-logo">
         </a>
 
-        <!-- TITULO -->
         <div class="login-header">
             <h1 class="titulo-seccion">Iniciar Sesión</h1>
             <p class="subtitulo-seccion">Sistema de Gestión de Almacén</p>
         </div>
 
-        <!-- FORMULARIO -->
-        <form action="/main" class="formulario">
+        <% if (request.getParameter("error") != null) { %>
+        <p style="color:red; text-align:center; margin-bottom:10px;">
+            Correo o contraseña incorrectos.
+        </p>
+        <% } %>
+
+        <form action="/login" method="post" class="formulario">
 
             <div class="form-grupo">
-                <label for="usuario" class="form-label">Usuario o Correo</label>
-                <input type="text" id="usuario" class="form-control" placeholder="Ingresa tu usuario" required>
+                <label for="correo" class="form-label">Correo</label>
+                <input type="text" id="correo" name="correo"
+                       class="form-control" placeholder="Ingresa tu correo" required>
             </div>
 
             <div class="form-grupo">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" id="password" class="form-control" placeholder="Ingresa tu contraseña" required>
+                <label for="contraseña" class="form-label">Contraseña</label>
+                <input type="password" id="contraseña" name="contraseña"
+                       class="form-control" placeholder="Ingresa tu contraseña" required>
             </div>
 
-            <!-- BOTONES SUBMIT -->
             <button type="submit" class="btn btn-primario btn-block">Ingresar al sistema</button>
         </form>
 
     </article>
 </main>
+
+<script src="/js/validacionLogin.js"></script>
 </body>
 </html>

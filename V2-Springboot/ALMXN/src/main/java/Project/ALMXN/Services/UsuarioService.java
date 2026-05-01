@@ -13,4 +13,5 @@ public interface UsuarioService {
 
     void actualizarUsuario(Usuario usuario);
 
+    Usuario validarLogin(String correo, String contraseña);
 }

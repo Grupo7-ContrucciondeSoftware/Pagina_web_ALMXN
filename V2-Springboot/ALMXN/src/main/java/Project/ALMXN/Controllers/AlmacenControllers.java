@@ -1,16 +1,49 @@
 package Project.ALMXN.Controllers;
 
+import Project.ALMXN.Services.UsuarioService;
+import Project.ALMXN.models.Usuario;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AlmacenControllers {
 
+    private final UsuarioService usuarioService;
+
+    public AlmacenControllers(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+
     @GetMapping("/login")
-    public String mostrarPaginaLogin(Model model){
+    public String mostrarPaginaLogin(Model model) {
         model.addAttribute("paginaActiva", "login");
         return "login";
+    }
+
+    @PostMapping("/login")
+    public String procesarLogin(
+            @RequestParam String correo,
+            @RequestParam("contraseña") String contraseña,
+            HttpSession session) {
+
+        Usuario usuario = usuarioService.validarLogin(correo, contraseña);
+
+        if (usuario != null) {
+            session.setAttribute("usuarioLogueado", usuario);
+            return "redirect:/main";
+        } else {
+            return "redirect:/login?error";
+        }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
     }
 
     @GetMapping("/main")
@@ -36,5 +69,4 @@ public class AlmacenControllers {
         model.addAttribute("paginaActiva", "publicidad");
         return "publicidad";
     }
-
 }

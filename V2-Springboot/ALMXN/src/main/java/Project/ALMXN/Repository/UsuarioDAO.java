@@ -1,7 +1,6 @@
 package Project.ALMXN.Repository;
 
 import java.util.List;
-
 import Project.ALMXN.models.Usuario;
 
 public interface UsuarioDAO {
@@ -13,4 +12,6 @@ public interface UsuarioDAO {
     Usuario buscarUsuarioPorId(int idUsuario);
 
     void actualizarUsuario(Usuario usuario);
+
+    Usuario buscarPorCorreoYContrasena(String correo, String contraseña);
 }

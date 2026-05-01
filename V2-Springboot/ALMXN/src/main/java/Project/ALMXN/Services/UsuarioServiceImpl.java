@@ -1,13 +1,12 @@
 package Project.ALMXN.Services;
 
 import Project.ALMXN.Repository.UsuarioDAO;
-import Project.ALMXN.Repository.UsuarioRepository;
 import Project.ALMXN.models.Usuario;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UsuarioServiceImpl implements UsuarioService{
+public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioDAO usuarioDAO;
 
@@ -16,12 +15,12 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public List<Usuario> obtenerTodosLosUsuarios(){
+    public List<Usuario> obtenerTodosLosUsuarios() {
         return usuarioDAO.listarTodos();
     }
 
     @Override
-    public void guardarUsuario(Usuario usuario){
+    public void guardarUsuario(Usuario usuario) {
         usuarioDAO.guardarUsuario(usuario);
     }
 
@@ -35,4 +34,9 @@ public class UsuarioServiceImpl implements UsuarioService{
         usuarioDAO.actualizarUsuario(usuario);
     }
 
+
+    @Override
+    public Usuario validarLogin(String correo, String contraseña) {
+        return usuarioDAO.buscarPorCorreoYContrasena(correo, contraseña);
+    }
 }
