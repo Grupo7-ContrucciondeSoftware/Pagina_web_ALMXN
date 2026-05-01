@@ -95,3 +95,24 @@
     color: #000000;
     text-decoration: underline;
 }
+
+.form-control.error {
+    border-color: #e53e3e;
+    box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.2);
+}
+
+.form-control.success {
+    border-color: #38a169;
+    box-shadow: 0 0 0 2px rgba(56, 161, 105, 0.15);
+}
+
+.campo-error {
+    color: #e53e3e;
+    font-size: 0.78rem;
+    margin-top: 4px;
+    display: none;
+}
+
+.campo-error.visible {
+    display: block;
+}
