@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/globalGestion.css">
     <link rel="stylesheet" href="/css/adminMovimientos.css">
+    <link rel="stylesheet" href="/css/adminUsuarios.css">
 
     <script src="/js/tema.js" defer></script>
     <script src="/js/movimientos.js" defer></script>
@@ -63,7 +64,6 @@
                 <form action="/gestion/adminMovimientos/registrarMovimiento" method="POST">
 
                     <input type="hidden" name="tipoMovimiento" value="Salida">
-                    <input type="hidden" name="usuario.idUsuario" value="1">
                     <section class="gestion-inicio">
                         <div class="formulario">
                             <div class="form-grupo">
@@ -317,8 +317,8 @@
                         <label class="form-label" for="tipo-filtro">Tipo:</label>
                         <select class="form-control" id="tipo-filtro">
                             <option value="">Todos</option>
-                            <option value="ENTRADA">Entrada</option>
-                            <option value="SALIDA">Salida</option>
+                            <option value="Ingreso">Ingreso</option>
+                            <option value="Salida">Salida</option>
                         </select>
                     </div>
 
@@ -370,8 +370,16 @@
                             <tr>
                                 <td class="body-tabla">#${mov.idMovimiento}</td>
                                 <td class="body-tabla">${mov.fechaMovimiento}</td>
-                                <td class="body-tabla"><span class="tipo-${mov.tipoMovimiento.toLowerCase()}" >${mov.tipoMovimiento}</span></td>
-                                <td class="body-tabla">${mov.usuario.nombres} ${mov.usuario.apellidos}</td>
+                                <td class="body-tabla">
+                                    <span class="tipo-${mov.tipoMovimiento.toLowerCase()}" >
+                                        ${mov.tipoMovimiento}
+                                    </span>
+                                </td>
+                                <td class="body-tabla">
+                                    <span class="rol rol-${mov.usuario.rol.toLowerCase()}">
+                                        ${mov.usuario.nombres} ${mov.usuario.apellidos}
+                                    </span>
+                                </td>
                                 <td class="body-tabla">${mov.proveedor.razonSocialProveedor}</td>
                                 <td class="body-tabla">${mov.motivoMovimiento}</td>
                                 <td class="body-tabla">${mov.totalMovimiento}</td>
@@ -408,7 +416,7 @@
 
                         <section class="modal-info" >
                             <div>
-                                <p><strong>Tipo:</strong> <span id="detalle-tipo" class="estado activo">-</span></p>
+                                <p><strong>Tipo:</strong> <span id="detalle-tipo">-</span></p>
                                 <p><strong>Fecha y Hora:</strong> <span id="detalle-fecha">-</span></p>
                                 <p><strong>Responsable:</strong> <span id="detalle-responsable">-</span></p>
                             </div>
@@ -437,7 +445,6 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="4" class="total-lista"><strong>TOTAL:</strong></td>
-                                    <!-- El total arranca en 0, el JS lo actualizará -->
                                     <td><strong id="detalle-total-dinero" class="total-lista-precio">S/ 0.00</strong></td>
                                 </tr>
                             </tfoot>

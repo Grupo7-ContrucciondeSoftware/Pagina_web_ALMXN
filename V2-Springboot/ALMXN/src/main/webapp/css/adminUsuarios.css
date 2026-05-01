@@ -26,12 +26,12 @@
     font-weight: 800;
 }
 
-.admin {
+.rol-admin {
     background: var(--admin-placa);
     color: var(--admin-color);
 }
 
-.usuario {
+.rol-usuario {
     background: var(--usuario-placa);
     color: var(--usuario-color);
 }

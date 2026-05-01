@@ -121,11 +121,11 @@
                         <c:forEach var="usuario" items="${listaUsuarios}" >
                             <tr>
                                 <td class="body-tabla"><c:out value="${usuario.idUsuario}"/></td>
-                                <td class="body-tabla"><c:out value="${usuario.nombres}"/></td>
+                                <td class="body-tabla"><c:out value="${usuario.nombres} ${usuario.apellidos}"/></td>
                                 <td class="body-tabla"><c:out value="${usuario.correo}"/></td>
                                 <td class="body-tabla"><c:out value="${usuario.fechaCreacion}"/></td>
                                 <td class="body-tabla">
-                                    <span class="rol ${usuario.rol.toLowerCase()}">
+                                    <span class="rol rol-${usuario.rol.toLowerCase()}">
                                         <c:out value="${usuario.rol}"/>
                                     </span>
                                 </td>

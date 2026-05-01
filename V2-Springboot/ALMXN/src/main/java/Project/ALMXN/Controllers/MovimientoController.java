@@ -6,6 +6,8 @@ import Project.ALMXN.Services.UsuarioService;
 import Project.ALMXN.Services.DetalleMovimientoService;
 import Project.ALMXN.models.DetalleMovimiento;
 import Project.ALMXN.models.Movimiento;
+import Project.ALMXN.models.Usuario;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +51,15 @@ public class MovimientoController {
             @ModelAttribute Movimiento movimiento,
             @RequestParam(value = "idProducto[]", required = false) List<Integer> idProductos,
             @RequestParam(value = "cantidad[]", required = false) List<Integer> cantidades,
-            @RequestParam(value = "precioUnitario[]", required = false) List<Double> precios) {
+            @RequestParam(value = "precioUnitario[]", required = false) List<Double> precios,
+            HttpSession session) {
+
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null) {
+            return "redirect:/login";
+        }
+
+        movimiento.setUsuario(usuarioLogueado);
 
         movimientoService.registrarMovimientoCompleto(movimiento, idProductos, cantidades, precios);
 
