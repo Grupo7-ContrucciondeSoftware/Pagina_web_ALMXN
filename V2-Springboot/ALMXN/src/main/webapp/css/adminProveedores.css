@@ -4,8 +4,7 @@
 
 /* Muestra la pestaña del input que está marcado */
 #pestaña-listaProveedores:checked ~ .centro-pagina-gestion #contenido-listaProveedores,
-#pestaña-agregarProveedores:checked ~ .centro-pagina-gestion #contenido-agregarProveedores,
-#pestaña-editarProveedores:checked ~ .centro-pagina-gestion #contenido-editarProveedores {
+#pestaña-agregarProveedores:checked ~ .centro-pagina-gestion #contenido-agregarProveedores{
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -13,8 +12,7 @@
 
 /* Resalta visualmente el label de la pestaña activa. */
 #pestaña-listaProveedores:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-listaProveedores"],
-#pestaña-agregarProveedores:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-agregarProveedores"],
-#pestaña-editarProveedores:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-editarProveedores"]{
+#pestaña-agregarProveedores:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-agregarProveedores"]{
     color: var(--texto-principal);
     border-bottom: 2px solid var(--color-rol);
     background-color: var(--color-rol);
