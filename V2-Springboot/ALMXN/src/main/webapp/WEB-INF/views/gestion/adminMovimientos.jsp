@@ -16,11 +16,10 @@
     <link rel="stylesheet" href="/css/adminMovimientos.css">
     <link rel="stylesheet" href="/css/adminUsuarios.css">
 
-    <script src="/js/tema.js" defer></script>
-    <script src="/js/movimientos.js" defer></script>
 </head>
 <body>
 
+    <!-- ===== HEADER ===== -->
     <%@ include file="/WEB-INF/views/header.jsp" %>
 
     <!-- ===== CONTENIDO PRINCIPAL ===== -->
@@ -56,16 +55,22 @@
             </div>
 
 
+
             <!-- ============================================
                            REGISTRAR SALIDAS
             ============================================ -->
+
+
             <div class="pestaña-contenido" id="contenido-salida">
 
+                <!-- FORMULARIO -->
                 <form action="/gestion/adminMovimientos/registrarMovimiento" method="POST">
 
                     <input type="hidden" name="tipoMovimiento" value="Salida">
                     <section class="gestion-inicio">
                         <div class="formulario">
+
+                            <!-- Fecha Movimiento -->
                             <div class="form-grupo">
                                 <label for="fecha-salida" class="form-label">Fecha del Movimiento</label>
                                 <input
@@ -76,6 +81,7 @@
                                     required>
                             </div>
 
+                            <!-- Motivo Salida -->
                             <div class="form-grupo">
                                 <label for="motivo-salida" class="form-label">Motivo de Salida</label>
                                 <select id="motivo-salida" name="motivoMovimiento" class="form-control" required>
@@ -86,6 +92,7 @@
                                 </select>
                             </div>
 
+                            <!-- Destino -->
                             <div class="form-grupo">
                                 <label for="destino-salida" class="form-label">Destino (Opcional)</label>
                                 <input
@@ -97,6 +104,7 @@
                             </div>
                         </div>
 
+                        <!-- Observaciones -->
                         <div class="form-grupo form-textarea">
                             <label for="observacion-salida" class="form-label">Observaciones Generales (Opcional)</label>
                             <textarea
@@ -109,6 +117,7 @@
                         </div>
                     </section>
 
+                    <!-- LISTA DE PRODUCTOS -->
                     <section class="form-grupo">
                         <p class="form-label lista">Añadir Productos a la Lista</p>
 
@@ -117,6 +126,7 @@
                             <button type="button" id="btn-buscar-prod-salida" class="btn btn-primario">Buscar</button>
                         </div>
 
+                        <!-- Tabla -->
                         <table class="tabla" >
                             <thead class="header-tabla">
                                 <tr>
@@ -141,6 +151,7 @@
                         </table>
                     </section>
 
+                    <!-- LISTA DE SALIDAS -->
                     <section class="form-grupo">
                         <p class="form-label lista">Productos en este Movimiento</p>
                         <table class="tabla">
@@ -179,6 +190,7 @@
             </div>
 
 
+
             <!-- ============================================
                            REGISTRAR INGRESOS
             ============================================ -->
@@ -186,12 +198,14 @@
 
             <div class="pestaña-contenido" id="contenido-ingreso">
 
+                <!-- FORMULARIO -->
                 <form action="/gestion/adminMovimientos/registrarMovimiento" method="POST">
 
                     <input type="hidden" name="tipoMovimiento" value="Ingreso">
-                    <input type="hidden" name="usuario.idUsuario" value="1">
                     <section class="gestion-inicio">
                         <div class="formulario">
+
+                            <!-- Fecha Movimiento -->
                             <div class="form-grupo">
                                 <label for="fecha-ingreso" class="form-label">Fecha del Movimiento</label>
                                 <input
@@ -202,6 +216,7 @@
                                     required>
                             </div>
 
+                            <!-- Motivo Ingreso -->
                              <div class="form-grupo">
                                 <label for="motivo-ingreso" class="form-label">Motivo de Ingreso</label>
                                 <select id="motivo-ingreso" name="motivoMovimiento" class="form-control">
@@ -212,6 +227,7 @@
                                 </select>
                             </div>
 
+                            <!-- Seleccionar Proveedor -->
                             <div class="form-grupo">
                                 <label for="proveedor-ingreso" class="form-label">Proveedor</label>
                                 <select id="proveedor-ingreso" name="proveedor.idProveedor" class="form-control" required>
@@ -223,6 +239,7 @@
                             </div>
                         </div>
 
+                        <!-- Observaciones -->
                         <div class="form-grupo form-textarea">
                             <label for="observacion-ingreso" class="form-label">Observaciones Generales (Opcional)</label>
                             <textarea
@@ -235,6 +252,7 @@
                         </div>
                     </section>
 
+                    <!-- LISTA DE PRODUCTOS -->
                     <section class="form-grupo">
                         <p class="form-label lista">Añadir Productos a la Lista</p>
 
@@ -243,6 +261,7 @@
                             <button type="button" id="btn-buscar-prod-ingreso" class="btn btn-primario">Buscar</button>
                         </div>
 
+                        <!-- Tabla -->
                         <table class="tabla" >
                             <thead class="header-tabla">
                                 <tr>
@@ -267,6 +286,7 @@
                         </table>
                     </section>
 
+                    <!-- LISTA DE INGRESOS -->
                     <section class="form-grupo">
                         <p class="form-label lista">Productos en este Movimiento</p>
                         <table class="tabla">
@@ -304,9 +324,12 @@
                 </form>
             </div>
 
+
+
             <!-- ============================================
                            HISTORIAL DE MOVIMIENTOS
             ============================================ -->
+
 
 
             <div class="pestaña-contenido" id="contenido-historial">
@@ -403,6 +426,12 @@
 
             </div>
 
+
+            <!-- ============================================
+                        MODAL DETALLE MOVIMIENTO
+            ============================================ -->
+
+
             <div id="modal-detalle-movimiento" class="modal-oculto">
 
                 <div class="modal-contenedor">
@@ -464,8 +493,12 @@
 
     </main>
 
-    <!-- ===== PIE DE PÁGINA ===== -->
+    <!-- ===== FOOTER ===== -->
     <%@ include file="/WEB-INF/views/footer.jsp" %>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="/js/tema.js" defer></script>
+    <script src="/js/movimientos.js" defer></script>
 
 </body>
 </html>

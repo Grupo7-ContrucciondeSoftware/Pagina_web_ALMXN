@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Editar Categoría - Sistema de Gestión de Almacén">
     <title>ALMXN - Editar Categoría</title>
 
     <!-- ===== ESTILOS ===== -->
@@ -14,11 +15,10 @@
     <link rel="stylesheet" href="/css/globalGestion.css">
     <link rel="stylesheet" href="/css/adminCategoria.css">
 
-    <script src="/js/tema.js" defer></script>
-    <script src="/js/validaciones.js" defer></script>
 </head>
 <body>
 
+    <!-- ===== HEADER ===== -->
     <%@ include file="/WEB-INF/views/header.jsp" %>
 
     <!-- ===== CONTENIDO PRINCIPAL ===== -->
@@ -39,7 +39,7 @@
                 </div>
             </section>
 
-            <!-- CONTENIDO DEL FORMULARIO DE EDICIÓN -->
+            <!-- FORMULARIO -->
             <div class="pestaña-contenido" style="display: block;">
 
                 <section class="form-grupo">
@@ -50,7 +50,7 @@
 
                         <div class="formulario">
 
-                            <!-- Código -->
+                            <!-- Nombre -->
                             <div class="form-grupo">
                                 <label for="categoria-nombre" class="form-label">Nombre</label>
                                 <input
@@ -73,7 +73,7 @@
                                 rows="3">${categoria.descripcionCategoria}</textarea>
                         </div>
 
-                        <!-- Botones -->
+                        <!-- Boton -->
                         <div class="formulario-acciones">
                             <button type="submit" class="btn btn-primario">Guardar Cambios</button>
                         </div>
@@ -83,8 +83,11 @@
         </div>
     </main>
 
-    <!-- ===== PIE DE PÁGINA ===== -->
+    <!-- ===== FOOTER ===== -->
     <%@ include file="/WEB-INF/views/footer.jsp" %>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="/js/tema.js" defer></script>
 
 </body>
 </html>

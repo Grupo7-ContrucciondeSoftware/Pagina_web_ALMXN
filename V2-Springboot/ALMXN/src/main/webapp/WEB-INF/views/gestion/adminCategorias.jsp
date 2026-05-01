@@ -7,56 +7,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Administrar Categorías - Sistema de Gestión de Almacén">
     <title>ALMXN - Administrar Categorías</title>
 
+    <!-- ===== ESTILOS ===== -->
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/globalGestion.css">
     <link rel="stylesheet" href="/css/adminCategorias.css">
 
-    <script src="/js/tema.js" defer></script>
 </head>
 <body>
 
+    <!-- ===== HEADER ===== -->
     <%@ include file="/WEB-INF/views/header.jsp" %>
 
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
     <main id="contenido-principal-gestion">
 
+        <!-- ===== INPUTS PARA CAMBIAR DE PESTAÑAS ===== -->
         <input type="radio" name="tab" id="pestaña-listaCategorias" checked style="display:none">
         <input type="radio" name="tab" id="pestaña-agregarCategorias" style="display:none">
 
         <div class="centro-pagina-gestion">
 
+            <!-- TITULO/INICIO -->
             <section class="gestion-inicio">
                 <div>
                     <h1 class="titulo-seccion">Administrar Categorías</h1>
                     <p class="subtitulo-seccion">Gestione las clasificaciones de los productos</p>
                 </div>
 
+                <!-- BOTON VOLVER -->
                 <div class="formulario-acciones">
                     <a href="/gestion" class="btn btn-secundario">Volver</a>
                 </div>
             </section>
+
+            <!-- ============================================
+                           PESTAÑAS
+            ============================================ -->
 
             <div class="pestañas">
                 <label for="pestaña-listaCategorias" class="pestaña">Lista de Categorías</label>
                 <label for="pestaña-agregarCategorias" class="pestaña">Agregar Categoría</label>
             </div>
 
+
+            <!-- ============================================
+                           LISTA CATEGORIAS
+            ============================================ -->
+
+
             <div class="pestaña-contenido" id="contenido-listaCategorias">
 
+                <!-- FILTROS -->
                 <div class="filtro-container">
+
+                    <!-- Nombre Categoría -->
                     <div class="filtro-grupo">
                         <label class="form-label" for="nombre-filtro">Nombre de Categoría: </label>
                         <input class="form-control" type="text" id="nombre-filtro" placeholder="Ej: Abarrotes">
                     </div>
 
+                    <!-- Botones -->
                     <div class="filtro-acciones">
                         <button class="btn btn-secundario" id="btnFiltrar">Filtrar</button>
                         <button class="btn btn-secundario" id="btnLimpiar">Limpiar</button>
                     </div>
                 </div>
 
+                <!-- TABLA -->
                 <table class="tabla">
+
+                    <!-- HEADER DE LA TABLA -->
                     <thead class="header-tabla">
                         <tr>
                             <th class="header-tabla">ID</th>
@@ -66,7 +89,9 @@
                         </tr>
                     </thead>
 
+                    <%-- CONTENIDO DE LA TABLA --%>
                     <tbody class="body-tabla">
+
                         <c:forEach var="categoria" items="${listaCategorias}">
                             <tr>
                                 <td class="body-tabla">${categoria.idCategoria}</td>
@@ -82,13 +107,19 @@
                 </table>
             </div>
 
-            <%-- AGREGAR CATEGORIAS --%>
+            <!-- ============================================
+                           AGREGAR CATEGORIA
+            ============================================ -->
 
             <div class="pestaña-contenido" id="contenido-agregarCategorias">
 
+                <!-- FORMULARIO -->
                 <section class="form-grupo">
+
                     <form action="/gestion/adminCategorias/guardar" method="POST">
                         <div class="formulario">
+
+                            <!-- Nombre Categoria -->
                             <div class="form-grupo">
                                 <label for="nombre-categoria" class="form-label">Nombre de la Categoría</label>
                                 <input
@@ -100,8 +131,10 @@
                                     required
                                 >
                             </div>
+
                         </div>
 
+                        <!-- Descripción -->
                         <div class="form-grupo form-textarea">
                             <label for="descripcion-categoria" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
                             <textarea
@@ -113,6 +146,7 @@
                             ></textarea>
                         </div>
 
+                        <!-- Botones Guardar/Limpiar -->
                         <div class="formulario-acciones">
                             <button type="reset" class="btn btn-secundario">Limpiar</button>
                             <button type="submit" class="btn btn-primario">Agregar Categoría</button>
@@ -123,7 +157,11 @@
         </div>
     </main>
 
+    <!-- ===== FOOTER ===== -->
     <%@ include file="/WEB-INF/views/footer.jsp" %>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="/js/tema.js" defer></script>
 
 </body>
 </html>

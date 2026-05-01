@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Editar Producto - Sistema de Gestión de Almacén">
     <title>ALMXN - Editar Producto</title>
 
     <!-- ===== ESTILOS ===== -->
@@ -14,11 +15,10 @@
     <link rel="stylesheet" href="/css/globalGestion.css">
     <link rel="stylesheet" href="/css/adminProductos.css">
 
-    <script src="/js/tema.js" defer></script>
-    <script src="/js/validaciones.js" defer></script>
 </head>
 <body>
 
+    <!-- ===== HEADER ===== -->
     <%@ include file="/WEB-INF/views/header.jsp" %>
 
     <!-- ===== CONTENIDO PRINCIPAL ===== -->
@@ -39,7 +39,7 @@
                 </div>
             </section>
 
-            <!-- CONTENIDO DEL FORMULARIO DE EDICIÓN -->
+            <!-- FORMULARIO -->
             <div class="pestaña-contenido" style="display: block;">
 
                 <section class="form-grupo">
@@ -102,7 +102,7 @@
                                 </select>
                             </div>
 
-                            <!-- Stock Actual (Bloqueado por seguridad de inventario) -->
+                            <!-- Stock Actual -->
                             <div class="form-grupo">
                                 <label for="stock-actual" class="form-label">Stock Actual</label>
                                 <input
@@ -110,8 +110,7 @@
                                     id="stock-actual"
                                     name="stockActualProducto"
                                     class="form-control"
-                                    value="${producto.stockActualProducto}"
-                                    readonly title="El stock actual solo se altera mediante movimientos">
+                                    value="${producto.stockActualProducto}">
                             </div>
 
                             <!-- Stock mínimo -->
@@ -176,8 +175,11 @@
         </div>
     </main>
 
-    <!-- ===== PIE DE PÁGINA ===== -->
+    <!-- ===== FOOTER ===== -->
     <%@ include file="/WEB-INF/views/footer.jsp" %>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="/js/tema.js" defer></script>
 
 </body>
 </html>

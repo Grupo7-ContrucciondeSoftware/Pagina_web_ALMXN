@@ -7,18 +7,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALMXN - Editar Proveedores</title>
+    <meta name="description" content="Editar Proveedor - Sistema de Gestión de Almacén">
+    <title>ALMXN - Editar Proveedor</title>
 
     <!-- ===== ESTILOS ===== -->
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/globalGestion.css">
     <link rel="stylesheet" href="/css/adminProveedores.css">
 
-    <script src="/js/tema.js" defer></script>
-    <script src="/js/validaciones.js" defer></script>
 </head>
 <body>
 
+    <!-- ===== HEADER ===== -->
     <%@ include file="/WEB-INF/views/header.jsp" %>
 
     <!-- ===== CONTENIDO PRINCIPAL ===== -->
@@ -112,8 +112,11 @@
         </div>
     </main>
 
-    <!-- ===== PIE DE PÁGINA ===== -->
+    <!-- ===== FOOTER ===== -->
     <%@ include file="/WEB-INF/views/footer.jsp" %>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="/js/tema.js" defer></script>
 
 </body>
 </html>

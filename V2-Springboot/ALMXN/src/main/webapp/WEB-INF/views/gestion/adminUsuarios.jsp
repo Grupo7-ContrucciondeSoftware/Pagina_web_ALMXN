@@ -16,6 +16,7 @@
 </head>
 <body>
 
+    <!-- ===== HEADER ===== -->
     <%@ include file="/WEB-INF/views/header.jsp" %>
 
     <!-- ===== CONTENIDO PRINCIPAL ===== -->
@@ -149,6 +150,8 @@
             <!-- ============================================
                            AGREGAR USUARIO
             ============================================ -->
+
+
             <div class="pestaña-contenido" id="contenido-agregarUsuario">
 
                 <!-- FORMULARIO -->
@@ -252,9 +255,10 @@
 
     </main>
 
-    <!-- ===== PIE DE PÁGINA ===== -->
+    <!-- ===== FOOTER ===== -->
     <%@ include file="/WEB-INF/views/footer.jsp" %>
 
+    <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>
     <script src="/js/validacionUsuarios.js" defer></script>
 

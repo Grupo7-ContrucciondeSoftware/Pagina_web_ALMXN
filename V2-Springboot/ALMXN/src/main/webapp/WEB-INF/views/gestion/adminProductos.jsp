@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Administrar Productos - Sistema de Gestión de Almacén">
     <title>ALMXN - Administrar Productos</title>
 
     <!-- ===== ESTILOS ===== -->
@@ -14,12 +15,10 @@
     <link rel="stylesheet" href="/css/globalGestion.css">
     <link rel="stylesheet" href="/css/adminProductos.css">
 
-    <script src="/js/tema.js" defer></script>
-    <script src="/js/validaciones.js" defer></script>
-    <script src="/js/eliminar.js" defer></script>
 </head>
 <body>
 
+    <!-- ===== HEADER ===== -->
     <%@ include file="../header.jsp" %>
 
     <!-- ===== CONTENIDO PRINCIPAL ===== -->
@@ -55,9 +54,11 @@
             </div>
 
 
+
             <!-- ============================================
                            LISTAR PRODUCTOS
             ============================================ -->
+
 
 
             <div class="pestaña-contenido" id="contenido-listaProducto">
@@ -164,9 +165,11 @@
             </div>
 
 
+
             <!-- ============================================
                            AGREGAR PRODUCTO
             ============================================ -->
+
 
 
             <div class="pestaña-contenido" id="contenido-agregarProducto">
@@ -203,8 +206,8 @@
                                     required
                                 >
                             </div>
-                            <!-- SELECCIONAR CATEGORÍA -->
 
+                            <!-- Seleccionar Categoria -->
                             <div class="form-grupo">
                                 <label for="categoriaProducto" class="form-label">Categoría</label>
                                 <select id="categoriaProducto" name="categoria.idCategoria" class="form-control">
@@ -309,6 +312,10 @@
                 </section>
             </div>
 
+            <!-- ============================================
+                        MODAL ELIMINAR PRODUCTO
+            ============================================ -->
+
             <div id="modal-confirmar-eliminar" class="modal-oculto" >
 
                 <div class="modal-body">
@@ -331,11 +338,15 @@
 
         </div>
 
-
     </main>
 
-    <!-- ===== PIE DE PÁGINA ===== -->
+    <!-- ===== FOOTER ===== -->
     <%@ include file="../footer.jsp" %>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="/js/tema.js" defer></script>
+    <script src="/js/validaciones.js" defer></script>
+    <script src="/js/eliminar.js" defer></script>
 
 </body>
 </html>
