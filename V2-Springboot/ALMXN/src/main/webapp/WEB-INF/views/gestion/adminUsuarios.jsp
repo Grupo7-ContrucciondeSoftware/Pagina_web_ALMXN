@@ -13,9 +13,6 @@
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/globalGestion.css">
     <link rel="stylesheet" href="/css/adminUsuarios.css">
-
-    <script src="/js/tema.js" defer></script>
-
 </head>
 <body>
 
@@ -44,19 +41,15 @@
             <!-- ============================================
                            PESTAÑAS
             ============================================ -->
-
-
             <div class="pestañas">
                 <label for="pestaña-listaUsuario" class="pestaña">Lista de Usuario</label>
                 <label for="pestaña-agregarUsuario" class="pestaña">Agregar Usuario</label>
             </div>
 
 
-
             <!-- ============================================
                            LISTAR USUARIO
             ============================================ -->
-
             <div class="pestaña-contenido" id="contenido-listaUsuario">
 
                 <!-- FILTROS -->
@@ -147,7 +140,6 @@
                                 </td>
                             </tr>
                         </c:forEach>
-
                     </tbody>
                 </table>
 
@@ -157,90 +149,92 @@
             <!-- ============================================
                            AGREGAR USUARIO
             ============================================ -->
-
-
             <div class="pestaña-contenido" id="contenido-agregarUsuario">
 
                 <!-- FORMULARIO -->
                 <section class="form-grupo">
 
-                    <form action="/gestion/adminUsuarios/guardar" method="POST">
+                    <form id="form-agregar-usuario" action="/gestion/adminUsuarios/guardar" method="POST" novalidate>
                         <div class="formulario">
 
                             <!-- Nombres -->
                             <div class="form-grupo">
-                                <label for="nombres-usuario" class="form-label">Nombres</label>
+                                <label for="agr-nombres" class="form-label">Nombres</label>
                                 <input
                                     type="text"
-                                    id="nombres-usuario"
+                                    id="agr-nombres"
                                     name="nombres"
                                     class="form-control"
                                     placeholder="Ej: Juan Eduardo"
-                                    required
-                                >
+                                    required>
+                                <span class="campo-error" id="agr-error-nombres"></span>
                             </div>
 
                             <!-- Apellidos -->
                             <div class="form-grupo">
-                                <label for="apellidos-usuario" class="form-label">Apellidos</label>
+                                <label for="agr-apellidos"class="form-label">Apellidos</label>
                                 <input
                                     type="text"
-                                    id="apellidos-usuario"
+                                    id="agr-apellidos"
                                     name="apellidos"
                                     class="form-control"
                                     placeholder="Ej: Ramos Pérez"
-                                    required
-                                >
+                                    required>
+                                <span class="campo-error" id="agr-error-apellidos"></span>
                             </div>
 
                             <!-- Correo electrónico -->
                             <div class="form-grupo">
-                                <label for="email-usuario" class="form-label">Correo electrónico</label>
+                                <label for="agr-correo" class="form-label">Correo electrónico</label>
                                 <input
                                     type="email"
-                                    id="email-usuario"
+                                    id="agr-correo"
                                     name="correo"
                                     class="form-control"
                                     placeholder="Ej: juan@email.com"
-                                    required
-                                >
+                                    required>
+                                <span class="campo-error" id="agr-error-correo"></span>
                             </div>
 
                             <!-- Rol -->
                             <div class="form-grupo">
-                                <label for="usuario-rol" class="form-label">Rol</label>
-                                <select id="usuario-rol" name="rol" class="form-control" required>
+                                <label for="agr-rol" class="form-label">Rol</label>
+                                <select id="agr-rol" name="rol" class="form-control" required>
                                     <option value="" disabled selected>Seleccione un rol</option>
                                     <option value="Admin">Administrador</option>
                                     <option value="Usuario">Usuario</option>
                                 </select>
+                                <span class="campo-error" id="agr-error-rol"></span>
                             </div>
 
-                            <!-- Contraeña -->
+                            <!-- Contraseña -->
                             <div class="form-grupo">
-                                <label for="contraseña-usuario" class="form-label">Contraseña</label>
+                                <label for="agr-contrasena" class="form-label">Contraseña</label>
                                 <input
                                     type="password"
-                                    id="contraseña-usuario"
+                                    id="agr-contrasena"
                                     name="contraseña"
                                     class="form-control"
                                     placeholder="**********"
-                                    required
-                                >
+                                    required>
+                                <div class="fortaleza-barra" id="agr-fortaleza-barra"></div>
+                                <div class="fortaleza-texto" id="agr-fortaleza-texto"></div>
+                                <span class="campo-error" id="agr-error-contrasena"></span>
                             </div>
 
-                            <!-- Confirmar contraeña -->
+                            <!-- Confirmar Contraseña -->
                             <div class="form-grupo">
-                                <label for="confirmar-contraseña-usuario" class="form-label">Confirmar Contraseña</label>
+                                <label for="agr-confirmar" class="form-label">Confirmar Contraseña</label>
                                 <input
                                     type="password"
-                                    id="confirmar-contraseña-usuario"
+                                    id="agr-confirmar"
                                     name="confirmarContraseña"
                                     class="form-control"
                                     placeholder="**********"
-                                    required
-                                >
+                                    required>
+                                <span class="campo-error" id="agr-error-confirmar"></span>
                             </div>
+
                         </div>
 
                         <!-- Botones Guardar/Limpiar -->
@@ -252,7 +246,6 @@
                     </form>
 
                 </section>
-
             </div>
 
         </div>
@@ -261,6 +254,9 @@
 
     <!-- ===== PIE DE PÁGINA ===== -->
     <%@ include file="/WEB-INF/views/footer.jsp" %>
+
+    <script src="/js/tema.js" defer></script>
+    <script src="/js/validacionUsuarios.js" defer></script>
 
 </body>
 </html>

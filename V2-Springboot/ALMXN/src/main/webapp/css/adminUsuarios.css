@@ -4,8 +4,7 @@
 
 /* Muestra la pestaña del input que está marcado */
 #pestaña-listaUsuario:checked ~ .centro-pagina-gestion #contenido-listaUsuario,
-#pestaña-agregarUsuario:checked ~ .centro-pagina-gestion #contenido-agregarUsuario,
-#pestaña-editarUsuario:checked ~ .centro-pagina-gestion #contenido-editarUsuario {
+#pestaña-agregarUsuario:checked ~ .centro-pagina-gestion #contenido-agregarUsuario {
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -13,8 +12,7 @@
 
 /* Resalta visualmente el label de la pestaña activa. */
 #pestaña-listaUsuario:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-listaUsuario"],
-#pestaña-agregarUsuario:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-agregarUsuario"],
-#pestaña-editarUsuario:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-editarUsuario"]{
+#pestaña-agregarUsuario:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-agregarUsuario"]{
     color: var(--texto-principal);
     border-bottom: 2px solid var(--color-rol);
     background-color: var(--color-rol);
@@ -68,4 +66,34 @@
 
 #btn-eliminar{
     padding: 4px 12px;
+}
+
+.form-control.error {
+    border-color: #e53e3e;
+    box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.2);
+}
+.form-control.success {
+    border-color: #38a169;
+    box-shadow: 0 0 0 2px rgba(56, 161, 105, 0.15);
+}
+.campo-error {
+    color: #e53e3e;
+    font-size: 0.78rem;
+    margin-top: 4px;
+    display: none;
+}
+.campo-error.visible {
+    display: block;
+}
+/* Indicador de fortaleza de contraseña */
+.fortaleza-barra {
+    height: 4px;
+    border-radius: 2px;
+    margin-top: 5px;
+    transition: width 0.3s, background-color 0.3s;
+    width: 0%;
+}
+.fortaleza-texto {
+    font-size: 0.75rem;
+    margin-top: 2px;
 }
