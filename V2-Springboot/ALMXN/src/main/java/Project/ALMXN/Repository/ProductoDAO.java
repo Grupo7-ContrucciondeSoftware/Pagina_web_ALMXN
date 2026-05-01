@@ -15,6 +15,6 @@ public interface ProductoDAO {
 
     void eliminarProducto(int idProducto);
 
-    List<Producto> buscarProductosPorFiltro(String filtro);
+    List<Producto> buscarProductosParaMovimiento(String filtro);
 
 }

@@ -13,7 +13,9 @@ public class UsuarioRepository implements UsuarioDAO {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public UsuarioRepository(JdbcTemplate jdbcTemplate) { this.jdbcTemplate = jdbcTemplate; }
+    public UsuarioRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     private final RowMapper<Usuario> UsuarioRowMapper = (rs,rowNum) -> {
         return new Usuario(
@@ -30,15 +32,15 @@ public class UsuarioRepository implements UsuarioDAO {
 
     @Override
     public List<Usuario> listarTodos(){
-        String query = "SELECT * FROM usuario";
-        return jdbcTemplate.query(query, UsuarioRowMapper);
+        String sql = "SELECT * FROM usuario";
+        return jdbcTemplate.query(sql, UsuarioRowMapper);
     }
 
     @Override
     public void guardarUsuario(Usuario usuario){
-        String query = "INSERT INTO usuario (nombres, apellidos, correo, contraseña, rol) "+
+        String sql = "INSERT INTO usuario (nombres, apellidos, correo, contraseña, rol) "+
                 "VALUES ( ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(query,
+        jdbcTemplate.update(sql,
                 usuario.getNombres(),
                 usuario.getApellidos(),
                 usuario.getCorreo(),

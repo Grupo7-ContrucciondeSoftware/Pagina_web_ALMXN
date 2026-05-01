@@ -8,9 +8,7 @@ public class Proveedor {
     private String telefonoProveedor;
     private String correoProveedor;
 
-    public Proveedor(){
-
-    }
+    public Proveedor() { }
 
     public Proveedor(int idProveedor, String rucProveedor, String razonSocialProveedor, String telefonoProveedor, String correoProveedor){
         this.idProveedor = idProveedor;

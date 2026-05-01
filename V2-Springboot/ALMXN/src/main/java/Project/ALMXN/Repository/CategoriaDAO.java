@@ -7,9 +7,9 @@ public interface CategoriaDAO {
 
     List<Categoria> listaCategorias();
 
-    public void guardarCategoria(Categoria categoria);
+    void guardarCategoria(Categoria categoria);
 
-    public Categoria buscarCategoriaPorId(int idCategoria);
+    Categoria buscarCategoriaPorId(int idCategoria);
 
-    public void actualizarCategoria(Categoria categoria);
+    void actualizarCategoria(Categoria categoria);
 }

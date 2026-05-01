@@ -34,4 +34,5 @@ public class UsuarioServiceImpl implements UsuarioService{
     public void actualizarUsuario(Usuario usuario) {
         usuarioDAO.actualizarUsuario(usuario);
     }
+
 }

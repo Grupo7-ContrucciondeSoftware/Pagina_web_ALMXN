@@ -9,6 +9,6 @@ public interface MovimientoService {
 
     void guardarMovimiento(Movimiento movimiento);
 
-    public void registrarMovimientoCompleto(Movimiento movimiento, List<Integer> idProductos, List<Integer> cantidades, List<Double> precios);
+    void registrarMovimientoCompleto(Movimiento movimiento, List<Integer> idProductos, List<Integer> cantidades, List<Double> precios);
 
 }

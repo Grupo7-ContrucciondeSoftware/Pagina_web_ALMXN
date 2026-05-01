@@ -3,7 +3,6 @@ package Project.ALMXN.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
-
 import Project.ALMXN.models.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,7 +15,9 @@ public class MovimientoRepository implements MovimientoDAO{
 
     public final JdbcTemplate jdbcTemplate;
 
-    public MovimientoRepository(JdbcTemplate jdbcTemplate) { this.jdbcTemplate = jdbcTemplate; }
+    public MovimientoRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     private final RowMapper<Movimiento> MovimientoRowMapper = (rs, rowNum) -> {
         return new Movimiento(

@@ -5,12 +5,12 @@ import Project.ALMXN.models.Categoria;
 
 public interface CategoriaService {
 
-    public List<Categoria> obtenerTodasLasCategorias();
+    List<Categoria> obtenerTodasLasCategorias();
 
-    public void guardarCategoria(Categoria categoria);
+    void guardarCategoria(Categoria categoria);
 
-    public Categoria buscarCategoriaPorId (int idCategoria);
+    Categoria buscarCategoriaPorId (int idCategoria);
 
-    public void actualizarCategoria(Categoria categoria);
+    void actualizarCategoria(Categoria categoria);
 
 }

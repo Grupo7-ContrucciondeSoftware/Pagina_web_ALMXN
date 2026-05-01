@@ -8,4 +8,5 @@ public interface MovimientoDAO {
     List<Movimiento> listaMovimientos();
 
     int guardarMovimiento(Movimiento movimiento);
+
 }

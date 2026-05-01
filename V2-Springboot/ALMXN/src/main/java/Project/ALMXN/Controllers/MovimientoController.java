@@ -5,9 +5,7 @@ import Project.ALMXN.Services.ProveedorService;
 import Project.ALMXN.Services.UsuarioService;
 import Project.ALMXN.Services.DetalleMovimientoService;
 import Project.ALMXN.models.DetalleMovimiento;
-
 import Project.ALMXN.models.Movimiento;
-import Project.ALMXN.models.Usuario;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

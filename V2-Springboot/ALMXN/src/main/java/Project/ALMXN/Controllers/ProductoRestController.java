@@ -20,6 +20,6 @@ public class ProductoRestController {
 
     @GetMapping("/buscar")
     public List<Producto> buscarProductos(@RequestParam("q") String query) {
-        return productoService.buscarProductosPorFiltro(query);
+        return productoService.buscarProductosParaMovimiento(query);
     }
 }

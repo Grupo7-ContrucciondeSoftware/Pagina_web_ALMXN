@@ -69,7 +69,6 @@ public class ProductoRepository implements ProductoDAO {
                 "INNER JOIN categoria c ON p.id_categoria = c.id_categoria " +
                 "WHERE p.id_producto = ?";
 
-        // Usamos queryForObject porque el ID es único y solo traerá 1 fila
         return jdbcTemplate.queryForObject(sql, ProductoRowMapper, idProducto);
     }
 
@@ -101,7 +100,7 @@ public class ProductoRepository implements ProductoDAO {
     }
 
     @Override
-    public List<Producto> buscarProductosPorFiltro(String filtro) {
+    public List<Producto> buscarProductosParaMovimiento(String filtro) {
         String sql = "SELECT p.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion " +
                 "FROM producto p " +
                 "INNER JOIN categoria c ON p.id_categoria = c.id_categoria " +

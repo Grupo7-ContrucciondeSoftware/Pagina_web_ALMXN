@@ -40,8 +40,8 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public List<Producto> buscarProductosPorFiltro(String filtro){
-        return productoDAO.buscarProductosPorFiltro(filtro);
+    public List<Producto>buscarProductosParaMovimiento(String filtro){
+        return productoDAO.buscarProductosParaMovimiento(filtro);
     }
 
 }

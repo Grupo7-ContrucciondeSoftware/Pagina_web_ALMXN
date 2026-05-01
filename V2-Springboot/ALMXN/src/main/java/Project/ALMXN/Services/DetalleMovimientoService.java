@@ -7,6 +7,4 @@ public interface DetalleMovimientoService {
 
     List<DetalleMovimiento> buscarPorIdMovimiento(int idMovimiento);
 
-
-
 }

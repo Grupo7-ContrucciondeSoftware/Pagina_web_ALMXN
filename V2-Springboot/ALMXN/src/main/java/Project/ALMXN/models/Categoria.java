@@ -6,9 +6,7 @@ public class Categoria {
     private String nombreCategoria;
     private String descripcionCategoria;
 
-    public Categoria(){
-
-    }
+    public Categoria() {}
 
     public Categoria(int idCategoria, String nombreCategoria, String descripcionCategoria){
         this.idCategoria = idCategoria;

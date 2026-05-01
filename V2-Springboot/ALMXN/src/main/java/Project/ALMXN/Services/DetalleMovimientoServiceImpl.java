@@ -18,4 +18,5 @@ public class DetalleMovimientoServiceImpl implements DetalleMovimientoService {
     public List<DetalleMovimiento> buscarPorIdMovimiento(int idMovimiento) {
         return detalleMovimientoDAO.buscarPorIdMovimiento(idMovimiento);
     }
+
 }

@@ -13,6 +13,8 @@ public class Usuario {
     private String rol;
     private String estado;
 
+    public Usuario() { }
+
     public Usuario(int idUsuario, String nombres, String apellidos, String correo, LocalDate fechaCreacion, String contraseña, String rol, String estado){
         this.idUsuario = idUsuario;
         this.nombres = nombres;
@@ -23,10 +25,7 @@ public class Usuario {
         this.rol = rol;
         this.estado = estado;
     }
-
-    public Usuario(){
-    }
-
+    
     public int getIdUsuario() { return idUsuario; }
     public void setIdUsuario(int idUsuario) { this.idUsuario = idUsuario; }
 
@@ -43,7 +42,6 @@ public class Usuario {
     public void setFechaCreacion(LocalDate fechaCreacion) { this.fechaCreacion = fechaCreacion; }
 
     public String getContraseña() { return contraseña; }
-
     public void setContraseña(String contraseña) { this.contraseña = contraseña; }
 
     public String getRol() { return rol; }

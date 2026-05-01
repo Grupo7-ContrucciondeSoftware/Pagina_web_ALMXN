@@ -33,4 +33,5 @@ public class CategoriaServiceImpl implements CategoriaService{
     public void actualizarCategoria(Categoria categoria) {
         categoriaDAO.actualizarCategoria(categoria);
     }
+
 }
