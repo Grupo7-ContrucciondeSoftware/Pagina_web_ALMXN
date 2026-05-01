@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface MovimientoDAO {
 
-    public List<Movimiento> listaMovimientos();
+    List<Movimiento> listaMovimientos();
 
+    int guardarMovimiento(Movimiento movimiento);
 }

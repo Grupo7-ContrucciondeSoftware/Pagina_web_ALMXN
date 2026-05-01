@@ -46,4 +46,10 @@ public class ProductoController {
         productoService.actualizarProducto(productoModificado);
         return "redirect:/gestion/adminProductos";
     }
+
+    @PostMapping("/eliminar")
+    public String eliminarProducto(@RequestParam("idProducto") int idProducto) {
+        productoService.eliminarProducto(idProducto);
+        return "redirect:/gestion/adminProductos";
+    }
 }

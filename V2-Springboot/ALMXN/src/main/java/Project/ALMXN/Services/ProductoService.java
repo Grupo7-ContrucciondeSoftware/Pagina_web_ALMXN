@@ -7,10 +7,14 @@ public interface ProductoService {
 
     List<Producto> obtenerTodosLosProductos();
 
-    public void guardarProducto(Producto producto);
+    void guardarProducto(Producto producto);
 
-    public Producto buscarProductoPorId(int idProducto);
+    Producto buscarProductoPorId(int idProducto);
 
-    public void actualizarProducto(Producto producto);
+    void actualizarProducto(Producto producto);
+
+    void eliminarProducto(int idProducto);
+
+    List<Producto> buscarProductosPorFiltro(String filtro);
 
 }

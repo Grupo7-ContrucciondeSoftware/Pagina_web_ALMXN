@@ -94,4 +94,20 @@ public class ProductoRepository implements ProductoDAO {
         );
     }
 
+    @Override
+    public void eliminarProducto(int idProducto){
+        String sql = "DELETE FROM producto WHERE id_producto = ?";
+        jdbcTemplate.update(sql, idProducto);
+    }
+
+    @Override
+    public List<Producto> buscarProductosPorFiltro(String filtro) {
+        String sql = "SELECT p.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion " +
+                "FROM producto p " +
+                "INNER JOIN categoria c ON p.id_categoria = c.id_categoria " +
+                "WHERE p.codigo LIKE ? OR p.nombre LIKE ?";
+        String parametro = "%" + filtro + "%";
+        return jdbcTemplate.query(sql, ProductoRowMapper, parametro, parametro);
+    }
+
 }

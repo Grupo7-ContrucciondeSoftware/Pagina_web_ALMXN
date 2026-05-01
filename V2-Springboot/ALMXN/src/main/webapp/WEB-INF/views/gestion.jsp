@@ -89,12 +89,6 @@
                         <h3 class="opc-titulo">Administrar Proveedores</h3>
                     </a>
 
-                    <a class="opc gestion-mostrarEstadisticas" id="gestion-mostrarEstadisticas"
-                        href="/gestion/gestion">
-                        <img src="/img/icono-estadisticas.svg" class="img img-funcion">
-                        <h3 class="opc-titulo">Ver estadísticas</h3>
-                    </a>
-
                 </div>
 
             </section>

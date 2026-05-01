@@ -45,4 +45,17 @@ public class DetalleMovimientoRepository implements DetalleMovimientoDAO{
 
         return jdbcTemplate.query(sql, DetalleRowMapper, idMovimiento);
     }
+
+    @Override
+    public void guardarDetalleMovimiento(DetalleMovimiento detalleMovimiento) {
+        String sql = "INSERT INTO detalle_movimiento (id_movimiento, id_producto, cantidad, precio_unitario, subtotal) " +
+                "VALUES (?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql,
+                detalleMovimiento.getMovimiento().getIdMovimiento(),
+                detalleMovimiento.getProducto().getIdProducto(),
+                detalleMovimiento.getCantidadDetalleMovimiento(),
+                detalleMovimiento.getPrecioUnitarioDetalleMovimiento(),
+                detalleMovimiento.getSubtotalDetalleMovimiento()
+        );
+    }
 }

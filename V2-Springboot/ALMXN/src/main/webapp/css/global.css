@@ -89,6 +89,7 @@ body:has(#theme-toggle:checked) {
 
     --bloqueado-placa: #7f1d1d;
     --bloqueado-color: #fca5a5;
+
 }
 
 #theme-toggle:checked ~ #header-principal .img-logo,

@@ -1,10 +1,14 @@
 package Project.ALMXN.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 import Project.ALMXN.models.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -54,6 +58,33 @@ public class MovimientoRepository implements MovimientoDAO{
                 "INNER JOIN usuario u ON m.id_usuario = u.id_usuario " +
                 "LEFT JOIN proveedor p ON m.id_proveedor = p.id_proveedor";
         return jdbcTemplate.query(sql, MovimientoRowMapper);
+    }
+
+    @Override
+    public int guardarMovimiento(Movimiento movimiento){
+        String sql = "INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, " +
+                "id_usuario, id_proveedor, total_movimiento) VALUES " +
+                "(?, ?, ?, ?, ?, ?, ?, ?)";
+
+        final Integer idProveedorSeguro = (movimiento.getProveedor() != null) ? movimiento.getProveedor().getIdProveedor() : null;
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, movimiento.getTipoMovimiento());
+            ps.setObject(2, movimiento.getFechaMovimiento());
+            ps.setString(3, movimiento.getMotivoMovimiento());
+            ps.setString(4, movimiento.getDestinoMovimiento());
+            ps.setString(5, movimiento.getObservacionesMovimiento());
+            ps.setInt(6, movimiento.getUsuario().getIdUsuario());
+            ps.setObject(7, idProveedorSeguro);
+            ps.setDouble(8,movimiento.getTotalMovimiento());
+            return ps;
+        }, keyHolder);
+
+        return keyHolder.getKey().intValue();
+
     }
 
 }

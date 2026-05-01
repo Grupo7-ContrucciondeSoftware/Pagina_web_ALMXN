@@ -5,6 +5,10 @@ import java.util.List;
 
 public interface MovimientoService {
 
-    public List<Movimiento> obtenerTodosLosMovimientos();
+    List<Movimiento> obtenerTodosLosMovimientos();
+
+    void guardarMovimiento(Movimiento movimiento);
+
+    public void registrarMovimientoCompleto(Movimiento movimiento, List<Integer> idProductos, List<Integer> cantidades, List<Double> precios);
 
 }

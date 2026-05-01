@@ -1,102 +1,165 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // ==========================================
+    // 1. FUNCIÓN MÁESTRA DEL BUSCADOR
+    // ==========================================
+    function configurarBuscador(idInput, idTbodyResultados, idTablaDestino) {
+        const inputBusqueda = document.getElementById(idInput);
+        const tbodyResultados = document.getElementById(idTbodyResultados);
+        let temporizadorBusqueda;
+
+        // Si la página no tiene estos elementos (ej. estás en otra vista), no hace nada
+        if (!inputBusqueda || !tbodyResultados) return;
+
+        inputBusqueda.addEventListener('input', () => {
+            clearTimeout(temporizadorBusqueda);
+            temporizadorBusqueda = setTimeout(() => {
+                realizarBusqueda(inputBusqueda, tbodyResultados, idTablaDestino);
+            }, 300);
+        });
+    }
+
+    function realizarBusqueda(input, tbody, idDestino) {
+        const query = input.value.trim();
+
+        if (query.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" class="body-tabla" style="text-align: center;">Escriba un producto para ver sugerencias...</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = `<tr><td colspan="6" class="body-tabla" style="text-align: center;">Buscando...</td></tr>`;
+
+        fetch(`/api/productos/buscar?q=${query}`)
+            .then(response => response.json())
+            .then(productos => {
+                tbody.innerHTML = '';
+
+                if (productos.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" class="body-tabla" style="text-align: center;">No se encontraron productos similares.</td></tr>`;
+                    return;
+                }
+
+                productos.forEach(prod => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="prod-codigo">${prod.codigoProducto}</td>
+                        <td class="prod-nombre">${prod.nombreProducto}</td>
+                        <td>${prod.stockActualProducto}</td>
+                        <td>
+                            S/ <input type="number" class="form-control prod-precio" value="${prod.precioVentaProducto}" style="width: 80px;" readonly>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control prod-cantidad" value="1" min="1" max="${prod.stockActualProducto}" style="width: 80px;">
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-secundario btn-agregar-lista" 
+                                    data-id="${prod.idProducto}" 
+                                    data-target="${idDestino}">
+                                + Añadir
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(error => {
+                console.error("Error en la búsqueda:", error);
+                tbody.innerHTML = `<tr><td colspan="6" class="body-tabla" style="color: red; text-align: center;">Error al conectar con la base de datos.</td></tr>`;
+            });
+    }
+
+    // ==========================================
+    // 2. ACTIVAR LOS BUSCADORES
+    // ==========================================
+    // Activamos para Salida
+    configurarBuscador('busqueda-prod-salida', 'tbody-resultados-salida', 'tabla-detalles-salida');
+    // Activamos para Ingreso
+    configurarBuscador('busqueda-prod-ingreso', 'tbody-resultados-ingreso', 'tabla-detalles-ingreso');
+
+
+    // ==========================================
+    // 3. LÓGICA DE AGREGAR Y QUITAR (Universal)
+    // ==========================================
     document.addEventListener('click', function(e) {
 
-        // ==========================================
-        // ACCIÓN: AGREGAR PRODUCTO A LA LISTA
-        // ==========================================
+        // ACCIÓN: AGREGAR
         if (e.target && e.target.classList.contains('btn-agregar-lista')) {
             const btn = e.target;
             const filaBusqueda = btn.closest('tr');
 
-            // Extraer los datos de la fila de búsqueda
             const idProducto = btn.getAttribute('data-id');
             const codigo = filaBusqueda.querySelector('.prod-codigo').innerText;
             const nombre = filaBusqueda.querySelector('.prod-nombre').innerText;
             const precio = parseFloat(filaBusqueda.querySelector('.prod-precio').value);
             const cantidad = parseInt(filaBusqueda.querySelector('.prod-cantidad').value);
 
-            // Validaciones básicas
             if(isNaN(cantidad) || cantidad <= 0) {
                 alert("Por favor, ingrese una cantidad válida.");
                 return;
             }
 
             const subtotal = precio * cantidad;
-            const tablaDestinoId = btn.getAttribute('data-target'); // Saber si va a Salida o Ingreso
+            const tablaDestinoId = btn.getAttribute('data-target'); // Aquí lee si va a salida o ingreso
             const tbodyDestino = document.getElementById(tablaDestinoId);
 
-            // Quitar el mensaje de "No hay productos" si existe
             const filaVacia = tbodyDestino.querySelector('.fila-vacia');
             if(filaVacia) filaVacia.remove();
 
-            // Construir la nueva fila HTML con los datos (¡y los inputs ocultos para Spring Boot!)
-            // Usamos arrays en los names (ej: detalles[].idProducto) para que Java los entienda como una Lista
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>
-                    ${codigo}
-                    <input type="hidden" name="idProducto[]" value="${idProducto}">
+                <td class="body-tabla">
+                    ${codigo}<input type="hidden" name="idProducto[]" value="${idProducto}">
                 </td>
-                <td>${nombre}</td>
-                <td>
-                    ${cantidad}
-                    <input type="hidden" name="cantidad[]" value="${cantidad}">
+                <td class="body-tabla">${nombre}</td>
+                <td class="body-tabla">
+                    ${cantidad}<input type="hidden" name="cantidad[]" value="${cantidad}">
                 </td>
-                <td>
-                    S/ ${precio.toFixed(2)}
-                    <input type="hidden" name="precioUnitario[]" value="${precio}">
+                <td class="body-tabla">
+                    S/ ${precio.toFixed(2)}<input type="hidden" name="precioUnitario[]" value="${precio}">
                 </td>
-                <td class="subtotal-celda" data-valor="${subtotal}">S/ ${subtotal.toFixed(2)}</td>
-                <td>
+                <td class="body-tabla subtotal-celda" data-valor="${subtotal}">S/ ${subtotal.toFixed(2)}</td>
+                <td class="body-tabla">
                     <button type="button" class="btn btn-secundario btn-eliminar-fila" style="color: red; border-color: red;">Quitar</button>
                 </td>
             `;
 
-            // Agregar la fila a la tabla final
             tbodyDestino.appendChild(tr);
-
-            // Recalcular el total general de esa tabla específica
             recalcularTotal(tbodyDestino);
         }
 
-        // ==========================================
-        // ACCIÓN: QUITAR PRODUCTO DE LA LISTA
-        // ==========================================
+        // ACCIÓN: QUITAR
         if (e.target && e.target.classList.contains('btn-eliminar-fila')) {
             const btn = e.target;
             const filaAEliminar = btn.closest('tr');
             const tbodyContenedor = filaAEliminar.closest('tbody');
 
-            filaAEliminar.remove(); // Borrar visualmente la fila
+            filaAEliminar.remove();
 
-            // Si la tabla se quedó vacía, volver a poner el mensaje
             if(tbodyContenedor.children.length === 0) {
                 tbodyContenedor.innerHTML = `
                     <tr class="fila-vacia">
-                        <td colspan="6" style="text-align: center; padding: 2rem; color: var(--texto-secundario);">
+                        <td colspan="6" class="body-tabla" style="text-align: center; padding: 2rem; color: var(--texto-secundario);">
                             No hay productos en la lista. Use el buscador de arriba.
                         </td>
                     </tr>
                 `;
             }
 
-            // Recalcular el total después de borrar
             recalcularTotal(tbodyContenedor);
         }
     });
 
-    // Función auxiliar para sumar todos los subtotales
+    // ==========================================
+    // 4. FUNCIÓN RECALCULAR TOTAL
+    // ==========================================
     function recalcularTotal(tbody) {
         let total = 0;
-        // Buscar todas las celdas de subtotal dentro de este tbody específico
         const celdasSubtotal = tbody.querySelectorAll('.subtotal-celda');
 
         celdasSubtotal.forEach(celda => {
             total += parseFloat(celda.getAttribute('data-valor'));
         });
 
-        // Buscar el span del total que está en el TFOOT de la tabla contenedora
         const tabla = tbody.closest('table');
         const spanTotal = tabla.querySelector('.total-movimiento');
         if(spanTotal) {
@@ -105,7 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
-
 document.addEventListener('DOMContentLoaded', () => {
 
     const modal = document.getElementById("modal-detalle-movimiento");

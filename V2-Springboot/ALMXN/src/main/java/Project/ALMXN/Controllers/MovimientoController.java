@@ -6,12 +6,11 @@ import Project.ALMXN.Services.UsuarioService;
 import Project.ALMXN.Services.DetalleMovimientoService;
 import Project.ALMXN.models.DetalleMovimiento;
 
+import Project.ALMXN.models.Movimiento;
+import Project.ALMXN.models.Usuario;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,6 +43,19 @@ public class MovimientoController {
     @ResponseBody
     public List<DetalleMovimiento> obtenerDetalles(@RequestParam("id") int idMovimiento) {
         return detalleMovimientoService.buscarPorIdMovimiento(idMovimiento);
+    }
+
+
+    @PostMapping("/registrarMovimiento")
+    public String guardarMovimiento(
+            @ModelAttribute Movimiento movimiento,
+            @RequestParam(value = "idProducto[]", required = false) List<Integer> idProductos,
+            @RequestParam(value = "cantidad[]", required = false) List<Integer> cantidades,
+            @RequestParam(value = "precioUnitario[]", required = false) List<Double> precios) {
+
+        movimientoService.registrarMovimientoCompleto(movimiento, idProductos, cantidades, precios);
+
+        return "redirect:/gestion/adminMovimientos";
     }
 
 }

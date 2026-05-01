@@ -34,4 +34,14 @@ public class ProductoServiceImpl implements ProductoService {
         productoDAO.actualizarProducto(producto);
     }
 
+    @Override
+    public void eliminarProducto(int idProducto){
+        productoDAO.eliminarProducto(idProducto);
+    }
+
+    @Override
+    public List<Producto> buscarProductosPorFiltro(String filtro){
+        return productoDAO.buscarProductosPorFiltro(filtro);
+    }
+
 }

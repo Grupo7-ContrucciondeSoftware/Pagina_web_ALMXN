@@ -14,8 +14,9 @@
     <link rel="stylesheet" href="/css/globalGestion.css">
     <link rel="stylesheet" href="/css/adminProductos.css">
 
-    <script src="../js/tema.js" defer></script>
-    <script src="../js/validaciones.js" defer></script>
+    <script src="/js/tema.js" defer></script>
+    <script src="/js/validaciones.js" defer></script>
+    <script src="/js/eliminar.js" defer></script>
 </head>
 <body>
 
@@ -150,7 +151,10 @@
                                 <td class="body-tabla">${producto.descripcionProducto}</td>
                                 <td class="body-tabla">
                                     <a href="/gestion/adminProductos/editar?id=${producto.idProducto}" class="btn btn-secundario btn-editar">Editar</a>
-                                    <a class="btn btn-secundario btn-eliminar">Eliminar</a>
+                                    <button type="button" class="btn btn-secundario btn-eliminar-modal"
+                                            data-id="${producto.idProducto}" data-nombre="${producto.nombreProducto}">
+                                        Eliminar
+                                    </button>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -305,7 +309,28 @@
                 </section>
             </div>
 
+            <div id="modal-confirmar-eliminar" class="modal-oculto" >
+
+                <div class="modal-body">
+
+                    <h2>¿Confirmar Eliminación?</h2>
+
+                    <p class="modal-info" >
+                        ¿Está seguro que desea eliminar el producto: <br>
+                        <strong id="texto-nombre-eliminar" style="color: var(--texto-principal);">---</strong>?
+                    </p>
+
+                    <form action="/gestion/adminProductos/eliminar" method="POST" style="display: flex; justify-content: center; gap: 1rem;">
+                        <input type="hidden" name="idProducto" id="input-id-eliminar">
+                        <button type="button" class="btn btn-secundario" id="btn-cancelar-eliminar">Cancelar</button>
+                        <button type="submit" class="btn btn-primario btn-eliminar">Sí, Eliminar</button>
+                    </form>
+
+                </div>
+            </div>
+
         </div>
+
 
     </main>
 

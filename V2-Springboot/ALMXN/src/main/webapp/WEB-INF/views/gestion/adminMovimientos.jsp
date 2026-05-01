@@ -60,8 +60,10 @@
             ============================================ -->
             <div class="pestaña-contenido" id="contenido-salida">
 
-                <form action="/gestion/movimientos/registrar-salida" method="POST">
+                <form action="/gestion/adminMovimientos/registrarMovimiento" method="POST">
 
+                    <input type="hidden" name="tipoMovimiento" value="Salida">
+                    <input type="hidden" name="usuario.idUsuario" value="1">
                     <section class="gestion-inicio">
                         <div class="formulario">
                             <div class="form-grupo">
@@ -69,14 +71,14 @@
                                 <input
                                     type="date"
                                     id="fecha-salida"
-                                    name="fecha"
+                                    name="fechaMovimiento"
                                     class="form-control"
                                     required>
                             </div>
 
                             <div class="form-grupo">
                                 <label for="motivo-salida" class="form-label">Motivo de Salida</label>
-                                <select id="motivo-salida" name="motivo" class="form-control" required>
+                                <select id="motivo-salida" name="motivoMovimiento" class="form-control" required>
                                     <option value="" disabled selected>Seleccione motivo</option>
                                     <option value="Despacho">Despacho</option>
                                     <option value="Merma">Merma</option>
@@ -89,7 +91,7 @@
                                 <input
                                     type="text"
                                     id="destino-salida"
-                                    name="destino"
+                                    name="destinoMovimiento"
                                     class="form-control"
                                     placeholder="Ej: Tienda Huancayo">
                             </div>
@@ -99,7 +101,7 @@
                             <label for="observacion-salida" class="form-label">Observaciones Generales (Opcional)</label>
                             <textarea
                                 id="observacion-salida"
-                                name="observaciones"
+                                name="observacionesMovimiento"
                                 class="form-control"
                                 rows="2"
                                 placeholder="Escriba una descripción.."
@@ -111,8 +113,8 @@
                         <p class="form-label lista">Añadir Productos a la Lista</p>
 
                         <div class="buscador-boton">
-                            <input type="text" id="busqueda-prod" class="form-control" placeholder="Buscar producto por nombre o código...">
-                            <button type="button" class="btn btn-primario">Buscar</button>
+                            <input type="text" id="busqueda-prod-salida" class="form-control" placeholder="Buscar producto...">
+                            <button type="button" id="btn-buscar-prod-salida" class="btn btn-primario">Buscar</button>
                         </div>
 
                         <table class="tabla" >
@@ -126,12 +128,12 @@
                                     <th class="header-tabla">Acción</th>
                                 </tr>
                             </thead>
-                            <tbody class="body-tabla">
+                            <tbody class="body-tabla" id="tbody-resultados-salida">
                                 <tr>
-                                    <td>HW-MON-24</td>
-                                    <td>Monitor LG 24"</td>
-                                    <td>15</td>
-                                    <td>S/ 680.00</td>
+                                    <td>---</td>
+                                    <td>---</td>
+                                    <td>---</td>
+                                    <td>---</td>
                                     <td><input type="number" class="form-control cantidad" value="1" min="1"></td>
                                     <td><button type="button" class="btn btn-secundario">+ Añadir</button></td>
                                 </tr>
@@ -152,9 +154,9 @@
                                     <th class="header-tabla">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody class="body-tabla" id="tabla-detalles">
-                                <tr>
-                                    <td colspan="6" class="producto-lista" >
+                            <tbody class="body-tabla" id="tabla-detalles-salida" >
+                                <tr class="fila-vacia">
+                                    <td  colspan="6" class="producto-lista" >
                                         No hay productos en la lista. Use el buscador de arriba.
                                     </td>
                                 </tr>
@@ -162,7 +164,7 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="4" class="total-lista"><strong>TOTAL DEL MOVIMIENTO:</strong></td>
-                                    <td colspan="2" class="total-lista-precio"><span id="total-movimiento" style="">S/ 0.00</span></td>
+                                    <td colspan="2" class="total-lista-precio"><span class="total-movimiento" style="">S/ 0.00</span></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -184,8 +186,10 @@
 
             <div class="pestaña-contenido" id="contenido-ingreso">
 
-                <form action="/gestion/movimientos/registrar-ingreso" method="POST">
+                <form action="/gestion/adminMovimientos/registrarMovimiento" method="POST">
 
+                    <input type="hidden" name="tipoMovimiento" value="Ingreso">
+                    <input type="hidden" name="usuario.idUsuario" value="1">
                     <section class="gestion-inicio">
                         <div class="formulario">
                             <div class="form-grupo">
@@ -193,24 +197,24 @@
                                 <input
                                     type="date"
                                     id="fecha-ingreso"
-                                    name="fecha"
+                                    name="fechaMovimiento"
                                     class="form-control"
                                     required>
                             </div>
 
                              <div class="form-grupo">
                                 <label for="motivo-ingreso" class="form-label">Motivo de Ingreso</label>
-                                <select id="motivo-ingreso" name="motivo-ingreso" class="form-control">
+                                <select id="motivo-ingreso" name="motivoMovimiento" class="form-control">
                                     <option value="" disabled selected>Seleccione motivo</option>
-                                    <option value="1">Compra</option>
-                                    <option value="2">Devolución</option>
-                                    <option value="3">Otros</option>
+                                    <option value="Compra">Compra</option>
+                                    <option value="Devolucion">Devolución</option>
+                                    <option value="Otros">Otros</option>
                                 </select>
                             </div>
 
                             <div class="form-grupo">
                                 <label for="proveedor-ingreso" class="form-label">Proveedor</label>
-                                <select id="proveedor-ingreso" name="idProveedores" class="form-control" required>
+                                <select id="proveedor-ingreso" name="proveedor.idProveedor" class="form-control" required>
                                     <option value="" disabled selected>Seleccione un proveedor</option>
                                     <c:forEach items="${listaProveedores}" var="proveedorIngreso">
                                         <option value="${proveedorIngreso.idProveedor}">${proveedorIngreso.razonSocialProveedor}</option>
@@ -223,7 +227,7 @@
                             <label for="observacion-ingreso" class="form-label">Observaciones Generales (Opcional)</label>
                             <textarea
                                 id="observacion-ingreso"
-                                name="observaciones"
+                                name="observacionesMovimiento"
                                 class="form-control"
                                 rows="2"
                                 placeholder="Escriba una descripción.."
@@ -235,8 +239,8 @@
                         <p class="form-label lista">Añadir Productos a la Lista</p>
 
                         <div class="buscador-boton">
-                            <input type="text" id="busqueda-prod" class="form-control" placeholder="Buscar producto por nombre o código...">
-                            <button type="button" class="btn btn-primario">Buscar</button>
+                            <input type="text" id="busqueda-prod-ingreso" class="form-control" placeholder="Buscar producto...">
+                            <button type="button" id="btn-buscar-prod-ingreso" class="btn btn-primario">Buscar</button>
                         </div>
 
                         <table class="tabla" >
@@ -250,12 +254,12 @@
                                     <th class="header-tabla">Acción</th>
                                 </tr>
                             </thead>
-                            <tbody class="body-tabla">
+                            <tbody class="body-tabla" id="tbody-resultados-ingreso">
                                 <tr>
-                                    <td>HW-MON-24</td>
-                                    <td>Monitor LG 24"</td>
-                                    <td>15</td>
-                                    <td>S/ 680.00</td>
+                                    <td>---</td>
+                                    <td>---</td>
+                                    <td>---</td>
+                                    <td>---</td>
                                     <td><input type="number" class="form-control cantidad" value="1" min="1"></td>
                                     <td><button type="button" class="btn btn-secundario">+ Añadir</button></td>
                                 </tr>
@@ -276,8 +280,8 @@
                                     <th class="header-tabla">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody class="body-tabla" id="tabla-detalles">
-                                <tr>
+                            <tbody class="body-tabla" id="tabla-detalles-ingreso">
+                                <tr class="fila-vacia">
                                     <td colspan="6" class="producto-lista" >
                                         No hay productos en la lista. Use el buscador de arriba.
                                     </td>
@@ -286,7 +290,7 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="4" class="total-lista"><strong>TOTAL DEL MOVIMIENTO:</strong></td>
-                                    <td colspan="2" class="total-lista-precio"><span id="total-movimiento" style="">S/ 0.00</span></td>
+                                    <td colspan="2" class="total-lista-precio"><span class="total-movimiento" style="">S/ 0.00</span></td>
                                 </tr>
                             </tfoot>
                         </table>
