@@ -47,8 +47,12 @@ public class AlmacenControllers {
     }
 
     @GetMapping("/main")
-    public String mostrarPaginaMain(Model model) {
+    public String mostrarPaginaMain(HttpSession session, Model model) {
         model.addAttribute("paginaActiva", "inicio");
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
         return "main";
     }
 

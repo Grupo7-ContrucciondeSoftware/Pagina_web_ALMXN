@@ -64,14 +64,14 @@ public class UsuarioRepository implements UsuarioDAO {
                 usuario.getCorreo(),
                 usuario.getRol(),
                 usuario.getEstado(),
-                usuario.getIdUsuario() // El ID para el WHERE
+                usuario.getIdUsuario()
         );
     }
 
     @Override
     public Usuario buscarPorCorreoYContrasena(String correo, String contraseña) {
-        String query = "SELECT * FROM usuario WHERE correo = ? AND contraseña = ?";
-        List<Usuario> resultado = jdbcTemplate.query(query, UsuarioRowMapper, correo, contraseña);
+        String sql = "SELECT * FROM usuario WHERE correo = ? AND contraseña = ?";
+        List<Usuario> resultado = jdbcTemplate.query(sql, UsuarioRowMapper, correo, contraseña);
         return resultado.isEmpty() ? null : resultado.get(0);
     }
 }

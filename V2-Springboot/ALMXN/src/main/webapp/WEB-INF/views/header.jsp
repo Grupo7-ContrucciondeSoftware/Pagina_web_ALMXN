@@ -36,8 +36,8 @@
 
             <!-- USUARIO ACTUAL -->
             <div class="header-usuario">
-                <span class="usuario-nombre">Juan Ramos</span>
-                <span class="usuario-rol"><b>Administrador</b></span>
+                <span class="login-nombre">${usuarioLogueado.nombres} ${usuarioLogueado.apellidos}</span>
+                <span class="login-rol ${usuarioLogueado.rol.toLowerCase()}-rol"><b>${usuarioLogueado.rol}</b></span>
                 <a href="/login" class="btn btn-secundario">Cerrar sesión</a>
             </div>
 

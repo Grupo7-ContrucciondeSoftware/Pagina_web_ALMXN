@@ -2,10 +2,14 @@
 -- 1. INSERTAR USUARIOS
 -- ==========================================
 INSERT INTO usuario (nombres, apellidos, correo, fechaCreacion, contraseña, rol, estado) VALUES
-('Carlos Alonso', 'Sánchez Ramos', 'carlos.sanchez@almxn.com', '2026-04-28', 'admin123', 'Admin', 'Activo'),
-('Jeanpool', 'Flores', 'jeanpool@almxn.com', '2026-03-23', 'user123', 'Usuario', 'Activo'),
-('Sebastian', 'Vidal', 'sebastian@almxn.com', '2026-04-28', 'user123', 'Usuario', 'Suspendido'),
-('Victor', 'Mendoza', 'victor@almxn.com', '2026-04-28','user123', 'Usuario', 'Bloqueado');
+('Carlos', 'Sánchez', 'carlosAdmin@gmail.com', '2026-04-28', 'admin123', 'Admin', 'Activo'),
+('Jeanpool', 'Flores', 'jeanpoolAdmin@gmail.com', '2026-03-23', 'admin456', 'Admin', 'Activo'),
+('Sebastian', 'Vidal', 'sebastianAdmin@gmail.com', '2026-04-28', 'admin789', 'Admin', 'Activo'),
+('Victor', 'Mendoza', 'victorAdmin@gmail.com', '2026-04-28','admin012', 'Admin', 'Activo'),
+('Carlos', 'Sánchez', 'carlosUser@gmail.com', '2026-04-28', 'user123', 'Usuario', 'Activo'),
+('Jeanpool', 'Flores', 'jeanpoolUser@gmail.com', '2026-03-23', 'user456', 'Usuario', 'Activo'),
+('Sebastian', 'Vidal', 'sebastianUser@gmail.com', '2026-04-28', 'user789', 'Usuario', 'Activo'),
+('Victor', 'Mendoza', 'victorUser@gmail.com', '2026-04-28','user012', 'Usuario', 'Activo');
 
 
 -- ==========================================

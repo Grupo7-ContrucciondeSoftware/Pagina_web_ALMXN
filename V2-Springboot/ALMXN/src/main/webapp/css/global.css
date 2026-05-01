@@ -396,23 +396,31 @@ body:has(#theme-toggle:checked) .icono-oscuro { display: none; }
     gap: 16px;
 }
 
-.usuario-nombre {
+.login-nombre {
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--texto-principal);
 }
 
-.usuario-rol {
+.login-rol {
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--color-rol);
-    background-color: var(--color-rol-suave);
     padding: 2px 8px;
     border-radius: 6px;
     letter-spacing: 0.03em;
 }
 
-.usuario-rol b {
+.admin-rol {
+    color: var(--color-rol);
+    background-color: var(--color-rol-suave);
+}
+
+.usuario-rol {
+    background: var(--usuario-placa);
+    color: var(--usuario-color);
+}
+
+.login-rol b {
     font-weight: 600;
 }
 
