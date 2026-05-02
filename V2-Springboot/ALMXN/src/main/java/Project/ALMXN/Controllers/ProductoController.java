@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @Controller
 @RequestMapping("/gestion/adminProductos")
@@ -22,14 +23,40 @@ public class ProductoController {
     }
 
     @GetMapping("")
-    public String mostrarAdminProductos(HttpSession session, Model model) {
-        model.addAttribute("listaProductos", productoService.obtenerTodosLosProductos());
-        model.addAttribute("listaCategorias", categoriaService.obtenerTodasLasCategorias());
-        model.addAttribute("paginaActiva", "gestion");
+    public String mostrarAdminProductos(
+            @RequestParam(value = "nombre", required = false) String nombreFiltro,
+            @RequestParam(value = "idCategoria", required = false) Integer idCategoria,
+            @RequestParam(value = "stockMin", required = false) Integer stockMinFiltro,
+            @RequestParam(value = "stockMax", required = false) Integer stockMaxFiltro,
+            @RequestParam(value = "precioMin", required = false) Integer precioMinFiltro,
+            @RequestParam(value = "precioMax", required = false) Integer precioMaxFiltro,
+            @RequestParam(value = "fechaMin", required = false) String fechaMinFiltro,
+            @RequestParam(value = "fechaMax", required = false) String fechaMaxFiltro,
+            HttpSession session, Model model) {
+
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login";
         }
+
+        List<Producto> productosFiltrados;
+
+        boolean hayFiltros = (nombreFiltro != null && !nombreFiltro.isEmpty()) ||
+                (idCategoria != null) || (stockMinFiltro != null) || (stockMaxFiltro != null) ||
+                (precioMinFiltro != null) || (precioMaxFiltro != null) ||
+                (fechaMinFiltro != null && !fechaMinFiltro.isEmpty()) ||
+                (fechaMaxFiltro != null && !fechaMaxFiltro.isEmpty());
+
+        if (hayFiltros) {
+            productosFiltrados = productoService.filtrarProducto(nombreFiltro, idCategoria, stockMinFiltro, stockMaxFiltro, precioMinFiltro, precioMaxFiltro, fechaMinFiltro, fechaMaxFiltro);
+        } else {
+            productosFiltrados = productoService.obtenerTodosLosProductos();
+        }
+
+        model.addAttribute("listaProductos", productosFiltrados);
+        model.addAttribute("listaCategorias", categoriaService.obtenerTodasLasCategorias());
+        model.addAttribute("paginaActiva", "gestion");
+
         return "gestion/adminProductos";
     }
 

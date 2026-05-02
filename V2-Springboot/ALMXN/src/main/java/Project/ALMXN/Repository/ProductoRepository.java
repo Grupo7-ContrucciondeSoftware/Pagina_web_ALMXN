@@ -1,10 +1,13 @@
 package Project.ALMXN.Repository;
 
 import Project.ALMXN.models.Categoria;
+import Project.ALMXN.models.Movimiento;
 import Project.ALMXN.models.Producto;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -114,6 +117,61 @@ public class ProductoRepository implements ProductoDAO {
         String sql = "UPDATE producto SET stock_actual = stock_actual + ? WHERE id_producto = ?";
 
         jdbcTemplate.update(sql, cantidadAjuste, idProducto);
+    }
+
+    @Override
+    public List<Producto> filtrarProducto(String nombre, Integer idCategoria, Integer stockMin, Integer stockMax, Integer precioMin, Integer precioMax, String fechaMin, String fechaMax) {
+
+        StringBuilder sql = new StringBuilder(
+                "SELECT p.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion " +
+                        "FROM producto p " +
+                        "INNER JOIN categoria c ON p.id_categoria = c.id_categoria " +
+                        "WHERE 1=1"
+        );
+
+        List<Object> parametros = new ArrayList<>();
+
+        if (nombre != null && !nombre.trim().isEmpty()) {
+            sql.append(" AND LOWER(p.nombre) LIKE LOWER(?)");
+            parametros.add("%" + nombre.trim() + "%");
+        }
+
+        if (idCategoria != null) {
+            sql.append(" AND p.id_categoria = ?");
+            parametros.add(idCategoria);
+        }
+
+        if (stockMin != null) {
+            sql.append(" AND p.stock_actual >= ?");
+            parametros.add(stockMin);
+        }
+
+        if (stockMax != null) {
+            sql.append(" AND p.stock_actual <= ?");
+            parametros.add(stockMax);
+        }
+
+        if (precioMin != null){
+            sql.append(" AND p.precio_venta >= ?");
+            parametros.add(precioMin);
+        }
+
+        if (precioMax != null){
+            sql.append(" AND p.precio_venta <= ?");
+            parametros.add(precioMax);
+        }
+
+        if (fechaMin != null && !fechaMin.isEmpty()) {
+            sql.append(" AND p.fecha_creacion >= ?");
+            parametros.add(fechaMin);
+        }
+
+        if (fechaMax != null && !fechaMax.isEmpty()) {
+            sql.append(" AND p.fecha_creacion <= ?");
+            parametros.add(fechaMax);
+        }
+
+        return jdbcTemplate.query(sql.toString(), ProductoRowMapper, parametros.toArray());
     }
 
 }

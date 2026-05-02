@@ -49,4 +49,9 @@ public class ProductoServiceImpl implements ProductoService {
         productoDAO.actualizarStock(idProducto, cantidadAjuste);
     }
 
+    @Override
+    public List<Producto> filtrarProducto(String nombre, Integer idCategoria, Integer stockMin, Integer stockMax, Integer precioMin, Integer precioMax, String fechaMin, String fechaMax){
+        return productoDAO.filtrarProducto(nombre, idCategoria, stockMin, stockMax, precioMin, precioMax, fechaMin, fechaMax);
+    }
+
 }

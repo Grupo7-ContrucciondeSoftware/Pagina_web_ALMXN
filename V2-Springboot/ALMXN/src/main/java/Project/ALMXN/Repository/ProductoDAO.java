@@ -18,4 +18,6 @@ public interface ProductoDAO {
     List<Producto> buscarProductosParaMovimiento(String filtro);
 
     void actualizarStock(int idProducto, int cantidadAjuste);
+
+    List<Producto> filtrarProducto(String nombre, Integer idCategoria, Integer stockMin, Integer stockMax, Integer precioMin, Integer precioMax, String fechaMin, String fechaMax);
 }

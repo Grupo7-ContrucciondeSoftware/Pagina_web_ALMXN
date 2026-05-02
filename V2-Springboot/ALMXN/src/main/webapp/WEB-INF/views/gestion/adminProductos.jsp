@@ -361,6 +361,7 @@
     <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>
     <script src="/js/validaciones.js" defer></script>
+    <script src="/js/productosFiltro.js" defer></script>
     <script src="/js/eliminar.js" defer></script>
     <%@ include file="/WEB-INF/views/restriccion.jsp" %>
 
