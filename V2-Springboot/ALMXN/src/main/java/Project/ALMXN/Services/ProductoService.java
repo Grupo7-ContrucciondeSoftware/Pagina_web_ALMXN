@@ -17,4 +17,6 @@ public interface ProductoService {
 
     List<Producto> buscarProductosParaMovimiento(String filtro);
 
+    void actualizarStock(int idProducto, int cantidadAjuste);
+
 }

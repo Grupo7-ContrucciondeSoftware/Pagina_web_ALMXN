@@ -14,10 +14,12 @@ public class MovimientoServiceImpl implements MovimientoService {
 
     private final MovimientoDAO movimientoDAO;
     private final DetalleMovimientoDAO detalleMovimientoDAO;
+    private final ProductoService productoService;
 
-    public MovimientoServiceImpl(MovimientoDAO movimientoDAO,DetalleMovimientoDAO detalleMovimientoDAO){
+    public MovimientoServiceImpl(MovimientoDAO movimientoDAO,DetalleMovimientoDAO detalleMovimientoDAO, ProductoService productoService){
         this.movimientoDAO = movimientoDAO;
         this.detalleMovimientoDAO = detalleMovimientoDAO;
+        this.productoService = productoService;
     }
 
     @Override
@@ -51,6 +53,8 @@ public class MovimientoServiceImpl implements MovimientoService {
         movGuardado.setIdMovimiento(nuevoIdMovimiento);
 
         for (int i = 0; i < idProductos.size(); i++) {
+            int idProd = idProductos.get(i);
+            int cant = cantidades.get(i);
 
             Producto producto = new Producto();
             producto.setIdProducto(idProductos.get(i));
@@ -64,6 +68,13 @@ public class MovimientoServiceImpl implements MovimientoService {
             detalle.setSubtotalDetalleMovimiento(cantidades.get(i) * precios.get(i));
 
             detalleMovimientoDAO.guardarDetalleMovimiento(detalle);
+
+            int cantidadAjuste = cant;
+
+            if (movimiento.getTipoMovimiento().equalsIgnoreCase("Salida")) {
+                cantidadAjuste = cant * -1;
+            }
+            productoService.actualizarStock(idProd, cantidadAjuste);
         }
     }
 

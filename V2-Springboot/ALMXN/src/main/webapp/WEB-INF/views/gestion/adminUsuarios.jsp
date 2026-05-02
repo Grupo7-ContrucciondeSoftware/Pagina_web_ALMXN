@@ -7,12 +7,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Administrar Usuario - Sistema de Gestión de Almacén">
     <title>ALMXN - Administrar Usuarios</title>
 
     <!-- ===== ESTILOS ===== -->
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/globalGestion.css">
     <link rel="stylesheet" href="/css/adminUsuarios.css">
+
 </head>
 <body>
 
@@ -46,6 +48,7 @@
                 <label for="pestaña-listaUsuario" class="pestaña">Lista de Usuario</label>
                 <label for="pestaña-agregarUsuario" class="pestaña">Agregar Usuario</label>
             </div>
+
 
 
             <!-- ============================================
@@ -136,8 +139,25 @@
                                     </span>
                                 </td>
                                 <td class="body-tabla">
-                                    <a href="/gestion/adminUsuarios/editar?id=${usuario.idUsuario}" class="btn btn-secundario" id="btn-editar">Editar</a>
-                                    <a class="btn btn-secundario" id="btn-eliminar">Eliminar</a>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                            <a href="/gestion/adminUsuarios/editar?id=${usuario.idUsuario}" class="btn btn-secundario" id="btn-editar">Editar</a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button type="button" class="btn btn-secundario" onclick="abrirModalPermiso()" style="font-size: 16px;" >Editar</button>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                            <button type="button" class="btn btn-secundario btn-eliminar-modal"
+                                                    data-id="${usuario.idUsuario}" data-nombre="${usuario.nombres} ${usuario.nombres}">
+                                                Eliminar
+                                            </button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button type="button" class="btn btn-secundario" style="font-size: 16px; border-color: #dc3545;"onclick="abrirModalPermiso()" >Eliminar</button>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -243,7 +263,14 @@
                         <!-- Botones Guardar/Limpiar -->
                         <div class="formulario-acciones">
                             <button type="reset" class="btn btn-secundario">Limpiar</button>
-                            <button type="submit" class="btn btn-primario">Agregar Usuario</button>
+                            <c:choose>
+                                <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                    <button type="submit" class="btn btn-primario">Agregar Usuario</button>
+                                </c:when>
+                                <c:otherwise>
+                                    <button type="button" class="btn btn-primario" onclick="abrirModalPermiso()" style="font-size: 16px;" >Agregar Usuario</button>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
 
                     </form>
@@ -261,6 +288,7 @@
     <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>
     <script src="/js/validacionUsuarios.js" defer></script>
+    <%@ include file="/WEB-INF/views/restriccion.jsp" %>
 
 </body>
 </html>

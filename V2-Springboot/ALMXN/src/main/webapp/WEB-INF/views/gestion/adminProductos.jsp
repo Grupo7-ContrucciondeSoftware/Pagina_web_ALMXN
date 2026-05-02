@@ -19,7 +19,7 @@
 <body>
 
     <!-- ===== HEADER ===== -->
-    <%@ include file="../header.jsp" %>
+    <%@ include file="/WEB-INF/views/header.jsp" %>
 
     <!-- ===== CONTENIDO PRINCIPAL ===== -->
     <main id="contenido-principal-gestion">
@@ -151,11 +151,26 @@
                                 <td class="body-tabla">S/${producto.precioVentaProducto}</td>
                                 <td class="body-tabla">${producto.descripcionProducto}</td>
                                 <td class="body-tabla">
-                                    <a href="/gestion/adminProductos/editar?id=${producto.idProducto}" class="btn btn-secundario btn-editar">Editar</a>
-                                    <button type="button" class="btn btn-secundario btn-eliminar-modal"
-                                            data-id="${producto.idProducto}" data-nombre="${producto.nombreProducto}">
-                                        Eliminar
-                                    </button>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                            <a href="/gestion/adminProductos/editar?id=${producto.idProducto}" class="btn btn-secundario btn-editar">Editar</a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button type="button" class="btn btn-secundario" onclick="abrirModalPermiso()" style="font-size: 13px;" >Editar</button>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <c:choose>
+                                        <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                            <button type="button" class="btn btn-secundario btn-eliminar-modal"
+                                                    data-id="${producto.idProducto}" data-nombre="${producto.nombreProducto}">
+                                                Eliminar
+                                            </button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button type="button" class="btn btn-secundario" style="font-size: 13px; border-color: #dc3545;"onclick="abrirModalPermiso()" >Eliminar</button>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -341,12 +356,13 @@
     </main>
 
     <!-- ===== FOOTER ===== -->
-    <%@ include file="../footer.jsp" %>
+    <%@ include file="/WEB-INF/views/footer.jsp" %>
 
     <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>
     <script src="/js/validaciones.js" defer></script>
     <script src="/js/eliminar.js" defer></script>
+    <%@ include file="/WEB-INF/views/restriccion.jsp" %>
 
 </body>
 </html>

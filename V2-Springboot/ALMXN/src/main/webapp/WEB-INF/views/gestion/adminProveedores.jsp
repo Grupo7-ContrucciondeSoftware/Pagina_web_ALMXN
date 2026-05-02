@@ -108,8 +108,26 @@
                                 <td class="body-tabla">${proveedor.telefonoProveedor}</td>
                                 <td class="body-tabla">${proveedor.correoProveedor}</td>
                                 <td class="body-tabla">
-                                    <a href="/gestion/adminProveedores/editar?id=${proveedor.idProveedor}" class="btn btn-secundario btn-editar">Editar</a>
-                                    <a class="btn btn-secundario btn-eliminar">Eliminar</a>
+                                <c:choose>
+                                    <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                        <a href="/gestion/adminProveedores/editar?id=${proveedor.idProveedor}" class="btn btn-secundario btn-editar">Editar</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button type="button" class="btn btn-secundario" onclick="abrirModalPermiso()" style="font-size: 16px;" >Editar</button>
+                                    </c:otherwise>
+                                </c:choose>
+
+                                <c:choose>
+                                    <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                        <button type="button" class="btn btn-secundario btn-eliminar-modal"
+                                                data-id="${proveedor.idProveedor}" data-nombre="${proveedor.razonSocialProveedor}">
+                                            Eliminar
+                                        </button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button type="button" class="btn btn-secundario" style="font-size: 16px; border-color: #dc3545;"onclick="abrirModalPermiso()" >Eliminar</button>
+                                    </c:otherwise>
+                                </c:choose>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -190,7 +208,14 @@
                         <!-- Botones Guardar/Limpiar -->
                         <div class="formulario-acciones">
                             <button type="reset" class="btn btn-secundario">Limpiar</button>
-                            <button type="submit" class="btn btn-primario">Agregar Proveedor</button>
+                            <c:choose>
+                                <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                    <button type="submit" class="btn btn-primario">Agregar Proveedor</button>
+                                </c:when>
+                                <c:otherwise>
+                                    <button type="button" class="btn btn-primario" onclick="abrirModalPermiso()" style="font-size: 16px;" >Agregar Proveedor</button>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </form>
                 </section>
@@ -204,6 +229,7 @@
 
     <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>
+    <%@ include file="/WEB-INF/views/restriccion.jsp" %>
 
 </body>
 </html>

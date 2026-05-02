@@ -20,7 +20,7 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public void guardarProducto(Producto producto){
+    public void guardarProducto(Producto producto) {
         productoDAO.guardarProducto(producto);
     }
 
@@ -35,13 +35,18 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public void eliminarProducto(int idProducto){
+    public void eliminarProducto(int idProducto) {
         productoDAO.eliminarProducto(idProducto);
     }
 
     @Override
-    public List<Producto>buscarProductosParaMovimiento(String filtro){
+    public List<Producto> buscarProductosParaMovimiento(String filtro) {
         return productoDAO.buscarProductosParaMovimiento(filtro);
+    }
+
+    @Override
+    public void actualizarStock(int idProducto, int cantidadAjuste){
+        productoDAO.actualizarStock(idProducto, cantidadAjuste);
     }
 
 }

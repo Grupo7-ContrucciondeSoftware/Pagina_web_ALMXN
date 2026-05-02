@@ -109,4 +109,11 @@ public class ProductoRepository implements ProductoDAO {
         return jdbcTemplate.query(sql, ProductoRowMapper, parametro, parametro);
     }
 
+    @Override
+    public void actualizarStock(int idProducto, int cantidadAjuste) {
+        String sql = "UPDATE producto SET stock_actual = stock_actual + ? WHERE id_producto = ?";
+
+        jdbcTemplate.update(sql, cantidadAjuste, idProducto);
+    }
+
 }
