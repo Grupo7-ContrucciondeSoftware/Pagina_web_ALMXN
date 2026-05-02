@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Controller
 @RequestMapping("/gestion/adminProveedores")
@@ -20,13 +22,30 @@ public class ProveedorController {
     }
 
     @GetMapping("")
-    public String mostrarAdminProveedores(HttpSession session, Model model){
-        model.addAttribute("listaProveedores", proveedorService.obtenerTodosLosProveedores());
-        model.addAttribute("paginaActiva", "gestion");
+    public String mostrarAdminProveedores(
+            @RequestParam(value = "razonSocial", required = false) String razonSocialFiltro,
+            @RequestParam(value = "ruc", required = false) String rucFiltro,
+            @RequestParam(value = "telefono", required = false) Integer telefonoFiltro,
+            HttpSession session, Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login";
         }
+
+        List<Proveedor> proveedorFiltrado;
+
+        boolean hayFiltros = (razonSocialFiltro != null && !razonSocialFiltro.isEmpty()) ||
+                (rucFiltro != null && !rucFiltro.isEmpty()) ||
+                (telefonoFiltro != null);
+
+        if (hayFiltros){
+            proveedorFiltrado = proveedorService.filtrarProveedor(razonSocialFiltro, rucFiltro, telefonoFiltro);
+        } else {
+            proveedorFiltrado = proveedorService.obtenerTodosLosProveedores();
+        }
+
+        model.addAttribute("listaProveedores", proveedorFiltrado);
+        model.addAttribute("paginaActiva", "gestion");
         return "gestion/adminProveedores";
     }
 

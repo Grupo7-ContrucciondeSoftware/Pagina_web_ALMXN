@@ -34,4 +34,9 @@ public class ProveedorServiceImpl implements ProveedorService{
         proveedorDAO.actualizarProveedor(proveedor);
     }
 
+    @Override
+    public List<Proveedor> filtrarProveedor(String razonSocial, String ruc, Integer telefono){
+        return proveedorDAO.filtrarProveedor(razonSocial, ruc, telefono);
+    }
+
 }

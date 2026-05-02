@@ -75,6 +75,11 @@
                         <input class="form-control" type="text" id="ruc-filtro" placeholder="Ej: 20100055237">
                     </div>
 
+                    <div class="filtro-grupo">
+                        <label class="form-label" for="telefono-filtro">Teléfono: </label>
+                        <input class="form-control" type="number" id="telefono-filtro" placeholder="Ej: 998877665">
+                    </div>
+
                     <!-- Botones -->
                     <div class="filtro-acciones">
                         <button class="btn btn-secundario" id="btnFiltrar">Filtrar</button>
@@ -229,6 +234,7 @@
 
     <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>
+    <script src="/js/proveedorFiltro.js" defer></script>
     <%@ include file="/WEB-INF/views/restriccion.jsp" %>
 
 </body>

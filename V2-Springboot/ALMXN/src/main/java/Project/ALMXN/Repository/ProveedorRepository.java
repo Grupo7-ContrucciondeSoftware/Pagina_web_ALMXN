@@ -1,9 +1,12 @@
 package Project.ALMXN.Repository;
 
+import Project.ALMXN.models.Categoria;
 import Project.ALMXN.models.Proveedor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -58,6 +61,30 @@ public class ProveedorRepository implements ProveedorDAO{
                 proveedor.getCorreoProveedor(),
                 proveedor.getIdProveedor()
         );
+    }
+
+    @Override
+    public List<Proveedor> filtrarProveedor(String razonSocial, String ruc, Integer telefono) {
+
+        StringBuilder sql = new StringBuilder("SELECT * FROM proveedor WHERE 1=1");
+        List<Object> parametros = new ArrayList<>();
+
+        if (razonSocial != null && !razonSocial.trim().isEmpty()) {
+            sql.append(" AND LOWER(razon_social) LIKE LOWER(?)");
+            parametros.add("%" + razonSocial.trim() + "%");
+        }
+
+        if (ruc != null && !ruc.trim().isEmpty()){
+            sql.append(" AND LOWER(ruc) LIKE LOWER(?)");
+            parametros.add("%" + ruc.trim() + "%");
+        }
+
+        if (telefono != null){
+            sql.append(" AND CAST(telefono AS VARCHAR) LIKE ?");
+            parametros.add("%" + telefono + "%");
+        }
+
+        return jdbcTemplate.query(sql.toString(), ProveedorRowMapper, parametros.toArray());
     }
 
 }
