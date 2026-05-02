@@ -11,4 +11,7 @@ public interface MovimientoService {
 
     void registrarMovimientoCompleto(Movimiento movimiento, List<Integer> idProductos, List<Integer> cantidades, List<Double> precios);
 
+    List<Movimiento> filtrarMovimientos(String tipo, Integer idUsuario, String fechaMin, String fechaMax);
+
+
 }

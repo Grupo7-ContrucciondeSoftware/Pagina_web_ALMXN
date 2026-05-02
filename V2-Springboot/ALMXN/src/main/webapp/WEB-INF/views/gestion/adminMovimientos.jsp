@@ -334,8 +334,10 @@
 
             <div class="pestaña-contenido" id="contenido-historial">
 
+                <!-- FILTROS -->
                 <div class="filtro-container">
 
+                    <!-- Tipo Movimieto -->
                     <div class="filtro-grupo">
                         <label class="form-label" for="tipo-filtro">Tipo:</label>
                         <select class="form-control" id="tipo-filtro">
@@ -345,11 +347,13 @@
                         </select>
                     </div>
 
+                    <!-- Origen/Destino -->
                     <div class="filtro-grupo">
                         <label class="form-label" for="origen-filtro">Origen / Destino:</label>
                         <input class="form-control" type="text" id="origen-filtro" placeholder="Ej: Alicorp, Almacén 2">
                     </div>
 
+                    <!-- Responsable -->
                     <div class="filtro-grupo">
                         <label class="form-label" for="usuario-filtro">Responsable:</label>
                         <select id="usuario-filtro" name="idUsuarios" class="form-control">
@@ -360,6 +364,7 @@
                         </select>
                     </div>
 
+                    <!-- Fechas -->
                     <div class="filtro-grupo">
                         <label class="form-label">Rango de Fechas: </label>
                         <div class="filtro-doble">
@@ -368,6 +373,7 @@
                         </div>
                     </div>
 
+                    <!-- Botones -->
                     <div class="filtro-acciones">
                         <button class="btn btn-secundario" id="btnFiltrar">Filtrar</button>
                         <button class="btn btn-secundario" id="btnLimpiar">Limpiar</button>

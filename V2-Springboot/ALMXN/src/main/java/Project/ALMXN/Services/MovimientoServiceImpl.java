@@ -78,4 +78,9 @@ public class MovimientoServiceImpl implements MovimientoService {
         }
     }
 
+    @Override
+    public List<Movimiento> filtrarMovimientos(String tipo, Integer idUsuario, String fechaMin, String fechaMax){
+        return movimientoDAO.filtrarMovimientos(tipo, idUsuario, fechaMin, fechaMax);
+    }
+
 }

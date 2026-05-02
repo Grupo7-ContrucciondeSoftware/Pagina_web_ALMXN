@@ -9,4 +9,6 @@ public interface MovimientoDAO {
 
     int guardarMovimiento(Movimiento movimiento);
 
+    List<Movimiento> filtrarMovimientos(String tipo, Integer idUsuario, String fechaMin, String fechaMax);
+
 }

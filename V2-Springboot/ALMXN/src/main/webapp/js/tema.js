@@ -1,7 +1,3 @@
-// ============================================
-// CAMBIAR DE MODO
-// ============================================
-
 document.addEventListener('DOMContentLoaded', function () {
 
     const toggle = document.getElementById('theme-toggle');

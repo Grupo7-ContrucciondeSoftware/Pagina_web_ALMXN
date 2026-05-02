@@ -2,6 +2,7 @@ package Project.ALMXN.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import Project.ALMXN.models.*;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -86,6 +87,45 @@ public class MovimientoRepository implements MovimientoDAO{
 
         return keyHolder.getKey().intValue();
 
+    }
+
+    public List<Movimiento> filtrarMovimientos(String tipo, Integer idUsuario, String fechaMin, String fechaMax) {
+
+        StringBuilder sql = new StringBuilder(
+                "SELECT " +
+                        "m.*, " +
+                        "u.id_usuario, u.nombres, u.apellidos, u.correo AS correo_usuario, " +
+                        "u.fechaCreacion, u.contraseña, u.rol, u.estado, " +
+                        "p.id_proveedor, p.ruc, p.razon_social, p.telefono, p.correo AS correo_proveedor " +
+                        "FROM movimiento m " +
+                        "INNER JOIN usuario u ON m.id_usuario = u.id_usuario " +
+                        "LEFT JOIN proveedor p ON m.id_proveedor = p.id_proveedor " +
+                        "WHERE 1=1"
+        );
+
+        List<Object> parametros = new ArrayList<>();
+
+        if (tipo != null && !tipo.isEmpty()) {
+            sql.append(" AND m.tipo_movimiento = ?");
+            parametros.add(tipo);
+        }
+
+        if (idUsuario != null) {
+            sql.append(" AND m.id_usuario = ?");
+            parametros.add(idUsuario);
+        }
+
+        if (fechaMin != null && !fechaMin.isEmpty()) {
+            sql.append(" AND m.fecha_movimiento >= ?");
+            parametros.add(fechaMin);
+        }
+
+        if (fechaMax != null && !fechaMax.isEmpty()) {
+            sql.append(" AND m.fecha_movimiento <= ?");
+            parametros.add(fechaMax);
+        }
+
+        return jdbcTemplate.query(sql.toString(), MovimientoRowMapper, parametros.toArray());
     }
 
 }

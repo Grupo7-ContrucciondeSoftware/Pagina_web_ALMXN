@@ -25,19 +25,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const inputBuscador = document.getElementById('busquedaGlobal');
     const cajaSugerencias = document.getElementById('caja-sugerencias-modulos');
 
-    // Guardamos el HTML original de las sugerencias rápidas para restaurarlo si el input está vacío
     const htmlSugerenciasDefault = cajaSugerencias.innerHTML;
 
     inputBuscador.addEventListener('input', () => {
         const texto = inputBuscador.value.toLowerCase().trim();
 
-        // Si borra todo, regresamos a las sugerencias por defecto
         if (texto.length === 0) {
             cajaSugerencias.innerHTML = htmlSugerenciasDefault;
             return;
         }
 
-        // Filtramos el array
         const resultados = modulosDelSistema.filter(mod =>
             mod.nombre.toLowerCase().includes(texto)
         );
@@ -49,12 +46,11 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // Dibujamos los resultados
         resultados.forEach(mod => {
             const link = document.createElement('a');
             link.href = mod.url;
             link.innerText = mod.nombre;
-            link.classList.add('tag-sugerencia'); // Usamos la misma clase que ya tienes para que se vea igual
+            link.classList.add('tag-sugerencia');
             cajaSugerencias.appendChild(link);
         });
     });

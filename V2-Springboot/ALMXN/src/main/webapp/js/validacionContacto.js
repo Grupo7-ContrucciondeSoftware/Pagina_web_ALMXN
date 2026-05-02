@@ -1,13 +1,11 @@
 document.addEventListener('DOMContentLoaded',function () {
     "use strict";
 
-    /* ---------- Reglas de validación ---------- */
     const SOLO_LETRAS   = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]{2,50}$/;
     const EMAIL_REGEX   = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     const CELULAR_REGEX = /^[\d\s\+\-\(\)]{7,15}$/;
     const MAX_MOTIVO    = 500;
 
-    /* ---------- Referencias a elementos ---------- */
     const form  = document.getElementById("formulario-contacto");
     const campos = {
         nombres:   document.getElementById("nombres"),
@@ -17,7 +15,6 @@ document.addEventListener('DOMContentLoaded',function () {
         motivo:    document.getElementById("motivo"),
     };
 
-    /* ---------- Helpers ---------- */
     function mostrarError(id, mensaje) {
         const campo = campos[id];
         const span  = document.getElementById("error-" + id);
@@ -36,7 +33,6 @@ document.addEventListener('DOMContentLoaded',function () {
         span.classList.remove("visible");
     }
 
-    /* ---------- Validación por campo ---------- */
     function validarNombres() {
         const v = campos.nombres.value.trim();
         if (!v)                   { mostrarError("nombres", "El nombre es obligatorio."); return false; }
@@ -80,14 +76,12 @@ document.addEventListener('DOMContentLoaded',function () {
         return true;
     }
 
-    /* ---------- Validación en tiempo real al salir del campo (blur) ---------- */
     campos.nombres.addEventListener("blur",   validarNombres);
     campos.apellidos.addEventListener("blur", validarApellidos);
     campos.correo.addEventListener("blur",    validarCorreo);
     campos.celular.addEventListener("blur",   validarCelular);
     campos.motivo.addEventListener("input",   validarMotivo);
 
-    /* ---------- Limpiar borde de error mientras escribe ---------- */
     ["nombres", "apellidos", "correo", "celular"].forEach(function (id) {
         campos[id].addEventListener("input", function () {
             if (campos[id].classList.contains("error")) {
@@ -97,7 +91,6 @@ document.addEventListener('DOMContentLoaded',function () {
         });
     });
 
-    /* ---------- Validación total al enviar ---------- */
     form.addEventListener("submit", function (e) {
         e.preventDefault();
 

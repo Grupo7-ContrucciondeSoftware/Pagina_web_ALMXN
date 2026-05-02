@@ -1,9 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     "use strict";
 
-    /* ──────────────────────────────────────────
-       EXPRESIONES REGULARES Y CONSTANTES
-    ────────────────────────────────────────── */
     var SOLO_LETRAS  = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'\-]{2,50}$/;
     var EMAIL_REGEX  = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     var PASS_MIN     = 8;
@@ -11,9 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var PASS_LETRA   = /[a-zA-Z]/;
     var PASS_ESPECIAL= /[!@#$%^&*(),.?":{}|<>]/;
 
-    /* ──────────────────────────────────────────
-       HELPERS GENÉRICOS
-    ────────────────────────────────────────── */
     function mostrarError(inputEl, spanId, mensaje) {
         inputEl.classList.add("error");
         inputEl.classList.remove("success");
@@ -34,9 +28,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (span) { span.textContent = ""; span.classList.remove("visible"); }
     }
 
-    /* ──────────────────────────────────────────
-       FORTALEZA DE CONTRASEÑA
-    ────────────────────────────────────────── */
     function evaluarFortaleza(pass, barraId, textoId) {
         var barra = document.getElementById(barraId);
         var texto = document.getElementById(textoId);
@@ -70,9 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
         texto.style.color           = nivel.color;
     }
 
-    /* ──────────────────────────────────────────
-       FÁBRICAS DE VALIDADORES POR CAMPO
-    ────────────────────────────────────────── */
     function validarNombres(inputId, spanId) {
         var v = document.getElementById(inputId).value.trim();
         var el = document.getElementById(inputId);
@@ -131,9 +119,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return true;
     }
 
-    /* ──────────────────────────────────────────
-       FUNCIÓN: Vincular limpieza de error al escribir
-    ────────────────────────────────────────── */
     function alEscribir(inputId, spanId) {
         var el = document.getElementById(inputId);
         if (!el) return;
@@ -146,13 +131,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    /* ══════════════════════════════════════════
-       FORM: AGREGAR USUARIO
-    ══════════════════════════════════════════ */
     var formAgregar = document.getElementById("form-agregar-usuario");
     if (formAgregar) {
 
-        // Blur por campo
         document.getElementById("agr-nombres").addEventListener("blur",    function(){ validarNombres("agr-nombres","agr-error-nombres"); });
         document.getElementById("agr-apellidos").addEventListener("blur",  function(){ validarApellidos("agr-apellidos","agr-error-apellidos"); });
         document.getElementById("agr-correo").addEventListener("blur",     function(){ validarCorreo("agr-correo","agr-error-correo"); });
@@ -160,19 +141,16 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("agr-contrasena").addEventListener("blur", function(){ validarContrasena("agr-contrasena","agr-error-contrasena",true); });
         document.getElementById("agr-confirmar").addEventListener("blur",  function(){ validarConfirmar("agr-contrasena","agr-confirmar","agr-error-confirmar",true); });
 
-        // Fortaleza en tiempo real
         document.getElementById("agr-contrasena").addEventListener("input", function(){
             evaluarFortaleza(this.value, "agr-fortaleza-barra", "agr-fortaleza-texto");
         });
 
-        // Limpiar borde rojo al escribir
         alEscribir("agr-nombres",    "agr-error-nombres");
         alEscribir("agr-apellidos",  "agr-error-apellidos");
         alEscribir("agr-correo",     "agr-error-correo");
         alEscribir("agr-contrasena", "agr-error-contrasena");
         alEscribir("agr-confirmar",  "agr-error-confirmar");
 
-        // Submit
         formAgregar.addEventListener("submit", function(e) {
             e.preventDefault();
             var ok = [
@@ -193,13 +171,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    /* ══════════════════════════════════════════
-       FORM: EDITAR USUARIO
-    ══════════════════════════════════════════ */
     var formEditar = document.getElementById("form-editar-usuario");
     if (formEditar) {
 
-        // Blur por campo
         document.getElementById("edi-nombres").addEventListener("blur",    function(){ validarNombres("edi-nombres","edi-error-nombres"); });
         document.getElementById("edi-apellidos").addEventListener("blur",  function(){ validarApellidos("edi-apellidos","edi-error-apellidos"); });
         document.getElementById("edi-correo").addEventListener("blur",     function(){ validarCorreo("edi-correo","edi-error-correo"); });
@@ -207,19 +181,16 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("edi-contrasena").addEventListener("blur", function(){ validarContrasena("edi-contrasena","edi-error-contrasena",false); });
         document.getElementById("edi-confirmar").addEventListener("blur",  function(){ validarConfirmar("edi-contrasena","edi-confirmar","edi-error-confirmar",false); });
 
-        // Fortaleza en tiempo real
         document.getElementById("edi-contrasena").addEventListener("input", function(){
             evaluarFortaleza(this.value, "edi-fortaleza-barra", "edi-fortaleza-texto");
         });
 
-        // Limpiar borde rojo al escribir
         alEscribir("edi-nombres",    "edi-error-nombres");
         alEscribir("edi-apellidos",  "edi-error-apellidos");
         alEscribir("edi-correo",     "edi-error-correo");
         alEscribir("edi-contrasena", "edi-error-contrasena");
         alEscribir("edi-confirmar",  "edi-error-confirmar");
 
-        // Submit
         formEditar.addEventListener("submit", function(e) {
             e.preventDefault();
             var ok = [

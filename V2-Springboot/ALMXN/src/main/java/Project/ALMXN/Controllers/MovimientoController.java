@@ -31,15 +31,37 @@ public class MovimientoController {
     }
 
     @GetMapping("")
-    public String mostrarAdminMovimientos(HttpSession session, Model model){
-        model.addAttribute("listaMovimientos", movimientoService.obtenerTodosLosMovimientos());
-        model.addAttribute("listaUsuarios", usuarioService.obtenerTodosLosUsuarios());
-        model.addAttribute("listaProveedores", proveedorService.obtenerTodosLosProveedores());
-        model.addAttribute("paginaActiva", "gestion");
+    public String mostrarAdminMovimientos(
+            @RequestParam(value = "tipo", required = false) String tipoFiltro,
+            @RequestParam(value = "idUsuario", required = false) Integer idUsuarioFiltro,
+            @RequestParam(value = "fechaMin", required = false) String fechaMinFiltro,
+            @RequestParam(value = "fechaMax", required = false) String fechaMaxFiltro,
+            Model model,
+            HttpSession session){
+
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login";
         }
+
+        List<Movimiento> movimientosFiltrados;
+
+        boolean hayFiltros = (tipoFiltro != null && !tipoFiltro.isEmpty()) ||
+                (idUsuarioFiltro != null) ||
+                (fechaMinFiltro != null && !fechaMinFiltro.isEmpty()) ||
+                (fechaMaxFiltro != null && !fechaMaxFiltro.isEmpty());
+
+        if (hayFiltros) {
+            movimientosFiltrados = movimientoService.filtrarMovimientos(tipoFiltro, idUsuarioFiltro, fechaMinFiltro, fechaMaxFiltro);
+        } else {
+            movimientosFiltrados = movimientoService.obtenerTodosLosMovimientos();
+        }
+
+        model.addAttribute("listaMovimientos", movimientosFiltrados);
+        model.addAttribute("listaUsuarios", usuarioService.obtenerTodosLosUsuarios());
+        model.addAttribute("listaProveedores", proveedorService.obtenerTodosLosProveedores());
+        model.addAttribute("paginaActiva", "gestion");
+
         return "gestion/adminMovimientos";
     }
 
