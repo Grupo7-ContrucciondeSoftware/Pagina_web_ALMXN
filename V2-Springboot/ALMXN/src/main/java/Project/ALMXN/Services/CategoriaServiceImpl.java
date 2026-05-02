@@ -34,4 +34,9 @@ public class CategoriaServiceImpl implements CategoriaService{
         categoriaDAO.actualizarCategoria(categoria);
     }
 
+    @Override
+    public List<Categoria> filtrarCategorias(String nombreFiltro){
+        return categoriaDAO.filtrarCategorias(nombreFiltro);
+    }
+
 }

@@ -12,4 +12,7 @@ public interface CategoriaDAO {
     Categoria buscarCategoriaPorId(int idCategoria);
 
     void actualizarCategoria(Categoria categoria);
+
+    List<Categoria> filtrarCategorias(String nombreFiltro);
+
 }

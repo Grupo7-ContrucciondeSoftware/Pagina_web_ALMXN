@@ -1,7 +1,9 @@
 package Project.ALMXN.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import Project.ALMXN.models.Categoria;
+import Project.ALMXN.models.Movimiento;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -51,5 +53,21 @@ public class CategoriaRepository implements CategoriaDAO{
                 categoria.getDescripcionCategoria(),
                 categoria.getIdCategoria()
         );
+    }
+
+    @Override
+    public List<Categoria> filtrarCategorias(String nombreFiltro) {
+
+        StringBuilder sql = new StringBuilder("SELECT * FROM categoria WHERE 1=1");
+        List<Object> parametros = new ArrayList<>();
+
+        if (nombreFiltro != null && !nombreFiltro.trim().isEmpty()) {
+
+            sql.append(" AND LOWER(nombre) LIKE LOWER(?)");
+
+            parametros.add("%" + nombreFiltro.trim() + "%");
+        }
+
+        return jdbcTemplate.query(sql.toString(), CategoriaRowMapper, parametros.toArray());
     }
 }

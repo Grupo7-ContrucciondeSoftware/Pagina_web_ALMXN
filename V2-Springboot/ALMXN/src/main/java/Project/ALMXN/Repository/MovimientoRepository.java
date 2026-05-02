@@ -89,6 +89,7 @@ public class MovimientoRepository implements MovimientoDAO{
 
     }
 
+    @Override
     public List<Movimiento> filtrarMovimientos(String tipo, Integer idUsuario, String fechaMin, String fechaMax) {
 
         StringBuilder sql = new StringBuilder(

@@ -13,4 +13,6 @@ public interface CategoriaService {
 
     void actualizarCategoria(Categoria categoria);
 
+    List<Categoria> filtrarCategorias(String nombreFiltro);
+
 }

@@ -71,8 +71,8 @@
 
                     <!-- Botones -->
                     <div class="filtro-acciones">
-                        <button class="btn btn-secundario" id="btnFiltrar">Filtrar</button>
-                        <button class="btn btn-secundario" id="btnLimpiar">Limpiar</button>
+                        <button type="button" class="btn btn-secundario" id="btnFiltrar">Filtrar</button>
+                        <button type="button" class="btn btn-secundario" id="btnLimpiar">Limpiar</button>
                     </div>
                 </div>
 
@@ -162,6 +162,7 @@
 
     <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>
+    <script src="/js/categoriasFiltro.js" defer></script>
 
 </body>
 </html>
