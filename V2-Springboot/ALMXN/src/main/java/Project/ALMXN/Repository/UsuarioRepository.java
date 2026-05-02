@@ -1,6 +1,9 @@
 package Project.ALMXN.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import Project.ALMXN.models.Movimiento;
 import Project.ALMXN.models.Usuario;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -74,4 +77,40 @@ public class UsuarioRepository implements UsuarioDAO {
         List<Usuario> resultado = jdbcTemplate.query(sql, UsuarioRowMapper, correo, contraseña);
         return resultado.isEmpty() ? null : resultado.get(0);
     }
+
+    @Override
+    public List<Usuario> filtrarUsuario(String nombres, String rol, String estado, String fechaMin, String fechaMax) {
+
+        StringBuilder sql = new StringBuilder("SELECT * FROM usuario WHERE 1=1");
+
+        List<Object> parametros = new ArrayList<>();
+
+        if (nombres != null && !nombres.trim().isEmpty()) {
+            sql.append(" AND LOWER(nombres) LIKE LOWER(?)");
+            parametros.add( "%" + nombres.trim() + "%");
+        }
+
+        if (rol != null && !rol.isEmpty()) {
+            sql.append(" AND rol = ?");
+            parametros.add(rol);
+        }
+
+        if (estado != null && !estado.isEmpty()) {
+            sql.append(" AND estado = ?");
+            parametros.add(estado);
+        }
+
+        if (fechaMin != null && !fechaMin.isEmpty()) {
+            sql.append(" AND fechaCreacion >= ?");
+            parametros.add(fechaMin);
+        }
+
+        if (fechaMax != null && !fechaMax.isEmpty()) {
+            sql.append(" AND fechaCreacion <= ?");
+            parametros.add(fechaMax);
+        }
+
+        return jdbcTemplate.query(sql.toString(), UsuarioRowMapper, parametros.toArray());
+    }
+
 }

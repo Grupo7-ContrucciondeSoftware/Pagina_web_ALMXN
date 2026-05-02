@@ -39,4 +39,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Usuario validarLogin(String correo, String contraseña) {
         return usuarioDAO.buscarPorCorreoYContrasena(correo, contraseña);
     }
+
+    @Override
+    public List<Usuario> filtrarUsuario(String nombres, String rol, String estado, String fechaMin, String fechaMax){
+        return usuarioDAO.filtrarUsuario(nombres, rol, estado, fechaMin, fechaMax);
+    }
 }

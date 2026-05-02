@@ -70,7 +70,7 @@
                         <label class="form-label" for="rol-filtro">Rol:</label>
                         <select class="form-control" id="rol-filtro">
                             <option value="">Sin Filtro</option>
-                            <option value="Administrador">Administrador</option>
+                            <option value="Admin">Administrador</option>
                             <option value="Usuario">Usuario</option>
                         </select>
                     </div>
@@ -288,6 +288,7 @@
     <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>
     <script src="/js/validacionUsuarios.js" defer></script>
+    <script src="/js/usuarioFiltro.js" defer></script>
     <%@ include file="/WEB-INF/views/restriccion.jsp" %>
 
 </body>

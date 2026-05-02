@@ -14,4 +14,6 @@ public interface UsuarioService {
     void actualizarUsuario(Usuario usuario);
 
     Usuario validarLogin(String correo, String contraseña);
+
+    List<Usuario> filtrarUsuario(String nombres, String rol, String estado, String fechaMin, String fechaMax);
 }

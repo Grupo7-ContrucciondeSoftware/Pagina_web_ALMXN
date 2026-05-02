@@ -7,6 +7,8 @@ import Project.ALMXN.models.Usuario;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Controller
 @RequestMapping("/gestion/adminUsuarios")
@@ -19,13 +21,33 @@ public class UsuarioController {
     }
 
     @GetMapping("")
-    public String mostrarAdminUsuarios(HttpSession session, Model model){
-        model.addAttribute("listaUsuarios", usuarioService.obtenerTodosLosUsuarios());
-        model.addAttribute("paginaActiva", "gestion");
+    public String mostrarAdminUsuarios(
+            @RequestParam(value= "nombre", required = false) String nombresFiltro,
+            @RequestParam(value= "rol", required = false) String rolFiltro,
+            @RequestParam(value= "estado", required = false) String estadoFiltro,
+            @RequestParam(value = "fechaMin", required = false) String fechaMinFiltro,
+            @RequestParam(value = "fechaMax", required = false) String fechaMaxFiltro,
+            HttpSession session, Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login";
         }
+
+        List<Usuario> usuarioFiltrado;
+
+        boolean hayFiltro = (nombresFiltro != null && !nombresFiltro.isEmpty()) ||
+                (rolFiltro != null && !rolFiltro.isEmpty()) || (estadoFiltro != null && !estadoFiltro.isEmpty()) ||
+                (fechaMinFiltro != null && !fechaMinFiltro.isEmpty()) ||
+                (fechaMaxFiltro != null && !fechaMaxFiltro.isEmpty());
+        if(hayFiltro){
+            usuarioFiltrado = usuarioService.filtrarUsuario(nombresFiltro, rolFiltro, estadoFiltro, fechaMinFiltro, fechaMaxFiltro);
+        } else {
+            usuarioFiltrado = usuarioService.obtenerTodosLosUsuarios();
+        }
+
+        model.addAttribute("listaUsuarios", usuarioFiltrado);
+        model.addAttribute("paginaActiva", "gestion");
+
         return "gestion/adminUsuarios";
     }
 

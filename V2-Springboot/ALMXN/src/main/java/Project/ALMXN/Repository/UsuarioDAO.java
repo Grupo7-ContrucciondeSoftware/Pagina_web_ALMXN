@@ -14,4 +14,6 @@ public interface UsuarioDAO {
     void actualizarUsuario(Usuario usuario);
 
     Usuario buscarPorCorreoYContrasena(String correo, String contraseña);
+
+    List<Usuario> filtrarUsuario(String nombres, String rol, String estado, String fechaMin, String fechaMax);
 }
