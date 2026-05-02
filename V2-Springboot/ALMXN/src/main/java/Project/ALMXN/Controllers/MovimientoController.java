@@ -31,11 +31,15 @@ public class MovimientoController {
     }
 
     @GetMapping("")
-    public String mostrarAdminMovimientos(Model model){
+    public String mostrarAdminMovimientos(HttpSession session, Model model){
         model.addAttribute("listaMovimientos", movimientoService.obtenerTodosLosMovimientos());
         model.addAttribute("listaUsuarios", usuarioService.obtenerTodosLosUsuarios());
         model.addAttribute("listaProveedores", proveedorService.obtenerTodosLosProveedores());
         model.addAttribute("paginaActiva", "gestion");
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
         return "gestion/adminMovimientos";
     }
 

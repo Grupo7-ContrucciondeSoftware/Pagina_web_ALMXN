@@ -57,20 +57,32 @@ public class AlmacenControllers {
     }
 
     @GetMapping("/gestion")
-    public String mostrarPaginaGestion(Model model) {
+    public String mostrarPaginaGestion(Model model, HttpSession session) {
         model.addAttribute("paginaActiva", "gestion");
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
         return "gestion";
     }
 
     @GetMapping("/contacto")
-    public String mostrarPaginaContacto(Model model) {
+    public String mostrarPaginaContacto(Model model, HttpSession session) {
         model.addAttribute("paginaActiva", "contacto");
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
         return "contacto";
     }
 
     @GetMapping("/publicidad")
-    public String mostrarPaginaPublicidad(Model model) {
+    public String mostrarPaginaPublicidad(Model model, HttpSession session) {
         model.addAttribute("paginaActiva", "publicidad");
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
         return "publicidad";
     }
 }

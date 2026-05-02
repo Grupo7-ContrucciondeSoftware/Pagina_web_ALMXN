@@ -2,6 +2,8 @@ package Project.ALMXN.Controllers;
 
 import Project.ALMXN.Services.CategoriaService;
 import Project.ALMXN.models.Categoria;
+import Project.ALMXN.models.Usuario;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
@@ -18,10 +20,14 @@ public class CategoriaController {
     }
 
     @GetMapping("")
-    public String mostrarAdminCategorias(Model model){
+    public String mostrarAdminCategorias(HttpSession session, Model model){
 
         model.addAttribute("listaCategorias", categoriaService.obtenerTodasLasCategorias());
         model.addAttribute("paginaActiva", "gestion");
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
         return "/gestion/adminCategorias";
     }
 
@@ -34,6 +40,7 @@ public class CategoriaController {
     @GetMapping("/editar")
     public String mostrarEditar(@RequestParam("id") int idCategoria, Model model){
         Categoria categoriaExistente = categoriaService.buscarCategoriaPorId(idCategoria);
+        model.addAttribute("paginaActiva", "gestion");
         model.addAttribute("categoria", categoriaExistente);
         return "gestion/editar/editarCategoria";
     }

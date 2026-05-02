@@ -3,6 +3,8 @@ package Project.ALMXN.Controllers;
 import Project.ALMXN.Services.CategoriaService;
 import Project.ALMXN.Services.ProductoService;
 import Project.ALMXN.models.Producto;
+import Project.ALMXN.models.Usuario;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +22,14 @@ public class ProductoController {
     }
 
     @GetMapping("")
-    public String mostrarAdminProductos(Model model) {
+    public String mostrarAdminProductos(HttpSession session, Model model) {
         model.addAttribute("listaProductos", productoService.obtenerTodosLosProductos());
         model.addAttribute("listaCategorias", categoriaService.obtenerTodasLasCategorias());
         model.addAttribute("paginaActiva", "gestion");
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
         return "gestion/adminProductos";
     }
 
@@ -36,6 +42,7 @@ public class ProductoController {
     @GetMapping("/editar")
     public String mostrarEditar(@RequestParam("id") int idProducto, Model model) {
         Producto productoExistente = productoService.buscarProductoPorId(idProducto);
+        model.addAttribute("paginaActiva", "gestion");
         model.addAttribute("producto", productoExistente);
         model.addAttribute("listaCategorias", categoriaService.obtenerTodasLasCategorias());
         return "gestion/editar/editarProducto";

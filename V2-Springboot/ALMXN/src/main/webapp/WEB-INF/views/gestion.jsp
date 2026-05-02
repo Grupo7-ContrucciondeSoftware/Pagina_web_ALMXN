@@ -14,8 +14,6 @@
     <link rel="stylesheet" href="/css/globalGestion.css">
     <link rel="stylesheet" href="/css/gestion.css">
 
-    <script src="/js/tema.js" defer></script>
-
 </head>
 
 <body>
@@ -35,19 +33,18 @@
                 </div>
 
                 <div class="buscador-de-modulo">
-                    <form action="/adminProducto" class="buscador-formulario">
+                    <form class="buscador-formulario" onsubmit="event.preventDefault();">
                         <div class="buscador-boton">
-                            <input type="text" id="busquedaGlobal" class="form-control"
-                                placeholder="Ingrese módulo a buscar" required>
-                            <button type="submit" class="btn btn-primario btn-buscar">Buscar</button>
+                            <input type="text" id="busquedaGlobal" class="form-control" placeholder="Ingrese módulo a buscar" autocomplete="off">
+                            <button type="button" class="btn btn-primario btn-buscar">Buscar</button>
                         </div>
                     </form>
 
-                    <div class="buscador-sugerencias">
-                        <span>Sugerencias:</span>
-                        <a href="/adminUsuario.html" class="tag-sugerencia">Agregar Usuario</a>
-                        <a href="/adminMovimientos.html" class="tag-sugerencia">Registrar Salidas</a>
-                        <a href="/adminMovimientos.html" class="tag-sugerencia">Historial de Movimientos</a>
+                    <div class="buscador-sugerencias" id="caja-sugerencias-modulos">
+                        <span>Sugerencias rápidas:</span>
+                        <a href="/gestion/adminUsuarios?tab=pestaña-agregarUsuario" class="tag-sugerencia">Agregar Usuario</a>
+                        <a href="/gestion/adminMovimientos?tab=pestaña-salida" class="tag-sugerencia">Registrar Salida</a>
+                        <a href="/gestion/adminMovimientos?tab=pestaña-historial" class="tag-sugerencia">Historial Movimientos</a>
                     </div>
                 </div>
 
@@ -97,8 +94,12 @@
 
     </main>
 
-    <!-- ===== PIE DE PÁGINA ===== -->
+    <!-- ===== FOOTER ===== -->
     <%@ include file="footer.jsp" %>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="/js/tema.js" defer></script>
+    <script src="/js/buscadorModulos.js" defer></script>
 
 </body>
 

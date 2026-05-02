@@ -2,6 +2,8 @@ package Project.ALMXN.Controllers;
 
 import Project.ALMXN.Services.ProveedorService;
 import Project.ALMXN.models.Proveedor;
+import Project.ALMXN.models.Usuario;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +20,13 @@ public class ProveedorController {
     }
 
     @GetMapping("")
-    public String mostrarAdminProveedores(Model model){
+    public String mostrarAdminProveedores(HttpSession session, Model model){
         model.addAttribute("listaProveedores", proveedorService.obtenerTodosLosProveedores());
         model.addAttribute("paginaActiva", "gestion");
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
         return "gestion/adminProveedores";
     }
 
@@ -33,6 +39,7 @@ public class ProveedorController {
     @GetMapping("/editar")
     public String mostarEditar(@RequestParam("id") int idProveedor, Model model){
         Proveedor proveedorExistente = proveedorService.buscarProveedorPorId(idProveedor);
+        model.addAttribute("paginaActiva", "gestion");
         model.addAttribute("proveedor", proveedorExistente);
         return "gestion/editar/editarProveedor";
     }

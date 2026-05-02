@@ -1,8 +1,7 @@
 // ============================================
-// CAMBIAR DE MODOS (CLARO/OSCURO)
+// CAMBIAR DE MODO
 // ============================================
 
-// Revisar si hay un tema guardado
 document.addEventListener('DOMContentLoaded', function () {
 
     const toggle = document.getElementById('theme-toggle');
@@ -20,4 +19,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const parametrosURL = new URLSearchParams(window.location.search);
+    const idPestaña = parametrosURL.get('tab');
+
+    if (idPestaña) {
+        const radioPestaña = document.getElementById(idPestaña);
+
+        if (radioPestaña) {
+            radioPestaña.checked = true;
+        }
+    }
 });
