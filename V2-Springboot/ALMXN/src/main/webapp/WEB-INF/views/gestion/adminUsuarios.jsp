@@ -288,7 +288,7 @@
     <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>
     <script src="/js/validacionUsuarios.js" defer></script>
-    <script src="/js/usuarioFiltro.js" defer></script>
+    <script src="/js/Filtros/usuarioFiltro.js" defer></script>
     <%@ include file="/WEB-INF/views/restriccion.jsp" %>
 
 </body>

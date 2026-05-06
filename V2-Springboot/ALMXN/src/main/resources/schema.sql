@@ -5,7 +5,8 @@
 CREATE TABLE categoria (
     id_categoria INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
-    descripcion VARCHAR(255)
+    descripcion VARCHAR(255),
+    estado VARCHAR(20) DEFAULT 'Activo'
 );
 
 -- ==========================================

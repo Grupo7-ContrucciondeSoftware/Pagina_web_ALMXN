@@ -13,6 +13,10 @@ public interface CategoriaService {
 
     void actualizarCategoria(Categoria categoria);
 
-    List<Categoria> filtrarCategorias(String nombreFiltro);
+    void eliminarCategoria(int idCategoria);
+
+    List<Categoria> filtrarCategorias(String nombreFiltro, String estadoFiltro);
+
+    void activarCategoria(int idCategoria);
 
 }

@@ -21,6 +21,7 @@ public class CategoriaServiceImpl implements CategoriaService{
 
     @Override
     public void guardarCategoria(Categoria categoria) {
+        categoria.setEstadoCategoria("Activo");
         categoriaDAO.guardarCategoria(categoria);
     }
 
@@ -35,8 +36,18 @@ public class CategoriaServiceImpl implements CategoriaService{
     }
 
     @Override
-    public List<Categoria> filtrarCategorias(String nombreFiltro){
-        return categoriaDAO.filtrarCategorias(nombreFiltro);
+    public void eliminarCategoria(int idCategoria){
+        categoriaDAO.eliminarCategoria(idCategoria);
+    }
+
+    @Override
+    public List<Categoria> filtrarCategorias(String nombreFiltro, String estadoFiltro){
+        return categoriaDAO.filtrarCategorias(nombreFiltro, estadoFiltro);
+    }
+
+    @Override
+    public void activarCategoria(int idCategoria){
+        categoriaDAO.activarCategoria(idCategoria);
     }
 
 }

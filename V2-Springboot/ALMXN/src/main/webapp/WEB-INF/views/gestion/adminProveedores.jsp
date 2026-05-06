@@ -234,7 +234,7 @@
 
     <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>
-    <script src="/js/proveedorFiltro.js" defer></script>
+    <script src="/js/Filtros/proveedorFiltro.js" defer></script>
     <%@ include file="/WEB-INF/views/restriccion.jsp" %>
 
 </body>

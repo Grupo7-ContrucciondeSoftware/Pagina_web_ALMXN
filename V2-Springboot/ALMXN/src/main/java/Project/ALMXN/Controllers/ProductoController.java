@@ -92,7 +92,7 @@ public class ProductoController {
     public String procesarActualizacion(@ModelAttribute Producto productoModificado, HttpSession session){
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-        if (usuario == null || !usuario.getRol().equals("Admin")) {
+        if (usuario == null) {
             return "redirect:/login";
         }
 

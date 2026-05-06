@@ -28,7 +28,8 @@ public class ProductoRepository implements ProductoDAO {
                 new Categoria(
                         rs.getInt("id_categoria"),
                         rs.getString("categoria_nombre"),
-                        rs.getString("categoria_descripcion")
+                        rs.getString("categoria_descripcion"),
+                        rs.getString("categoria_estado")
                 ),
                 rs.getInt("stock_actual"),
                 rs.getString("unidad_medida"),
@@ -41,17 +42,16 @@ public class ProductoRepository implements ProductoDAO {
 
     @Override
     public List<Producto> listaProductos() {
-        String sql = "SELECT p.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion " +
+        String sql = "SELECT p.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion, c.estado AS categoria_estado " +
                 "FROM producto p " +
                 "INNER JOIN categoria c ON p.id_categoria = c.id_categoria " +
-                "WHERE estado = 'Activo'" ;
+                "WHERE p.estado = 'Activo' AND c.estado ='Activo' " ;
         return jdbcTemplate.query(sql, ProductoRowMapper);
     }
 
     @Override
     public int contarProductosPorCategoria(Integer idCategoria) {
         String sql = "SELECT COUNT(*) FROM producto WHERE id_categoria = ?";
-        // Retorna la cantidad actual de productos en esa categoría
         return jdbcTemplate.queryForObject(sql, Integer.class, idCategoria);
     }
 
@@ -75,7 +75,7 @@ public class ProductoRepository implements ProductoDAO {
 
     @Override
     public Producto buscarProductoPorId(int idProducto) {
-        String sql = "SELECT p.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion " +
+        String sql = "SELECT p.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion, c.estado AS categoria_estado " +
                 "FROM producto p " +
                 "INNER JOIN categoria c ON p.id_categoria = c.id_categoria " +
                 "WHERE p.id_producto = ?";
@@ -115,7 +115,7 @@ public class ProductoRepository implements ProductoDAO {
 
     @Override
     public List<Producto> buscarProductosParaMovimiento(String filtro) {
-        String sql = "SELECT p.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion " +
+        String sql = "SELECT p.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion, c.estado AS categoria_estado " +
                 "FROM producto p " +
                 "INNER JOIN categoria c ON p.id_categoria = c.id_categoria " +
                 "WHERE p.codigo LIKE ? OR p.nombre LIKE ?";
@@ -134,7 +134,7 @@ public class ProductoRepository implements ProductoDAO {
     public List<Producto> filtrarProducto(String nombre, Integer idCategoria, Integer stockMin, Integer stockMax, Integer precioMin, Integer precioMax, String fechaMin, String fechaMax, String estado) {
 
         StringBuilder sql = new StringBuilder(
-                "SELECT p.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion " +
+                "SELECT p.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion, c.estado AS categoria_estado " +
                         "FROM producto p " +
                         "INNER JOIN categoria c ON p.id_categoria = c.id_categoria " +
                         "WHERE 1=1 "

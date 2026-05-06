@@ -13,6 +13,10 @@ public interface CategoriaDAO {
 
     void actualizarCategoria(Categoria categoria);
 
-    List<Categoria> filtrarCategorias(String nombreFiltro);
+    void eliminarCategoria(int idCategoria);
+
+    void activarCategoria(int idCategoria);
+
+    List<Categoria> filtrarCategorias(String nombreFiltro, String estadoFiltro);
 
 }

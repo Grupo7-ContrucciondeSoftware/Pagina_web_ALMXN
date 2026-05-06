@@ -69,6 +69,15 @@
                         <input class="form-control" type="text" id="nombre-filtro" placeholder="Ej: Abarrotes">
                     </div>
 
+                    <div class="filtro-grupo">
+                        <label class="form-label" for="estado-filtro">Estado:</label>
+                        <select id="estado-filtro" name="estado" class="form-control">
+                            <option value="Todos" >Sin filtro</option>
+                            <option value="Activo" selected>Activo</option>
+                            <option value="Inactivo" >Inactivo</option>
+                        </select>
+                    </div>
+
                     <!-- Botones -->
                     <div class="filtro-acciones">
                         <button type="button" class="btn btn-secundario" id="btnFiltrar">Filtrar</button>
@@ -85,6 +94,7 @@
                             <th class="header-tabla">ID</th>
                             <th class="header-tabla">Nombre</th>
                             <th class="header-tabla">Descripción</th>
+                            <th class="header-tabla">Estado</th>
                             <th class="header-tabla">Acciones</th>
                         </tr>
                     </thead>
@@ -97,9 +107,43 @@
                                 <td class="body-tabla">${categoria.idCategoria}</td>
                                 <td class="body-tabla">${categoria.nombreCategoria}</td>
                                 <td class="body-tabla">${categoria.descripcionCategoria}</td>
+                                <td class="body-tabla"><span class="estado ${categoria.estadoCategoria.toLowerCase()}">${categoria.estadoCategoria}</span></td>
                                 <td class="body-tabla">
-                                    <a href="/gestion/adminCategorias/editar?id=${categoria.idCategoria}" class="btn btn-secundario btn-editar">Editar</a>
-                                    <a class="btn btn-secundario btn-eliminar">Eliminar</a>
+                                    <c:choose>
+                                        <c:when test="${categoria.estadoCategoria == 'Activo'}">
+                                            <a href="/gestion/adminCategorias/editar?id=${categoria.idCategoria}" class="btn btn-secundario btn-editar">Editar</a>
+                                            <c:choose>
+                                                <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                                    <button type="button" class="btn btn-secundario btn-eliminar"
+                                                            data-id="${categoria.idCategoria}"
+                                                            data-nombre="${categoria.nombreCategoria}"
+                                                            data-action="/gestion/adminCategorias/eliminar"
+                                                            data-param="idCategoria">
+                                                        Eliminar
+                                                    </button>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <button type="button" class="btn btn-secundario btn-falso-eliminar" onclick="abrirModalPermiso()" >Eliminar</button>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:when>
+
+                                        <c:otherwise>
+                                            <c:choose>
+                                                <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                                    <form action="/gestion/adminCategorias/activar" method="POST" >
+                                                        <input type="hidden" name="idCategoria" value="${categoria.idCategoria}">
+                                                        <button type="submit" class="btn btn-secundario btn-activar">
+                                                            Activar
+                                                        </button>
+                                                    </form>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <button type="button" class="btn btn-secundario btn-falso-activar" onclick="abrirModalPermiso()">Activar</button>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -154,15 +198,26 @@
                     </form>
                 </section>
             </div>
+
+            <%-- ============================================
+                        MODAL ELIMINAR PRODUCTO
+            ============================================ --%>
+
+            <%@ include file="/WEB-INF/views/modalEliminar.jsp" %>
+
         </div>
     </main>
 
     <!-- ===== FOOTER ===== -->
     <%@ include file="/WEB-INF/views/footer.jsp" %>
 
+    <!-- ===== RESTRICCION ===== -->
+    <%@ include file="/WEB-INF/views/restriccion.jsp" %>
+
     <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>
-    <script src="/js/categoriasFiltro.js" defer></script>
+    <script src="/js/Filtros/categoriasFiltro.js" defer></script>
+    <script src="/js/Eliminar/eliminarFuncion.js" defer></script>
 
 </body>
 </html>

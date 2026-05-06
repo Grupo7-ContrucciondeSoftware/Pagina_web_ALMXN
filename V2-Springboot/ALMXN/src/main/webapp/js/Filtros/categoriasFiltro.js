@@ -6,10 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnFiltrar) {
         btnFiltrar.addEventListener('click', (e) => {
             const nombre = document.getElementById('nombre-filtro').value;
+            const estado = document.getElementById('estado-filtro').value;
 
             const parametros = new URLSearchParams();
 
             if (nombre) parametros.append('nombre', nombre);
+            if (estado) parametros.append('estado', estado);
 
             parametros.append('tab', 'pestaña-listaCategorias');
 

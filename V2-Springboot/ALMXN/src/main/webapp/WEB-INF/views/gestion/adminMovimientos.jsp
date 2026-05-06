@@ -505,6 +505,7 @@
     <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>
     <script src="/js/movimientos.js" defer></script>
+    <script src="/js/movimientosFiltro.js" defer></script>
 
 </body>
 </html>

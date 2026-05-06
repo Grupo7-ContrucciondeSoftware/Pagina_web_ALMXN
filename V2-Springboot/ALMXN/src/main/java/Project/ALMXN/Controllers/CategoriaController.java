@@ -25,6 +25,7 @@ public class CategoriaController {
     @GetMapping("")
     public String mostrarAdminCategorias(
             @RequestParam(value = "nombre", required = false) String nombreFiltro,
+            @RequestParam(value = "estado", required = false) String estadoFiltro,
             HttpSession session, Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
@@ -32,8 +33,10 @@ public class CategoriaController {
         }
         List<Categoria> categoriasFiltradas;
 
-        if (nombreFiltro != null && !nombreFiltro.trim().isEmpty()) {
-            categoriasFiltradas = categoriaService.filtrarCategorias(nombreFiltro);
+        boolean hayFiltro = (nombreFiltro != null && !nombreFiltro.trim().isEmpty()) || (estadoFiltro != null && !estadoFiltro.isEmpty());
+
+        if (hayFiltro) {
+            categoriasFiltradas = categoriaService.filtrarCategorias(nombreFiltro, estadoFiltro);
         } else {
             categoriasFiltradas = categoriaService.obtenerTodasLasCategorias();
         }
@@ -45,13 +48,25 @@ public class CategoriaController {
     }
 
     @PostMapping("/guardar")
-    public String guardarNuevaCategoria(@ModelAttribute Categoria categoria) {
+    public String guardarNuevaCategoria(@ModelAttribute Categoria categoria, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
         categoriaService.guardarCategoria(categoria);
         return "redirect:/gestion/adminCategorias";
     }
 
     @GetMapping("/editar")
-    public String mostrarEditar(@RequestParam("id") int idCategoria, Model model){
+    public String mostrarEditar(@RequestParam("id") int idCategoria, Model model, HttpSession session){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
         Categoria categoriaExistente = categoriaService.buscarCategoriaPorId(idCategoria);
         model.addAttribute("paginaActiva", "gestion");
         model.addAttribute("categoria", categoriaExistente);
@@ -59,8 +74,39 @@ public class CategoriaController {
     }
 
     @PostMapping("/actualizar")
-    public String procesarActualizacion(@ModelAttribute Categoria categoriaModificada){
+    public String procesarActualizacion(@ModelAttribute Categoria categoriaModificada, HttpSession session){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
         categoriaService.actualizarCategoria(categoriaModificada);
+        return "redirect:/gestion/adminCategorias";
+    }
+
+    @PostMapping("/eliminar")
+    public String eliminarProducto(@RequestParam("idCategoria") int idCategoria, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null || !usuario.getRol().equals("Admin")) {
+            return "redirect:/login";
+        }
+
+        categoriaService.eliminarCategoria(idCategoria);
+        return "redirect:/gestion/adminCategorias";
+    }
+
+    @PostMapping("/activar")
+    public String activarProducto(@RequestParam("idCategoria") Integer idCategoria, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null || !usuario.getRol().equals("Admin")) {
+            return "redirect:/login";
+        }
+
+        categoriaService.activarCategoria(idCategoria);
+
         return "redirect:/gestion/adminCategorias";
     }
 

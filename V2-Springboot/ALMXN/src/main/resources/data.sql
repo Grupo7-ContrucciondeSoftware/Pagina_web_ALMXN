@@ -17,19 +17,19 @@ INSERT INTO usuario (nombres, apellidos, correo, fechaCreacion, contraseña, rol
 -- ==========================================
 -- 2. INSERTAR CATEGORÍAS
 -- ==========================================
-INSERT INTO categoria (nombre, descripcion) VALUES
-('Abarrotes',           'Productos básicos de despensa y uso diario'),
-('Lácteos y Huevos',    'Leche, quesos, mantequillas, yogures y derivados avícolas'),
-('Bebidas y Licores',   'Aguas, gaseosas, jugos y bebidas alcohólicas'),
-('Snacks y Confitería', 'Piqueos, galletas, chocolates y dulces'),
-('Frutas y Verduras',   'Productos agrícolas frescos'),
-('Limpieza y Hogar',    'Detergentes, desinfectantes y artículos de aseo'),
-('Cuidado Personal',    'Higiene, cosmética y cuidado corporal'),
-('Embutidos y Fríos',   'Carnes procesadas, jamones y salchichas'),
-('Panadería y Pastelería', 'Panes, tortas y postres horneados'),
-('Conservas y Enlatados',  'Atunes, sardinas, menestras enlatadas y conservas vegetales'),
-('Aceites y Condimentos',  'Aceites vegetales, vinagres, salsas y especias'),
-('Mascotas',               'Alimentos y accesorios para animales domésticos');
+INSERT INTO categoria (nombre, descripcion, estado) VALUES
+('Abarrotes', 'Productos básicos de despensa y uso diario', 'Activo'),
+('Lácteos y Huevos', 'Leche, quesos, mantequillas, yogures y derivados avícolas', 'Activo'),
+('Bebidas y Licores', 'Aguas, gaseosas, jugos y bebidas alcohólicas', 'Activo'),
+('Snacks y Confitería', 'Piqueos, galletas, chocolates y dulces', 'Activo'),
+('Frutas y Verduras', 'Productos agrícolas frescos', 'Activo'),
+('Limpieza y Hogar', 'Detergentes, desinfectantes y artículos de aseo', 'Activo'),
+('Cuidado Personal', 'Higiene, cosmética y cuidado corporal', 'Activo'),
+('Embutidos y Fríos', 'Carnes procesadas, jamones y salchichas', 'Activo'),
+('Panadería y Pastelería', 'Panes, tortas y postres horneados', 'Activo'),
+('Conservas y Enlatados', 'Atunes, sardinas, menestras enlatadas y conservas vegetales', 'Activo'),
+('Aceites y Condimentos', 'Aceites vegetales, vinagres, salsas y especias', 'Activo'),
+('Mascotas', 'Alimentos y accesorios para animales domésticos', 'Activo');
 
 
 -- ==========================================

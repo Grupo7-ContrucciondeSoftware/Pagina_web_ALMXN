@@ -174,7 +174,10 @@
                                         <c:choose>
                                             <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
                                                 <button type="button" class="btn btn-secundario btn-eliminar"
-                                                        data-id="${producto.idProducto}" data-nombre="${producto.nombreProducto}">
+                                                        data-id="${producto.idProducto}"
+                                                        data-nombre="${producto.nombreProducto}"
+                                                        data-action="/gestion/adminProductos/eliminar"
+                                                        data-param="idProducto">
                                                     Eliminar
                                                 </button>
                                             </c:when>
@@ -316,29 +319,11 @@
                 </section>
             </div>
 
-            <!-- ============================================
+            <%-- ============================================
                         MODAL ELIMINAR PRODUCTO
-            ============================================ -->
+            ============================================ --%>
 
-            <div id="modal-confirmar-eliminar" class="modal-oculto" >
-
-                <div class="modal-body">
-
-                    <h2>¿Confirmar Eliminación?</h2>
-
-                    <p class="modal-info" >
-                        ¿Está seguro que desea eliminar el producto: <br>
-                        <strong id="texto-nombre-eliminar" style="color: var(--texto-principal);">---</strong>?
-                    </p>
-
-                    <form action="/gestion/adminProductos/eliminar" method="POST" style="display: flex; justify-content: center; gap: 1rem;">
-                        <input type="hidden" name="idProducto" id="input-id-eliminar">
-                        <button type="button" class="btn btn-secundario" id="btn-cancelar-eliminar">Cancelar</button>
-                        <button type="submit" class="btn btn-primario btn-eliminar-modal">Sí, Eliminar</button>
-                    </form>
-
-                </div>
-            </div>
+            <%@ include file="/WEB-INF/views/modalEliminar.jsp" %>
 
         </div>
 
@@ -347,12 +332,14 @@
     <!-- ===== FOOTER ===== -->
     <%@ include file="/WEB-INF/views/footer.jsp" %>
 
+    <!-- ===== RESTRICCION ===== -->
+    <%@ include file="/WEB-INF/views/restriccion.jsp" %>
+
     <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>
     <script src="/js/validaciones.js" defer></script>
-    <script src="/js/productosFiltro.js" defer></script>
-    <script src="/js/eliminar.js" defer></script>
-    <%@ include file="/WEB-INF/views/restriccion.jsp" %>
+    <script src="/js/Filtros/productosFiltro.js" defer></script>
+    <script src="/js/Eliminar/eliminarFuncion.js" defer></script>
 
 </body>
 </html>
