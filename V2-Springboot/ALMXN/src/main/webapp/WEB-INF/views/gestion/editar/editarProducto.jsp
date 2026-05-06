@@ -50,18 +50,6 @@
 
                         <div class="formulario">
 
-                            <!-- Código -->
-                            <div class="form-grupo">
-                                <label for="codigo-producto" class="form-label">Código</label>
-                                <input
-                                    type="text"
-                                    id="codigo-producto"
-                                    name="codigoProducto"
-                                    class="form-control"
-                                    value="${producto.codigoProducto}"
-                                    readonly title="No puede cambiar el código">
-                            </div>
-
                             <!-- Nombre de producto -->
                             <div class="form-grupo">
                                 <label for="nombre-producto" class="form-label">Nombre del producto</label>
@@ -100,30 +88,6 @@
                                     <option value="Caja" <c:if test="${producto.unidadMedidaProducto == 'Caja'}">selected</c:if>>Caja</option>
                                     <option value="Paquete" <c:if test="${producto.unidadMedidaProducto == 'Paquete'}">selected</c:if>>Paquete</option>
                                 </select>
-                            </div>
-
-                            <!-- Stock Actual -->
-                            <div class="form-grupo">
-                                <label for="stock-actual" class="form-label">Stock Actual</label>
-                                <input
-                                    type="number"
-                                    id="stock-actual"
-                                    name="stockActualProducto"
-                                    class="form-control"
-                                    value="${producto.stockActualProducto}">
-                            </div>
-
-                            <!-- Stock mínimo -->
-                            <div class="form-grupo">
-                                <label for="stock-minimo" class="form-label">Stock mínimo</label>
-                                <input
-                                    type="number"
-                                    id="stock-minimo"
-                                    name="stockMinimoProducto"
-                                    class="form-control"
-                                    value="${producto.stockMinimoProducto}"
-                                    min="0"
-                                    required>
                             </div>
 
                             <!-- Precio de Costo -->

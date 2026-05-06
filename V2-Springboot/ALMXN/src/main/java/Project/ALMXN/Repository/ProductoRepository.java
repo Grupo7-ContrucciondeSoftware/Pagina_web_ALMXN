@@ -30,12 +30,12 @@ public class ProductoRepository implements ProductoDAO {
                         rs.getString("categoria_nombre"),
                         rs.getString("categoria_descripcion")
                 ),
-                rs.getString("unidad_medida"),
                 rs.getInt("stock_actual"),
-                rs.getInt("stock_minimo"),
+                rs.getString("unidad_medida"),
                 rs.getDouble("precio_costo"),
                 rs.getDouble("precio_venta"),
-                rs.getString("descripcion")
+                rs.getString("descripcion"),
+                rs.getString("estado")
         );
     };
 
@@ -43,14 +43,22 @@ public class ProductoRepository implements ProductoDAO {
     public List<Producto> listaProductos() {
         String sql = "SELECT p.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion " +
                 "FROM producto p " +
-                "INNER JOIN categoria c ON p.id_categoria = c.id_categoria";
+                "INNER JOIN categoria c ON p.id_categoria = c.id_categoria " +
+                "WHERE estado = 'Activo'" ;
         return jdbcTemplate.query(sql, ProductoRowMapper);
+    }
+
+    @Override
+    public int contarProductosPorCategoria(Integer idCategoria) {
+        String sql = "SELECT COUNT(*) FROM producto WHERE id_categoria = ?";
+        // Retorna la cantidad actual de productos en esa categoría
+        return jdbcTemplate.queryForObject(sql, Integer.class, idCategoria);
     }
 
     @Override
     public void guardarProducto(Producto producto) {
         String sql = "INSERT INTO producto (codigo, nombre, id_categoria, stock_actual, " +
-                "unidad_medida, stock_minimo, precio_costo, precio_venta, descripcion) VALUES "+
+                "unidad_medida, precio_costo, precio_venta, descripcion, estado) VALUES "+
                 "(?, ?, ?, ?, ?, ?, ?, ?, ?) ";
         jdbcTemplate.update(sql,
                 producto.getCodigoProducto(),
@@ -58,10 +66,10 @@ public class ProductoRepository implements ProductoDAO {
                 producto.getCategoria().getIdCategoria(),
                 producto.getStockActualProducto(),
                 producto.getUnidadMedidaProducto(),
-                producto.getStockMinimoProducto(),
                 producto.getPrecioCostoProducto(),
                 producto.getPrecioVentaProducto(),
-                producto.getDescripcionProducto()
+                producto.getDescripcionProducto(),
+                producto.getEstadoProducto()
         );
     }
 
@@ -77,18 +85,15 @@ public class ProductoRepository implements ProductoDAO {
 
     @Override
     public void actualizarProducto (Producto producto){
-        String sql = "UPDATE producto SET codigo = ?, nombre = ?, id_categoria = ?, " +
-                "stock_actual = ?, unidad_medida = ?, stock_minimo = ?, " +
-                "precio_costo = ?, precio_venta = ?, descripcion = ? " +
+        String sql = "UPDATE producto SET nombre = ?, id_categoria = ?, " +
+                "unidad_medida = ?, precio_costo = ?, " +
+                "precio_venta = ?, descripcion = ? " +
                 "WHERE id_producto = ?";
 
         jdbcTemplate.update(sql,
-                producto.getCodigoProducto(),
                 producto.getNombreProducto(),
                 producto.getCategoria().getIdCategoria(),
-                producto.getStockActualProducto(),
                 producto.getUnidadMedidaProducto(),
-                producto.getStockMinimoProducto(),
                 producto.getPrecioCostoProducto(),
                 producto.getPrecioVentaProducto(),
                 producto.getDescripcionProducto(),
@@ -98,7 +103,13 @@ public class ProductoRepository implements ProductoDAO {
 
     @Override
     public void eliminarProducto(int idProducto){
-        String sql = "DELETE FROM producto WHERE id_producto = ?";
+        String sql = "UPDATE producto SET estado = 'Inactivo' WHERE id_producto = ?";
+        jdbcTemplate.update(sql, idProducto);
+    }
+
+    @Override
+    public void activarProducto(int idProducto){
+        String sql = "UPDATE producto SET estado = 'Activo' WHERE id_producto = ?";
         jdbcTemplate.update(sql, idProducto);
     }
 
@@ -120,13 +131,13 @@ public class ProductoRepository implements ProductoDAO {
     }
 
     @Override
-    public List<Producto> filtrarProducto(String nombre, Integer idCategoria, Integer stockMin, Integer stockMax, Integer precioMin, Integer precioMax, String fechaMin, String fechaMax) {
+    public List<Producto> filtrarProducto(String nombre, Integer idCategoria, Integer stockMin, Integer stockMax, Integer precioMin, Integer precioMax, String fechaMin, String fechaMax, String estado) {
 
         StringBuilder sql = new StringBuilder(
                 "SELECT p.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion " +
                         "FROM producto p " +
                         "INNER JOIN categoria c ON p.id_categoria = c.id_categoria " +
-                        "WHERE 1=1"
+                        "WHERE 1=1 "
         );
 
         List<Object> parametros = new ArrayList<>();
@@ -169,6 +180,11 @@ public class ProductoRepository implements ProductoDAO {
         if (fechaMax != null && !fechaMax.isEmpty()) {
             sql.append(" AND p.fecha_creacion <= ?");
             parametros.add(fechaMax);
+        }
+
+        if (estado != null && !estado.isEmpty() && !estado.equalsIgnoreCase("Todos")){
+            sql.append(" AND p.estado = ?");
+            parametros.add(estado);
         }
 
         return jdbcTemplate.query(sql.toString(), ProductoRowMapper, parametros.toArray());

@@ -110,6 +110,15 @@
                         </div>
                     </div>
 
+                    <div class="filtro-grupo">
+                        <label class="form-label" for="estado-filtro">Estado:</label>
+                        <select id="estado-filtro" name="estado" class="form-control">
+                            <option value="Todos" >Sin filtro</option>
+                            <option value="Activo" selected>Activo</option>
+                            <option value="Inactivo" >Inactivo</option>
+                        </select>
+                    </div>
+
                     <!-- Botones -->
                     <div class="filtro-acciones">
                         <button class="btn btn-secundario" id="btnFiltrar">Filtrar</button>
@@ -124,7 +133,6 @@
                     <!-- HEADER DE LA TABLA -->
                     <thead class="header-tabla">
                         <tr>
-                            <th class="header-tabla">ID</th>
                             <th class="header-tabla">Codigo</th>
                             <th class="header-tabla">Fecha de Adición</th>
                             <th class="header-tabla">Producto</th>
@@ -132,7 +140,7 @@
                             <th class="header-tabla">Stock Actual</th>
                             <th class="header-tabla">Unidad de medida</th>
                             <th class="header-tabla">Precio x Unidad</th>
-                            <th class="header-tabla">Descripción</th>
+                            <th class="header-tabla">Estado</th>
                             <th class="header-tabla">Acciones</th>
                         </tr>
                     </thead>
@@ -141,7 +149,6 @@
                     <tbody class="body-tabla">
                         <c:forEach var="producto" items="${listaProductos}">
                             <tr>
-                                <td class="body-tabla">${producto.idProducto}</td>
                                 <td class="body-tabla">${producto.codigoProducto}</td>
                                 <td class="body-tabla">${producto.fechaCreacionProducto}</td>
                                 <td class="body-tabla">${producto.nombreProducto}</td>
@@ -149,28 +156,52 @@
                                 <td class="body-tabla">${producto.stockActualProducto}</td>
                                 <td class="body-tabla">${producto.unidadMedidaProducto}</td>
                                 <td class="body-tabla">S/${producto.precioVentaProducto}</td>
-                                <td class="body-tabla">${producto.descripcionProducto}</td>
+                                <td class="body-tabla"><span class="estado ${producto.estadoProducto.toLowerCase()}" >${producto.estadoProducto}</span></td>
                                 <td class="body-tabla">
-                                    <c:choose>
-                                        <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
-                                            <a href="/gestion/adminProductos/editar?id=${producto.idProducto}" class="btn btn-secundario btn-editar">Editar</a>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <button type="button" class="btn btn-secundario" onclick="abrirModalPermiso()" style="font-size: 13px;" >Editar</button>
-                                        </c:otherwise>
-                                    </c:choose>
 
-                                    <c:choose>
-                                        <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
-                                            <button type="button" class="btn btn-secundario btn-eliminar-modal"
-                                                    data-id="${producto.idProducto}" data-nombre="${producto.nombreProducto}">
-                                                Eliminar
-                                            </button>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <button type="button" class="btn btn-secundario" style="font-size: 13px; border-color: #dc3545;"onclick="abrirModalPermiso()" >Eliminar</button>
-                                        </c:otherwise>
-                                    </c:choose>
+                                <c:choose>
+
+                                    <c:when test="${producto.estadoProducto == 'Activo'}">
+                                        <c:choose>
+                                            <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                                <a href="/gestion/adminProductos/editar?id=${producto.idProducto}" class="btn btn-secundario btn-editar">Editar</a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <button type="button" class="btn btn-secundario" onclick="abrirModalPermiso()" style="font-size: 13px;" >Editar</button>
+                                            </c:otherwise>
+                                        </c:choose>
+
+                                        <c:choose>
+                                            <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                                <button type="button" class="btn btn-secundario btn-eliminar"
+                                                        data-id="${producto.idProducto}" data-nombre="${producto.nombreProducto}">
+                                                    Eliminar
+                                                </button>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <button type="button" class="btn btn-secundario btn-falso-eliminar" onclick="abrirModalPermiso()" >Eliminar</button>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:when>
+
+                                    <c:otherwise>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                                <form action="/gestion/adminProductos/activar" method="POST" >
+                                                    <input type="hidden" name="idProducto" value="${producto.idProducto}">
+                                                    <button type="submit" class="btn btn-secundario btn-activar">
+                                                        Activar
+                                                    </button>
+                                                </form>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <button type="button" class="btn btn-secundario btn-falso-activar" onclick="abrirModalPermiso()">Activar</button>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:otherwise>
+
+                                </c:choose>
+
                                 </td>
                             </tr>
                         </c:forEach>
@@ -194,20 +225,6 @@
 
                     <form action="/gestion/adminProductos/guardar" method="POST" class="form-validable">
                         <div class="formulario">
-
-                            <!-- Código -->
-                            <div class="form-grupo">
-                                <label for="codigo-producto" class="form-label">Código</label>
-                                <input
-                                    type="text"
-                                    id="codigp-producto"
-                                    name="codigoProducto"
-                                    class="form-control"
-                                    placeholder="PROD-CAT-###"
-                                    min="0"
-                                    required
-                                >
-                            </div>
 
                             <!-- Nombre de producto -->
                             <div class="form-grupo">
@@ -245,34 +262,6 @@
                                     <option value="Caja">Caja</option>
                                     <option value="Paquete">Paquete</option>
                                 </select>
-                            </div>
-
-                            <!-- Stock inicial -->
-                            <div class="form-grupo">
-                                <label for="stock-actual" class="form-label">Stock inicial</label>
-                                <input
-                                    type="number"
-                                    id="stock-actual"
-                                    name="stockActualProducto"
-                                    class="form-control"
-                                    placeholder="Ej: 70"
-                                    min="0"
-                                    required
-                                >
-                            </div>
-
-                            <!-- Stock mínimo -->
-                            <div class="form-grupo">
-                                <label for="stock-minimo" class="form-label">Stock mínimo</label>
-                                <input
-                                    type="number"
-                                    id="stock-minimo"
-                                    name="stockMinimoProducto"
-                                    class="form-control"
-                                    placeholder="Ej: 10"
-                                    min="0"
-                                    required
-                                >
                             </div>
 
                             <!-- Precio de Costo -->
@@ -345,7 +334,7 @@
                     <form action="/gestion/adminProductos/eliminar" method="POST" style="display: flex; justify-content: center; gap: 1rem;">
                         <input type="hidden" name="idProducto" id="input-id-eliminar">
                         <button type="button" class="btn btn-secundario" id="btn-cancelar-eliminar">Cancelar</button>
-                        <button type="submit" class="btn btn-primario btn-eliminar">Sí, Eliminar</button>
+                        <button type="submit" class="btn btn-primario btn-eliminar-modal">Sí, Eliminar</button>
                     </form>
 
                 </div>

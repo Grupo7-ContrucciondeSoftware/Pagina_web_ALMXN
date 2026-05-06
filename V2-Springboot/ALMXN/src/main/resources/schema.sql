@@ -45,12 +45,12 @@ CREATE TABLE producto (
     fecha_creacion DATE DEFAULT CURRENT_DATE,
     nombre VARCHAR(150) NOT NULL,
     id_categoria INT NOT NULL,
-    stock_actual INT NOT NULL DEFAULT 0,
+    stock_actual INT NOT NULL,
     unidad_medida VARCHAR(20) NOT NULL,
-    stock_minimo INT NOT NULL DEFAULT 0,
     precio_costo DECIMAL(10,2) NOT NULL,
     precio_venta DECIMAL(10,2) NOT NULL,
     descripcion VARCHAR(255),
+    estado VARCHAR(20) DEFAULT 'Activo',
     FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
 );
 

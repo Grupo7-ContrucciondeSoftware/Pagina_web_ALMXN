@@ -115,3 +115,33 @@
     background: var(--salida-placa);
     color: var(--salida-color);
 }
+
+.btn-falso-eliminar {
+    font-size: 13px;
+    font-weight: bold;
+    border: 0;
+    color: var(--salida-color);
+    background: var(--salida-placa);
+}
+
+.btn-falso-activar {
+    font-size: 13px;
+    font-weight: bold;
+    border: 0;
+    color: var(--ingreso-color);
+    background: var(--ingreso-placa);
+}
+
+.btn-activar {
+    font-size: 15px;
+    border: 0;
+    color: var(--ingreso-color);
+    background: var(--ingreso-placa);
+}
+
+.btn-eliminar{
+    font-size: 15px;
+    border: 0;
+    color: var(--salida-color);
+    background: var(--salida-placa);
+}

@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnCancelarEliminar = document.getElementById('btn-cancelar-eliminar');
 
     document.addEventListener('click', (e) => {
-        if (e.target && e.target.classList.contains('btn-eliminar-modal')) {
+        if (e.target && e.target.classList.contains('btn-eliminar')) {
             const btn = e.target;
 
             const idProducto = btn.getAttribute('data-id');

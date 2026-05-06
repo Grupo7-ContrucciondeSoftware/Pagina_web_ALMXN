@@ -36,18 +36,6 @@
 }
 
 .btn-eliminar-modal {
-    font-size: 0.88rem;
-    color: var(--bloqueado-color);
-    border-color:var(--salida-color);
-    width: 50%;
-    font-weight: 500;
-    padding: 8px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    letter-spacing: 0.02em;
-}
-
-.btn-eliminar {
     background-color: #dc3545;
     border-color: #dc3545;
     width: 50%;
@@ -81,4 +69,21 @@
 .modal-info {
     margin-bottom: 1.5rem;
     color: var(--texto-secundario);
+}
+
+.estado {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.activo {
+    background: var(--activo-placa);
+    color: var(--activo-color);
+}
+
+.inactivo {
+    background: var(--suspendido-placa);
+    color: var(--suspendido-color);
 }

@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const precioMax = document.getElementById('preciomax-filtro').value;
             const fechaMin = document.getElementById('fechaMin-filtro').value;
             const fechaMax = document.getElementById('fechaMax-filtro').value;
+            const estado = document.getElementById('estado-filtro').value;
 
             const parametros = new URLSearchParams();
 
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (precioMax) parametros.append('precioMax', precioMax);
             if (fechaMin) parametros.append('fechaMin', fechaMin);
             if (fechaMax) parametros.append('fechaMax', fechaMax);
+            if (estado) parametros.append('estado', estado);
 
             parametros.append('tab', 'pestaña-listaProducto');
 

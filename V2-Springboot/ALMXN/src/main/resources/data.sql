@@ -49,48 +49,55 @@ INSERT INTO proveedor (ruc, razon_social, telefono, correo) VALUES
 -- ==========================================
 -- 4. INSERTAR PRODUCTOS
 -- ==========================================
-INSERT INTO producto (codigo, nombre, fecha_creacion, id_categoria, stock_actual, unidad_medida, stock_minimo, precio_costo, precio_venta, descripcion) VALUES
+INSERT INTO producto (codigo, nombre, fecha_creacion, id_categoria, stock_actual, unidad_medida, precio_costo, precio_venta, descripcion, estado) VALUES
 -- Abarrotes (cat 1)
-('PROD-ABA-001', 'Arroz Costeño Extra 5Kg',        '2026-04-28', 1,  120, 'Saco',    20, 3.50,  4.80,  'Arroz blanco extra grano largo clasificado'),
-('PROD-ABA-002', 'Azúcar Rubia Cartavio 5kg',       '2026-04-28', 1,   80, 'Bolsa',   15, 4.20,  5.80,  'Azúcar rubia de caña, presentación familiar'),
-('PROD-ABA-003', 'Fideos Lavaggi Espagueti 500g',   '2026-04-28', 1,  130, 'Paquete', 25, 1.80,  2.80,  'Fideos de trigo semolado, corte espagueti'),
-('PROD-ABA-004', 'Aceite Primor 1L',                '2026-04-28', 1,   95, 'Botella', 18, 5.60,  7.90,  'Aceite vegetal de girasol, botella 1 litro'),
-('PROD-ABA-005', 'Sal Marina Emsal 1kg',            '2026-04-28', 1,  200, 'Bolsa',   30, 0.90,  1.50,  'Sal de mesa yodada y fluorada'),
+('PROD-ABA-001', 'Arroz Costeño Extra 5Kg',        '2026-04-28', 1, 120, 'Saco', 3.50,  4.80,  'Arroz blanco extra grano largo clasificado', 'Activo'),
+('PROD-ABA-002', 'Azúcar Rubia Cartavio 5kg',       '2026-04-28', 1, 80, 'Bolsa', 4.20,  5.80,  'Azúcar rubia de caña, presentación familiar', 'Activo'),
+('PROD-ABA-003', 'Fideos Lavaggi Espagueti 500g',   '2026-04-28', 1, 130, 'Paquete', 1.80,  2.80,  'Fideos de trigo semolado, corte espagueti', 'Activo'),
+('PROD-ABA-004', 'Aceite Primor 1L',                '2026-04-28', 1, 95, 'Botella', 5.60,  7.90,  'Aceite vegetal de girasol, botella 1 litro', 'Activo'),
+('PROD-ABA-005', 'Sal Marina Emsal 1kg',            '2026-04-28', 1, 200, 'Bolsa', 0.90,  1.50,  'Sal de mesa yodada y fluorada', 'Activo'),
 -- Lácteos y Huevos (cat 2)
-('PROD-LAC-001', 'Leche Evaporada Gloria 400g',     '2026-04-28', 2,  250, 'Lata',    48, 3.20,  4.20,  'Leche evaporada entera clásica etiqueta azul'),
-('PROD-LAC-002', 'Yogur Gloria Fresa 1L',           '2026-04-28', 2,   60, 'Botella', 10, 4.50,  6.20,  'Yogur bebible sabor fresa con cultivos activos'),
-('PROD-LAC-003', 'Queso Fresco Laive 500g',         '2026-04-28', 2,   40, 'Unidad',   8, 7.50, 10.50,  'Queso fresco pasteurizado, textura suave'),
-('PROD-LAC-004', 'Mantequilla Laive 200g',          '2026-04-28', 2,   55, 'Unidad',  10, 5.20,  7.50,  'Mantequilla sin sal en barra, 200 gramos'),
-('PROD-LAC-005', 'Huevos Blancos Redondos x30',     '2026-04-28', 2,   70, 'Bandeja', 15, 14.00, 19.00, 'Bandeja de 30 huevos blancos frescos categoría A'),
+('PROD-LAC-001', 'Leche Evaporada Gloria 400g',     '2026-04-28', 2, 250, 'Lata', 3.20,  4.20,  'Leche evaporada entera clásica etiqueta azul', 'Activo'),
+('PROD-LAC-002', 'Yogur Gloria Fresa 1L',           '2026-04-28', 2, 60, 'Botella', 4.50,  6.20,  'Yogur bebible sabor fresa con cultivos activos', 'Activo'),
+('PROD-LAC-003', 'Queso Fresco Laive 500g',         '2026-04-28', 2, 40, 'Unidad', 7.50, 10.50,  'Queso fresco pasteurizado, textura suave', 'Activo'),
+('PROD-LAC-004', 'Mantequilla Laive 200g',          '2026-04-28', 2, 55, 'Unidad', 5.20,  7.50,  'Mantequilla sin sal en barra, 200 gramos', 'Activo'),
+('PROD-LAC-005', 'Huevos Blancos Redondos x30',     '2026-04-28', 2, 70, 'Bandeja', 14.00, 19.00, 'Bandeja de 30 huevos blancos frescos categoría A', 'Activo'),
 -- Bebidas y Licores (cat 3)
-('PROD-BEB-001', 'Gaseosa Inca Kola 3L',            '2026-04-28', 3,   60, 'Botella', 12, 8.50, 11.50,  'Bebida gaseosa sabor original, envase no retornable'),
-('PROD-BEB-002', 'Agua San Luis 625ml',             '2026-04-28', 3,  200, 'Botella', 30, 0.70,  1.20,  'Agua mineral sin gas, presentación personal'),
-('PROD-BEB-003', 'Jugo Pulp Durazno 1L',            '2026-04-28', 3,   85, 'Caja',    15, 4.00,  5.80,  'Néctar de durazno con pulpa real'),
-('PROD-BEB-004', 'Cerveza Cristal Lata 355ml',      '2026-04-28', 3,  180, 'Unidad',  24, 3.80,  5.50,  'Cerveza rubia tipo lager, lata 355 ml'),
+('PROD-BEB-001', 'Gaseosa Inca Kola 3L',            '2026-04-28', 3, 60, 'Botella', 8.50, 11.50,  'Bebida gaseosa sabor original, envase no retornable', 'Activo'),
+('PROD-BEB-002', 'Agua San Luis 625ml',             '2026-04-28', 3, 200, 'Botella', 0.70,  1.20,  'Agua mineral sin gas, presentación personal', 'Activo'),
+('PROD-BEB-003', 'Jugo Pulp Durazno 1L',            '2026-04-28', 3, 85, 'Caja', 4.00,  5.80,  'Néctar de durazno con pulpa real', 'Activo'),
+('PROD-BEB-004', 'Cerveza Cristal Lata 355ml',      '2026-04-28', 3, 180, 'Unidad', 3.80,  5.50,  'Cerveza rubia tipo lager, lata 355 ml', 'Activo'),
 -- Snacks y Confitería (cat 4)
-('PROD-SNA-001', 'Galletas Casino Menta',           '2026-04-28', 4,  100, 'Paquete', 15, 0.80,  1.30,  'Galletas dulces rellenas con crema sabor a menta'),
-('PROD-SNA-002', 'Chifles Inca´s Food 100g',        '2026-04-28', 4,  150, 'Bolsa',   20, 1.50,  2.50,  'Snack de plátano verde frito con sal'),
-('PROD-SNA-003', 'Chocolate Sublime 32g',           '2026-04-28', 4,  220, 'Unidad',  30, 1.20,  1.90,  'Chocolate con leche y maní tostado'),
-('PROD-SNA-004', 'Chicle Trident Menta x12',        '2026-04-28', 4,  180, 'Caja',    24, 0.60,  1.00,  'Chicles sin azúcar sabor menta, display 12 unidades'),
+('PROD-SNA-001', 'Galletas Casino Menta',           '2026-04-28', 4, 100, 'Paquete', 0.80,  1.30,  'Galletas dulces rellenas con crema sabor a menta', 'Activo'),
+('PROD-SNA-002', 'Chifles Inca´s Food 100g',        '2026-04-28', 4, 150, 'Bolsa', 1.50,  2.50,  'Snack de plátano verde frito con sal', 'Activo'),
+('PROD-SNA-003', 'Chocolate Sublime 32g',           '2026-04-28', 4, 220, 'Unidad', 1.20,  1.90,  'Chocolate con leche y maní tostado', 'Activo'),
+('PROD-SNA-004', 'Chicle Trident Menta x12',        '2026-04-28', 4, 180, 'Caja', 0.60,  1.00,  'Chicles sin azúcar sabor menta, display 12 unidades', 'Activo'),
 -- Limpieza y Hogar (cat 6)
-('PROD-LIM-001', 'Detergente Ariel 1kg',            '2026-04-28', 6,   45, 'Bolsa',   10, 10.00, 14.50, 'Detergente en polvo para ropa blanca y de color'),
-('PROD-LIM-002', 'Lavavajillas Ayudín Limón 500g',  '2026-04-28', 6,   90, 'Unidad',  12, 3.80,  5.50,  'Crema lavavajillas con fragancia a limón'),
-('PROD-LIM-003', 'Lejía Clorox 1L',                 '2026-04-28', 6,   75, 'Botella', 15, 3.10,  4.80,  'Lejía desinfectante concentrada aroma pino'),
-('PROD-LIM-004', 'Papel Higiénico Suave x4',        '2026-04-28', 6,  110, 'Paquete', 20, 4.50,  6.50,  'Paquete de 4 rollos doble hoja, suave y resistente'),
+('PROD-LIM-001', 'Detergente Ariel 1kg',            '2026-04-28', 6, 45, 'Bolsa', 10.00, 14.50, 'Detergente en polvo para ropa blanca y de color', 'Activo'),
+('PROD-LIM-002', 'Lavavajillas Ayudín Limón 500g',  '2026-04-28', 6, 90, 'Unidad', 3.80,  5.50,  'Crema lavavajillas con fragancia a limón', 'Activo'),
+('PROD-LIM-003', 'Lejía Clorox 1L',                 '2026-04-28', 6, 75, 'Botella', 3.10,  4.80,  'Lejía desinfectante concentrada aroma pino', 'Activo'),
+('PROD-LIM-004', 'Papel Higiénico Suave x4',        '2026-04-28', 6, 110, 'Paquete', 4.50,  6.50,  'Paquete de 4 rollos doble hoja, suave y resistente', 'Activo'),
 -- Cuidado Personal (cat 7)
-('PROD-CUI-001', 'Shampoo Pantene 400ml',           '2026-04-28', 7,   60, 'Frasco',  10, 12.00, 17.50, 'Shampoo pro-vitaminas para cabello dañado'),
-('PROD-CUI-002', 'Jabón Dove 90g',                  '2026-04-28', 7,  140, 'Unidad',  20, 2.50,  3.80,  'Jabón de tocador con crema hidratante'),
-('PROD-CUI-003', 'Pasta Dental Colgate 75ml',       '2026-04-28', 7,   95, 'Tubo',    15, 3.90,  5.80,  'Crema dental triple acción, blanqueadora'),
+('PROD-CUI-001', 'Shampoo Pantene 400ml',           '2026-04-28', 7, 60, 'Frasco', 12.00, 17.50, 'Shampoo pro-vitaminas para cabello dañado', 'Activo'),
+('PROD-CUI-002', 'Jabón Dove 90g',                  '2026-04-28', 7, 140, 'Unidad', 2.50,  3.80,  'Jabón de tocador con crema hidratante', 'Activo'),
+('PROD-CUI-003', 'Pasta Dental Colgate 75ml',       '2026-04-28', 7, 95, 'Tubo', 3.90,  5.80,  'Crema dental triple acción, blanqueadora', 'Activo'),
 -- Embutidos y Fríos (cat 8)
-('PROD-EMB-001', 'Jamonada San Fernando 500g',      '2026-04-28', 8,   50, 'Unidad',   8, 9.50, 13.50,  'Jamonada de cerdo en rodajas, refrigerada'),
-('PROD-EMB-002', 'Hot Dog Braedt x10',              '2026-04-28', 8,   65, 'Paquete', 10, 8.00, 11.50,  'Salchichas de pollo tipo hot dog, pack 10 unidades'),
+('PROD-EMB-001', 'Jamonada San Fernando 500g',      '2026-04-28', 8, 50, 'Unidad', 9.50, 13.50,  'Jamonada de cerdo en rodajas, refrigerada', 'Activo'),
+('PROD-EMB-002', 'Hot Dog Braedt x10',              '2026-04-28', 8, 65, 'Paquete', 8.00, 11.50,  'Salchichas de pollo tipo hot dog, pack 10 unidades', 'Activo'),
 -- Conservas y Enlatados (cat 10)
-('PROD-CON-001', 'Atún Florida en Agua 170g',       '2026-04-28', 10, 160, 'Lata',    25, 4.20,  6.00,  'Atún en trozos conservado en agua y sal'),
-('PROD-CON-002', 'Sardinas A-1 en Tomate 425g',     '2026-04-28', 10,  90, 'Lata',    15, 3.50,  5.20,  'Sardinas en salsa de tomate, lata grande'),
-('PROD-CON-003', 'Frijoles Bayos Bell´s 400g',      '2026-04-28', 10, 120, 'Lata',    20, 2.80,  4.20,  'Frijoles bayos precocidos en lata'),
+('PROD-CON-001', 'Atún Florida en Agua 170g',       '2026-04-28', 10, 160, 'Lata', 4.20,  6.00,  'Atún en trozos conservado en agua y sal', 'Activo'),
+('PROD-CON-002', 'Sardinas A-1 en Tomate 425g',     '2026-04-28', 10, 90, 'Lata', 3.50,  5.20,  'Sardinas en salsa de tomate, lata grande', 'Activo'),
+('PROD-CON-003', 'Frijoles Bayos Bell´s 400g',      '2026-04-28', 10, 120, 'Lata', 2.80,  4.20,  'Frijoles bayos precocidos en lata', 'Activo'),
 -- Aceites y Condimentos (cat 11)
-('PROD-ACE-001', 'Vinagre Vegetal Tari 500ml',      '2026-04-28', 11,  80, 'Botella', 12, 2.10,  3.50,  'Vinagre blanco de fermentación vegetal'),
-('PROD-ACE-002', 'Kétchup A-1 500g',                '2026-04-28', 11, 100, 'Frasco',  15, 4.00,  6.00,  'Salsa de tomate tipo kétchup, presentación familiar');
+('PROD-ACE-001', 'Vinagre Vegetal Tari 500ml',      '2026-04-28', 11, 80, 'Botella',2.10,  3.50,  'Vinagre blanco de fermentación vegetal', 'Activo'),
+('PROD-ACE-002', 'Kétchup A-1 500g',                '2026-04-28', 11, 100, 'Frasco', 4.00,  6.00,  'Salsa de tomate tipo kétchup, presentación familiar', 'Activo'),
+
+-- Producto Inactivos
+('PROD-ABA-006', 'Lentejas Costeño 1kg',          '2026-04-28', 1, 0, 'Bolsa',   2.80,  4.00,  'Lentejas seleccionadas de alta calidad', 'Inactivo'),
+('PROD-LAC-006', 'Leche Deslactosada Gloria 1L',  '2026-04-28', 2, 0, 'Caja',    4.80,  6.50,  'Leche sin lactosa ideal para digestión ligera', 'Inactivo'),
+('PROD-BEB-005', 'Té Fuze Tea Limón 1.5L',        '2026-04-28', 3, 0, 'Botella', 3.90,  5.70,  'Bebida de té sabor limón, refrescante', 'Inactivo'),
+('PROD-SNA-005', 'Papas Lays Clásicas 150g',      '2026-04-28', 4, 0, 'Bolsa',   4.20,  6.20,  'Papas fritas crocantes con sal', 'Inactivo'),
+('PROD-LIM-005', 'Desinfectante Sapolio 900ml',   '2026-04-28', 6, 0, 'Botella', 3.50,  5.20,  'Desinfectante multiusos aroma floral', 'Inactivo');
 
 
 -- ==========================================

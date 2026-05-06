@@ -32,6 +32,7 @@ public class ProductoController {
             @RequestParam(value = "precioMax", required = false) Integer precioMaxFiltro,
             @RequestParam(value = "fechaMin", required = false) String fechaMinFiltro,
             @RequestParam(value = "fechaMax", required = false) String fechaMaxFiltro,
+            @RequestParam(value = "estado", required = false) String estadoFiltro,
             HttpSession session, Model model) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
@@ -45,10 +46,10 @@ public class ProductoController {
                 (idCategoria != null) || (stockMinFiltro != null) || (stockMaxFiltro != null) ||
                 (precioMinFiltro != null) || (precioMaxFiltro != null) ||
                 (fechaMinFiltro != null && !fechaMinFiltro.isEmpty()) ||
-                (fechaMaxFiltro != null && !fechaMaxFiltro.isEmpty());
+                (fechaMaxFiltro != null && !fechaMaxFiltro.isEmpty()) || (estadoFiltro != null && !estadoFiltro.isEmpty());
 
         if (hayFiltros) {
-            productosFiltrados = productoService.filtrarProducto(nombreFiltro, idCategoria, stockMinFiltro, stockMaxFiltro, precioMinFiltro, precioMaxFiltro, fechaMinFiltro, fechaMaxFiltro);
+            productosFiltrados = productoService.filtrarProducto(nombreFiltro, idCategoria, stockMinFiltro, stockMaxFiltro, precioMinFiltro, precioMaxFiltro, fechaMinFiltro, fechaMaxFiltro, estadoFiltro);
         } else {
             productosFiltrados = productoService.obtenerTodosLosProductos();
         }
@@ -61,13 +62,25 @@ public class ProductoController {
     }
 
     @PostMapping("/guardar")
-    public String guardarNuevoProducto(@ModelAttribute Producto producto){
+    public String guardarNuevoProducto(@ModelAttribute Producto producto, HttpSession session){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
         productoService.guardarProducto(producto);
         return "redirect:/gestion/adminProductos";
     }
 
     @GetMapping("/editar")
-    public String mostrarEditar(@RequestParam("id") int idProducto, Model model) {
+    public String mostrarEditar(@RequestParam("id") int idProducto, Model model, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
         Producto productoExistente = productoService.buscarProductoPorId(idProducto);
         model.addAttribute("paginaActiva", "gestion");
         model.addAttribute("producto", productoExistente);
@@ -76,14 +89,39 @@ public class ProductoController {
     }
 
     @PostMapping("/actualizar")
-    public String procesarActualizacion(@ModelAttribute Producto productoModificado){
+    public String procesarActualizacion(@ModelAttribute Producto productoModificado, HttpSession session){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null || !usuario.getRol().equals("Admin")) {
+            return "redirect:/login";
+        }
+
         productoService.actualizarProducto(productoModificado);
         return "redirect:/gestion/adminProductos";
     }
 
     @PostMapping("/eliminar")
-    public String eliminarProducto(@RequestParam("idProducto") int idProducto) {
+    public String eliminarProducto(@RequestParam("idProducto") int idProducto, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null || !usuario.getRol().equals("Admin")) {
+            return "redirect:/login";
+        }
+
         productoService.eliminarProducto(idProducto);
+        return "redirect:/gestion/adminProductos";
+    }
+
+    @PostMapping("/activar")
+    public String activarProducto(@RequestParam("idProducto") Integer idProducto, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null || !usuario.getRol().equals("Admin")) {
+            return "redirect:/login";
+        }
+
+        productoService.activarProducto(idProducto);
+
         return "redirect:/gestion/adminProductos";
     }
 }

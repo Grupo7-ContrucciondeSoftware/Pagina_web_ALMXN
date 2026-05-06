@@ -7,6 +7,8 @@ public interface ProductoService {
 
     List<Producto> obtenerTodosLosProductos();
 
+    int contarProductosPorCategoria(Integer idCategoria);
+
     void guardarProducto(Producto producto);
 
     Producto buscarProductoPorId(int idProducto);
@@ -19,6 +21,8 @@ public interface ProductoService {
 
     void actualizarStock(int idProducto, int cantidadAjuste);
 
-    List<Producto> filtrarProducto(String nombre, Integer idCategoria, Integer stockMin, Integer stockMax, Integer precioMin, Integer precioMax, String fechaMin, String fechaMax);
+    List<Producto> filtrarProducto(String nombre, Integer idCategoria, Integer stockMin, Integer stockMax, Integer precioMin, Integer precioMax, String fechaMin, String fechaMax, String estado);
+
+    void activarProducto(int idProducto);
 
 }
