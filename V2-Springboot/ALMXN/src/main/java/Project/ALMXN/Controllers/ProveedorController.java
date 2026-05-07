@@ -51,13 +51,21 @@ public class ProveedorController {
     }
 
     @PostMapping("/guardar")
-    public String guardarNuevoProveedor(@ModelAttribute Proveedor proveedor){
+    public String guardarNuevoProveedor(@ModelAttribute Proveedor proveedor, HttpSession session){
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
         proveedorService.guardarProveedor(proveedor);
         return "redirect:/gestion/adminProveedores";
     }
 
     @GetMapping("/editar")
-    public String mostarEditar(@RequestParam("id") int idProveedor, Model model){
+    public String mostarEditar(@RequestParam("id") int idProveedor, Model model, HttpSession session){
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
         Proveedor proveedorExistente = proveedorService.buscarProveedorPorId(idProveedor);
         model.addAttribute("paginaActiva", "gestion");
         model.addAttribute("proveedor", proveedorExistente);
@@ -65,7 +73,11 @@ public class ProveedorController {
     }
 
     @PostMapping("/actualizar")
-    public String procesarActualizacion(@ModelAttribute Proveedor proveedorModificado){
+    public String procesarActualizacion(@ModelAttribute Proveedor proveedorModificado, HttpSession session){
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
         proveedorService.actualizarProveedor(proveedorModificado);
         return "redirect:/gestion/adminProveedores";
     }

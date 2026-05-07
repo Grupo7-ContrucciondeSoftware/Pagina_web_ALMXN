@@ -52,13 +52,21 @@ public class UsuarioController {
     }
 
     @PostMapping("/guardar")
-    public String guardarNuevoUsuario(@ModelAttribute Usuario usuario){
+    public String guardarNuevoUsuario(@ModelAttribute Usuario usuario, HttpSession session){
+        Usuario user = (Usuario) session.getAttribute("usuarioLogueado");
+        if (user == null) {
+            return "redirect:/login";
+        }
         usuarioService.guardarUsuario(usuario);
         return "redirect:/gestion/adminUsuarios";
     }
 
     @GetMapping("/editar")
-    public String mostrarEditar(@RequestParam("id") int idUsuario, Model model) {
+    public String mostrarEditar(@RequestParam("id") int idUsuario, Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
         Usuario usuarioExistente = usuarioService.buscarUsuarioPorId(idUsuario);
         model.addAttribute("paginaActiva", "gestion");
         model.addAttribute("usuario", usuarioExistente);
