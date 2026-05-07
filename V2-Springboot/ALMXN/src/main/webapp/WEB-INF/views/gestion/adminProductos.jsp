@@ -333,7 +333,7 @@
     <%@ include file="/WEB-INF/views/footer.jsp" %>
 
     <!-- ===== RESTRICCION ===== -->
-    <%@ include file="/WEB-INF/views/restriccion.jsp" %>
+    <%@ include file="/WEB-INF/views/modalRestriccion.jsp" %>
 
     <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>

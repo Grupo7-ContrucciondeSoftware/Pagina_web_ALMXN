@@ -11,8 +11,6 @@ public interface CategoriaService {
 
     Categoria buscarCategoriaPorId (int idCategoria);
 
-    void actualizarCategoria(Categoria categoria);
-
     void eliminarCategoria(int idCategoria);
 
     List<Categoria> filtrarCategorias(String nombreFiltro, String estadoFiltro);

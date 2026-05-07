@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class Usuario {
 
-    private int idUsuario;
+    private Integer idUsuario;
     private String nombres;
     private String apellidos;
     private String correo;
@@ -15,7 +15,7 @@ public class Usuario {
 
     public Usuario() { }
 
-    public Usuario(int idUsuario, String nombres, String apellidos, String correo, LocalDate fechaCreacion, String contraseña, String rol, String estadoUsuario){
+    public Usuario(Integer idUsuario, String nombres, String apellidos, String correo, LocalDate fechaCreacion, String contraseña, String rol, String estadoUsuario){
         this.idUsuario = idUsuario;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -26,8 +26,8 @@ public class Usuario {
         this.estadoUsuario = estadoUsuario;
     }
     
-    public int getIdUsuario() { return idUsuario; }
-    public void setIdUsuario(int idUsuario) { this.idUsuario = idUsuario; }
+    public Integer getIdUsuario() { return idUsuario; }
+    public void setIdUsuario(Integer idUsuario) { this.idUsuario = idUsuario; }
 
     public String getNombres() { return nombres; }
     public void setNombres(String nombres) { this.nombres = nombres;}

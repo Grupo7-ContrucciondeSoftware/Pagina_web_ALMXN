@@ -44,7 +44,7 @@
 
                 <section class="form-grupo">
 
-                    <form action="/gestion/adminProveedores/actualizar" method="POST">
+                    <form action="/gestion/adminProveedores/guardar" method="POST">
 
                         <input type="hidden" name="idProveedor" value="${proveedor.idProveedor}">
 

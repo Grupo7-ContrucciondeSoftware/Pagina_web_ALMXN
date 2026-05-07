@@ -11,8 +11,6 @@ public interface ProveedorService {
 
     Proveedor buscarProveedorPorId(int idProveedor);
 
-    void actualizarProveedor(Proveedor proveedor);
-
     void eliminarProveedor(int idProveedor);
 
     void activarProveedor(int idProveedor);

@@ -24,6 +24,7 @@ public class CategoriaRepository implements CategoriaDAO{
         );
     };
 
+
     @Override
     public List<Categoria> listaCategorias(){
         String query = "SELECT * FROM categoria WHERE estado = 'Activo' ";

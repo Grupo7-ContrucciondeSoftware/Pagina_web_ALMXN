@@ -73,12 +73,6 @@ public class UsuarioController {
         return "gestion/editar/editarUsuario";
     }
 
-    @PostMapping("/actualizar")
-    public String procesarActualizacion(@ModelAttribute Usuario usuarioModificado) {
-        usuarioService.actualizarUsuario(usuarioModificado);
-        return "redirect:/gestion/adminUsuarios";
-    }
-
     @PostMapping("/eliminar")
     public String eliminarUsuario(@RequestParam("idUsuario") int idUsuario, HttpSession session){
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");

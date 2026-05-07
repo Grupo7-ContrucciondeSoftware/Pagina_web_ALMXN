@@ -39,15 +39,13 @@
                 </div>
             </section>
 
-            <!-- CONTENIDO DEL FORMULARIO DE EDICIÓN -->
+            <!-- FORMULARIO -->
             <div class="pestaña-contenido" style="display: block;">
 
                 <section class="form-grupo">
 
-                    <!-- Agregamos la clase form-validable para tu JS -->
-                    <form action="/gestion/adminUsuarios/actualizar" method="POST" class="form-validable">
+                    <form action="/gestion/adminUsuarios/guardar" method="POST" class="form-validable">
 
-                        <!-- El ID oculto, fundamental para el UPDATE -->
                         <input type="hidden" name="idUsuario" value="${usuario.idUsuario}">
 
                         <div class="formulario">

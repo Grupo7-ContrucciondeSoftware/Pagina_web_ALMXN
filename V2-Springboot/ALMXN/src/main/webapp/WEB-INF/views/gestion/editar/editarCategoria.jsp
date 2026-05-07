@@ -44,7 +44,7 @@
 
                 <section class="form-grupo">
 
-                    <form action="/gestion/adminCategorias/actualizar" method="POST">
+                    <form action="/gestion/adminCategorias/guardar" method="POST">
 
                         <input type="hidden" name="idCategoria" value="${categoria.idCategoria}">
 

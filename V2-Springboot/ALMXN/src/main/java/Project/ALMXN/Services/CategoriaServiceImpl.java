@@ -21,18 +21,18 @@ public class CategoriaServiceImpl implements CategoriaService{
 
     @Override
     public void guardarCategoria(Categoria categoria) {
-        categoria.setEstadoCategoria("Activo");
-        categoriaDAO.guardarCategoria(categoria);
+
+        if (categoria.getIdCategoria() == null){
+            categoria.setEstadoCategoria("Activo");
+            categoriaDAO.guardarCategoria(categoria);
+        } else{
+            categoriaDAO.actualizarCategoria(categoria);
+        }
     }
 
     @Override
     public Categoria buscarCategoriaPorId(int idCategoria){
         return categoriaDAO.buscarCategoriaPorId(idCategoria);
-    }
-
-    @Override
-    public void actualizarCategoria(Categoria categoria) {
-        categoriaDAO.actualizarCategoria(categoria);
     }
 
     @Override

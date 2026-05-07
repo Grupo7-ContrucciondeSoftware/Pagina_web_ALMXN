@@ -73,18 +73,6 @@ public class CategoriaController {
         return "gestion/editar/editarCategoria";
     }
 
-    @PostMapping("/actualizar")
-    public String procesarActualizacion(@ModelAttribute Categoria categoriaModificada, HttpSession session){
-
-        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-        if (usuario == null) {
-            return "redirect:/login";
-        }
-
-        categoriaService.actualizarCategoria(categoriaModificada);
-        return "redirect:/gestion/adminCategorias";
-    }
-
     @PostMapping("/eliminar")
     public String eliminarProducto(@RequestParam("idCategoria") int idCategoria, HttpSession session) {
 

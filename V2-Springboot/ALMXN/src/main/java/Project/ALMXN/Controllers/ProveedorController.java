@@ -72,16 +72,6 @@ public class ProveedorController {
         return "gestion/editar/editarProveedor";
     }
 
-    @PostMapping("/actualizar")
-    public String procesarActualizacion(@ModelAttribute Proveedor proveedorModificado, HttpSession session){
-        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-        if (usuario == null) {
-            return "redirect:/login";
-        }
-        proveedorService.actualizarProveedor(proveedorModificado);
-        return "redirect:/gestion/adminProveedores";
-    }
-
     @PostMapping("/eliminar")
     public String eliminarProveedor(@RequestParam("idProveedor") int idProveedor, HttpSession session){
 

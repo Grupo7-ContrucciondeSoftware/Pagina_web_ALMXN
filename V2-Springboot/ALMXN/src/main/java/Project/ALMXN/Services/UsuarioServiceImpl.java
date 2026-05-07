@@ -21,18 +21,17 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void guardarUsuario(Usuario usuario) {
-        usuario.setEstadoUsuario("Activo");
-        usuarioDAO.guardarUsuario(usuario);
+        if (usuario.getIdUsuario() == null){
+            usuario.setEstadoUsuario("Activo");
+            usuarioDAO.guardarUsuario(usuario);
+        } else {
+            usuarioDAO.actualizarUsuario(usuario);
+        }
     }
 
     @Override
     public Usuario buscarUsuarioPorId(int idUsuario) {
         return usuarioDAO.buscarUsuarioPorId(idUsuario);
-    }
-
-    @Override
-    public void actualizarUsuario(Usuario usuario) {
-        usuarioDAO.actualizarUsuario(usuario);
     }
 
     @Override

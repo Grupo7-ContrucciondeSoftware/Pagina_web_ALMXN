@@ -85,14 +85,13 @@ public class ProductoRepository implements ProductoDAO {
 
     @Override
     public void actualizarProducto (Producto producto){
-        String sql = "UPDATE producto SET nombre = ?, id_categoria = ?, " +
+        String sql = "UPDATE producto SET nombre = ?, " +
                 "unidad_medida = ?, precio_costo = ?, " +
                 "precio_venta = ?, descripcion = ? " +
                 "WHERE id_producto = ?";
 
         jdbcTemplate.update(sql,
                 producto.getNombreProducto(),
-                producto.getCategoria().getIdCategoria(),
                 producto.getUnidadMedidaProducto(),
                 producto.getPrecioCostoProducto(),
                 producto.getPrecioVentaProducto(),

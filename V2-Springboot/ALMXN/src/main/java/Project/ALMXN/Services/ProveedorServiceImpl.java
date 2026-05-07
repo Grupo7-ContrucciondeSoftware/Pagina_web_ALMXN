@@ -21,19 +21,17 @@ public class ProveedorServiceImpl implements ProveedorService{
 
     @Override
     public void guardarProveedor(Proveedor proveedor) {
-
-        proveedor.setEstadoProveedor("Activo");
-        proveedorDAO.guardarProveedor(proveedor);
+        if(proveedor.getIdProveedor() == null){
+            proveedor.setEstadoProveedor("Activo");
+            proveedorDAO.guardarProveedor(proveedor);
+        } else {
+            proveedorDAO.actualizarProveedor(proveedor);
+        }
     }
 
     @Override
     public Proveedor buscarProveedorPorId(int idProveedor){
         return proveedorDAO.buscarProveedorPorId(idProveedor);
-    }
-
-    @Override
-    public void actualizarProveedor(Proveedor proveedor){
-        proveedorDAO.actualizarProveedor(proveedor);
     }
 
     @Override
