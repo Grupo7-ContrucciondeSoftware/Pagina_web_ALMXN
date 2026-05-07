@@ -133,7 +133,7 @@
                                     <th class="header-tabla">Código</th>
                                     <th class="header-tabla">Producto</th>
                                     <th class="header-tabla">Stock</th>
-                                    <th class="header-tabla">Precio</th>
+                                    <th class="header-tabla">Precio de Venta</th>
                                     <th class="header-tabla">Cantidad</th>
                                     <th class="header-tabla">Acción</th>
                                 </tr>
@@ -160,7 +160,7 @@
                                     <th class="header-tabla">Código</th>
                                     <th class="header-tabla">Producto</th>
                                     <th class="header-tabla">Cantidad</th>
-                                    <th class="header-tabla">Precio Unit.</th>
+                                    <th class="header-tabla">Precio de Venta Unitario</th>
                                     <th class="header-tabla">Subtotal</th>
                                     <th class="header-tabla">Acciones</th>
                                 </tr>
@@ -267,15 +267,13 @@
                                 <tr>
                                     <th class="header-tabla">Código</th>
                                     <th class="header-tabla">Producto</th>
-                                    <th class="header-tabla">Stock</th>
-                                    <th class="header-tabla">Precio</th>
+                                    <th class="header-tabla">Precio de Coste</th>
                                     <th class="header-tabla">Cantidad</th>
                                     <th class="header-tabla">Acción</th>
                                 </tr>
                             </thead>
                             <tbody class="body-tabla" id="tbody-resultados-ingreso">
                                 <tr>
-                                    <td>---</td>
                                     <td>---</td>
                                     <td>---</td>
                                     <td>---</td>
@@ -295,7 +293,7 @@
                                     <th class="header-tabla">Código</th>
                                     <th class="header-tabla">Producto</th>
                                     <th class="header-tabla">Cantidad</th>
-                                    <th class="header-tabla">Precio Unit.</th>
+                                    <th class="header-tabla">Precio de Coste Unitario</th>
                                     <th class="header-tabla">Subtotal</th>
                                     <th class="header-tabla">Acciones</th>
                                 </tr>

@@ -117,7 +117,8 @@ public class ProductoRepository implements ProductoDAO {
         String sql = "SELECT p.*, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion, c.estado AS categoria_estado " +
                 "FROM producto p " +
                 "INNER JOIN categoria c ON p.id_categoria = c.id_categoria " +
-                "WHERE p.codigo LIKE ? OR p.nombre LIKE ?";
+                "WHERE (p.codigo LIKE ? OR LOWER(p.nombre) LIKE  LOWER(?)) " +
+                "AND p.estado = 'Activo'";
         String parametro = "%" + filtro + "%";
         return jdbcTemplate.query(sql, ProductoRowMapper, parametro, parametro);
     }

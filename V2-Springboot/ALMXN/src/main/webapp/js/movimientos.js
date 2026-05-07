@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    function configurarBuscador(idInput, idTbodyResultados, idTablaDestino) {
+
+    // FUNCION PARA CONFIGURAR EL BUSCADOR
+    function configurarBuscador(idInput, idTbodyResultados, idTablaDestino, tipoMovimiento) {
         const inputBusqueda = document.getElementById(idInput);
         const tbodyResultados = document.getElementById(idTbodyResultados);
         let temporizadorBusqueda;
@@ -10,20 +12,23 @@ document.addEventListener('DOMContentLoaded', () => {
         inputBusqueda.addEventListener('input', () => {
             clearTimeout(temporizadorBusqueda);
             temporizadorBusqueda = setTimeout(() => {
-                realizarBusqueda(inputBusqueda, tbodyResultados, idTablaDestino);
+                realizarBusqueda(inputBusqueda, tbodyResultados, idTablaDestino, tipoMovimiento);
             }, 300);
         });
     }
 
-    function realizarBusqueda(input, tbody, idDestino) {
+    // FUNCION PARA REALIZAR BUSQUEDA
+    function realizarBusqueda(input, tbody, idDestino, tipoMovimiento) {
         const query = input.value.trim();
 
+        const columnas = tipoMovimiento === 'salida' ? 6 : 5;
+
         if (query.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="6" class="body-tabla" style="text-align: center;">Escriba un producto para ver sugerencias...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="${columnas}" class="body-tabla" style="text-align: center;">Escriba un producto para ver sugerencias...</td></tr>`;
             return;
         }
 
-        tbody.innerHTML = `<tr><td colspan="6" class="body-tabla" style="text-align: center;">Buscando...</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="${columnas}" class="body-tabla" style="text-align: center;">Buscando...</td></tr>`;
 
         fetch(`/api/productos/buscar?q=${query}`)
             .then(response => response.json())
@@ -31,45 +36,68 @@ document.addEventListener('DOMContentLoaded', () => {
                 tbody.innerHTML = '';
 
                 if (productos.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="6" class="body-tabla" style="text-align: center;">No se encontraron productos similares.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="${columnas}" class="body-tabla" style="text-align: center;">No se encontraron productos similares.</td></tr>`;
                     return;
                 }
 
                 productos.forEach(prod => {
+
+                    // DEPENDIENDO EL MOVIMIENTO HARÁ:
                     const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td class="prod-codigo">${prod.codigoProducto}</td>
-                        <td class="prod-nombre">${prod.nombreProducto}</td>
-                        <td>${prod.stockActualProducto}</td>
-                        <td>
-                            S/ <input type="number" class="form-control prod-precio" value="${prod.precioVentaProducto}" style="width: 80px;" readonly>
-                        </td>
-                        <td>
-                            <input type="number" class="form-control prod-cantidad" value="1" min="1" max="${prod.stockActualProducto}" style="width: 80px;">
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-secundario btn-agregar-lista" 
-                                    data-id="${prod.idProducto}" 
-                                    data-target="${idDestino}">
-                                + Añadir
-                            </button>
-                        </td>
-                    `;
+
+                    if (tipoMovimiento === 'salida') {
+                        tr.innerHTML = `
+                            <td class="prod-codigo">${prod.codigoProducto}</td>
+                            <td class="prod-nombre">${prod.nombreProducto}</td>
+                            <td>${prod.stockActualProducto}</td>
+                            <td>
+                                S/ <input type="number" class="form-control prod-precio" value="${prod.precioVentaProducto}" style="width: 80px;" readonly>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control prod-cantidad" value="1" min="1" max="${prod.stockActualProducto}" style="width: 80px;">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-secundario btn-agregar-lista" 
+                                        data-id="${prod.idProducto}" 
+                                        data-target="${idDestino}">
+                                    + Añadir
+                                </button>
+                            </td>
+                        `;
+                    } else if (tipoMovimiento === 'ingreso') {
+                        tr.innerHTML = `
+                            <td class="prod-codigo">${prod.codigoProducto}</td>
+                            <td class="prod-nombre">${prod.nombreProducto}</td>
+                            <td>
+                                S/ <input type="number" class="form-control prod-precio" value="${prod.precioCostoProducto}" style="width: 80px;">
+                            </td>
+                            <td>
+                                <input type="number" class="form-control prod-cantidad" value="1" min="1" style="width: 80px;">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-secundario btn-agregar-lista" 
+                                        data-id="${prod.idProducto}" 
+                                        data-target="${idDestino}">
+                                    + Añadir
+                                </button>
+                            </td>
+                        `;
+                    }
+
                     tbody.appendChild(tr);
                 });
             })
             .catch(error => {
                 console.error("Error en la búsqueda:", error);
-                tbody.innerHTML = `<tr><td colspan="6" class="body-tabla" style="color: red; text-align: center;">Error al conectar con la base de datos.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="${columnas}" class="body-tabla" style="color: red; text-align: center;">Error al conectar con la base de datos.</td></tr>`;
             });
     }
 
-    configurarBuscador('busqueda-prod-salida', 'tbody-resultados-salida', 'tabla-detalles-salida');
-    configurarBuscador('busqueda-prod-ingreso', 'tbody-resultados-ingreso', 'tabla-detalles-ingreso');
+    configurarBuscador('busqueda-prod-salida', 'tbody-resultados-salida', 'tabla-detalles-salida', 'salida');
+    configurarBuscador('busqueda-prod-ingreso', 'tbody-resultados-ingreso', 'tabla-detalles-ingreso', 'ingreso');
 
-
+    // FUNCION PARA AGREGAR A LA LISTA
     document.addEventListener('click', function(e) {
-
         if (e.target && e.target.classList.contains('btn-agregar-lista')) {
             const btn = e.target;
             const filaBusqueda = btn.closest('tr');
@@ -77,12 +105,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const idProducto = btn.getAttribute('data-id');
             const codigo = filaBusqueda.querySelector('.prod-codigo').innerText;
             const nombre = filaBusqueda.querySelector('.prod-nombre').innerText;
+
             const precio = parseFloat(filaBusqueda.querySelector('.prod-precio').value);
             const cantidad = parseInt(filaBusqueda.querySelector('.prod-cantidad').value);
 
             if(isNaN(cantidad) || cantidad <= 0) {
                 alert("Por favor, ingrese una cantidad válida.");
                 return;
+            }
+
+            const inputCantidad = filaBusqueda.querySelector('.prod-cantidad');
+            if(inputCantidad.hasAttribute('max')) {
+                const stockMax = parseInt(inputCantidad.getAttribute('max'));
+                if(cantidad > stockMax) {
+                    alert(`No hay suficiente stock. Solo quedan ${stockMax} unidades.`);
+                    return;
+                }
             }
 
             const subtotal = precio * cantidad;
@@ -114,6 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
             recalcularTotal(tbodyDestino);
         }
 
+        // PARA ELIMINAR FILA
         if (e.target && e.target.classList.contains('btn-eliminar-fila')) {
             const btn = e.target;
             const filaAEliminar = btn.closest('tr');
@@ -149,9 +188,10 @@ document.addEventListener('DOMContentLoaded', () => {
             spanTotal.innerText = `S/ ${total.toFixed(2)}`;
         }
     }
-
 });
 
+
+// MOSTRAR MODAL DETALLE DE MOVIMIENTO
 document.addEventListener('DOMContentLoaded', () => {
 
     const modal = document.getElementById("modal-detalle-movimiento");
