@@ -157,13 +157,32 @@
                                         <c:choose>
 
                                             <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
-                                                <button type="button" class="btn btn-secundario btn-eliminar"
-                                                        data-id="${usuario.idUsuario}"
-                                                        data-nombre="${usuario.nombres} ${usuario.apellidos}"
-                                                        data-action="/gestion/adminUsuarios/eliminar"
-                                                        data-param="idUsuario">
-                                                    Eliminar
-                                                </button>
+
+                                                <c:choose>
+
+                                                    <c:when test="${usuario.idUsuario == sessionScope.usuarioLogueado.idUsuario}">
+                                                        <button type="button"
+                                                                class="btn btn-secundario btn-eliminar"
+                                                                disabled
+                                                                style="opacity: 0.5; cursor: not-allowed;"
+                                                                title="No puedes eliminar tu propia cuenta">
+                                                            Eliminar
+                                                        </button>
+                                                    </c:when>
+
+                                                    <c:otherwise>
+
+                                                        <button type="button" class="btn btn-secundario btn-eliminar"
+                                                                data-id="${usuario.idUsuario}"
+                                                                data-nombre="${usuario.nombres} ${usuario.apellidos}"
+                                                                data-action="/gestion/adminUsuarios/eliminar"
+                                                                data-param="idUsuario">
+                                                            Eliminar
+                                                        </button>
+                                                    </c:otherwise>
+
+                                                </c:choose>
+
                                             </c:when>
 
                                             <c:otherwise>

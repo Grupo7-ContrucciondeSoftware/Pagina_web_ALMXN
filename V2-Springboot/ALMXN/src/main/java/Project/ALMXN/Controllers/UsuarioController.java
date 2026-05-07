@@ -74,11 +74,16 @@ public class UsuarioController {
     }
 
     @PostMapping("/eliminar")
-    public String eliminarUsuario(@RequestParam("idUsuario") int idUsuario, HttpSession session){
-        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-        if (usuario == null || !usuario.getRol().equals("Admin")) {
+    public String eliminarUsuario(@RequestParam("idUsuario") Integer idUsuario, HttpSession session){
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !usuarioLogueado.getRol().equals("Admin")) {
             return "redirect:/login";
         }
+
+        if (usuarioLogueado.getIdUsuario().equals(idUsuario)) {
+            return "redirect:/gestion/adminUsuarios";
+        }
+
         usuarioService.eliminarUsuario(idUsuario);
         return "redirect:/gestion/adminUsuarios";
     }
