@@ -33,20 +33,21 @@ public class UsuarioRepository implements UsuarioDAO {
 
     @Override
     public List<Usuario> listarTodos(){
-        String sql = "SELECT * FROM usuario";
+        String sql = "SELECT * FROM usuario WHERE estado = 'Activo' ";
         return jdbcTemplate.query(sql, UsuarioRowMapper);
     }
 
     @Override
     public void guardarUsuario(Usuario usuario){
-        String sql = "INSERT INTO usuario (nombres, apellidos, correo, contraseña, rol) "+
-                "VALUES ( ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuario (nombres, apellidos, correo, contraseña, rol, estado) "+
+                "VALUES ( ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,
                 usuario.getNombres(),
                 usuario.getApellidos(),
                 usuario.getCorreo(),
                 usuario.getContraseña(),
-                usuario.getRol()
+                usuario.getRol(),
+                usuario.getEstadoUsuario()
         );
     }
 
@@ -59,21 +60,32 @@ public class UsuarioRepository implements UsuarioDAO {
     @Override
     public void actualizarUsuario(Usuario usuario) {
         String sql = "UPDATE usuario SET nombres = ?, apellidos = ?, correo = ?, " +
-                "rol = ?, estado = ? WHERE id_usuario = ?";
+                "rol = ? WHERE id_usuario = ?";
 
         jdbcTemplate.update(sql,
                 usuario.getNombres(),
                 usuario.getApellidos(),
                 usuario.getCorreo(),
                 usuario.getRol(),
-                usuario.getEstado(),
                 usuario.getIdUsuario()
         );
     }
 
     @Override
+    public void eliminarUsuario(int idUsuario){
+        String sql = "UPDATE usuario SET estado = 'Inactivo' WHERE id_usuario = ?";
+        jdbcTemplate.update(sql,idUsuario);
+    }
+
+    @Override
+    public void activarUsuario(int idUsuario) {
+        String sql = "UPDATE usuario SET estado = 'Activo' WHERE id_usuario = ?";
+        jdbcTemplate.update(sql,idUsuario);
+    }
+
+    @Override
     public Usuario buscarPorCorreoYContrasena(String correo, String contraseña) {
-        String sql = "SELECT * FROM usuario WHERE correo = ? AND contraseña = ?";
+        String sql = "SELECT * FROM usuario WHERE correo = ? AND contraseña = ? AND estado = 'Activo' ";
         List<Usuario> resultado = jdbcTemplate.query(sql, UsuarioRowMapper, correo, contraseña);
         return resultado.isEmpty() ? null : resultado.get(0);
     }
@@ -95,7 +107,7 @@ public class UsuarioRepository implements UsuarioDAO {
             parametros.add(rol);
         }
 
-        if (estado != null && !estado.isEmpty()) {
+        if (estado != null && !estado.isEmpty() && !estado.equalsIgnoreCase("Todos")){
             sql.append(" AND estado = ?");
             parametros.add(estado);
         }

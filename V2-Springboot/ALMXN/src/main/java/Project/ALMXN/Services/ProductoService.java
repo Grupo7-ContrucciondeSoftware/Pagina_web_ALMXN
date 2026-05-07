@@ -7,13 +7,9 @@ public interface ProductoService {
 
     List<Producto> obtenerTodosLosProductos();
 
-    int contarProductosPorCategoria(Integer idCategoria);
-
     void guardarProducto(Producto producto);
 
     Producto buscarProductoPorId(int idProducto);
-
-    void actualizarProducto(Producto producto);
 
     void eliminarProducto(int idProducto);
 

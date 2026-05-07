@@ -18,7 +18,8 @@ CREATE TABLE proveedor (
     ruc VARCHAR(11) UNIQUE NOT NULL,
     razon_social VARCHAR(150) NOT NULL,
     telefono VARCHAR(15),
-    correo VARCHAR(100)
+    correo VARCHAR(100),
+    estado VARCHAR(20) DEFAULT 'Activo'
 );
 
 -- ==========================================

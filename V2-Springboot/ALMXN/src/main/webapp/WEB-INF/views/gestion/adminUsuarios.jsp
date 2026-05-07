@@ -79,10 +79,9 @@
                     <div class="filtro-grupo">
                         <label class="form-label" for="estado-filtro">Estado:</label>
                         <select class="form-control" id="estado-filtro">
-                            <option value="">Sin Filtro</option>
+                            <option value="Todos">Sin Filtro</option>
                             <option value="Activo">Activo</option>
-                            <option value="Bloqueado">Bloqueado</option>
-                            <option value="Suspendido">Suspendido</option>
+                            <option value="Inactivo">Inactivo</option>
                         </select>
                     </div>
 
@@ -134,30 +133,70 @@
                                     </span>
                                 </td>
                                 <td class="body-tabla">
-                                    <span class="estado ${usuario.estado.toLowerCase()}">
-                                        <c:out value="${usuario.estado}"/>
+                                    <span class="estado ${usuario.estadoUsuario.toLowerCase()}">
+                                        <c:out value="${usuario.estadoUsuario}"/>
                                     </span>
                                 </td>
                                 <td class="body-tabla">
-                                    <c:choose>
-                                        <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
-                                            <a href="/gestion/adminUsuarios/editar?id=${usuario.idUsuario}" class="btn btn-secundario" id="btn-editar">Editar</a>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <button type="button" class="btn btn-secundario" onclick="abrirModalPermiso()" style="font-size: 16px;" >Editar</button>
-                                        </c:otherwise>
-                                    </c:choose>
-                                    <c:choose>
-                                        <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
-                                            <button type="button" class="btn btn-secundario btn-eliminar-modal"
-                                                    data-id="${usuario.idUsuario}" data-nombre="${usuario.nombres} ${usuario.nombres}">
-                                                Eliminar
-                                            </button>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <button type="button" class="btn btn-secundario" style="font-size: 16px; border-color: #dc3545;"onclick="abrirModalPermiso()" >Eliminar</button>
-                                        </c:otherwise>
-                                    </c:choose>
+
+                                <c:choose>
+                                    <c:when test="${usuario.estadoUsuario == 'Activo'}">
+
+                                        <c:choose>
+
+                                            <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                                <a href="/gestion/adminUsuarios/editar?id=${usuario.idUsuario}" class="btn btn-secundario btn-editar">Editar</a>
+                                            </c:when>
+
+                                            <c:otherwise>
+                                                <button type="button" class="btn btn-secundario" onclick="abrirModalPermiso()" style="font-size: 16px;" >Editar</button>
+                                            </c:otherwise>
+
+                                        </c:choose>
+
+                                        <c:choose>
+
+                                            <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                                <button type="button" class="btn btn-secundario btn-eliminar"
+                                                        data-id="${usuario.idUsuario}"
+                                                        data-nombre="${usuario.nombres} ${usuario.apellidos}"
+                                                        data-action="/gestion/adminUsuarios/eliminar"
+                                                        data-param="idUsuario">
+                                                    Eliminar
+                                                </button>
+                                            </c:when>
+
+                                            <c:otherwise>
+                                                <button type="button" class="btn btn-secundario btn-falso-eliminar" onclick="abrirModalPermiso()" >Eliminar</button>
+                                            </c:otherwise>
+
+                                        </c:choose>
+
+                                    </c:when>
+
+                                    <c:otherwise>
+
+                                        <c:choose>
+
+                                            <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                                <form action="/gestion/adminUsuarios/activar" method="POST" >
+                                                    <input type="hidden" name="idUsuario" value="${usuario.idUsuario}">
+                                                    <button type="submit" class="btn btn-secundario btn-activar">
+                                                        Activar
+                                                    </button>
+                                                </form>
+                                            </c:when>
+
+                                            <c:otherwise>
+                                                <button type="button" class="btn btn-secundario btn-falso-activar" onclick="abrirModalPermiso()">Activar</button>
+                                            </c:otherwise>
+
+                                        </c:choose>
+
+                                    </c:otherwise>
+
+                                </c:choose>
+
                                 </td>
                             </tr>
                         </c:forEach>
@@ -278,6 +317,12 @@
                 </section>
             </div>
 
+            <%-- ============================================
+                        MODAL ELIMINAR USUARIO
+            ============================================ --%>
+
+            <%@ include file="/WEB-INF/views/modalEliminar.jsp" %>
+
         </div>
 
     </main>
@@ -285,11 +330,15 @@
     <!-- ===== FOOTER ===== -->
     <%@ include file="/WEB-INF/views/footer.jsp" %>
 
+
+    <!-- ===== RESTRICCION ===== -->
+    <%@ include file="/WEB-INF/views/restriccion.jsp" %>
+
     <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>
     <script src="/js/validacionUsuarios.js" defer></script>
     <script src="/js/Filtros/usuarioFiltro.js" defer></script>
-    <%@ include file="/WEB-INF/views/restriccion.jsp" %>
+    <script src="/js/Eliminar/eliminarFuncion.js" defer></script>
 
 </body>
 </html>

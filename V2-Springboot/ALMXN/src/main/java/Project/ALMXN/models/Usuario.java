@@ -11,11 +11,11 @@ public class Usuario {
     private LocalDate fechaCreacion;
     private String contraseña;
     private String rol;
-    private String estado;
+    private String estadoUsuario;
 
     public Usuario() { }
 
-    public Usuario(int idUsuario, String nombres, String apellidos, String correo, LocalDate fechaCreacion, String contraseña, String rol, String estado){
+    public Usuario(int idUsuario, String nombres, String apellidos, String correo, LocalDate fechaCreacion, String contraseña, String rol, String estadoUsuario){
         this.idUsuario = idUsuario;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -23,7 +23,7 @@ public class Usuario {
         this.fechaCreacion = fechaCreacion;
         this.contraseña = contraseña;
         this.rol = rol;
-        this.estado = estado;
+        this.estadoUsuario = estadoUsuario;
     }
     
     public int getIdUsuario() { return idUsuario; }
@@ -47,7 +47,7 @@ public class Usuario {
     public String getRol() { return rol; }
     public void setRol(String rol) { this.rol = rol; }
 
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+    public String getEstadoUsuario() { return estadoUsuario; }
+    public void setEstadoUsuario(String estadoUsuario) { this.estadoUsuario = estadoUsuario; }
 
 }

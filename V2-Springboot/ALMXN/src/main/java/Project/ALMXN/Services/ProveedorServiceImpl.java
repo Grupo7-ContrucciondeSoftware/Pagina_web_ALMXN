@@ -21,6 +21,8 @@ public class ProveedorServiceImpl implements ProveedorService{
 
     @Override
     public void guardarProveedor(Proveedor proveedor) {
+
+        proveedor.setEstadoProveedor("Activo");
         proveedorDAO.guardarProveedor(proveedor);
     }
 
@@ -35,8 +37,14 @@ public class ProveedorServiceImpl implements ProveedorService{
     }
 
     @Override
-    public List<Proveedor> filtrarProveedor(String razonSocial, String ruc, Integer telefono){
-        return proveedorDAO.filtrarProveedor(razonSocial, ruc, telefono);
+    public void eliminarProveedor(int idProveedor) { proveedorDAO.eliminarProveedor(idProveedor); }
+
+    @Override
+    public void activarProveedor(int idProveedor) { proveedorDAO.activarProveedor(idProveedor); }
+
+    @Override
+    public List<Proveedor> filtrarProveedor(String razonSocial, String ruc, Integer telefono, String estadoFiltro){
+        return proveedorDAO.filtrarProveedor(razonSocial, ruc, telefono, estadoFiltro);
     }
 
 }

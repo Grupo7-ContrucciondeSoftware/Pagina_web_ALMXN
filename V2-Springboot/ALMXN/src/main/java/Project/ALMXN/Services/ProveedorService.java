@@ -13,6 +13,10 @@ public interface ProveedorService {
 
     void actualizarProveedor(Proveedor proveedor);
 
-    List<Proveedor> filtrarProveedor(String razonSocial, String ruc, Integer telefono);
+    void eliminarProveedor(int idProveedor);
+
+    void activarProveedor(int idProveedor);
+
+    List<Proveedor> filtrarProveedor(String razonSocial, String ruc, Integer telefono, String estadoFiltro);
 
 }

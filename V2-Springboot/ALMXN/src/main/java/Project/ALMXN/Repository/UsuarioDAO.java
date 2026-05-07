@@ -13,6 +13,10 @@ public interface UsuarioDAO {
 
     void actualizarUsuario(Usuario usuario);
 
+    void eliminarUsuario(int idUsuario);
+
+    void activarUsuario(int idUsuario);
+
     Usuario buscarPorCorreoYContrasena(String correo, String contraseña);
 
     List<Usuario> filtrarUsuario(String nombres, String rol, String estado, String fechaMin, String fechaMax);

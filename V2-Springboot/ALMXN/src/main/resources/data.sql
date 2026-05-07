@@ -35,15 +35,15 @@ INSERT INTO categoria (nombre, descripcion, estado) VALUES
 -- ==========================================
 -- 3. INSERTAR PROVEEDORES
 -- ==========================================
-INSERT INTO proveedor (ruc, razon_social, telefono, correo) VALUES
-('20100055237', 'Alicorp S.A.A.',             '987654321', 'ventas@alicorp.com.pe'),
-('20262992453', 'Gloria S.A.',                '912345678', 'distribucion@gloria.com.pe'),
-('20100125896', 'Procter & Gamble Perú',       '999888777', 'pedidos@pg.com.pe'),
-('20331066703', 'Backus & Johnston S.A.A.',    '981234567', 'comercial@backus.pe'),
-('20418108289', 'Nestlé Perú S.A.',            '994567890', 'ventas@nestle.com.pe'),
-('20100070970', 'Laive S.A.',                  '976543210', 'pedidos@laive.com.pe'),
-('20503840121', 'Industrias Teal S.A.',        '965432109', 'ventas@teal.com.pe'),
-('20601234567', 'Distribuidora Norte E.I.R.L.','954321098', 'contacto@distnorte.pe');
+INSERT INTO proveedor (ruc, razon_social, telefono, correo, estado) VALUES
+('20100055237', 'Alicorp S.A.A.',             '987654321', 'ventas@alicorp.com.pe', 'Activo'),
+('20262992453', 'Gloria S.A.',                '912345678', 'distribucion@gloria.com.pe', 'Activo'),
+('20100125896', 'Procter & Gamble Perú',       '999888777', 'pedidos@pg.com.pe', 'Activo'),
+('20331066703', 'Backus & Johnston S.A.A.',    '981234567', 'comercial@backus.pe', 'Activo'),
+('20418108289', 'Nestlé Perú S.A.',            '994567890', 'ventas@nestle.com.pe', 'Activo'),
+('20100070970', 'Laive S.A.',                  '976543210', 'pedidos@laive.com.pe', 'Activo'),
+('20503840121', 'Industrias Teal S.A.',        '965432109', 'ventas@teal.com.pe', 'Activo'),
+('20601234567', 'Distribuidora Norte E.I.R.L.','954321098', 'contacto@distnorte.pe', 'Activo');
 
 
 -- ==========================================

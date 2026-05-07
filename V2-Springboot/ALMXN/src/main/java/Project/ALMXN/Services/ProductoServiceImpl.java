@@ -35,20 +35,17 @@ public class ProductoServiceImpl implements ProductoService {
 
             producto.setEstadoProducto("Activo");
 
-            // 3. Obtener datos de la categoría para el código
+            // Lógica para el codigo autogenerado
             Categoria categoria = categoriaDAO.buscarCategoriaPorId(producto.getCategoria().getIdCategoria());
             String nombreCat = categoria.getNombreCategoria();
 
-            // Extraer las primeras 3 letras
             String prefijo = nombreCat.substring(0, Math.min(nombreCat.length(), 3)).toUpperCase();
 
-            // 4. Contar productos y generar el correlativo
             int cantidadActual = productoDAO.contarProductosPorCategoria(categoria.getIdCategoria());
             int siguienteNumero = cantidadActual + 1;
 
             String codigoGenerado = String.format("PROD-%s-%03d", prefijo, siguienteNumero);
 
-            // 5. Asignar el código final
             producto.setCodigoProducto(codigoGenerado);
 
             productoDAO.guardarProducto(producto);
@@ -60,18 +57,8 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public int contarProductosPorCategoria(Integer idCategoria){
-        return productoDAO.contarProductosPorCategoria(idCategoria);
-    }
-
-    @Override
     public Producto buscarProductoPorId(int id) {
         return productoDAO.buscarProductoPorId(id);
-    }
-
-    @Override
-    public void actualizarProducto(Producto producto) {
-        productoDAO.actualizarProducto(producto);
     }
 
     @Override

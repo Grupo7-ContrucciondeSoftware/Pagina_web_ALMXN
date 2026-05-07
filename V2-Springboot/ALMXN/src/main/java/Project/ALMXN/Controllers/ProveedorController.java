@@ -26,6 +26,7 @@ public class ProveedorController {
             @RequestParam(value = "razonSocial", required = false) String razonSocialFiltro,
             @RequestParam(value = "ruc", required = false) String rucFiltro,
             @RequestParam(value = "telefono", required = false) Integer telefonoFiltro,
+            @RequestParam(value = "estado", required = false) String estadoFiltro,
             HttpSession session, Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
@@ -36,10 +37,10 @@ public class ProveedorController {
 
         boolean hayFiltros = (razonSocialFiltro != null && !razonSocialFiltro.isEmpty()) ||
                 (rucFiltro != null && !rucFiltro.isEmpty()) ||
-                (telefonoFiltro != null);
+                (telefonoFiltro != null) || (estadoFiltro != null && !estadoFiltro.isEmpty());
 
         if (hayFiltros){
-            proveedorFiltrado = proveedorService.filtrarProveedor(razonSocialFiltro, rucFiltro, telefonoFiltro);
+            proveedorFiltrado = proveedorService.filtrarProveedor(razonSocialFiltro, rucFiltro, telefonoFiltro, estadoFiltro);
         } else {
             proveedorFiltrado = proveedorService.obtenerTodosLosProveedores();
         }
@@ -66,6 +67,30 @@ public class ProveedorController {
     @PostMapping("/actualizar")
     public String procesarActualizacion(@ModelAttribute Proveedor proveedorModificado){
         proveedorService.actualizarProveedor(proveedorModificado);
+        return "redirect:/gestion/adminProveedores";
+    }
+
+    @PostMapping("/eliminar")
+    public String eliminarProveedor(@RequestParam("idProveedor") int idProveedor, HttpSession session){
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null || !usuario.getRol().equals("Admin")) {
+            return "redirect:/login";
+        }
+
+        proveedorService.eliminarProveedor(idProveedor);
+        return "redirect:/gestion/adminProveedores";
+    }
+
+    @PostMapping("/activar")
+    public String activarProducto(@RequestParam("idProveedor") Integer idProveedor, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null || !usuario.getRol().equals("Admin")) {
+            return "redirect:/login";
+        }
+
+        proveedorService.activarProveedor(idProveedor);
         return "redirect:/gestion/adminProveedores";
     }
 

@@ -7,15 +7,17 @@ public class Proveedor {
     private String razonSocialProveedor;
     private String telefonoProveedor;
     private String correoProveedor;
+    private String estadoProveedor;
 
     public Proveedor() { }
 
-    public Proveedor(int idProveedor, String rucProveedor, String razonSocialProveedor, String telefonoProveedor, String correoProveedor){
+    public Proveedor(int idProveedor, String rucProveedor, String razonSocialProveedor, String telefonoProveedor, String correoProveedor, String estadoProveedor){
         this.idProveedor = idProveedor;
         this.rucProveedor = rucProveedor;
         this.razonSocialProveedor = razonSocialProveedor;
         this.telefonoProveedor = telefonoProveedor;
         this.correoProveedor = correoProveedor;
+        this.estadoProveedor = estadoProveedor;
     }
 
     public int getIdProveedor() { return idProveedor; }
@@ -33,6 +35,8 @@ public class Proveedor {
     public String getCorreoProveedor() { return correoProveedor; }
     public void setCorreoProveedor(String correoProveedor) { this.correoProveedor = correoProveedor; }
 
+    public String getEstadoProveedor() { return estadoProveedor; }
+    public void setEstadoProveedor(String estadoProveedor) { this.estadoProveedor = estadoProveedor; }
 }
 
 

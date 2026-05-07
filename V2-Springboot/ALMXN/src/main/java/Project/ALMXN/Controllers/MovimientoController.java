@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -67,7 +68,13 @@ public class MovimientoController {
 
     @GetMapping("/obtenerDetalles")
     @ResponseBody
-    public List<DetalleMovimiento> obtenerDetalles(@RequestParam("id") int idMovimiento) {
+    public List<DetalleMovimiento> obtenerDetalles(@RequestParam("id") int idMovimiento, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return Collections.emptyList();
+        }
+
         return detalleMovimientoService.buscarPorIdMovimiento(idMovimiento);
     }
 

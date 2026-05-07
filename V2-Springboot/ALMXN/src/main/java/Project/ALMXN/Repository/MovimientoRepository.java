@@ -43,7 +43,8 @@ public class MovimientoRepository implements MovimientoDAO{
                         rs.getString("ruc"),
                         rs.getString("razon_social"),
                         rs.getString("telefono"),
-                        rs.getString("correo_proveedor")
+                        rs.getString("correo_proveedor"),
+                        rs.getString("estado_proveedor")
                 ),
                 rs.getDouble("total_movimiento")
         );
@@ -55,7 +56,7 @@ public class MovimientoRepository implements MovimientoDAO{
                 "m.*, " +
                 "u.id_usuario, u.nombres, u.apellidos, u.correo AS correo_usuario, " +
                 "u.fechaCreacion, u.contraseña, u.rol, u.estado, " +
-                "p.id_proveedor, p.ruc, p.razon_social, p.telefono, p.correo AS correo_proveedor " +
+                "p.id_proveedor, p.ruc, p.razon_social, p.telefono, p.correo AS correo_proveedor, p.estado AS estado_proveedor " +
                 "FROM movimiento m " +
                 "INNER JOIN usuario u ON m.id_usuario = u.id_usuario " +
                 "LEFT JOIN proveedor p ON m.id_proveedor = p.id_proveedor";

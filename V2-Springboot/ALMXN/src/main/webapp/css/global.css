@@ -51,6 +51,15 @@
 
     --bloqueado-placa: #fee2e2;
     --bloqueado-color: #991b1b;
+
+    /* Gestion */
+
+    --adminProductos: #1d9e75;
+    --adminUsuarios: #378add;
+    --adminMovimientos: #7f77dd;
+    --adminCategorias: #ef9f27;
+    --adminProveedores: #d85a30;
+
 }
 
 /* Colores alternativos*/

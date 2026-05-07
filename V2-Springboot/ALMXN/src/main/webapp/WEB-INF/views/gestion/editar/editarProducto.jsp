@@ -44,7 +44,7 @@
 
                 <section class="form-grupo">
 
-                    <form action="/gestion/adminProductos/actualizar" method="POST">
+                    <form action="/gestion/adminProductos/guardar" method="POST">
 
                         <input type="hidden" name="idProducto" value="${producto.idProducto}">
 
@@ -60,20 +60,6 @@
                                     class="form-control"
                                     value="${producto.nombreProducto}"
                                     required>
-                            </div>
-
-                            <!-- Categoría -->
-                            <div class="form-grupo">
-                                <label for="categoriaProducto" class="form-label">Categoría</label>
-                                <select id="categoriaProducto" name="categoria.idCategoria" class="form-control" required>
-                                    <option value="" disabled>Seleccione una categoría</option>
-                                    <c:forEach items="${listaCategorias}" var="catProducto">
-                                        <option value="${catProducto.idCategoria}"
-                                            <c:if test="${catProducto.idCategoria == producto.categoria.idCategoria}">selected</c:if>>
-                                            ${catProducto.nombreCategoria}
-                                        </option>
-                                    </c:forEach>
-                                </select>
                             </div>
 
                             <!-- Unidad de Medida -->

@@ -124,6 +124,25 @@
     color: var(--salida-color);
 }
 
+.btn-editar {
+    font-size:15px;
+    padding: 6px 20px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-editar:hover, .btn-eliminar:hover{
+    transform: translateY(-3px);
+}
+
+.btn-editar:hover {
+    box-shadow: 0 3px 0 0 rgb(164, 156, 156);
+}
+
+.btn-eliminar:hover {
+    box-shadow: 0 3px 0 0 rgb(141, 35, 35);
+}
+
 .btn-falso-eliminar {
     font-size: 13px;
     font-weight: bold;
@@ -152,6 +171,7 @@
     border: 0;
     color: var(--salida-color);
     background: var(--salida-placa);
+    transition: all 0.3s ease;
 }
 
 .activo {

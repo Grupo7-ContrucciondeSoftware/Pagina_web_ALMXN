@@ -24,13 +24,3 @@
     text-align: center;
     font-size: 13px;
 }
-
-.btn-editar {
-    font-size: 0.75rem;
-    font-weight: 450;
-    padding: 8px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    letter-spacing: 0.02em;
-    border: none;
-}

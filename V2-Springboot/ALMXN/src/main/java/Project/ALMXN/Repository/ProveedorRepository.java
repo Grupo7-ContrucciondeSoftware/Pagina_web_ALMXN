@@ -24,24 +24,26 @@ public class ProveedorRepository implements ProveedorDAO{
                 rs.getString("ruc"),
                 rs.getString("razon_social"),
                 rs.getString("telefono"),
-                rs.getString("correo")
+                rs.getString("correo"),
+                rs.getString("estado")
         );
     };
 
     @Override
     public List<Proveedor> listaProveedores(){
-        String sql = "SELECT * FROM proveedor";
+        String sql = "SELECT * FROM proveedor WHERE estado = 'Activo' ";
         return jdbcTemplate.query(sql, ProveedorRowMapper);
     }
 
     @Override
     public void guardarProveedor(Proveedor proveedor){
-        String sql = "INSERT INTO proveedor (ruc, razon_social, telefono, correo) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO proveedor (ruc, razon_social, telefono, correo, estado) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,
                 proveedor.getRucProveedor(),
                 proveedor.getRazonSocialProveedor(),
                 proveedor.getTelefonoProveedor(),
-                proveedor.getCorreoProveedor()
+                proveedor.getCorreoProveedor(),
+                proveedor.getEstadoProveedor()
         );
     }
 
@@ -64,7 +66,20 @@ public class ProveedorRepository implements ProveedorDAO{
     }
 
     @Override
-    public List<Proveedor> filtrarProveedor(String razonSocial, String ruc, Integer telefono) {
+    public void eliminarProveedor(int idProveedor){
+        String sql = "UPDATE proveedor SET estado = 'Inactivo' WHERE id_proveedor = ? ";
+        jdbcTemplate.update(sql,idProveedor);
+    }
+
+    @Override
+    public void activarProveedor(int idProveedor){
+        String sql = "UPDATE proveedor SET estado = 'Activo' WHERE id_proveedor = ? ";
+        jdbcTemplate.update(sql,idProveedor);
+    }
+
+
+    @Override
+    public List<Proveedor> filtrarProveedor(String razonSocial, String ruc, Integer telefono, String estadoFiltro) {
 
         StringBuilder sql = new StringBuilder("SELECT * FROM proveedor WHERE 1=1");
         List<Object> parametros = new ArrayList<>();
@@ -82,6 +97,11 @@ public class ProveedorRepository implements ProveedorDAO{
         if (telefono != null){
             sql.append(" AND CAST(telefono AS VARCHAR) LIKE ?");
             parametros.add("%" + telefono + "%");
+        }
+
+        if (estadoFiltro != null && !estadoFiltro.isEmpty() && !estadoFiltro.equalsIgnoreCase("Todos")){
+            sql.append(" AND estado = ?");
+            parametros.add(estadoFiltro);
         }
 
         return jdbcTemplate.query(sql.toString(), ProveedorRowMapper, parametros.toArray());

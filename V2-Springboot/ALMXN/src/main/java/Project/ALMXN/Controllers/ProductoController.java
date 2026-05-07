@@ -62,7 +62,7 @@ public class ProductoController {
     }
 
     @PostMapping("/guardar")
-    public String guardarNuevoProducto(@ModelAttribute Producto producto, HttpSession session){
+    public String guardarProducto(@ModelAttribute Producto producto, HttpSession session){
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
@@ -86,18 +86,6 @@ public class ProductoController {
         model.addAttribute("producto", productoExistente);
         model.addAttribute("listaCategorias", categoriaService.obtenerTodasLasCategorias());
         return "gestion/editar/editarProducto";
-    }
-
-    @PostMapping("/actualizar")
-    public String procesarActualizacion(@ModelAttribute Producto productoModificado, HttpSession session){
-
-        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-        if (usuario == null) {
-            return "redirect:/login";
-        }
-
-        productoService.actualizarProducto(productoModificado);
-        return "redirect:/gestion/adminProductos";
     }
 
     @PostMapping("/eliminar")

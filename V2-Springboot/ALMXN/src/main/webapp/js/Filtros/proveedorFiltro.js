@@ -8,12 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const razonSocial = document.getElementById('razon-filtro').value;
             const ruc = document.getElementById('ruc-filtro').value;
             const telefono = document.getElementById('telefono-filtro').value;
+            const estado = document.getElementById('estado-filtro').value;
 
             const parametros = new URLSearchParams();
 
             if (razonSocial) parametros.append('razonSocial', razonSocial);
             if (ruc) parametros.append('ruc', ruc);
             if (telefono) parametros.append('telefono', telefono);
+            if (estado) parametros.append('estado', estado);
 
             parametros.append('tab', 'pestaña-listaProveedores');
 

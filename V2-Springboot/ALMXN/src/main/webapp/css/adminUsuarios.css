@@ -59,11 +59,6 @@
     color: var(--suspendido-color);
 }
 
-#btn-editar{
-    padding: 4px 20px;
-
-}
-
 #btn-eliminar{
     padding: 4px 12px;
 }

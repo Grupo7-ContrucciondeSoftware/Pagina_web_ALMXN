@@ -80,6 +80,15 @@
                         <input class="form-control" type="number" id="telefono-filtro" placeholder="Ej: 998877665">
                     </div>
 
+                    <div class="filtro-grupo">
+                        <label class="form-label" for="estado-filtro">Estado:</label>
+                        <select id="estado-filtro" name="estado" class="form-control">
+                            <option value="Todos" >Sin filtro</option>
+                            <option value="Activo" selected>Activo</option>
+                            <option value="Inactivo" >Inactivo</option>
+                        </select>
+                    </div>
+
                     <!-- Botones -->
                     <div class="filtro-acciones">
                         <button class="btn btn-secundario" id="btnFiltrar">Filtrar</button>
@@ -98,6 +107,7 @@
                             <th class="header-tabla">Razón Social</th>
                             <th class="header-tabla">Teléfono</th>
                             <th class="header-tabla">Correo</th>
+                            <th class="header-tabla">Estado</th>
                             <th class="header-tabla">Acciones</th>
                         </tr>
                     </thead>
@@ -112,27 +122,67 @@
                                 <td class="body-tabla">${proveedor.razonSocialProveedor}</td>
                                 <td class="body-tabla">${proveedor.telefonoProveedor}</td>
                                 <td class="body-tabla">${proveedor.correoProveedor}</td>
+                                <td class="body-tabla"><span class="estado ${proveedor.estadoProveedor.toLowerCase()}">${proveedor.estadoProveedor}</span></td>
                                 <td class="body-tabla">
-                                <c:choose>
-                                    <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
-                                        <a href="/gestion/adminProveedores/editar?id=${proveedor.idProveedor}" class="btn btn-secundario btn-editar">Editar</a>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <button type="button" class="btn btn-secundario" onclick="abrirModalPermiso()" style="font-size: 16px;" >Editar</button>
-                                    </c:otherwise>
-                                </c:choose>
 
-                                <c:choose>
-                                    <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
-                                        <button type="button" class="btn btn-secundario btn-eliminar-modal"
-                                                data-id="${proveedor.idProveedor}" data-nombre="${proveedor.razonSocialProveedor}">
-                                            Eliminar
-                                        </button>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <button type="button" class="btn btn-secundario" style="font-size: 16px; border-color: #dc3545;"onclick="abrirModalPermiso()" >Eliminar</button>
-                                    </c:otherwise>
-                                </c:choose>
+                                    <c:choose>
+                                        <c:when test="${proveedor.estadoProveedor == 'Activo'}">
+
+                                            <c:choose>
+
+                                                <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                                    <a href="/gestion/adminProveedores/editar?id=${proveedor.idProveedor}" class="btn btn-secundario btn-editar">Editar</a>
+                                                </c:when>
+
+                                                <c:otherwise>
+                                                    <button type="button" class="btn btn-secundario" onclick="abrirModalPermiso()" style="font-size: 16px;" >Editar</button>
+                                                </c:otherwise>
+
+                                            </c:choose>
+
+                                            <c:choose>
+
+                                                <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                                    <button type="button" class="btn btn-secundario btn-eliminar"
+                                                            data-id="${proveedor.idProveedor}"
+                                                            data-nombre="${proveedor.razonSocialProveedor}"
+                                                            data-action="/gestion/adminProveedores/eliminar"
+                                                            data-param="idProveedor">
+                                                        Eliminar
+                                                    </button>
+                                                </c:when>
+
+                                                <c:otherwise>
+                                                    <button type="button" class="btn btn-secundario btn-falso-eliminar" onclick="abrirModalPermiso()" >Eliminar</button>
+                                                </c:otherwise>
+
+                                            </c:choose>
+
+                                        </c:when>
+
+                                        <c:otherwise>
+
+                                            <c:choose>
+
+                                                <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
+                                                    <form action="/gestion/adminProveedores/activar" method="POST" >
+                                                        <input type="hidden" name="idProveedor" value="${proveedor.idProveedor}">
+                                                        <button type="submit" class="btn btn-secundario btn-activar">
+                                                            Activar
+                                                        </button>
+                                                    </form>
+                                                </c:when>
+
+                                                <c:otherwise>
+                                                    <button type="button" class="btn btn-secundario btn-falso-activar" onclick="abrirModalPermiso()">Activar</button>
+                                                </c:otherwise>
+
+                                            </c:choose>
+
+                                        </c:otherwise>
+
+                                    </c:choose>
+
                                 </td>
                             </tr>
                         </c:forEach>
@@ -226,16 +276,26 @@
                 </section>
             </div>
 
+            <%-- ============================================
+                        MODAL ELIMINAR PROVEEDOR
+            ============================================ --%>
+
+            <%@ include file="/WEB-INF/views/modalEliminar.jsp" %>
+
         </div>
     </main>
 
     <!-- ===== FOOTER ===== -->
     <%@ include file="/WEB-INF/views/footer.jsp" %>
 
+    <!-- ===== RESTRICCION ===== -->
+    <%@ include file="/WEB-INF/views/restriccion.jsp" %>
+
     <!-- ===== SCRIPTS ===== -->
     <script src="/js/tema.js" defer></script>
     <script src="/js/Filtros/proveedorFiltro.js" defer></script>
-    <%@ include file="/WEB-INF/views/restriccion.jsp" %>
+    <script src="/js/Eliminar/eliminarFuncion.js" defer></script>
+
 
 </body>
 </html>

@@ -21,6 +21,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void guardarUsuario(Usuario usuario) {
+        usuario.setEstadoUsuario("Activo");
         usuarioDAO.guardarUsuario(usuario);
     }
 
@@ -34,6 +35,15 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioDAO.actualizarUsuario(usuario);
     }
 
+    @Override
+    public void eliminarUsuario(int idUsuario){
+        usuarioDAO.eliminarUsuario(idUsuario);
+    }
+
+    @Override
+    public void activarUsuario(int idUsuario){
+        usuarioDAO.activarUsuario(idUsuario);
+    }
 
     @Override
     public Usuario validarLogin(String correo, String contraseña) {

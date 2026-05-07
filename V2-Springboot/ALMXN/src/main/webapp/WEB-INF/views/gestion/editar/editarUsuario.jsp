@@ -98,17 +98,6 @@
                                 </select>
                             </div>
 
-                            <!-- Estado -->
-                            <div class="form-grupo">
-                                <label for="estado-usuario" class="form-label">Estado</label>
-                                <select id="estado-usuario" name="estado" class="form-control" required>
-                                    <option value="" disabled>Seleccione un estado</option>
-                                    <option value="Activo" <c:if test="${usuario.estado == 'Activo'}">selected</c:if>>Activo</option>
-                                    <option value="Suspendido" <c:if test="${usuario.estado == 'Suspendido'}">selected</c:if>>Suspendido</option>
-                                    <option value="Bloqueado" <c:if test="${usuario.estado == 'Bloqueado'}">selected</c:if>>Bloqueado</option>
-                                </select>
-                            </div>
-
                         </div>
 
                         <!-- Botones -->

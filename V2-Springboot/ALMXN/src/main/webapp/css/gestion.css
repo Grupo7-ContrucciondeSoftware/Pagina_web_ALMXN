@@ -24,7 +24,7 @@
 
 .opc {
     background-color: var(--color-superficie);
-    border: 3px solid var(--color-borde);
+    border: 3.5px solid var(--color-borde);
     border-radius: 16px;
     padding: 30px;
     display: flex;
@@ -96,32 +96,33 @@
 /* DISEÑO DE OPCIONES GESTION */
 
 .gestion-administrarProductos {
-    border-color: rgb(93, 84, 84);
+    border-color: var(--adminProductos);
     cursor: pointer;
 }
 
 .gestion-adminUsuarios {
-    border-color: rgb(9, 93, 99);
+    border-color: var(--adminUsuarios);
     cursor: pointer;
 }
 
-.gestion-mostrarEstadisticas{
-    border-color: rgb(41, 116, 6);
+
+/*.gestion-mostrarEstadisticas{
+    border-color: ;
     cursor: pointer;
-}
+}*/
 
 .gestion-adminMovimientos{
-    border-color: rgb(13, 33, 133);
+    border-color: var(--adminMovimientos);
     cursor: pointer;
 }
 
 .gestion-adminProveedores{
-    border-color: rgb(100, 7, 7);
+    border-color: var(--adminProveedores);
     cursor: pointer;
 }
 
 .gestion-adminCategorias{
-    border-color: rgb(127, 123, 7);
+    border-color: var(--adminCategorias);
     cursor: pointer;
 }
 
@@ -133,25 +134,25 @@
 }
 
 .gestion-administrarProductos:hover {
-    box-shadow: 0 0 0 4px rgb(164, 156, 156);
+    box-shadow: 0 0 0 4px rgba(29, 158, 117, 0.35);
 }
 
 .gestion-adminUsuarios:hover {
-    box-shadow: 0 0 0 4px rgb(36, 135, 142);
+    box-shadow: 0 0 0 4px rgba(55, 138, 221, 0.35);
 }
 
-.gestion-mostrarEstadisticas:hover {
+/*.gestion-mostrarEstadisticas:hover {
     box-shadow: 0 0 0 4px rgb(64, 140, 29);
-}
+}*/
 
 .gestion-adminMovimientos:hover {
-    box-shadow: 0 0 0 4px rgb(31, 53, 167);
+    box-shadow: 0 0 0 4px rgba(127, 119, 221, 0.35);
 }
 
 .gestion-adminProveedores:hover {
-    box-shadow: 0 0 0 4px rgb(141, 35, 35);
+    box-shadow: 0 0 0 4px rgba(216, 90, 48, 0.35);
 }
 
 .gestion-adminCategorias:hover {
-    box-shadow: 0 0 0 4px rgb(186, 181, 26);
+    box-shadow: 0 0 0 4px rgba(239, 159, 39, 0.35);
 }

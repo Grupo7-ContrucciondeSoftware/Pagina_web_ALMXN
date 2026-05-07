@@ -71,4 +71,26 @@ public class UsuarioController {
         return "redirect:/gestion/adminUsuarios";
     }
 
+    @PostMapping("/eliminar")
+    public String eliminarUsuario(@RequestParam("idUsuario") int idUsuario, HttpSession session){
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null || !usuario.getRol().equals("Admin")) {
+            return "redirect:/login";
+        }
+        usuarioService.eliminarUsuario(idUsuario);
+        return "redirect:/gestion/adminUsuarios";
+    }
+
+    @PostMapping("/activar")
+    public String activarProducto(@RequestParam("idUsuario") Integer idUsuario, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null || !usuario.getRol().equals("Admin")) {
+            return "redirect:/login";
+        }
+
+        usuarioService.activarUsuario(idUsuario);
+        return "redirect:/gestion/adminUsuarios";
+    }
+
 }
