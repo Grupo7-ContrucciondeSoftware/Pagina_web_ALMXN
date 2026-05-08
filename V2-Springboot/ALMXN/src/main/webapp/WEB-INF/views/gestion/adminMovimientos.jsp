@@ -13,8 +13,8 @@
     <!-- ===== ESTILOS ===== -->
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/globalGestion.css">
-    <link rel="stylesheet" href="/css/adminMovimientos.css">
     <link rel="stylesheet" href="/css/adminUsuarios.css">
+    <link rel="stylesheet" href="/css/adminMovimientos.css">
 
 </head>
 <body>
@@ -436,18 +436,18 @@
             ============================================ -->
 
 
-            <div id="modal-detalle-movimiento" class="modal-oculto">
+            <div id="modal-detalle-movimiento" class="modal-oculto-detalle">
 
-                <div class="modal-contenedor">
+                <div class="modal-contenedor-detalle">
 
-                    <div class="modal-header">
+                    <div class="modal-header-detalle">
                         <h2>Detalle de Movimiento <span id="detalle-id-mov">#001</span></h2>
                         <button id="btn-cerrar-modal-superior" class="btn-cerrar-modal" >&times;</button>
                     </div>
 
-                    <div class="modal-body">
+                    <div class="modal-body-detalle">
 
-                        <section class="modal-info" >
+                        <section class="modal-info-detalle" >
                             <div>
                                 <p><strong>Tipo:</strong> <span id="detalle-tipo">-</span></p>
                                 <p><strong>Fecha y Hora:</strong> <span id="detalle-fecha">-</span></p>
@@ -485,9 +485,9 @@
 
                     </div>
 
-                    <div class="modal-acciones">
+                    <div class="modal-acciones-detalle">
                         <button class="btn btn-secundario" id="btn-cerrar-modal-inferior">Cerrar</button>
-                        <button class="btn btn-primario" onclick="window.print()">Imprimir Recibo</button>
+                        <button class="btn btn-primario">Imprimir Recibo</button>
                     </div>
 
                 </div>
