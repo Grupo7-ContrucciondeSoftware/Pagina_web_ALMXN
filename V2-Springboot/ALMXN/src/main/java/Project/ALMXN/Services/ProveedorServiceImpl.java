@@ -38,9 +38,8 @@ public class ProveedorServiceImpl implements ProveedorService {
         // return proveedor; //F3
 
         Proveedor proveedor_resp = new Proveedor();
-        // proveedor_resp.setRucProveedor(proveedor.getRucProveedor());
-        // proveedor_resp.setRazonSocialProveedor(proveedor.getRazonSocialProveedor());
-        // //F2
+        // proveedor_resp.setRucProveedor(proveedor.getRucProveedor()); //F2
+        // proveedor_resp.setRazonSocialProveedor(proveedor.getRazonSocialProveedor()); //F2
         // proveedor_resp.setCorreoProveedor(proveedor.getCorreoProveedor()); //F2
         // proveedor_resp.setEstadoProveedor("Activo"); //F2
         return proveedor_resp;
@@ -54,8 +53,7 @@ public class ProveedorServiceImpl implements ProveedorService {
         Proveedor proveedor_resp = new Proveedor();
         // proveedor_resp.setIdProveedor(proveedor.getIdProveedor()); //F2
         // proveedor_resp.setRucProveedor(proveedor.getRucProveedor()); //F2
-        // proveedor_resp.setRazonSocialProveedor(proveedor.getRazonSocialProveedor());
-        // //F2
+        // proveedor_resp.setRazonSocialProveedor(proveedor.getRazonSocialProveedor()); //F2
         // proveedor_resp.setCorreoProveedor(proveedor.getCorreoProveedor()); //F2
         return proveedor_resp;
     }
