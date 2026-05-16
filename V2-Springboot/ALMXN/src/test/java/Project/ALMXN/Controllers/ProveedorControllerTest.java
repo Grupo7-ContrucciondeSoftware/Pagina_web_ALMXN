@@ -35,7 +35,7 @@ class ProveedorControllerTest {
     // ==================== TEST CREAR ====================
     @Test
     @Order(1)
-    @DisplayName("✅ CREAR: Debería crear un proveedor con datos válidos")
+    @DisplayName("CREAR: Debería crear un proveedor con datos válidos")
     void deberiaCrearProveedorConDatosValidos() throws Exception {
 
         String proveedorJSON = """
@@ -62,7 +62,7 @@ class ProveedorControllerTest {
     // ==================== TEST LISTAR ====================
     @Test
     @Order(2)
-    @DisplayName("📋 LISTAR: Debería listar todos los proveedores activos")
+    @DisplayName("LISTAR: Debería listar todos los proveedores activos")
     void deberiaListarTodosLosProveedores() throws Exception {
 
         mockMvc.perform(
@@ -76,7 +76,7 @@ class ProveedorControllerTest {
     // ==================== TEST ACTUALIZAR ====================
     @Test
     @Order(3)
-    @DisplayName("✏️ ACTUALIZAR: Debería actualizar un proveedor existente")
+    @DisplayName("ACTUALIZAR: Debería actualizar un proveedor existente")
     void deberiaActualizarProveedor() throws Exception {
 
         String proveedorActualizadoJSON = """
@@ -102,7 +102,7 @@ class ProveedorControllerTest {
     // ==================== TEST ELIMINAR (Soft Delete) ====================
     @Test
     @Order(4)
-    @DisplayName("🗑️ ELIMINAR: Debería desactivar (soft delete) un proveedor")
+    @DisplayName("ELIMINAR: Debería desactivar (soft delete) un proveedor")
     void deberiaEliminarProveedorSoftDelete() throws Exception {
 
         mockMvc.perform(

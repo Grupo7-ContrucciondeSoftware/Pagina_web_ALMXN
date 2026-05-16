@@ -35,7 +35,7 @@ class CategoriaControllerTest {
     // ==================== TEST CREAR ====================
     @Test
     @Order(1)
-    @DisplayName("✅ CREAR: Debería crear una categoría con datos válidos")
+    @DisplayName("CREAR: Debería crear una categoría con datos válidos")
     void deberiaCrearCategoriaConDatosValidos() throws Exception {
 
         String categoriaJson = """
@@ -59,7 +59,7 @@ class CategoriaControllerTest {
     // ==================== TEST LISTAR ====================
     @Test
     @Order(2)
-    @DisplayName("📋 LISTAR: Debería listar todas las categorías activas")
+    @DisplayName("LISTAR: Debería listar todas las categorías activas")
     void deberiaListarTodasLasCategorias() throws Exception {
 
         mockMvc.perform(
@@ -73,7 +73,7 @@ class CategoriaControllerTest {
     // ==================== TEST ACTUALIZAR ====================
     @Test
     @Order(3)
-    @DisplayName("✏️ ACTUALIZAR: Debería actualizar una categoría existente")
+    @DisplayName("ACTUALIZAR: Debería actualizar una categoría existente")
     void deberiaActualizarCategoria() throws Exception {
 
         String categoriaActualizadaJson = """
@@ -97,7 +97,7 @@ class CategoriaControllerTest {
     // ==================== TEST ELIMINAR (Soft Delete) ====================
     @Test
     @Order(4)
-    @DisplayName("🗑️ ELIMINAR: Debería desactivar (soft delete) una categoría")
+    @DisplayName("ELIMINAR: Debería desactivar (soft delete) una categoría")
     void deberiaEliminarCategoriaSoftDelete() throws Exception {
 
         mockMvc.perform(
