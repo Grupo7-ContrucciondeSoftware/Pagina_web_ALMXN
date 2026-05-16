@@ -7,9 +7,11 @@ public interface ProveedorService {
 
     List<Proveedor> obtenerTodosLosProveedores();
 
-    void guardarProveedor(Proveedor proveedor);
+    Proveedor guardarProveedor(Proveedor proveedor);
 
     Proveedor buscarProveedorPorId(int idProveedor);
+
+    Proveedor actualizarProveedor(Proveedor proveedor);
 
     void eliminarProveedor(int idProveedor);
 

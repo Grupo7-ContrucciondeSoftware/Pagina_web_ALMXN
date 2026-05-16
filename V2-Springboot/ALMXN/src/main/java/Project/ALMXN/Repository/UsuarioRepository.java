@@ -3,7 +3,6 @@ package Project.ALMXN.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-import Project.ALMXN.models.Movimiento;
 import Project.ALMXN.models.Usuario;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -27,19 +26,18 @@ public class UsuarioRepository implements UsuarioDAO {
                 rs.getDate("fechaCreacion").toLocalDate(),
                 rs.getString("contraseña"),
                 rs.getString("rol"),
-                rs.getString("estado")
-        );
+                rs.getString("estado"));
     };
 
     @Override
-    public List<Usuario> listarTodos(){
+    public List<Usuario> listarTodos() {
         String sql = "SELECT * FROM usuario WHERE estado = 'Activo' ";
         return jdbcTemplate.query(sql, UsuarioRowMapper);
     }
 
     @Override
-    public void guardarUsuario(Usuario usuario){
-        String sql = "INSERT INTO usuario (nombres, apellidos, correo, contraseña, rol, estado) "+
+    public void guardarUsuario(Usuario usuario) {
+        String sql = "INSERT INTO usuario (nombres, apellidos, correo, contraseña, rol, estado) " +
                 "VALUES ( ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,
                 usuario.getNombres(),
@@ -47,8 +45,7 @@ public class UsuarioRepository implements UsuarioDAO {
                 usuario.getCorreo(),
                 usuario.getContraseña(),
                 usuario.getRol(),
-                usuario.getEstadoUsuario()
-        );
+                usuario.getEstadoUsuario());
     }
 
     @Override
@@ -67,20 +64,19 @@ public class UsuarioRepository implements UsuarioDAO {
                 usuario.getApellidos(),
                 usuario.getCorreo(),
                 usuario.getRol(),
-                usuario.getIdUsuario()
-        );
+                usuario.getIdUsuario());
     }
 
     @Override
-    public void eliminarUsuario(int idUsuario){
+    public void eliminarUsuario(int idUsuario) {
         String sql = "UPDATE usuario SET estado = 'Inactivo' WHERE id_usuario = ?";
-        jdbcTemplate.update(sql,idUsuario);
+        jdbcTemplate.update(sql, idUsuario);
     }
 
     @Override
     public void activarUsuario(int idUsuario) {
         String sql = "UPDATE usuario SET estado = 'Activo' WHERE id_usuario = ?";
-        jdbcTemplate.update(sql,idUsuario);
+        jdbcTemplate.update(sql, idUsuario);
     }
 
     @Override
@@ -99,7 +95,7 @@ public class UsuarioRepository implements UsuarioDAO {
 
         if (nombres != null && !nombres.trim().isEmpty()) {
             sql.append(" AND LOWER(nombres) LIKE LOWER(?)");
-            parametros.add( "%" + nombres.trim() + "%");
+            parametros.add("%" + nombres.trim() + "%");
         }
 
         if (rol != null && !rol.isEmpty()) {
@@ -107,7 +103,7 @@ public class UsuarioRepository implements UsuarioDAO {
             parametros.add(rol);
         }
 
-        if (estado != null && !estado.isEmpty() && !estado.equalsIgnoreCase("Todos")){
+        if (estado != null && !estado.isEmpty() && !estado.equalsIgnoreCase("Todos")) {
             sql.append(" AND estado = ?");
             parametros.add(estado);
         }

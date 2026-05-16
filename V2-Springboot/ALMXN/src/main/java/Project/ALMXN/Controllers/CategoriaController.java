@@ -1,12 +1,10 @@
 package Project.ALMXN.Controllers;
 
 import Project.ALMXN.Services.CategoriaService;
-import Project.ALMXN.Services.CategoriaServiceImpl;
 import Project.ALMXN.models.Categoria;
 import Project.ALMXN.models.Usuario;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,14 +24,15 @@ public class CategoriaController {
     public String mostrarAdminCategorias(
             @RequestParam(value = "nombre", required = false) String nombreFiltro,
             @RequestParam(value = "estado", required = false) String estadoFiltro,
-            HttpSession session, Model model){
+            HttpSession session, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login";
         }
         List<Categoria> categoriasFiltradas;
 
-        boolean hayFiltro = (nombreFiltro != null && !nombreFiltro.trim().isEmpty()) || (estadoFiltro != null && !estadoFiltro.isEmpty());
+        boolean hayFiltro = (nombreFiltro != null && !nombreFiltro.trim().isEmpty())
+                || (estadoFiltro != null && !estadoFiltro.isEmpty());
 
         if (hayFiltro) {
             categoriasFiltradas = categoriaService.filtrarCategorias(nombreFiltro, estadoFiltro);
@@ -60,7 +59,7 @@ public class CategoriaController {
     }
 
     @GetMapping("/editar")
-    public String mostrarEditar(@RequestParam("id") int idCategoria, Model model, HttpSession session){
+    public String mostrarEditar(@RequestParam("id") int idCategoria, Model model, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {

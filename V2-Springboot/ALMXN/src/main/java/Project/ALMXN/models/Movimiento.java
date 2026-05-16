@@ -1,7 +1,5 @@
 package Project.ALMXN.models;
 
-import org.springframework.cglib.core.Local;
-
 import java.time.LocalDate;
 
 public class Movimiento {
@@ -15,10 +13,12 @@ public class Movimiento {
     private Proveedor proveedor;
     private Double totalMovimiento;
 
-    public Movimiento(){
+    public Movimiento() {
     }
 
-    public Movimiento(int idMovimiento, String tipoMovimiento, LocalDate fechaMovimiento,String motivoMovimiento, String destinoMovimiento, String observacionesMovimiento, Usuario usuario, Proveedor proveedor, double totalMovimiento){
+    public Movimiento(int idMovimiento, String tipoMovimiento, LocalDate fechaMovimiento, String motivoMovimiento,
+            String destinoMovimiento, String observacionesMovimiento, Usuario usuario, Proveedor proveedor,
+            double totalMovimiento) {
         this.idMovimiento = idMovimiento;
         this.tipoMovimiento = tipoMovimiento;
         this.fechaMovimiento = fechaMovimiento;
@@ -31,31 +31,75 @@ public class Movimiento {
 
     }
 
-    public int getIdMovimiento() { return idMovimiento; }
-    public void setIdMovimiento(int idMovimiento) { this.idMovimiento = idMovimiento; }
+    public int getIdMovimiento() {
+        return idMovimiento;
+    }
 
-    public String getTipoMovimiento() { return tipoMovimiento; }
-    public void setTipoMovimiento(String tipoMovimiento) { this.tipoMovimiento = tipoMovimiento; }
+    public void setIdMovimiento(int idMovimiento) {
+        this.idMovimiento = idMovimiento;
+    }
 
-    public LocalDate getFechaMovimiento() { return fechaMovimiento; }
-    public void setFechaMovimiento(LocalDate fechaMovimiento) { this.fechaMovimiento = fechaMovimiento; }
+    public String getTipoMovimiento() {
+        return tipoMovimiento;
+    }
 
-    public String getMotivoMovimiento() { return motivoMovimiento; }
-    public void setMotivoMovimiento(String motivoMovimiento) { this.motivoMovimiento = motivoMovimiento; }
+    public void setTipoMovimiento(String tipoMovimiento) {
+        this.tipoMovimiento = tipoMovimiento;
+    }
 
-    public String getDestinoMovimiento() { return destinoMovimiento; }
-    public void setDestinoMovimiento(String destinoMovimiento) { this.destinoMovimiento = destinoMovimiento; }
+    public LocalDate getFechaMovimiento() {
+        return fechaMovimiento;
+    }
 
-    public String getObservacionesMovimiento() { return observacionesMovimiento; }
-    public void setObservacionesMovimiento(String observacionesMovimiento) { this.observacionesMovimiento = observacionesMovimiento; }
+    public void setFechaMovimiento(LocalDate fechaMovimiento) {
+        this.fechaMovimiento = fechaMovimiento;
+    }
 
-    public Usuario getUsuario() { return usuario; }
-    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public String getMotivoMovimiento() {
+        return motivoMovimiento;
+    }
 
-    public Proveedor getProveedor() { return proveedor; }
-    public void setProveedor(Proveedor proveedor) { this.proveedor = proveedor; }
+    public void setMotivoMovimiento(String motivoMovimiento) {
+        this.motivoMovimiento = motivoMovimiento;
+    }
 
-    public Double getTotalMovimiento() { return totalMovimiento; }
-    public void setTotalMovimiento(Double totalMovimiento) { this.totalMovimiento = totalMovimiento; }
+    public String getDestinoMovimiento() {
+        return destinoMovimiento;
+    }
+
+    public void setDestinoMovimiento(String destinoMovimiento) {
+        this.destinoMovimiento = destinoMovimiento;
+    }
+
+    public String getObservacionesMovimiento() {
+        return observacionesMovimiento;
+    }
+
+    public void setObservacionesMovimiento(String observacionesMovimiento) {
+        this.observacionesMovimiento = observacionesMovimiento;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
+    }
+
+    public Double getTotalMovimiento() {
+        return totalMovimiento;
+    }
+
+    public void setTotalMovimiento(Double totalMovimiento) {
+        this.totalMovimiento = totalMovimiento;
+    }
 }
-

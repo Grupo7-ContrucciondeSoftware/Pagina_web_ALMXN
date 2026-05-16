@@ -7,9 +7,11 @@ public interface CategoriaService {
 
     List<Categoria> obtenerTodasLasCategorias();
 
-    void guardarCategoria(Categoria categoria);
+    Categoria guardarCategoria(Categoria categoria);
 
     Categoria buscarCategoriaPorId (int idCategoria);
+
+    Categoria actualizarCategoria(Categoria categoria);
 
     void eliminarCategoria(int idCategoria);
 

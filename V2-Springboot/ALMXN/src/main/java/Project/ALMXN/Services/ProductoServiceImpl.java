@@ -11,14 +11,13 @@ import java.util.List;
 @Service
 public class ProductoServiceImpl implements ProductoService {
 
-    @Autowired
-    private CategoriaDAO categoriaDAO;
-
-    @Autowired
+    private final CategoriaDAO categoriaDAO;
     private final ProductoDAO productoDAO;
 
-    public ProductoServiceImpl(ProductoDAO productoDAO) {
+    @Autowired
+    public ProductoServiceImpl(ProductoDAO productoDAO, CategoriaDAO categoriaDAO) {
         this.productoDAO = productoDAO;
+        this.categoriaDAO = categoriaDAO;
     }
 
     @Override
