@@ -19,7 +19,7 @@ public class ProveedorRepository implements ProveedorDAO {
 
     private final RowMapper<Proveedor> ProveedorRowMapper = (rs, rowNum) -> {
         return new Proveedor(
-                rs.getInt("id_proveedor"),
+                rs.getLong("id_proveedor"),
                 rs.getString("ruc"),
                 rs.getString("razon_social"),
                 rs.getString("telefono"),

@@ -59,7 +59,7 @@ public class CategoriaController {
     }
 
     @GetMapping("/editar")
-    public String mostrarEditar(@RequestParam("id") int idCategoria, Model model, HttpSession session) {
+    public String mostrarEditar(@RequestParam("id") Long idCategoria, Model model, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
@@ -73,7 +73,7 @@ public class CategoriaController {
     }
 
     @PostMapping("/eliminar")
-    public String eliminarProducto(@RequestParam("idCategoria") int idCategoria, HttpSession session) {
+    public String eliminarProducto(@RequestParam("idCategoria") Long idCategoria, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null || !usuario.getRol().equals("Admin")) {
@@ -85,7 +85,7 @@ public class CategoriaController {
     }
 
     @PostMapping("/activar")
-    public String activarProducto(@RequestParam("idCategoria") Integer idCategoria, HttpSession session) {
+    public String activarProducto(@RequestParam("idCategoria") Long idCategoria, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null || !usuario.getRol().equals("Admin")) {

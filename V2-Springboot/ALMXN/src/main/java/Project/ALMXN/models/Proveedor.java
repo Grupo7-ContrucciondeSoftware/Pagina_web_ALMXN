@@ -2,7 +2,7 @@ package Project.ALMXN.models;
 
 public class Proveedor {
 
-    private Integer idProveedor;
+    private Long idProveedor;
     private String rucProveedor;
     private String razonSocialProveedor;
     private String telefonoProveedor;
@@ -11,7 +11,7 @@ public class Proveedor {
 
     public Proveedor() { }
 
-    public Proveedor(Integer idProveedor, String rucProveedor, String razonSocialProveedor, String telefonoProveedor, String correoProveedor, String estadoProveedor){
+    public Proveedor(Long idProveedor, String rucProveedor, String razonSocialProveedor, String telefonoProveedor, String correoProveedor, String estadoProveedor){
         this.idProveedor = idProveedor;
         this.rucProveedor = rucProveedor;
         this.razonSocialProveedor = razonSocialProveedor;
@@ -20,8 +20,8 @@ public class Proveedor {
         this.estadoProveedor = estadoProveedor;
     }
 
-    public Integer getIdProveedor() { return idProveedor; }
-    public void setIdProveedor(Integer idProveedor) { this.idProveedor = idProveedor; }
+    public Long getIdProveedor() { return idProveedor; }
+    public void setIdProveedor(Long idProveedor) { this.idProveedor = idProveedor; }
 
     public String getRucProveedor() { return rucProveedor; }
     public void setRucProveedor(String rucProveedor) { this.rucProveedor = rucProveedor; }

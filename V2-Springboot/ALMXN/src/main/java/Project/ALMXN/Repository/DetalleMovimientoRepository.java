@@ -17,7 +17,7 @@ public class DetalleMovimientoRepository implements DetalleMovimientoDAO{
 
     private final RowMapper<DetalleMovimiento> DetalleRowMapper = (rs, rowNum) -> {
         Producto prod = new Producto();
-        prod.setIdProducto(rs.getInt("id_producto"));
+        prod.setIdProducto(rs.getLong("id_producto"));
         prod.setCodigoProducto(rs.getString("codigo_producto"));
         prod.setNombreProducto(rs.getString("nombre_producto"));
 

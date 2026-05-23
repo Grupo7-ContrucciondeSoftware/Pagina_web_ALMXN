@@ -34,7 +34,7 @@ public class MovimientoServiceImpl implements MovimientoService {
 
     @Override
     @Transactional
-    public void registrarMovimientoCompleto(Movimiento movimiento, List<Integer> idProductos, List<Integer> cantidades, List<Double> precios) {
+    public void registrarMovimientoCompleto(Movimiento movimiento, List<Long> idProductos, List<Long> cantidades, List<Double> precios) {
 
         double totalCalculado = 0.0;
 
@@ -53,8 +53,8 @@ public class MovimientoServiceImpl implements MovimientoService {
         movGuardado.setIdMovimiento(nuevoIdMovimiento);
 
         for (int i = 0; i < idProductos.size(); i++) {
-            int idProd = idProductos.get(i);
-            int cant = cantidades.get(i);
+            Long idProd = idProductos.get(i);
+            Long cant = cantidades.get(i);
 
             Producto producto = new Producto();
             producto.setIdProducto(idProductos.get(i));

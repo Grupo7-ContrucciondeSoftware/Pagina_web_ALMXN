@@ -1,4 +1,4 @@
-package Project.ALMXN.Controllers;
+/*package Project.ALMXN.Controllers;
 
 import Project.ALMXN.Services.CategoriaService;
 import Project.ALMXN.models.Categoria;
@@ -31,7 +31,7 @@ public class CategoriaRestController {
 
     // ==================== ACTUALIZAR ====================
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<Categoria> actualizar(@PathVariable("id") int id, @RequestBody Categoria categoria) {
+    public ResponseEntity<Categoria> actualizar(@PathVariable("id") Long id, @RequestBody Categoria categoria) {
         Categoria existente = categoriaService.buscarCategoriaPorId(id);
         if (existente == null) {
             return ResponseEntity.notFound().build();
@@ -43,7 +43,7 @@ public class CategoriaRestController {
 
     // ==================== ELIMINAR (Soft Delete) ====================
     @PatchMapping("/eliminar/{id}")
-    public ResponseEntity<Map<String, String>> eliminar(@PathVariable("id") int id) {
+    public ResponseEntity<Map<String, String>> eliminar(@PathVariable("id") Long id) {
         Categoria existente = categoriaService.buscarCategoriaPorId(id);
         if (existente == null) {
             return ResponseEntity.notFound().build();
@@ -52,3 +52,4 @@ public class CategoriaRestController {
         return ResponseEntity.ok(Map.of("mensaje", "Categoría desactivada correctamente"));
     }
 }
+*/

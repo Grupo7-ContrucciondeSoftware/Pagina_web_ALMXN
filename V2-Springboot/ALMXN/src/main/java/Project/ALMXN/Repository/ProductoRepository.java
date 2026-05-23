@@ -20,12 +20,12 @@ public class ProductoRepository implements ProductoDAO {
 
     private final RowMapper<Producto> ProductoRowMapper = (rs, rowNum) -> {
         return new Producto(
-                rs.getInt("id_producto"),
+                rs.getLong("id_producto"),
                 rs.getString("codigo"),
                 rs.getDate("fecha_creacion").toLocalDate(),
                 rs.getString("nombre"),
                 new Categoria(
-                        rs.getInt("id_categoria"),
+                        rs.getLong("id_categoria"),
                         rs.getString("categoria_nombre"),
                         rs.getString("categoria_descripcion"),
                         rs.getString("categoria_estado")),

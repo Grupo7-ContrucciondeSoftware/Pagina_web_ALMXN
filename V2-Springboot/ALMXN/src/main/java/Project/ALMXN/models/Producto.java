@@ -3,7 +3,7 @@ package Project.ALMXN.models;
 import java.time.LocalDate;
 
 public class Producto {
-    private Integer idProducto;
+    private Long idProducto;
     private String codigoProducto;
     private LocalDate fechaCreacionProducto;
     private String nombreProducto;
@@ -17,7 +17,7 @@ public class Producto {
 
     public Producto() {}
 
-    public Producto(Integer idProducto, String codigoProducto, LocalDate fechaCreacionProducto ,String nombreProducto, Categoria categoria, int stockActualProducto, String unidadMedidaProducto, double precioCostoProducto, double precioVentaProducto, String descripcionProducto, String estadoProducto){
+    public Producto(Long idProducto, String codigoProducto, LocalDate fechaCreacionProducto ,String nombreProducto, Categoria categoria, int stockActualProducto, String unidadMedidaProducto, double precioCostoProducto, double precioVentaProducto, String descripcionProducto, String estadoProducto){
 
         this.idProducto = idProducto;
         this.codigoProducto = codigoProducto;
@@ -33,8 +33,8 @@ public class Producto {
 
     }
 
-    public Integer getIdProducto() { return idProducto; }
-    public void setIdProducto(Integer idProducto) { this.idProducto = idProducto; }
+    public Long getIdProducto() { return idProducto; }
+    public void setIdProducto(Long idProducto) { this.idProducto = idProducto; }
 
     public String getCodigoProducto() { return codigoProducto; }
     public void setCodigoProducto(String codigoProducto) { this.codigoProducto = codigoProducto; }

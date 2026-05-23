@@ -1,6 +1,7 @@
 package Project.ALMXN.Services;
 
 import Project.ALMXN.Repository.CategoriaDAO;
+import Project.ALMXN.Repository.CategoriaRepository;
 import Project.ALMXN.models.Categoria;
 import Project.ALMXN.models.Producto;
 import Project.ALMXN.Repository.ProductoDAO;
@@ -11,13 +12,13 @@ import java.util.List;
 @Service
 public class ProductoServiceImpl implements ProductoService {
 
-    private final CategoriaDAO categoriaDAO;
+    private final CategoriaRepository categoriaRepository;
     private final ProductoDAO productoDAO;
 
     @Autowired
-    public ProductoServiceImpl(ProductoDAO productoDAO, CategoriaDAO categoriaDAO) {
+    public ProductoServiceImpl(ProductoDAO productoDAO, CategoriaRepository categoriaRepository) {
         this.productoDAO = productoDAO;
-        this.categoriaDAO = categoriaDAO;
+        this.categoriaRepository = categoriaRepository;
     }
 
     @Override
@@ -35,7 +36,7 @@ public class ProductoServiceImpl implements ProductoService {
             producto.setEstadoProducto("Activo");
 
             // Lógica para el codigo autogenerado
-            Categoria categoria = categoriaDAO.buscarCategoriaPorId(producto.getCategoria().getIdCategoria());
+            Categoria categoria = categoriaRepository.findById();
             String nombreCat = categoria.getNombreCategoria();
 
             String prefijo = nombreCat.substring(0, Math.min(nombreCat.length(), 3)).toUpperCase();

@@ -29,7 +29,7 @@ public class MovimientoRepository implements MovimientoDAO{
                 rs.getString("destino"),
                 rs.getString("observaciones"),
                 new Usuario(
-                        rs.getInt("id_usuario"),
+                        rs.getLong("id_usuario"),
                         rs.getString("nombres"),
                         rs.getString("apellidos"),
                         rs.getString("correo_usuario"),
@@ -39,7 +39,7 @@ public class MovimientoRepository implements MovimientoDAO{
                         rs.getString("estado")
                 ),
                 new Proveedor(
-                        rs.getInt("id_proveedor"),
+                        rs.getLong("id_proveedor"),
                         rs.getString("ruc"),
                         rs.getString("razon_social"),
                         rs.getString("telefono"),
@@ -69,7 +69,7 @@ public class MovimientoRepository implements MovimientoDAO{
                 "id_usuario, id_proveedor, total_movimiento) VALUES " +
                 "(?, ?, ?, ?, ?, ?, ?, ?)";
 
-        final Integer idProveedorSeguro = (movimiento.getProveedor() != null) ? movimiento.getProveedor().getIdProveedor() : null;
+        final Long idProveedorSeguro = (movimiento.getProveedor() != null) ? movimiento.getProveedor().getIdProveedor() : null;
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -80,7 +80,7 @@ public class MovimientoRepository implements MovimientoDAO{
             ps.setString(3, movimiento.getMotivoMovimiento());
             ps.setString(4, movimiento.getDestinoMovimiento());
             ps.setString(5, movimiento.getObservacionesMovimiento());
-            ps.setInt(6, movimiento.getUsuario().getIdUsuario());
+            ps.setLong(6, movimiento.getUsuario().getIdUsuario());
             ps.setObject(7, idProveedorSeguro);
             ps.setDouble(8,movimiento.getTotalMovimiento());
             return ps;
