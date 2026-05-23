@@ -1,17 +1,15 @@
 package Project.ALMXN.Repository;
 
-import Project.ALMXN.models.Categoria;
-import Project.ALMXN.models.Producto;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import Project.ALMXN.entitys.ProductoEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class ProductoRepository implements ProductoDAO {
-
+public interface ProductoRepository extends JpaRepository<ProductoEntity, Long>{
+/*
     private final JdbcTemplate jdbcTemplate;
 
     public ProductoRepository(JdbcTemplate jdbcTemplate) {
@@ -188,5 +186,5 @@ public class ProductoRepository implements ProductoDAO {
 
         return jdbcTemplate.query(sql.toString(), ProductoRowMapper, parametros.toArray());
     }
-
+*/
 }

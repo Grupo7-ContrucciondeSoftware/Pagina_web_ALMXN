@@ -3,6 +3,7 @@ package Project.ALMXN.Services;
 import Project.ALMXN.Repository.CategoriaRepository;
 import Project.ALMXN.adapters.CategoriaAdapter;
 import Project.ALMXN.entitys.CategoriaEntity;
+import Project.ALMXN.entitys.ProductoEntity;
 import Project.ALMXN.models.Categoria;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -80,8 +81,9 @@ public class CategoriaService{
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada con el ID: " + idCategoria));
         entity.setEstadoCategoria("Inactivo");
 
-
-
+        ProductoEntity entity1 = productoRepository.findAllByID(idCategoria)
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con el ID: " + idCategoria));
+        entity1.setEstadoProducto("Inactivo");
 
     }
 

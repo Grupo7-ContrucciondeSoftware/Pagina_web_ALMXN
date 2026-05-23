@@ -61,7 +61,7 @@ public class ProveedorController {
     }
 
     @GetMapping("/editar")
-    public String mostarEditar(@RequestParam("id") int idProveedor, Model model, HttpSession session){
+    public String mostarEditar(@RequestParam("id") Long idProveedor, Model model, HttpSession session){
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login";
@@ -73,7 +73,7 @@ public class ProveedorController {
     }
 
     @PostMapping("/eliminar")
-    public String eliminarProveedor(@RequestParam("idProveedor") int idProveedor, HttpSession session){
+    public String eliminarProveedor(@RequestParam("idProveedor") Long idProveedor, HttpSession session){
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null || !usuario.getRol().equals("Admin")) {
@@ -85,7 +85,7 @@ public class ProveedorController {
     }
 
     @PostMapping("/activar")
-    public String activarProducto(@RequestParam("idProveedor") Integer idProveedor, HttpSession session) {
+    public String activarProducto(@RequestParam("idProveedor") Long idProveedor, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null || !usuario.getRol().equals("Admin")) {

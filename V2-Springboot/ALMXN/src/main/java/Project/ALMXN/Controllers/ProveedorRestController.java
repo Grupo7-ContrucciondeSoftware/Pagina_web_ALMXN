@@ -1,4 +1,4 @@
-package Project.ALMXN.Controllers;
+/*package Project.ALMXN.Controllers;
 
 import Project.ALMXN.Services.ProveedorService;
 import Project.ALMXN.models.Proveedor;
@@ -51,4 +51,4 @@ public class ProveedorRestController {
         proveedorService.eliminarProveedor(id);
         return ResponseEntity.ok(Map.of("mensaje", "Proveedor desactivado correctamente"));
     }
-}
+}*/

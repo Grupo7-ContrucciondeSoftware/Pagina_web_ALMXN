@@ -19,7 +19,7 @@ public class UsuarioRepository implements UsuarioDAO {
 
     private final RowMapper<Usuario> UsuarioRowMapper = (rs, rowNum) -> {
         return new Usuario(
-                rs.getInt("id_usuario"),
+                rs.getLong("id_usuario"),
                 rs.getString("nombres"),
                 rs.getString("apellidos"),
                 rs.getString("correo"),
