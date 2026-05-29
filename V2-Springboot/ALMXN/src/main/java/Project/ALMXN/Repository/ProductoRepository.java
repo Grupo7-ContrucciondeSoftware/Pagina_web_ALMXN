@@ -2,13 +2,21 @@ package Project.ALMXN.Repository;
 
 import Project.ALMXN.entitys.ProductoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public interface ProductoRepository extends JpaRepository<ProductoEntity, Long>{
+public interface ProductoRepository extends JpaRepository<ProductoEntity, Long>, JpaSpecificationExecutor<ProductoEntity> {
+
+    int countByCategoriaIdCategoria(Long idCategoria);
+
+    List<ProductoEntity> findByCategoriaIdCategoria(Long idCategoria);
+
+    List<ProductoEntity> findByCodigoContainingOrNombreContainingIgnoreCaseAndEstadoProducto(
+            String codigoFiltro, String nombreFiltro, String estado);
 /*
     private final JdbcTemplate jdbcTemplate;
 

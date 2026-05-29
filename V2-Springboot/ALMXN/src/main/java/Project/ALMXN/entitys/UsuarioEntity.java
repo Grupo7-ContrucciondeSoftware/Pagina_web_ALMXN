@@ -2,6 +2,7 @@ package Project.ALMXN.entitys;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity (name = "usuario")
 public class UsuarioEntity {
@@ -17,6 +18,9 @@ public class UsuarioEntity {
     private String contraseña;
     private String rol;
     private String estadoUsuario;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<MovimientoEntity> usuario;
 
     public UsuarioEntity(Long idUsuario, String nombres, String apellidos, String correo, LocalDate fechaCreacion, String contraseña, String rol, String estadoUsuario) {
         this.idUsuario = idUsuario;

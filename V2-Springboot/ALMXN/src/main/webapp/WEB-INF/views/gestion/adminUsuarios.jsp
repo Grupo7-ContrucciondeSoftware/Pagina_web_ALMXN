@@ -65,7 +65,7 @@
                         <input class="form-control" type="text" id="nombre-filtro" placeholder="Ingrese nombre">
                     </div>
 
-                    <!-- Categoría -->
+                    <!-- Rol -->
                     <div class="filtro-grupo">
                         <label class="form-label" for="rol-filtro">Rol:</label>
                         <select class="form-control" id="rol-filtro">

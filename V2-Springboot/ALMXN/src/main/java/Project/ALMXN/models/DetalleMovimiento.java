@@ -1,7 +1,7 @@
 package Project.ALMXN.models;
 
 public class DetalleMovimiento {
-    private int idDetalleMovimiento;
+    private Long idDetalleMovimiento;
     private Movimiento movimiento;
     private Producto producto;
     private int cantidadDetalleMovimiento;
@@ -10,8 +10,8 @@ public class DetalleMovimiento {
 
     public DetalleMovimiento() {}
 
-    public int getIdDetalleMovimiento() { return idDetalleMovimiento; }
-    public void setIdDetalleMovimiento(int idDetalleMovimiento) { this.idDetalleMovimiento = idDetalleMovimiento; }
+    public Long getIdDetalleMovimiento() { return idDetalleMovimiento; }
+    public void setIdDetalleMovimiento(Long idDetalleMovimiento) { this.idDetalleMovimiento = idDetalleMovimiento; }
 
     public Movimiento getMovimiento() { return movimiento; }
     public void setMovimiento(Movimiento movimiento) { this.movimiento = movimiento; }

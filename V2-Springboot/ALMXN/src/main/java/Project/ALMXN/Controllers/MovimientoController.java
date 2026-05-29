@@ -1,8 +1,8 @@
 package Project.ALMXN.Controllers;
 
-import Project.ALMXN.Services.MovimientoService;
 import Project.ALMXN.Services.ProveedorService;
 import Project.ALMXN.Services.UsuarioService;
+import Project.ALMXN.Services.MovimientoService;
 import Project.ALMXN.Services.DetalleMovimientoService;
 import Project.ALMXN.models.DetalleMovimiento;
 import Project.ALMXN.models.Movimiento;
@@ -82,8 +82,8 @@ public class MovimientoController {
     @PostMapping("/registrarMovimiento")
     public String guardarMovimiento(
             @ModelAttribute Movimiento movimiento,
-            @RequestParam(value = "idProducto[]", required = false) List<Integer> idProductos,
-            @RequestParam(value = "cantidad[]", required = false) List<Integer> cantidades,
+            @RequestParam(value = "idProducto[]", required = false) List<Long> idProductos,
+            @RequestParam(value = "cantidad[]", required = false) List<Long> cantidades,
             @RequestParam(value = "precioUnitario[]", required = false) List<Double> precios,
             HttpSession session) {
 

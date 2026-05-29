@@ -4,7 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import Project.ALMXN.entitys.MovimientoEntity;
 import Project.ALMXN.models.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -12,8 +15,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MovimientoRepository implements MovimientoDAO{
-
+public interface MovimientoRepository extends JpaRepository<MovimientoEntity, Long> {
+/*
     public final JdbcTemplate jdbcTemplate;
 
     public MovimientoRepository(JdbcTemplate jdbcTemplate) {
@@ -129,5 +132,5 @@ public class MovimientoRepository implements MovimientoDAO{
 
         return jdbcTemplate.query(sql.toString(), MovimientoRowMapper, parametros.toArray());
     }
-
+*/
 }

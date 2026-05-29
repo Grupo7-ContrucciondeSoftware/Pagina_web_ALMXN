@@ -1,7 +1,6 @@
 package Project.ALMXN.entitys;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity (name="producto")

@@ -2,6 +2,8 @@ package Project.ALMXN.entitys;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity (name = "proveedor")
 public class ProveedorEntity {
 
@@ -24,6 +26,9 @@ public class ProveedorEntity {
 
     @Column (name = "estado")
     private String estadoProveedor;
+
+    @OneToMany(mappedBy = "proveedor")
+    private List<MovimientoEntity> proveedor;
 
     public ProveedorEntity(Long idProveedor, String rucProveedor, String razonSocialProveedor, String telefonoProveedor, String correoProveedor, String estadoProveedor) {
         this.idProveedor = idProveedor;

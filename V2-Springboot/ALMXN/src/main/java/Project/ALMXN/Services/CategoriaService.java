@@ -1,6 +1,7 @@
 package Project.ALMXN.Services;
 
 import Project.ALMXN.Repository.CategoriaRepository;
+import Project.ALMXN.Repository.ProductoRepository;
 import Project.ALMXN.adapters.CategoriaAdapter;
 import Project.ALMXN.entitys.CategoriaEntity;
 import Project.ALMXN.entitys.ProductoEntity;
@@ -17,10 +18,12 @@ public class CategoriaService{
 
     private final CategoriaAdapter categoriaAdapter;
     private final CategoriaRepository categoriaRepository;
+    private final ProductoRepository productoRepository;
 
-    public CategoriaService(CategoriaAdapter categoriaAdapter, CategoriaRepository categoriaRepository){
+    public CategoriaService(CategoriaAdapter categoriaAdapter, CategoriaRepository categoriaRepository, ProductoRepository productoRepository){
         this.categoriaAdapter = categoriaAdapter;
         this.categoriaRepository = categoriaRepository;
+        this.productoRepository = productoRepository;
     }
 
     public List<Categoria> obtenerTodasLasCategorias(){
@@ -30,19 +33,11 @@ public class CategoriaService{
         return entities.stream()
                 .map(e -> categoriaAdapter.toModel(e))
                 .collect(Collectors.toList());
-
-        //categoriaDAO.listaCategorias(); //F3
-
-        // List<Categoria> lista = new ArrayList<>(); //F2
-        // lista.addAll(categoriaDAO.listaCategorias()); //F2
-        // return lista; //F2
-
-        // return new ArrayList<>();
     }
 
     public Categoria guardarCategoria(Categoria categoria) {
 
-        CategoriaEntity entity = categoriaAdapter.toEntity(categoria);
+        CategoriaEntity entity;
 
         if (categoria.getIdCategoria() == null || categoria.getIdCategoria() == 0) {
             entity = categoriaAdapter.toEntity(categoria);
@@ -55,19 +50,6 @@ public class CategoriaService{
         }
         CategoriaEntity savedEntity = categoriaRepository.save(entity);
         return categoriaAdapter.toModel(savedEntity);
-         /*if (categoria.getIdCategoria() == null){ //F3
-             categoria.setEstadoCategoria("Activo"); //F3
-             categoriaDAO.guardarCategoria(categoria); //F3
-         } else{ //F3
-             categoriaDAO.actualizarCategoria(categoria); //F3
-         } //F3
-         return categoria; //F3
-
-        //Categoria categoria_resp = new Categoria();
-        // categoria_resp.setNombreCategoria(categoria.getNombreCategoria()); //F2
-        // categoria_resp.setDescripcionCategoria(categoria.getDescripcionCategoria()); //F2
-        // categoria_resp.setEstadoCategoria("Activo"); //F2
-        // return categoria_resp;*/
     }
 
     public Categoria buscarCategoriaPorId(Long idCategoria){
@@ -81,12 +63,10 @@ public class CategoriaService{
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada con el ID: " + idCategoria));
         entity.setEstadoCategoria("Inactivo");
 
-        ProductoEntity entity1 = productoRepository.findAllByID(idCategoria)
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con el ID: " + idCategoria));
-        entity1.setEstadoProducto("Inactivo");
-
+        List<ProductoEntity> productos = productoRepository.findByCategoriaIdCategoria(idCategoria);
+        productos.forEach(producto -> producto.setEstadoProducto("Inactivo"));
+        productoRepository.saveAll(productos);
     }
-
 
     public List<Categoria> filtrarCategorias(String nombreFiltro, String estadoFiltro){
         CategoriaEntity filtro = new CategoriaEntity();

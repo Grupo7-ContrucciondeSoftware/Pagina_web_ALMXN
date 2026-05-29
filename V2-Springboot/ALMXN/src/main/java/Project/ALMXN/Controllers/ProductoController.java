@@ -2,6 +2,7 @@ package Project.ALMXN.Controllers;
 
 import Project.ALMXN.Services.CategoriaService;
 import Project.ALMXN.Services.ProductoService;
+import Project.ALMXN.models.Categoria;
 import Project.ALMXN.models.Producto;
 import Project.ALMXN.models.Usuario;
 import jakarta.servlet.http.HttpSession;
@@ -25,7 +26,7 @@ public class ProductoController {
     @GetMapping("")
     public String mostrarAdminProductos(
             @RequestParam(value = "nombre", required = false) String nombreFiltro,
-            @RequestParam(value = "idCategoria", required = false) Integer idCategoria,
+            @RequestParam(value = "idCategoria", required = false) Long idCategoria,
             @RequestParam(value = "stockMin", required = false) Integer stockMinFiltro,
             @RequestParam(value = "stockMax", required = false) Integer stockMaxFiltro,
             @RequestParam(value = "precioMin", required = false) Integer precioMinFiltro,
@@ -74,7 +75,7 @@ public class ProductoController {
     }
 
     @GetMapping("/editar")
-    public String mostrarEditar(@RequestParam("id") int idProducto, Model model, HttpSession session) {
+    public String mostrarEditar(@RequestParam("id") Long idProducto, Model model, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
@@ -89,7 +90,7 @@ public class ProductoController {
     }
 
     @PostMapping("/eliminar")
-    public String eliminarProducto(@RequestParam("idProducto") int idProducto, HttpSession session) {
+    public String eliminarProducto(@RequestParam("idProducto") Long idProducto, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null || !usuario.getRol().equals("Admin")) {
@@ -101,7 +102,7 @@ public class ProductoController {
     }
 
     @PostMapping("/activar")
-    public String activarProducto(@RequestParam("idProducto") Integer idProducto, HttpSession session) {
+    public String activarProducto(@RequestParam("idProducto") Long idProducto, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null || !usuario.getRol().equals("Admin")) {

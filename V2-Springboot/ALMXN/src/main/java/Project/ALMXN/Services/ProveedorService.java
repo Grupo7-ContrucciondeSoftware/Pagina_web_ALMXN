@@ -28,12 +28,6 @@ public class ProveedorService {
         return entities.stream()
                 .map(e -> proveedorAdapter.toModel(e))
                 .collect(Collectors.toList());
-
-        // return proveedorDAO.listaProveedores(); //F3
-
-        // List<Proveedor> lista = new ArrayList<>(); //F2
-        // lista.addAll(proveedorDAO.listaProveedores()); //F2
-        // return lista; //F2
     }
 
     public Proveedor guardarProveedor(Proveedor proveedor) {
@@ -55,20 +49,6 @@ public class ProveedorService {
         ProveedorEntity savedEntity = proveedorRepository.save(entity);
         return proveedorAdapter.toModel(savedEntity);
 
-        // if(proveedor.getIdProveedor() == null){ //F3
-        // proveedor.setEstadoProveedor("Activo"); //F3
-        // proveedorDAO.guardarProveedor(proveedor); //F3
-        // } else { //F3
-        // proveedorDAO.actualizarProveedor(proveedor); //F3
-        // } //F3
-        // return proveedor; //F3
-
-        // Proveedor proveedor_resp = new Proveedor();
-        // proveedor_resp.setRucProveedor(proveedor.getRucProveedor()); //F2
-        // proveedor_resp.setRazonSocialProveedor(proveedor.getRazonSocialProveedor()); //F2
-        // proveedor_resp.setCorreoProveedor(proveedor.getCorreoProveedor()); //F2
-        // proveedor_resp.setEstadoProveedor("Activo"); //F2
-        // return proveedor_resp;
     }
 
     public Proveedor buscarProveedorPorId(Long idProveedor) {
@@ -81,8 +61,6 @@ public class ProveedorService {
         ProveedorEntity entity = proveedorRepository.findById(idProveedor)
                 .orElseThrow(() -> new RuntimeException("Proveedor no encontrado con el ID: " + idProveedor));
         entity.setEstadoProveedor("Inactivo");
-        //        proveedorDAO.eliminarProveedor(idProveedor); //F3
-        // System.out.println("Proveedor " + idProveedor + " desactivada"); //F2
     }
 
     public void activarProveedor(Long idProveedor) {
@@ -103,7 +81,7 @@ public class ProveedorService {
                 }
 
                 if (telefono != null && telefono != 0) {
-                    filtro.setTelefonoProveedor(ruc.trim());
+                    filtro.setTelefonoProveedor(telefono.toString());
                 }
 
                 if (estadoFiltro != null && !estadoFiltro.isEmpty() && !estadoFiltro.equalsIgnoreCase("Todos")) {

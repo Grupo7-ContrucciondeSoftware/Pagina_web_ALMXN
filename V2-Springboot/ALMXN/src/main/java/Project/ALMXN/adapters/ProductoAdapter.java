@@ -10,6 +10,10 @@ public class ProductoAdapter {
 
     private CategoriaAdapter categoriaAdapter;
 
+    public ProductoAdapter(CategoriaAdapter categoriaAdapter) {
+        this.categoriaAdapter = categoriaAdapter;
+    }
+
     public ProductoEntity toEntity(Producto producto, CategoriaEntity categoriaEntity){
         if(producto == null){
             return null;
