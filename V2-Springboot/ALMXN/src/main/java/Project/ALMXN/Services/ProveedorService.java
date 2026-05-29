@@ -23,12 +23,7 @@ public class ProveedorService {
     }
 
     public List<Proveedor> obtenerTodosLosProveedores() {
-
-        List<ProveedorEntity> entities = proveedorRepository.findAll();
-
-        return entities.stream()
-                .map(e -> proveedorAdapter.toModel(e))
-                .collect(Collectors.toList());
+        return filtrarProveedor(null, null, null, "Activo");
     }
 
     @Transactional
@@ -90,7 +85,9 @@ public class ProveedorService {
             filtro.setTelefonoProveedor(telefono.toString());
         }
 
-        if (estadoFiltro != null && !estadoFiltro.isEmpty() && !estadoFiltro.equalsIgnoreCase("Todos")) {
+        if (estadoFiltro == null || estadoFiltro.trim().isEmpty()) {
+            filtro.setEstadoProveedor("Activo");
+        } else if (!estadoFiltro.equalsIgnoreCase("Todos")) {
             filtro.setEstadoProveedor(estadoFiltro);
         }
 

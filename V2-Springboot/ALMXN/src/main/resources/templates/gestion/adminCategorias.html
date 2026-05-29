@@ -1,9 +1,5 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page isELIgnored="false" %>
-
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,15 +7,15 @@
     <title>ALMXN - Administrar Categorías</title>
 
     <!-- ===== ESTILOS ===== -->
-    <link rel="stylesheet" href="/css/global.css">
-    <link rel="stylesheet" href="/css/globalGestion.css">
-    <link rel="stylesheet" href="/css/adminCategorias.css">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/globalGestion.css}">
+    <link rel="stylesheet" th:href="@{/css/adminCategorias.css}">
 
 </head>
 <body>
 
     <!-- ===== HEADER ===== -->
-    <%@ include file="/WEB-INF/views/header.jsp" %>
+    <div th:replace="~{fragments/header :: header}"></div>
 
     <!-- ===== CONTENIDO PRINCIPAL ===== -->
     <main id="contenido-principal-gestion">
@@ -39,7 +35,7 @@
 
                 <!-- BOTON VOLVER -->
                 <div class="formulario-acciones">
-                    <a href="/gestion" class="btn btn-secundario">Volver</a>
+                    <a th:href="@{/gestion}" class="btn btn-secundario">Volver</a>
                 </div>
             </section>
 
@@ -99,54 +95,48 @@
                         </tr>
                     </thead>
 
-                    <%-- CONTENIDO DE LA TABLA --%>
+                    <!-- CONTENIDO DE LA TABLA -->
                     <tbody class="body-tabla">
 
-                        <c:forEach var="categoria" items="${listaCategorias}">
-                            <tr>
-                                <td class="body-tabla">${categoria.idCategoria}</td>
-                                <td class="body-tabla">${categoria.nombreCategoria}</td>
-                                <td class="body-tabla">${categoria.descripcionCategoria}</td>
-                                <td class="body-tabla"><span class="estado ${categoria.estadoCategoria.toLowerCase()}">${categoria.estadoCategoria}</span></td>
-                                <td class="body-tabla">
-                                    <c:choose>
-                                        <c:when test="${categoria.estadoCategoria == 'Activo'}">
-                                            <a href="/gestion/adminCategorias/editar?id=${categoria.idCategoria}" class="btn btn-secundario btn-editar">Editar</a>
-                                            <c:choose>
-                                                <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
-                                                    <button type="button" class="btn btn-secundario btn-eliminar"
-                                                            data-id="${categoria.idCategoria}"
-                                                            data-nombre="${categoria.nombreCategoria}"
-                                                            data-action="/gestion/adminCategorias/eliminar"
-                                                            data-param="idCategoria">
-                                                        Eliminar
-                                                    </button>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <button type="button" class="btn btn-secundario btn-falso-eliminar" onclick="abrirModalPermiso()" >Eliminar</button>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:when>
+                        <tr th:each="categoria : ${listaCategorias}">
+                            <td class="body-tabla" th:text="${categoria.idCategoria}"></td>
+                            <td class="body-tabla" th:text="${categoria.nombreCategoria}"></td>
+                            <td class="body-tabla" th:text="${categoria.descripcionCategoria}"></td>
+                            <td class="body-tabla"><span class="estado" th:classappend="${#strings.toLowerCase(categoria.estadoCategoria)}" th:text="${categoria.estadoCategoria}"></span></td>
+                            <td class="body-tabla">
+                                <!-- Estado Activo -->
+                                <th:block th:if="${categoria.estadoCategoria == 'Activo'}">
+                                    <a th:href="@{/gestion/adminCategorias/editar(id=${categoria.idCategoria})}" class="btn btn-secundario btn-editar">Editar</a>
+                                    <th:block th:if="${session.usuarioLogueado.rol == 'Admin'}">
+                                        <button type="button" class="btn btn-secundario btn-eliminar"
+                                                th:data-id="${categoria.idCategoria}"
+                                                th:data-nombre="${categoria.nombreCategoria}"
+                                                data-action="/gestion/adminCategorias/eliminar"
+                                                data-param="idCategoria">
+                                            Eliminar
+                                        </button>
+                                    </th:block>
+                                    <th:block th:if="${session.usuarioLogueado.rol != 'Admin'}">
+                                        <button type="button" class="btn btn-secundario btn-falso-eliminar" onclick="abrirModalPermiso()">Eliminar</button>
+                                    </th:block>
+                                </th:block>
 
-                                        <c:otherwise>
-                                            <c:choose>
-                                                <c:when test="${sessionScope.usuarioLogueado.rol == 'Admin'}">
-                                                    <form action="/gestion/adminCategorias/activar" method="POST" >
-                                                        <input type="hidden" name="idCategoria" value="${categoria.idCategoria}">
-                                                        <button type="submit" class="btn btn-secundario btn-activar">
-                                                            Activar
-                                                        </button>
-                                                    </form>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <button type="button" class="btn btn-secundario btn-falso-activar" onclick="abrirModalPermiso()">Activar</button>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                                <!-- Estado Inactivo -->
+                                <th:block th:if="${categoria.estadoCategoria != 'Activo'}">
+                                    <th:block th:if="${session.usuarioLogueado.rol == 'Admin'}">
+                                        <form th:action="@{/gestion/adminCategorias/activar}" method="POST">
+                                            <input type="hidden" name="idCategoria" th:value="${categoria.idCategoria}">
+                                            <button type="submit" class="btn btn-secundario btn-activar">
+                                                Activar
+                                            </button>
+                                        </form>
+                                    </th:block>
+                                    <th:block th:if="${session.usuarioLogueado.rol != 'Admin'}">
+                                        <button type="button" class="btn btn-secundario btn-falso-activar" onclick="abrirModalPermiso()">Activar</button>
+                                    </th:block>
+                                </th:block>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -160,7 +150,7 @@
                 <!-- FORMULARIO -->
                 <section class="form-grupo">
 
-                    <form action="/gestion/adminCategorias/guardar" method="POST">
+                    <form th:action="@{/gestion/adminCategorias/guardar}" method="POST">
                         <div class="formulario">
 
                             <!-- Nombre Categoria -->
@@ -199,25 +189,25 @@
                 </section>
             </div>
 
-            <%-- ============================================
+            <!-- ============================================
                         MODAL ELIMINAR PRODUCTO
-            ============================================ --%>
+            ============================================ -->
 
-            <%@ include file="/WEB-INF/views/modalEliminar.jsp" %>
+            <div th:replace="~{fragments/modalEliminar :: modalEliminar}"></div>
 
         </div>
     </main>
 
     <!-- ===== FOOTER ===== -->
-    <%@ include file="/WEB-INF/views/footer.jsp" %>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
     <!-- ===== RESTRICCION ===== -->
-    <%@ include file="/WEB-INF/views/modalRestriccion.jsp" %>
+    <div th:replace="~{fragments/modalRestriccion :: modalRestriccion}"></div>
 
     <!-- ===== SCRIPTS ===== -->
-    <script src="/js/tema.js" defer></script>
-    <script src="/js/Filtros/categoriasFiltro.js" defer></script>
-    <script src="/js/Eliminar/eliminarFuncion.js" defer></script>
+    <script th:src="@{/js/tema.js}" defer></script>
+    <script th:src="@{/js/Filtros/categoriasFiltro.js}" defer></script>
+    <script th:src="@{/js/Eliminar/eliminarFuncion.js}" defer></script>
 
 </body>
 </html>

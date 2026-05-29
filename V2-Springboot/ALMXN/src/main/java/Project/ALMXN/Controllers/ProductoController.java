@@ -2,7 +2,6 @@ package Project.ALMXN.Controllers;
 
 import Project.ALMXN.Services.CategoriaService;
 import Project.ALMXN.Services.ProductoService;
-import Project.ALMXN.models.Categoria;
 import Project.ALMXN.models.Producto;
 import Project.ALMXN.models.Usuario;
 import jakarta.servlet.http.HttpSession;

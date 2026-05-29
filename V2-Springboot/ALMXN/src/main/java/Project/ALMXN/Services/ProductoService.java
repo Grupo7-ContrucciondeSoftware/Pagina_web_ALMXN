@@ -31,11 +31,7 @@ public class ProductoService {
     }
 
     public List<Producto> obtenerTodosLosProductos() {
-
-        List<ProductoEntity> entities = productoRepository.findAll();
-               return entities.stream()
-                       .map(e -> productoAdapter.toModel(e))
-                       .collect(Collectors.toList());
+        return filtrarProducto(null, null, null, null, null, null, null, null, "Activo");
     }
 
     @Transactional
@@ -174,7 +170,9 @@ public class ProductoService {
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("fechaCreacionProducto"), fin));
             }
 
-            if (estado != null && !estado.isEmpty() && !estado.equalsIgnoreCase("Todos")) {
+            if (estado == null || estado.trim().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(root.get("estadoProducto"), "Activo"));
+            } else if (!estado.equalsIgnoreCase("Todos")) {
                 predicates.add(criteriaBuilder.equal(root.get("estadoProducto"), estado));
             }
 

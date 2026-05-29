@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="modalRestriccion">
+    <link rel="stylesheet" th:href="@{/css/restriccion.css}">
+    <script th:src="@{/js/restriccion.js}" defer></script>
+
+    <div id="modal-sin-permiso" class="modal-oculto">
+        <div class="modal-contenedor-restriccion">
+            <div class="modal-header-restriccion">
+                <h2 style="color: red; margin: 0;">Acceso Denegado</h2>
+                <button class="btn-cerrar-modal" onclick="cerrarModalPermiso()">&times;</button>
+            </div>
+            <div class="modal-body-restriccion">
+                <p style="margin-bottom: 10px;">Lo sentimos, tu rol actual de <strong th:text="${session.usuarioLogueado.rol}"></strong> no tiene los permisos necesarios para realizar esta acción.</p>
+                <p>Por favor, contacta a un Administrador si necesitas realizar modificaciones.</p>
+            </div>
+            <div class="modal-acciones-restriccion">
+                <button class="btn btn-secundario" onclick="cerrarModalPermiso()">Entendido</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

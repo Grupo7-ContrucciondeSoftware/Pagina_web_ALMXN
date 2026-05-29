@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Editar Producto - Sistema de Gestión de Almacén">
+    <title>ALMXN - Editar Producto</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/globalGestion.css}">
+    <link rel="stylesheet" th:href="@{/css/adminProductos.css}">
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+    <main id="contenido-principal-gestion">
+        <div class="centro-pagina-gestion">
+            <section class="gestion-inicio">
+                <div>
+                    <h1 class="titulo-seccion">Editar Producto</h1>
+                    <p class="subtitulo-seccion">Modificando los datos del código: <span th:text="${producto.codigoProducto}"></span></p>
+                </div>
+                <div class="formulario-acciones">
+                    <a th:href="@{/gestion/adminProductos}" class="btn btn-secundario">Cancelar y Volver</a>
+                </div>
+            </section>
+            <div class="pestaña-contenido" style="display: block;">
+                <section class="form-grupo">
+                    <form th:action="@{/gestion/adminProductos/guardar}" method="POST" th:object="${producto}">
+                        <input type="hidden" th:field="*{idProducto}">
+                        <div class="formulario">
+                            <div class="form-grupo">
+                                <label for="nombre-producto" class="form-label">Nombre del producto</label>
+                                <input type="text" id="nombre-producto" th:field="*{nombreProducto}" class="form-control" required>
+                            </div>
+                            <div class="form-grupo">
+                                <label for="unidad-medida" class="form-label">Unidad de medida</label>
+                                <select id="unidad-medida" th:field="*{unidadMedidaProducto}" class="form-control" required>
+                                    <option value="" disabled>Seleccione una unidad</option>
+                                    <option value="unidad">Unidad</option>
+                                    <option value="kg">Kg</option>
+                                    <option value="Bolsa">Bolsa</option>
+                                    <option value="litro">Litro (L)</option>
+                                    <option value="Caja">Caja</option>
+                                    <option value="Paquete">Paquete</option>
+                                </select>
+                            </div>
+                            <div class="form-grupo">
+                                <label for="precio-costo" class="form-label">Precio de Costo</label>
+                                <input type="number" step="any" id="precio-costo" th:field="*{precioCostoProducto}" class="form-control" min="0" required>
+                            </div>
+                            <div class="form-grupo">
+                                <label for="precio-unidad" class="form-label">Precio por unidad</label>
+                                <input type="number" step="any" id="precio-unidad" th:field="*{precioVentaProducto}" class="form-control" min="0" required>
+                            </div>
+                        </div>
+                        <div class="form-grupo form-textarea">
+                            <label for="descripcion-producto" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
+                            <textarea id="descripcion-producto" th:field="*{descripcionProducto}" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="formulario-acciones">
+                            <button type="submit" class="btn btn-primario">Guardar Cambios</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </main>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <script th:src="@{/js/tema.js}" defer></script>
+</body>
+</html>

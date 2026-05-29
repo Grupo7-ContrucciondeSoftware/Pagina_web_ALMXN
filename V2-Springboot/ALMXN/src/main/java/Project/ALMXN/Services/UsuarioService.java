@@ -2,7 +2,6 @@ package Project.ALMXN.Services;
 
 import Project.ALMXN.Repository.UsuarioRepository;
 import Project.ALMXN.adapters.UsuarioAdapter;
-import Project.ALMXN.entitys.ProductoEntity;
 import Project.ALMXN.entitys.UsuarioEntity;
 import Project.ALMXN.models.Usuario;
 import jakarta.persistence.criteria.Predicate;
@@ -29,10 +28,7 @@ public class UsuarioService {
 
 
     public List<Usuario> obtenerTodosLosUsuarios() {
-        List<UsuarioEntity> entities = usuarioRepository.findAll();
-               return entities.stream()
-                       .map(e -> usuarioAdapter.toModel(e))
-                       .collect(Collectors.toList());
+        return filtrarUsuario(null, null, "Activo", null, null);
     }
 
     @Transactional
@@ -117,7 +113,9 @@ public class UsuarioService {
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("fechaCreacion"), fin));
             }
 
-            if (estado != null && !estado.isEmpty() && !estado.equalsIgnoreCase("Todos")) {
+            if (estado == null || estado.trim().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(root.get("estado"), "Activo"));
+            } else if (!estado.equalsIgnoreCase("Todos")) {
                 predicates.add(criteriaBuilder.equal(root.get("estado"), estado));
             }
 

@@ -28,12 +28,7 @@ public class CategoriaService{
     }
 
     public List<Categoria> obtenerTodasLasCategorias(){
-
-        List<CategoriaEntity> entities = categoriaRepository.findAll();
-
-        return entities.stream()
-                .map(e -> categoriaAdapter.toModel(e))
-                .collect(Collectors.toList());
+        return filtrarCategorias(null, "Activo");
     }
 
     @Transactional
@@ -79,7 +74,9 @@ public class CategoriaService{
             filtro.setNombreCategoria(nombreFiltro.trim());
         }
 
-        if (estadoFiltro != null && !estadoFiltro.isEmpty() && !estadoFiltro.equalsIgnoreCase("Todos")) {
+        if (estadoFiltro == null || estadoFiltro.trim().isEmpty()) {
+            filtro.setEstadoCategoria("Activo");
+        } else if (!estadoFiltro.equalsIgnoreCase("Todos")) {
             filtro.setEstadoCategoria(estadoFiltro);
         }
 
