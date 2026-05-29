@@ -39,7 +39,7 @@ public class MovimientoEntity {
     @JoinColumn(name="id_proveedor")
     private ProveedorEntity proveedor;
 
-    @OneToMany(mappedBy = "movimiento", orphanRemoval = true)
+    @OneToMany(mappedBy = "movimiento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleMovimientoEntity> detalles = new ArrayList<>();
 
     public MovimientoEntity(Long idMovimiento, String tipoMovimiento, LocalDate fechaMovimiento, String motivoMovimiento, String destinoMovimiento, String observacionesMovimiento, double totalMovimiento) {

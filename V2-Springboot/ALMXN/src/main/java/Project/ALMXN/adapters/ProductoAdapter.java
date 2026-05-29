@@ -48,6 +48,7 @@ public class ProductoAdapter {
         producto.setNombreProducto(productoEntity.getNombreProducto());
         producto.setCategoria(categoriaAdapter.toModel(productoEntity.getCategoria()));
         producto.setStockActualProducto(productoEntity.getStockActualProducto());
+        producto.setUnidadMedidaProducto(productoEntity.getUnidadMedidaProducto());
         producto.setPrecioCostoProducto(productoEntity.getPrecioCostoProducto());
         producto.setPrecioVentaProducto(productoEntity.getPrecioVentaProducto());
         producto.setDescripcionProducto(productoEntity.getDescripcionProducto());

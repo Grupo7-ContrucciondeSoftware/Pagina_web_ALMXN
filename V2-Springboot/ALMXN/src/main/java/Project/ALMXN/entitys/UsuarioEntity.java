@@ -11,26 +11,40 @@ public class UsuarioEntity {
     @Column(name = "id_usuario")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
+
+    @Column(name = "nombres")
     private String nombres;
+
+    @Column(name = "apellidos")
     private String apellidos;
+
+    @Column(name = "correo")
     private String correo;
+
+    @Column(name = "fechacreacion")
     private LocalDate fechaCreacion;
-    private String contraseña;
+
+    @Column(name = "contraseña")
+    private String contrasena;
+
+    @Column(name = "rol")
     private String rol;
-    private String estadoUsuario;
+
+    @Column(name = "estado")
+    private String estado;
 
     @OneToMany(mappedBy = "usuario")
-    private List<MovimientoEntity> usuario;
+    private List<MovimientoEntity> movimientos;
 
-    public UsuarioEntity(Long idUsuario, String nombres, String apellidos, String correo, LocalDate fechaCreacion, String contraseña, String rol, String estadoUsuario) {
+    public UsuarioEntity(Long idUsuario, String nombres, String apellidos, String correo, LocalDate fechaCreacion, String contrasena, String rol, String estado) {
         this.idUsuario = idUsuario;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.correo = correo;
         this.fechaCreacion = fechaCreacion;
-        this.contraseña = contraseña;
+        this.contrasena = contrasena;
         this.rol = rol;
-        this.estadoUsuario = estadoUsuario;
+        this.estado = estado;
     }
 
     public UsuarioEntity(){}
@@ -75,12 +89,12 @@ public class UsuarioEntity {
         this.fechaCreacion = fechaCreacion;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public String getRol() {
@@ -91,11 +105,11 @@ public class UsuarioEntity {
         this.rol = rol;
     }
 
-    public String getEstadoUsuario() {
-        return estadoUsuario;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setEstadoUsuario(String estadoUsuario) {
-        this.estadoUsuario = estadoUsuario;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

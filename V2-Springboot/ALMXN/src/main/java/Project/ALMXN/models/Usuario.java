@@ -9,19 +9,19 @@ public class Usuario {
     private String apellidos;
     private String correo;
     private LocalDate fechaCreacion;
-    private String contraseña;
+    private String contrasena;
     private String rol;
     private String estadoUsuario;
 
     public Usuario() { }
 
-    public Usuario(Long idUsuario, String nombres, String apellidos, String correo, LocalDate fechaCreacion, String contraseña, String rol, String estadoUsuario){
+    public Usuario(Long idUsuario, String nombres, String apellidos, String correo, LocalDate fechaCreacion, String contrasena, String rol, String estadoUsuario){
         this.idUsuario = idUsuario;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.correo = correo;
         this.fechaCreacion = fechaCreacion;
-        this.contraseña = contraseña;
+        this.contrasena = contrasena;
         this.rol = rol;
         this.estadoUsuario = estadoUsuario;
     }
@@ -41,8 +41,8 @@ public class Usuario {
     public LocalDate getFechaCreacion() { return fechaCreacion; }
     public void setFechaCreacion(LocalDate fechaCreacion) { this.fechaCreacion = fechaCreacion; }
 
-    public String getContraseña() { return contraseña; }
-    public void setContraseña(String contraseña) { this.contraseña = contraseña; }
+    public String getContrasena() { return contrasena; }
+    public void setContrasena(String contrasena) { this.contrasena = contrasena; }
 
     public String getRol() { return rol; }
     public void setRol(String rol) { this.rol = rol; }

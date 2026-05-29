@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <td class="prod-nombre">${prod.nombreProducto}</td>
                             <td>${prod.stockActualProducto}</td>
                             <td>
-                                S/ <input type="number" class="form-control prod-precio" value="${prod.precioVentaProducto}" style="width: 80px;" readonly>
+                                S/ <input type="number" class="form-control prod-precio" value="${prod.precioVentaProducto}" style="width: 80px;" readonly disabled>
                             </td>
                             <td>
                                 <input type="number" class="form-control prod-cantidad" value="1" min="1" max="${prod.stockActualProducto}" style="width: 80px;">
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <td class="prod-codigo">${prod.codigoProducto}</td>
                             <td class="prod-nombre">${prod.nombreProducto}</td>
                             <td>
-                                S/ <input type="number" class="form-control prod-precio" value="${prod.precioCostoProducto}" style="width: 80px;">
+                                S/ <input type="number" class="form-control prod-precio" value="${prod.precioCostoProducto}" style="width: 80px;" disabled>
                             </td>
                             <td>
                                 <input type="number" class="form-control prod-cantidad" value="1" min="1" style="width: 80px;">

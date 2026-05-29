@@ -294,7 +294,7 @@
                                 <input
                                     type="password"
                                     id="agr-contrasena"
-                                    name="contraseña"
+                                    name="contrasena"
                                     class="form-control"
                                     placeholder="**********"
                                     required>

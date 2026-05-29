@@ -5,6 +5,8 @@ import Project.ALMXN.entitys.UsuarioEntity;
 import Project.ALMXN.models.Usuario;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class UsuarioAdapter {
 
@@ -18,10 +20,10 @@ public class UsuarioAdapter {
         usuarioEntity.setNombres(usuario.getNombres());
         usuarioEntity.setApellidos(usuario.getApellidos());
         usuarioEntity.setCorreo(usuario.getCorreo());
-        usuarioEntity.setFechaCreacion(usuario.getFechaCreacion());
-        usuarioEntity.setContraseña(usuario.getContraseña());
+        usuarioEntity.setFechaCreacion(usuario.getFechaCreacion() != null ? usuario.getFechaCreacion() : LocalDate.now());
+        usuarioEntity.setContrasena(usuario.getContrasena());
         usuarioEntity.setRol(usuario.getRol());
-        usuarioEntity.setEstadoUsuario(usuario.getEstadoUsuario());
+        usuarioEntity.setEstado(usuario.getEstadoUsuario());
 
         return usuarioEntity;
     }
@@ -38,9 +40,9 @@ public class UsuarioAdapter {
         usuario.setApellidos(usuarioEntity.getApellidos());
         usuario.setCorreo(usuarioEntity.getCorreo());
         usuario.setFechaCreacion(usuarioEntity.getFechaCreacion());
-        usuario.setContraseña(usuarioEntity.getContraseña());
+        usuario.setContrasena(usuarioEntity.getContrasena());
         usuario.setRol(usuarioEntity.getRol());
-        usuario.setEstadoUsuario(usuarioEntity.getEstadoUsuario());
+        usuario.setEstadoUsuario(usuarioEntity.getEstado());
 
         return usuario;
     }

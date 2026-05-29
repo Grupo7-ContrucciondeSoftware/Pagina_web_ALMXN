@@ -6,6 +6,7 @@ import Project.ALMXN.adapters.CategoriaAdapter;
 import Project.ALMXN.entitys.CategoriaEntity;
 import Project.ALMXN.entitys.ProductoEntity;
 import Project.ALMXN.models.Categoria;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +36,7 @@ public class CategoriaService{
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public Categoria guardarCategoria(Categoria categoria) {
 
         CategoriaEntity entity;
@@ -58,10 +60,12 @@ public class CategoriaService{
         return categoriaAdapter.toModel(entity);
     }
 
+    @Transactional
     public void eliminarCategoria(Long idCategoria){
         CategoriaEntity entity = categoriaRepository.findById(idCategoria)
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada con el ID: " + idCategoria));
         entity.setEstadoCategoria("Inactivo");
+        categoriaRepository.save(entity);
 
         List<ProductoEntity> productos = productoRepository.findByCategoriaIdCategoria(idCategoria);
         productos.forEach(producto -> producto.setEstadoProducto("Inactivo"));
@@ -79,28 +83,26 @@ public class CategoriaService{
             filtro.setEstadoCategoria(estadoFiltro);
         }
 
-        // 2. Configuramos las reglas del matcher (Ignorar mayúsculas/minúsculas y aplicar el LIKE)
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnoreCase()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                 .withIgnoreNullValues();
 
-        // 3. Empaquetamos el molde y las reglas
         Example<CategoriaEntity> example = Example.of(filtro, matcher);
 
-        // 4. Ejecutamos la búsqueda dinámica nativa de JPA
         List<CategoriaEntity> entities = categoriaRepository.findAll(example);
 
-        // 5. Convertimos los resultados a tus modelos de dominio
         return entities.stream()
                 .map(e -> categoriaAdapter.toModel(e))
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void activarCategoria(Long idCategoria){
         CategoriaEntity entity = categoriaRepository.findById(idCategoria)
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada con el ID: " + idCategoria));
         entity.setEstadoCategoria("Activo");
+        categoriaRepository.save(entity);
     }
 
 }

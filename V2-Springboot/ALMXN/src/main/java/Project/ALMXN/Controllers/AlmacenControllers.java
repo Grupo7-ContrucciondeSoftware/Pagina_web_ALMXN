@@ -27,10 +27,10 @@ public class AlmacenControllers {
     @PostMapping("/login")
     public String procesarLogin(
             @RequestParam String correo,
-            @RequestParam("contraseña") String contraseña,
+            @RequestParam("contraseña") String contrasena,
             HttpSession session) {
 
-        Usuario usuario = usuarioService.validarLogin(correo, contraseña);
+        Usuario usuario = usuarioService.validarLogin(correo, contrasena);
 
         if (usuario != null) {
             session.setAttribute("usuarioLogueado", usuario);

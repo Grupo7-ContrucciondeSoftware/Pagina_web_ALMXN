@@ -1,17 +1,19 @@
 package Project.ALMXN.Controllers;
 
+import Project.ALMXN.Services.DetalleMovimientoService;
 import Project.ALMXN.Services.ProveedorService;
 import Project.ALMXN.Services.UsuarioService;
 import Project.ALMXN.Services.MovimientoService;
-import Project.ALMXN.Services.DetalleMovimientoService;
 import Project.ALMXN.models.DetalleMovimiento;
 import Project.ALMXN.models.Movimiento;
+import Project.ALMXN.models.Producto;
 import Project.ALMXN.models.Usuario;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class MovimientoController {
     @GetMapping("")
     public String mostrarAdminMovimientos(
             @RequestParam(value = "tipo", required = false) String tipoFiltro,
+            @RequestParam(value = "idProveedor", required = false) Integer idProveedorFiltro,
             @RequestParam(value = "idUsuario", required = false) Integer idUsuarioFiltro,
             @RequestParam(value = "fechaMin", required = false) String fechaMinFiltro,
             @RequestParam(value = "fechaMax", required = false) String fechaMaxFiltro,
@@ -48,12 +51,13 @@ public class MovimientoController {
         List<Movimiento> movimientosFiltrados;
 
         boolean hayFiltros = (tipoFiltro != null && !tipoFiltro.isEmpty()) ||
+                (idProveedorFiltro != null) ||
                 (idUsuarioFiltro != null) ||
                 (fechaMinFiltro != null && !fechaMinFiltro.isEmpty()) ||
                 (fechaMaxFiltro != null && !fechaMaxFiltro.isEmpty());
 
         if (hayFiltros) {
-            movimientosFiltrados = movimientoService.filtrarMovimientos(tipoFiltro, idUsuarioFiltro, fechaMinFiltro, fechaMaxFiltro);
+            movimientosFiltrados = movimientoService.filtrarMovimientos(tipoFiltro, idProveedorFiltro, idUsuarioFiltro, fechaMinFiltro, fechaMaxFiltro);
         } else {
             movimientosFiltrados = movimientoService.obtenerTodosLosMovimientos();
         }
@@ -83,7 +87,7 @@ public class MovimientoController {
     public String guardarMovimiento(
             @ModelAttribute Movimiento movimiento,
             @RequestParam(value = "idProducto[]", required = false) List<Long> idProductos,
-            @RequestParam(value = "cantidad[]", required = false) List<Long> cantidades,
+            @RequestParam(value = "cantidad[]", required = false) List<Integer> cantidades,
             @RequestParam(value = "precioUnitario[]", required = false) List<Double> precios,
             HttpSession session) {
 
@@ -91,10 +95,26 @@ public class MovimientoController {
         if (usuarioLogueado == null) {
             return "redirect:/login";
         }
-
         movimiento.setUsuario(usuarioLogueado);
 
-        movimientoService.registrarMovimientoCompleto(movimiento, idProductos, cantidades, precios);
+        List<DetalleMovimiento> detalles = new ArrayList<>();
+
+        if (idProductos != null && !idProductos.isEmpty()) {
+            for (int i = 0; i < idProductos.size(); i++) {
+
+                Producto producto = new Producto();
+                producto.setIdProducto(idProductos.get(i));
+
+                DetalleMovimiento detalle = new DetalleMovimiento();
+                detalle.setProducto(producto);
+                detalle.setCantidadDetalleMovimiento(cantidades.get(i));
+                detalle.setPrecioUnitarioDetalleMovimiento(precios.get(i));
+
+                detalles.add(detalle);
+            }
+        }
+
+        movimientoService.guardarMovimiento(movimiento, detalles);
 
         return "redirect:/gestion/adminMovimientos";
     }

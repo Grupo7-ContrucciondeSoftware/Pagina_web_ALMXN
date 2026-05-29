@@ -258,12 +258,15 @@
                                 <label for="unidad-medida" class="form-label">Unidad de medida</label>
                                 <select id="unidad-medida" name="unidadMedidaProducto" class="form-control">
                                     <option value="" disabled selected>Seleccione una unidad</option>
-                                    <option value="unidad">Unidad</option>
+                                    <option value="Unidad">Unidad</option>
                                     <option value="kg">Kg</option>
                                     <option value="Bolsa">Bolsa</option>
                                     <option value="litro">Litro (L)</option>
                                     <option value="Caja">Caja</option>
+                                    <option value="Botella">Caja</option>
+                                    <option value="Lata">Caja</option>
                                     <option value="Paquete">Paquete</option>
+                                    <option value="Saco">Saco</option>
                                 </select>
                             </div>
 
@@ -284,7 +287,7 @@
 
                             <!-- Precio por Unidad -->
                             <div class="form-grupo">
-                                <label for="precio-unidad" class="form-label">Precio por unidad</label>
+                                <label for="precio-unidad" class="form-label">Precio de Venta</label>
                                 <input
                                     type="number"
                                     step="any"

@@ -4,6 +4,7 @@ import Project.ALMXN.Repository.ProveedorRepository;
 import Project.ALMXN.adapters.ProveedorAdapter;
 import Project.ALMXN.entitys.ProveedorEntity;
 import Project.ALMXN.models.Proveedor;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class ProveedorService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public Proveedor guardarProveedor(Proveedor proveedor) {
 
         ProveedorEntity entity = proveedorAdapter.toEntity(proveedor);
@@ -57,53 +59,53 @@ public class ProveedorService {
         return proveedorAdapter.toModel(entity);
     }
 
+    @Transactional
     public void eliminarProveedor(Long idProveedor) {
         ProveedorEntity entity = proveedorRepository.findById(idProveedor)
                 .orElseThrow(() -> new RuntimeException("Proveedor no encontrado con el ID: " + idProveedor));
         entity.setEstadoProveedor("Inactivo");
+        proveedorRepository.save(entity);
     }
 
+    @Transactional
     public void activarProveedor(Long idProveedor) {
         ProveedorEntity entity = proveedorRepository.findById(idProveedor)
                 .orElseThrow(() -> new RuntimeException("Proveedor no encontrado con el ID: " + idProveedor));
         entity.setEstadoProveedor("Activo");
+        proveedorRepository.save(entity);
     }
 
     public List<Proveedor> filtrarProveedor(String razonSocial, String ruc, Integer telefono, String estadoFiltro) {
-                ProveedorEntity filtro = new ProveedorEntity();
+        ProveedorEntity filtro = new ProveedorEntity();
 
-                if (razonSocial != null && !razonSocial.trim().isEmpty()) {
-                    filtro.setRazonSocialProveedor(razonSocial.trim());
-                }
+        if (razonSocial != null && !razonSocial.trim().isEmpty()) {
+            filtro.setRazonSocialProveedor(razonSocial.trim());
+        }
 
-                if (ruc != null && !ruc.trim().isEmpty()) {
-                    filtro.setRucProveedor(ruc.trim());
-                }
+        if (ruc != null && !ruc.trim().isEmpty()) {
+            filtro.setRucProveedor(ruc.trim());
+        }
 
-                if (telefono != null && telefono != 0) {
-                    filtro.setTelefonoProveedor(telefono.toString());
-                }
+        if (telefono != null && telefono != 0) {
+            filtro.setTelefonoProveedor(telefono.toString());
+        }
 
-                if (estadoFiltro != null && !estadoFiltro.isEmpty() && !estadoFiltro.equalsIgnoreCase("Todos")) {
-                    filtro.setEstadoProveedor(estadoFiltro);
-                }
+        if (estadoFiltro != null && !estadoFiltro.isEmpty() && !estadoFiltro.equalsIgnoreCase("Todos")) {
+            filtro.setEstadoProveedor(estadoFiltro);
+        }
 
-                // 2. Configuramos las reglas del matcher (Ignorar mayúsculas/minúsculas y aplicar el LIKE)
-                ExampleMatcher matcher = ExampleMatcher.matching()
-                        .withIgnoreCase()
-                        .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-                        .withIgnoreNullValues();
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreNullValues();
 
-                // 3. Empaquetamos el molde y las reglas
-                Example<ProveedorEntity> example = Example.of(filtro, matcher);
+        Example<ProveedorEntity> example = Example.of(filtro, matcher);
 
-                // 4. Ejecutamos la búsqueda dinámica nativa de JPA
-                List<ProveedorEntity> entities = proveedorRepository.findAll(example);
+        List<ProveedorEntity> entities = proveedorRepository.findAll(example);
 
-                // 5. Convertimos los resultados a tus modelos de dominio
-                return entities.stream()
-                        .map(e -> proveedorAdapter.toModel(e))
-                        .collect(Collectors.toList());
+        return entities.stream()
+                .map(e -> proveedorAdapter.toModel(e))
+                .collect(Collectors.toList());
     }
 
 }

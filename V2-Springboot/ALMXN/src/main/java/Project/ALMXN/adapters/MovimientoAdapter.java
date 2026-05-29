@@ -32,7 +32,7 @@ public class MovimientoAdapter {
         movimientoEntity.setObservacionesMovimiento(movimiento.getObservacionesMovimiento());
         movimientoEntity.setUsuario(usuarioEntity);
         movimientoEntity.setProveedor(proveedorEntity);
-        movimientoEntity.setTotalMovimiento(movimiento.getTotalMovimiento());
+        movimientoEntity.setTotalMovimiento(movimiento.getTotalMovimiento() != null ? movimiento.getTotalMovimiento() : 0.0);
 
         return movimientoEntity;
 

@@ -6,6 +6,7 @@ import Project.ALMXN.entitys.ProductoEntity;
 import Project.ALMXN.entitys.UsuarioEntity;
 import Project.ALMXN.models.Usuario;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class UsuarioService {
         this.usuarioAdapter = usuarioAdapter;
     }
 
+
     public List<Usuario> obtenerTodosLosUsuarios() {
         List<UsuarioEntity> entities = usuarioRepository.findAll();
                return entities.stream()
@@ -33,13 +35,14 @@ public class UsuarioService {
                        .collect(Collectors.toList());
     }
 
+    @Transactional
     public Usuario guardarUsuario(Usuario usuario) {
 
         UsuarioEntity entity;
 
         if(usuario.getIdUsuario() == null || usuario.getIdUsuario() == 0){
+            usuario.setEstadoUsuario("Activo");
             entity = usuarioAdapter.toEntity(usuario);
-            entity.setEstadoUsuario("Activo");
         } else {
             entity = usuarioRepository.findById(usuario.getIdUsuario())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + usuario.getIdUsuario()));
@@ -60,21 +63,25 @@ public class UsuarioService {
         return usuarioAdapter.toModel(entity);
     }
 
+    @Transactional
     public void eliminarUsuario(Long idUsuario){
         UsuarioEntity entity = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el ID: " + idUsuario));
-        entity.setEstadoUsuario("Inactivo");
+        entity.setEstado("Inactivo");
+        usuarioRepository.save(entity);
     }
 
+    @Transactional
     public void activarUsuario(Long idUsuario){
         UsuarioEntity entity = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el ID: " + idUsuario));
-        entity.setEstadoUsuario("Activo");
+        entity.setEstado("Activo");
+        usuarioRepository.save(entity);
     }
 
-    public Usuario validarLogin(String correo, String contraseña) {
+    public Usuario validarLogin(String correo, String contrasena) {
         Optional<UsuarioEntity> entityOptional = usuarioRepository
-                .findByCorreoAndContraseñaAndEstado(correo, contraseña, "Activo");
+                .findByCorreoAndContrasenaAndEstado(correo, contrasena, "Activo");
 
         return entityOptional
                 .map(entity -> usuarioAdapter.toModel(entity))
@@ -101,29 +108,24 @@ public class UsuarioService {
                 ));
             }
 
-            // Rango de Fechas (Ajusta 'fechaCreacionProducto' y los parseos según tu entidad)
             if (fechaMin != null && !fechaMin.isEmpty()) {
                 LocalDate inicio = LocalDate.parse(fechaMin);
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("fechaCreacionProducto"), inicio));
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("fechaCreacion"), inicio));
             }
             if (fechaMax != null && !fechaMax.isEmpty()) {
                 LocalDate fin = LocalDate.parse(fechaMax);
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("fechaCreacionProducto"), fin));
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("fechaCreacion"), fin));
             }
 
-            // Filtro por Estado (Igualdad exacta, ej: 'Activo')
             if (estado != null && !estado.isEmpty() && !estado.equalsIgnoreCase("Todos")) {
-                predicates.add(criteriaBuilder.equal(root.get("estadoProducto"), estado));
+                predicates.add(criteriaBuilder.equal(root.get("estado"), estado));
             }
 
-            // Unimos todas las condiciones con un AND lógico
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
 
-        // 4. Ejecutamos la búsqueda dinámica nativa de JPA
         List<UsuarioEntity> entities = usuarioRepository.findAll(spec);
 
-        // 5. Convertimos los resultados a tus modelos de dominio
         return entities.stream()
                 .map(e -> usuarioAdapter.toModel(e))
                 .collect(Collectors.toList());

@@ -345,10 +345,15 @@
                         </select>
                     </div>
 
-                    <!-- Origen/Destino -->
+                    <!-- Proveedor -->
                     <div class="filtro-grupo">
-                        <label class="form-label" for="origen-filtro">Origen / Destino:</label>
-                        <input class="form-control" type="text" id="origen-filtro" placeholder="Ej: Alicorp, Almacén 2">
+                        <label class="form-label" for="origen-filtro">Proveedor:</label>
+                        <select id="proveedor-filtro" name="idProveedor" class="form-control" required>
+                            <option value="" selected>Seleccione un proveedor</option>
+                            <c:forEach items="${listaProveedores}" var="proveedorFiltro">
+                                <option value="${proveedorFiltro.idProveedor}">${proveedorFiltro.razonSocialProveedor}</option>
+                            </c:forEach>
+                        </select>
                     </div>
 
                     <!-- Responsable -->
