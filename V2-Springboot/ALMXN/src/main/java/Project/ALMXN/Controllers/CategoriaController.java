@@ -54,7 +54,13 @@ public class CategoriaController {
             return "redirect:/login";
         }
 
-        categoriaService.guardarCategoria(categoria);
+        try {
+            categoriaService.guardarCategoria(categoria);
+        } catch (IllegalArgumentException e) {
+            // RN 02: nombre duplicado → redirige al listado sin guardar nada
+            return "redirect:/gestion/adminCategorias";
+        }
+
         return "redirect:/gestion/adminCategorias";
     }
 
@@ -66,10 +72,14 @@ public class CategoriaController {
             return "redirect:/login";
         }
 
-        Categoria categoriaExistente = categoriaService.buscarCategoriaPorId(idCategoria);
+        // Carga la lista completa para que la tabla no quede vacía
+        model.addAttribute("listaCategorias", categoriaService.obtenerTodasLasCategorias());
         model.addAttribute("paginaActiva", "gestion");
-        model.addAttribute("categoria", categoriaExistente);
-        return "gestion/editar/editarCategoria";
+
+        // Categoría a editar con nombre distinto para no colisionar con th:each
+        model.addAttribute("categoriaEditar", categoriaService.buscarCategoriaPorId(idCategoria));
+
+        return "/gestion/adminCategorias";
     }
 
     @PostMapping("/eliminar")

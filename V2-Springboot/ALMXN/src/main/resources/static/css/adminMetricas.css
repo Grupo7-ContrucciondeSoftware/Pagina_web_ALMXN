@@ -1,0 +1,107 @@
+/* ============================================
+   MÉTRICAS - ALMXN
+   ============================================ */
+
+#contenido-principal-gestion {
+    height: auto;
+    min-height: unset;
+    overflow: visible;
+    flex-direction: column;
+}
+
+.centro-pagina-gestion {
+    overflow: visible;
+}
+
+/* TARJETAS RESUMEN */
+
+.metricas-tarjetas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.metrica-card {
+    background-color: var(--color-superficie);
+    border: 3px solid #3b82f6;
+    border-radius: 16px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.metrica-icono {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background-color: var(--color-superficie-2);
+    padding: 10px;
+}
+
+.metrica-icono .img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.metrica-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.metrica-valor {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--texto-principal);
+    line-height: 1;
+    letter-spacing: -0.03em;
+}
+
+.metrica-etiqueta {
+    font-size: 0.82rem;
+    color: var(--texto-secundario);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.metricas-grafica-seccion {
+    background-color: var(--color-superficie);
+    border: 2px solid var(--color-borde);
+    border-radius: 16px;
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.metricas-grafica-header .titulo-subseccion {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--texto-principal);
+    margin: 0;
+}
+
+.metricas-grafica-contenedor {
+    position: relative;
+    height: 400px;
+    width: 100%;
+}
+
+@media (max-width: 1024px) {
+    .metricas-tarjetas {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .metricas-tarjetas {
+        grid-template-columns: 1fr;
+    }
+}

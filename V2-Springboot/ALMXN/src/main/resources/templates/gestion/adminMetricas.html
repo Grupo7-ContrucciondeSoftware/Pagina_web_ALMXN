@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Métricas - Sistema de Gestión de Almacén">
+    <title>ALMXN - Métricas</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/globalGestion.css}">
+    <link rel="stylesheet" th:href="@{/css/adminMetricas.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main id="contenido-principal-gestion">
+
+    <div class="centro-pagina-gestion">
+
+        <!-- ENCABEZADO -->
+        <section class="gestion-inicio">
+            <div>
+                <h1 class="titulo-seccion">Métricas del Almacén</h1>
+                <p class="subtitulo-seccion">Resumen general del estado del sistema</p>
+            </div>
+            <div class="formulario-acciones">
+                <a th:href="@{/gestion}" class="btn btn-secundario">Volver</a>
+            </div>
+        </section>
+
+        <!-- TARJETAS RESUMEN -->
+        <section class="metricas-tarjetas">
+
+            <div class="metrica-card metrica-productos">
+                <div class="metrica-icono">
+                    <img th:src="@{/img/icono-administrarproducto.svg}" alt="Productos" class="img">
+                </div>
+                <div class="metrica-info">
+                    <span class="metrica-valor" th:text="${totalProductos}">0</span>
+                    <span class="metrica-etiqueta">Productos Activos</span>
+                </div>
+            </div>
+
+            <div class="metrica-card metrica-categorias">
+                <div class="metrica-icono">
+                    <img th:src="@{/img/icono-administrarcategorias.svg}" alt="Categorías" class="img">
+                </div>
+                <div class="metrica-info">
+                    <span class="metrica-valor" th:text="${totalCategorias}">0</span>
+                    <span class="metrica-etiqueta">Categorías Activas</span>
+                </div>
+            </div>
+
+            <div class="metrica-card metrica-proveedores">
+                <div class="metrica-icono">
+                    <img th:src="@{/img/icono-administrarproveedores.svg}" alt="Proveedores" class="img">
+                </div>
+                <div class="metrica-info">
+                    <span class="metrica-valor" th:text="${totalProveedores}">0</span>
+                    <span class="metrica-etiqueta">Proveedores Activos</span>
+                </div>
+            </div>
+
+            <div class="metrica-card metrica-ingresos">
+                <div class="metrica-icono">
+                    <img th:src="@{/img/icono-estadisticas.svg}" alt="Ingresos" class="img">
+                </div>
+                <div class="metrica-info">
+                    <span class="metrica-valor" th:text="${totalIngresos}">0</span>
+                    <span class="metrica-etiqueta">Ingresos Registrados</span>
+                </div>
+            </div>
+
+            <div class="metrica-card metrica-salidas">
+                <div class="metrica-icono">
+                    <img th:src="@{/img/icono-salidas.svg}" alt="Salidas" class="img">
+                </div>
+                <div class="metrica-info">
+                    <span class="metrica-valor" th:text="${totalSalidas}">0</span>
+                    <span class="metrica-etiqueta">Salidas Registradas</span>
+                </div>
+            </div>
+
+            <div class="metrica-card metrica-stock">
+                <div class="metrica-icono">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="img" style="color: var(--adminMovimientos);">
+                        <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+                        <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+                    </svg>
+                </div>
+                <div class="metrica-info">
+                    <span class="metrica-valor" th:text="${stockTotal}">0</span>
+                    <span class="metrica-etiqueta">Unidades en Stock</span>
+                </div>
+            </div>
+
+            <div class="metrica-card metrica-ventas-hoy">
+                <div class="metrica-icono">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="img" style="color: var(--adminProductos);">
+                        <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                </div>
+                <div class="metrica-info">
+                    <span class="metrica-valor" th:text="${'S/ ' + #numbers.formatDecimal(ventasSolesHoy, 1, 2)}">S/ 0.00</span>
+                    <span class="metrica-etiqueta">Ventas de Hoy (Soles)</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- GRÁFICO DE SERIES DE TIEMPO -->
+        <section class="metricas-grafica-seccion">
+            <div class="metricas-grafica-header">
+                <h2 class="titulo-subseccion">Métricas de la Semana Actual</h2>
+                <p class="subtitulo-seccion">Evolución diaria de las 5 métricas basadas en series de tiempo</p>
+            </div>
+            <div class="metricas-grafica-contenedor">
+                <canvas id="graficoMetricasSemana"></canvas>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/modalRestriccion :: modalRestriccion}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const etiquetasDias = /*[[${etiquetasDias}]]*/ [];
+    const ventasSolesPorDia = /*[[${ventasSolesPorDia}]]*/ [];
+    const ingresosPorDia = /*[[${ingresosPorDia}]]*/ [];
+    const salidasPorDia = /*[[${salidasPorDia}]]*/ [];
+    const movimientosPorDia = /*[[${movimientosPorDia}]]*/ [];
+    const ticketPromedioPorDia = /*[[${ticketPromedioPorDia}]]*/ [];
+    /*]]>*/
+
+    const ctx = document.getElementById('graficoMetricasSemana').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: etiquetasDias,
+            datasets: [
+                {
+                    label: 'Ventas en Soles (S/)',
+                    data: ventasSolesPorDia,
+                    borderColor: '#1d9e75',
+                    backgroundColor: 'rgba(29, 158, 117, 0.15)',
+                    tension: 0.3,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Ingresos Registrados',
+                    data: ingresosPorDia,
+                    borderColor: '#378add',
+                    backgroundColor: 'rgba(55, 138, 221, 0.15)',
+                    tension: 0.3,
+                    yAxisID: 'y1'
+                },
+                {
+                    label: 'Salidas Registradas',
+                    data: salidasPorDia,
+                    borderColor: '#d85a30',
+                    backgroundColor: 'rgba(216, 90, 48, 0.15)',
+                    tension: 0.3,
+                    yAxisID: 'y1'
+                },
+                {
+                    label: 'Total Movimientos',
+                    data: movimientosPorDia,
+                    borderColor: '#7f77dd',
+                    backgroundColor: 'rgba(127, 119, 221, 0.15)',
+                    tension: 0.3,
+                    yAxisID: 'y1'
+                },
+                {
+                    label: 'Ticket Promedio (S/)',
+                    data: ticketPromedioPorDia,
+                    borderColor: '#ef9f27',
+                    backgroundColor: 'rgba(239, 159, 39, 0.15)',
+                    tension: 0.3,
+                    yAxisID: 'y'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+                y: {
+                    type: 'linear',
+                    position: 'left',
+                    title: { display: true, text: 'Soles (S/)' }
+                },
+                y1: {
+                    type: 'linear',
+                    position: 'right',
+                    title: { display: true, text: 'Cantidad' },
+                    grid: { drawOnChartArea: false }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

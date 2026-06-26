@@ -1,6 +1,7 @@
 package Project.ALMXN.Controllers;
 
 import Project.ALMXN.Services.DetalleMovimientoService;
+import Project.ALMXN.Services.ProductoService;
 import Project.ALMXN.Services.ProveedorService;
 import Project.ALMXN.Services.UsuarioService;
 import Project.ALMXN.Services.MovimientoService;
@@ -25,12 +26,14 @@ public class MovimientoController {
     private final ProveedorService proveedorService;
     private final UsuarioService usuarioService;
     private final DetalleMovimientoService detalleMovimientoService;
+    private final ProductoService productoService;
 
-    public MovimientoController(MovimientoService movimientoService, ProveedorService proveedorService, UsuarioService usuarioService, DetalleMovimientoService detalleMovimientoService) {
+    public MovimientoController(MovimientoService movimientoService, ProveedorService proveedorService, UsuarioService usuarioService, DetalleMovimientoService detalleMovimientoService, ProductoService productoService) {
         this.movimientoService = movimientoService;
         this.proveedorService = proveedorService;
         this.usuarioService = usuarioService;
         this.detalleMovimientoService = detalleMovimientoService;
+        this.productoService = productoService;
     }
 
     @GetMapping("")
@@ -40,6 +43,7 @@ public class MovimientoController {
             @RequestParam(value = "idUsuario", required = false) Integer idUsuarioFiltro,
             @RequestParam(value = "fechaMin", required = false) String fechaMinFiltro,
             @RequestParam(value = "fechaMax", required = false) String fechaMaxFiltro,
+            @RequestParam(value = "tab", required = false) String tab,
             Model model,
             HttpSession session){
 
@@ -65,7 +69,9 @@ public class MovimientoController {
         model.addAttribute("listaMovimientos", movimientosFiltrados);
         model.addAttribute("listaUsuarios", usuarioService.obtenerTodosLosUsuarios());
         model.addAttribute("listaProveedores", proveedorService.obtenerTodosLosProveedores());
+        model.addAttribute("listaProductos", productoService.obtenerTodosLosProductos());
         model.addAttribute("paginaActiva", "gestion");
+        model.addAttribute("tabActivo", tab != null ? tab : "pestaña-salida");
 
         return "gestion/adminMovimientos";
     }

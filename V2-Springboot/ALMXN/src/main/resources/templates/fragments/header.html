@@ -3,7 +3,6 @@
 <body>
 
 <th:block th:fragment="header">
-<input type="checkbox" id="theme-toggle" style="display:none">
 
     <!-- ===== ENCABEZADO ===== -->
     <header id="header-principal">
@@ -33,7 +32,6 @@
                         <a th:href="@{/publicidad}" class="nav-enlace" th:classappend="${paginaActiva == 'publicidad'} ? 'nav-enlace--activo'">Publicidad</a>
                     </li>
 
-
                 </ul>
             </nav>
 
@@ -44,13 +42,7 @@
                 <a th:href="@{/login}" class="btn btn-secundario">Cerrar sesión</a>
             </div>
 
-            <label for="theme-toggle" class="btn-tema">
-                    <img th:src="@{/img/modoOscuro.svg}" class="icono-oscuro" alt="Modo Oscuro" style="min-height: 25px;">
-                    <img th:src="@{/img/modoClaro.svg}" class="icono-claro" alt="Modo claro" style="min-height: 25px;">
-            </label>
-
         </div>
-
     </header>
 </th:block>
 

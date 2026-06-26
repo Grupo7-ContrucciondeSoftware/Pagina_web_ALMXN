@@ -4,20 +4,22 @@
 
 <div th:fragment="modalRestriccion">
     <link rel="stylesheet" th:href="@{/css/restriccion.css}">
-    <script th:src="@{/js/restriccion.js}" defer></script>
 
-    <div id="modal-sin-permiso" class="modal-oculto">
+    <!-- CHECKBOX OCULTO que controla la visibilidad del modal -->
+    <input type="checkbox" id="toggle-modal-permiso" class="modal-toggle" style="display:none">
+
+    <div class="modal-restriccion-overlay">
         <div class="modal-contenedor-restriccion">
             <div class="modal-header-restriccion">
                 <h2 style="color: red; margin: 0;">Acceso Denegado</h2>
-                <button class="btn-cerrar-modal" onclick="cerrarModalPermiso()">&times;</button>
+                <label for="toggle-modal-permiso" class="btn-cerrar-modal">&times;</label>
             </div>
             <div class="modal-body-restriccion">
                 <p style="margin-bottom: 10px;">Lo sentimos, tu rol actual de <strong th:text="${session.usuarioLogueado.rol}"></strong> no tiene los permisos necesarios para realizar esta acción.</p>
                 <p>Por favor, contacta a un Administrador si necesitas realizar modificaciones.</p>
             </div>
             <div class="modal-acciones-restriccion">
-                <button class="btn btn-secundario" onclick="cerrarModalPermiso()">Entendido</button>
+                <label for="toggle-modal-permiso" class="btn btn-secundario">Entendido</label>
             </div>
         </div>
     </div>

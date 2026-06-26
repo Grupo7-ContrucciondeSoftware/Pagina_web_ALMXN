@@ -3,24 +3,50 @@
    ============================================ */
 
 
-/* Muestra la pestaña del input que está marcado */
-#pestaña-salida:checked ~ .centro-pagina-gestion #contenido-salida,
-#pestaña-ingreso:checked ~ .centro-pagina-gestion #contenido-ingreso,
-#pestaña-historial:checked ~ .centro-pagina-gestion #contenido-historial {
+/* Contenido del historial de movimientos */
+.contenido-historial {
     display: flex;
     flex-direction: column;
     gap: 40px;
 }
 
-/* Resalta visualmente el label de la pestaña activa. */
-#pestaña-salida:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-salida"],
-#pestaña-ingreso:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-ingreso"],
-#pestaña-historial:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-historial"] {
-    color: var(--texto-principal);
-    border-bottom: 2px solid var(--color-rol);
-    background-color: var(--color-rol);
+/* ============================================
+   MODALES DE REGISTRO (Salida / Ingreso)
+   ============================================ */
+.modal-contenedor-registro {
+    width: 90%;
+    max-width: 650px;
 }
 
+/* Bloque "Añadir Producto" dentro de los modales de registro */
+.bloque-agregar-producto {
+    background-color: var(--color-superficie-2);
+    border: 1px solid var(--color-borde);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.agregar-producto-grid {
+    display: grid;
+    grid-template-columns: 3fr 90px auto;
+    gap: 10px;
+    align-items: stretch;
+}
+
+.agregar-producto-grid .btn-primario {
+    width: auto;
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+    .agregar-producto-grid {
+        grid-template-columns: 1fr;
+    }
+}
 
 .tipo-ingreso {
     padding: 3px 10px;
@@ -61,12 +87,6 @@
     font-weight: bold;
 }
 
-.cantidad {
-    width: 15%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
 .btn-ver-detalle {
     width: 80%;
 }
@@ -93,7 +113,7 @@
     max-width: 1000px;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    overflow: hidden;"
+    overflow: hidden;
 }
 
 .modal-header-detalle{

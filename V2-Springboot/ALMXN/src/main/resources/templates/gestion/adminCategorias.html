@@ -5,209 +5,169 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Administrar Categorías - Sistema de Gestión de Almacén">
     <title>ALMXN - Administrar Categorías</title>
-
-    <!-- ===== ESTILOS ===== -->
     <link rel="stylesheet" th:href="@{/css/global.css}">
     <link rel="stylesheet" th:href="@{/css/globalGestion.css}">
     <link rel="stylesheet" th:href="@{/css/adminCategorias.css}">
-
 </head>
 <body>
+<div th:replace="~{fragments/header :: header}"></div>
 
-    <!-- ===== HEADER ===== -->
-    <div th:replace="~{fragments/header :: header}"></div>
+<main id="contenido-principal-gestion">
 
-    <!-- ===== CONTENIDO PRINCIPAL ===== -->
-    <main id="contenido-principal-gestion">
+    <input type="radio" name="tab" id="pestaña-listaCategorias" checked style="display:none">
 
-        <!-- ===== INPUTS PARA CAMBIAR DE PESTAÑAS ===== -->
-        <input type="radio" name="tab" id="pestaña-listaCategorias" checked style="display:none">
-        <input type="radio" name="tab" id="pestaña-agregarCategorias" style="display:none">
+    <div class="centro-pagina-gestion">
 
-        <div class="centro-pagina-gestion">
-
-            <!-- TITULO/INICIO -->
-            <section class="gestion-inicio">
-                <div>
-                    <h1 class="titulo-seccion">Administrar Categorías</h1>
-                    <p class="subtitulo-seccion">Gestione las clasificaciones de los productos</p>
-                </div>
-
-                <!-- BOTON VOLVER -->
-                <div class="formulario-acciones">
-                    <a th:href="@{/gestion}" class="btn btn-secundario">Volver</a>
-                </div>
-            </section>
-
-            <!-- ============================================
-                           PESTAÑAS
-            ============================================ -->
-
-            <div class="pestañas">
-                <label for="pestaña-listaCategorias" class="pestaña">Lista de Categorías</label>
-                <label for="pestaña-agregarCategorias" class="pestaña">Agregar Categoría</label>
+        <section class="gestion-inicio">
+            <div>
+                <h1 class="titulo-seccion">Administrar Categorías</h1>
+                <p class="subtitulo-seccion">Gestione las clasificaciones de los productos</p>
             </div>
-
-
-            <!-- ============================================
-                           LISTA CATEGORIAS
-            ============================================ -->
-
-
-            <div class="pestaña-contenido" id="contenido-listaCategorias">
-
-                <!-- FILTROS -->
-                <div class="filtro-container">
-
-                    <!-- Nombre Categoría -->
-                    <div class="filtro-grupo">
-                        <label class="form-label" for="nombre-filtro">Nombre de Categoría: </label>
-                        <input class="form-control" type="text" id="nombre-filtro" placeholder="Ej: Abarrotes">
-                    </div>
-
-                    <div class="filtro-grupo">
-                        <label class="form-label" for="estado-filtro">Estado:</label>
-                        <select id="estado-filtro" name="estado" class="form-control">
-                            <option value="Todos" >Sin filtro</option>
-                            <option value="Activo" selected>Activo</option>
-                            <option value="Inactivo" >Inactivo</option>
-                        </select>
-                    </div>
-
-                    <!-- Botones -->
-                    <div class="filtro-acciones">
-                        <button type="button" class="btn btn-secundario" id="btnFiltrar">Filtrar</button>
-                        <button type="button" class="btn btn-secundario" id="btnLimpiar">Limpiar</button>
-                    </div>
-                </div>
-
-                <!-- TABLA -->
-                <table class="tabla">
-
-                    <!-- HEADER DE LA TABLA -->
-                    <thead class="header-tabla">
-                        <tr>
-                            <th class="header-tabla">ID</th>
-                            <th class="header-tabla">Nombre</th>
-                            <th class="header-tabla">Descripción</th>
-                            <th class="header-tabla">Estado</th>
-                            <th class="header-tabla">Acciones</th>
-                        </tr>
-                    </thead>
-
-                    <!-- CONTENIDO DE LA TABLA -->
-                    <tbody class="body-tabla">
-
-                        <tr th:each="categoria : ${listaCategorias}">
-                            <td class="body-tabla" th:text="${categoria.idCategoria}"></td>
-                            <td class="body-tabla" th:text="${categoria.nombreCategoria}"></td>
-                            <td class="body-tabla" th:text="${categoria.descripcionCategoria}"></td>
-                            <td class="body-tabla"><span class="estado" th:classappend="${#strings.toLowerCase(categoria.estadoCategoria)}" th:text="${categoria.estadoCategoria}"></span></td>
-                            <td class="body-tabla">
-                                <!-- Estado Activo -->
-                                <th:block th:if="${categoria.estadoCategoria == 'Activo'}">
-                                    <a th:href="@{/gestion/adminCategorias/editar(id=${categoria.idCategoria})}" class="btn btn-secundario btn-editar">Editar</a>
-                                    <th:block th:if="${session.usuarioLogueado.rol == 'Admin'}">
-                                        <button type="button" class="btn btn-secundario btn-eliminar"
-                                                th:data-id="${categoria.idCategoria}"
-                                                th:data-nombre="${categoria.nombreCategoria}"
-                                                data-action="/gestion/adminCategorias/eliminar"
-                                                data-param="idCategoria">
-                                            Eliminar
-                                        </button>
-                                    </th:block>
-                                    <th:block th:if="${session.usuarioLogueado.rol != 'Admin'}">
-                                        <button type="button" class="btn btn-secundario btn-falso-eliminar" onclick="abrirModalPermiso()">Eliminar</button>
-                                    </th:block>
-                                </th:block>
-
-                                <!-- Estado Inactivo -->
-                                <th:block th:if="${categoria.estadoCategoria != 'Activo'}">
-                                    <th:block th:if="${session.usuarioLogueado.rol == 'Admin'}">
-                                        <form th:action="@{/gestion/adminCategorias/activar}" method="POST">
-                                            <input type="hidden" name="idCategoria" th:value="${categoria.idCategoria}">
-                                            <button type="submit" class="btn btn-secundario btn-activar">
-                                                Activar
-                                            </button>
-                                        </form>
-                                    </th:block>
-                                    <th:block th:if="${session.usuarioLogueado.rol != 'Admin'}">
-                                        <button type="button" class="btn btn-secundario btn-falso-activar" onclick="abrirModalPermiso()">Activar</button>
-                                    </th:block>
-                                </th:block>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="formulario-acciones">
+                <a th:href="@{/gestion}" class="btn btn-secundario">Volver</a>
+                <label for="toggle-modal-agregar" class="btn btn-primario">+ Agregar Categoría</label>
             </div>
+        </section>
 
-            <!-- ============================================
-                           AGREGAR CATEGORIA
-            ============================================ -->
-
-            <div class="pestaña-contenido" id="contenido-agregarCategorias">
-
-                <!-- FORMULARIO -->
-                <section class="form-grupo">
-
-                    <form th:action="@{/gestion/adminCategorias/guardar}" method="POST">
-                        <div class="formulario">
-
-                            <!-- Nombre Categoria -->
-                            <div class="form-grupo">
-                                <label for="nombre-categoria" class="form-label">Nombre de la Categoría</label>
-                                <input
-                                    type="text"
-                                    id="nombre-categoria"
-                                    name="nombreCategoria"
-                                    class="form-control"
-                                    placeholder="Ej: Abarrotes"
-                                    required
-                                >
-                            </div>
-
-                        </div>
-
-                        <!-- Descripción -->
-                        <div class="form-grupo form-textarea">
-                            <label for="descripcion-categoria" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
-                            <textarea
-                                id="descripcion-categoria"
-                                name="descripcionCategoria"
-                                class="form-control"
-                                placeholder="Descripción breve de la categoría..."
-                                rows="3"
-                            ></textarea>
-                        </div>
-
-                        <!-- Botones Guardar/Limpiar -->
-                        <div class="formulario-acciones">
-                            <button type="reset" class="btn btn-secundario">Limpiar</button>
-                            <button type="submit" class="btn btn-primario">Agregar Categoría</button>
-                        </div>
-                    </form>
-                </section>
-            </div>
-
-            <!-- ============================================
-                        MODAL ELIMINAR PRODUCTO
-            ============================================ -->
-
-            <div th:replace="~{fragments/modalEliminar :: modalEliminar}"></div>
-
+        <div class="pestañas">
+            <label for="pestaña-listaCategorias" class="pestaña">Lista de Categorías</label>
         </div>
-    </main>
 
-    <!-- ===== FOOTER ===== -->
-    <div th:replace="~{fragments/footer :: footer}"></div>
+        <div class="pestaña-contenido" id="contenido-listaCategorias">
+            <form method="GET" th:action="@{/gestion/adminCategorias}" class="filtro-container">
+                <input type="hidden" name="tab" value="pestaña-listaCategorias">
+                <div class="filtro-grupo">
+                    <label class="form-label" for="nombre-filtro">Nombre de Categoría: </label>
+                    <input class="form-control" type="text" id="nombre-filtro" name="nombre" placeholder="Ej: Abarrotes" th:value="${param.nombre}">
+                </div>
+                <div class="filtro-grupo">
+                    <label class="form-label" for="estado-filtro">Estado:</label>
+                    <select id="estado-filtro" name="estado" class="form-control">
+                        <option value="Todos" th:selected="${param.estado == null or param.estado[0] == 'Todos'}">Sin filtro</option>
+                        <option value="Activo" th:selected="${param.estado != null and param.estado[0] == 'Activo'}">Activo</option>
+                        <option value="Inactivo" th:selected="${param.estado != null and param.estado[0] == 'Inactivo'}">Inactivo</option>
+                    </select>
+                </div>
+                <div class="filtro-acciones">
+                    <button type="submit" class="btn btn-secundario">Filtrar</button>
+                    <a th:href="@{/gestion/adminCategorias(tab='pestaña-listaCategorias')}" class="btn btn-secundario">Limpiar</a>
+                </div>
+            </form>
 
-    <!-- ===== RESTRICCION ===== -->
-    <div th:replace="~{fragments/modalRestriccion :: modalRestriccion}"></div>
+            <table class="tabla">
+                <thead class="header-tabla">
+                <tr>
+                    <th class="header-tabla">ID</th>
+                    <th class="header-tabla">Nombre</th>
+                    <th class="header-tabla">Descripción</th>
+                    <th class="header-tabla">Estado</th>
+                    <th class="header-tabla">Acciones</th>
+                </tr>
+                </thead>
+                <tbody class="body-tabla">
+                <tr th:each="categoria : ${listaCategorias}">
+                    <td class="body-tabla" th:text="${categoria.idCategoria}"></td>
+                    <td class="body-tabla" th:text="${categoria.nombreCategoria}"></td>
+                    <td class="body-tabla" th:text="${categoria.descripcionCategoria}"></td>
+                    <td class="body-tabla">
+                        <span class="estado" th:classappend="${#strings.toLowerCase(categoria.estadoCategoria)}" th:text="${categoria.estadoCategoria}"></span>
+                    </td>
+                    <td class="body-tabla">
+                        <th:block th:if="${categoria.estadoCategoria == 'Activo'}">
+                            <a th:href="@{/gestion/adminCategorias/editar(id=${categoria.idCategoria})}" class="btn btn-secundario btn-editar">Editar</a>
+                            <th:block th:if="${session.usuarioLogueado.rol == 'Admin'}">
+                                <form th:action="@{/gestion/adminCategorias/eliminar}" method="POST" style="display:inline;">
+                                    <input type="hidden" name="idCategoria" th:value="${categoria.idCategoria}">
+                                    <button type="submit" class="btn btn-secundario btn-eliminar">Eliminar</button>
+                                </form>
+                            </th:block>
+                            <th:block th:if="${session.usuarioLogueado.rol != 'Admin'}">
+                                <label for="toggle-modal-permiso" class="btn btn-secundario btn-falso-eliminar">Eliminar</label>
+                            </th:block>
+                        </th:block>
+                        <th:block th:if="${categoria.estadoCategoria != 'Activo'}">
+                            <th:block th:if="${session.usuarioLogueado.rol == 'Admin'}">
+                                <form th:action="@{/gestion/adminCategorias/activar}" method="POST">
+                                    <input type="hidden" name="idCategoria" th:value="${categoria.idCategoria}">
+                                    <button type="submit" class="btn btn-secundario btn-activar">Activar</button>
+                                </form>
+                            </th:block>
+                            <th:block th:if="${session.usuarioLogueado.rol != 'Admin'}">
+                                <label for="toggle-modal-permiso" class="btn btn-secundario btn-falso-activar">Activar</label>
+                            </th:block>
+                        </th:block>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
 
-    <!-- ===== SCRIPTS ===== -->
-    <script th:src="@{/js/tema.js}" defer></script>
-    <script th:src="@{/js/Filtros/categoriasFiltro.js}" defer></script>
-    <script th:src="@{/js/Eliminar/eliminarFuncion.js}" defer></script>
+<!-- ===================== MODAL AGREGAR CATEGORÍA ===================== -->
+<input type="checkbox" id="toggle-modal-agregar" style="display:none">
+<div id="modal-agregar-categoria" class="modal-overlay">
+    <div class="modal-ventana">
+        <div class="modal-encabezado">
+            <h2 class="titulo-seccion">Agregar Categoría</h2>
+            <label for="toggle-modal-agregar" class="modal-cerrar">&times;</label>
+        </div>
+        <div class="modal-cuerpo">
+            <form th:action="@{/gestion/adminCategorias/guardar}" method="POST">
+                <div class="formulario">
+                    <div class="form-grupo">
+                        <label for="nombre-categoria" class="form-label">Nombre de la Categoría</label>
+                        <input type="text" id="nombre-categoria" name="nombreCategoria" class="form-control" placeholder="Ej: Abarrotes" required>
+                    </div>
+                </div>
+                <div class="form-grupo form-textarea">
+                    <label for="descripcion-categoria" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
+                    <textarea id="descripcion-categoria" name="descripcionCategoria" class="form-control" placeholder="Descripción breve de la categoría..." rows="3"></textarea>
+                </div>
+                <div class="formulario-acciones">
+                    <button type="reset" class="btn btn-secundario">Limpiar</button>
+                    <button type="submit" class="btn btn-primario">Agregar Categoría</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- ================================================================== -->
 
+<!-- ===================== MODAL EDITAR CATEGORÍA ===================== -->
+<input type="checkbox" id="toggle-modal-editar" style="display:none">
+<div id="modal-editar-categoria" class="modal-overlay"
+     th:style="${categoriaEditar != null} ? 'display:flex;' : 'display:none;'">
+    <div class="modal-ventana">
+        <div class="modal-encabezado">
+            <h2 class="titulo-seccion">Editar Categoría</h2>
+            <a th:href="@{/gestion/adminCategorias}" class="modal-cerrar">&times;</a>
+        </div>
+        <div class="modal-cuerpo" th:if="${categoriaEditar != null}">
+            <p class="subtitulo-seccion">Modificando la categoría: <span th:text="${categoriaEditar.idCategoria}"></span></p>
+            <form th:action="@{/gestion/adminCategorias/guardar}" method="POST" th:object="${categoriaEditar}">
+                <input type="hidden" th:field="*{idCategoria}">
+                <div class="formulario">
+                    <div class="form-grupo">
+                        <label for="editar-nombre-categoria" class="form-label">Nombre</label>
+                        <input type="text" id="editar-nombre-categoria" th:field="*{nombreCategoria}" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-grupo form-textarea">
+                    <label for="editar-descripcion-categoria" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
+                    <textarea id="editar-descripcion-categoria" th:field="*{descripcionCategoria}" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="formulario-acciones">
+                    <a th:href="@{/gestion/adminCategorias}" class="btn btn-secundario">Cancelar</a>
+                    <button type="submit" class="btn btn-primario">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- ================================================================== -->
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/modalRestriccion :: modalRestriccion}"></div>
 </body>
 </html>

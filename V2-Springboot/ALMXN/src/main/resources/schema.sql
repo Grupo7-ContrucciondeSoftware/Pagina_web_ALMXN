@@ -63,9 +63,8 @@ CREATE TABLE producto (
 CREATE TABLE movimiento (
     id_movimiento INT AUTO_INCREMENT PRIMARY KEY,
     tipo_movimiento VARCHAR(20) NOT NULL,
-    fecha_movimiento DATE NOT NULL,
+    fecha_movimiento TIMESTAMP NOT NULL,
     motivo VARCHAR(100),
-    destino VARCHAR(150),
     observaciones TEXT,
     id_usuario INT NOT NULL,
     id_proveedor INT,

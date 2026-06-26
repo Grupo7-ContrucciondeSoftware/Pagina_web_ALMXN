@@ -4,16 +4,13 @@ import Project.ALMXN.Repository.UsuarioRepository;
 import Project.ALMXN.adapters.UsuarioAdapter;
 import Project.ALMXN.entitys.UsuarioEntity;
 import Project.ALMXN.models.Usuario;
-import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -26,22 +23,30 @@ public class UsuarioService {
         this.usuarioAdapter = usuarioAdapter;
     }
 
-
     public List<Usuario> obtenerTodosLosUsuarios() {
-        return filtrarUsuario(null, null, "Activo", null, null);
+        return filtrarUsuario(null, null, "Activo", null);
     }
 
     @Transactional
     public Usuario guardarUsuario(Usuario usuario) {
-
         UsuarioEntity entity;
+        boolean esNuevo = (usuario.getIdUsuario() == null || usuario.getIdUsuario() == 0);
 
-        if(usuario.getIdUsuario() == null || usuario.getIdUsuario() == 0){
+        if (esNuevo) {
+            if (usuarioRepository.existsByCorreo(usuario.getCorreo())) {
+                throw new RuntimeException("El correo electrónico ya se encuentra registrado en el sistema.");
+            }
             usuario.setEstadoUsuario("Activo");
             entity = usuarioAdapter.toEntity(usuario);
         } else {
             entity = usuarioRepository.findById(usuario.getIdUsuario())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + usuario.getIdUsuario()));
+
+            if (!entity.getCorreo().equalsIgnoreCase(usuario.getCorreo()) &&
+                    usuarioRepository.existsByCorreo(usuario.getCorreo())) {
+                throw new RuntimeException("El correo electrónico ya se encuentra registrado en el sistema.");
+            }
+
             entity.setNombres(usuario.getNombres());
             entity.setApellidos(usuario.getApellidos());
             entity.setCorreo(usuario.getCorreo());
@@ -49,7 +54,6 @@ public class UsuarioService {
         }
 
         UsuarioEntity savedEntity = usuarioRepository.save(entity);
-
         return usuarioAdapter.toModel(savedEntity);
     }
 
@@ -60,7 +64,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void eliminarUsuario(Long idUsuario){
+    public void eliminarUsuario(Long idUsuario) {
         UsuarioEntity entity = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el ID: " + idUsuario));
         entity.setEstado("Inactivo");
@@ -68,7 +72,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void activarUsuario(Long idUsuario){
+    public void activarUsuario(Long idUsuario) {
         UsuarioEntity entity = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el ID: " + idUsuario));
         entity.setEstado("Activo");
@@ -79,53 +83,72 @@ public class UsuarioService {
         Optional<UsuarioEntity> entityOptional = usuarioRepository
                 .findByCorreoAndContrasenaAndEstado(correo, contrasena, "Activo");
 
-        return entityOptional
-                .map(entity -> usuarioAdapter.toModel(entity))
-                .orElse(null);
+        if (entityOptional.isPresent()) {
+            return usuarioAdapter.toModel(entityOptional.get());
+        }
+        return null;
     }
 
-    public List<Usuario> filtrarUsuario(String nombres, String rol, String estado, String fechaMin, String fechaMax){
+    public List<Usuario> filtrarUsuario(String nombres, String rol, String estado, String fecha) {
 
-        Specification<UsuarioEntity> spec = (root, query, criteriaBuilder) -> {
+        // 1. Traemos todos los usuarios de la base de datos
+        List<UsuarioEntity> todos = usuarioRepository.findAll();
 
-            List<Predicate> predicates = new ArrayList<>();
+        // 2. Lista donde guardaremos los que pasen los filtros
+        List<UsuarioEntity> resultado = new ArrayList<>();
 
+        // 3. Recorremos uno por uno y aplicamos los filtros
+        for (UsuarioEntity usuario : todos) {
+
+            // Filtro por nombres: verifica que contenga el texto
             if (nombres != null && !nombres.trim().isEmpty()) {
-                predicates.add(criteriaBuilder.like(
-                        criteriaBuilder.lower(root.get("nombres")),
-                        "%" + nombres.trim().toLowerCase() + "%"
-                ));
+                boolean contieneNombre = usuario.getNombres()
+                        .toLowerCase()
+                        .contains(nombres.trim().toLowerCase());
+                if (!contieneNombre) {
+                    continue;
+                }
             }
 
+            // Filtro por rol: verifica que contenga el texto
             if (rol != null && !rol.trim().isEmpty()) {
-                predicates.add(criteriaBuilder.like(
-                        criteriaBuilder.lower(root.get("rol")),
-                        "%" + rol.trim().toLowerCase() + "%"
-                ));
+                boolean contieneRol = usuario.getRol()
+                        .toLowerCase()
+                        .contains(rol.trim().toLowerCase());
+                if (!contieneRol) {
+                    continue;
+                }
             }
 
-            if (fechaMin != null && !fechaMin.isEmpty()) {
-                LocalDate inicio = LocalDate.parse(fechaMin);
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("fechaCreacion"), inicio));
-            }
-            if (fechaMax != null && !fechaMax.isEmpty()) {
-                LocalDate fin = LocalDate.parse(fechaMax);
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("fechaCreacion"), fin));
+            // Filtro por fecha: verifica que coincida exacto
+            if (fecha != null && !fecha.isEmpty()) {
+                LocalDate fechaLocal = LocalDate.parse(fecha);
+                if (!usuario.getFechaCreacion().equals(fechaLocal)) {
+                    continue;
+                }
             }
 
+            // Filtro por estado
             if (estado == null || estado.trim().isEmpty()) {
-                predicates.add(criteriaBuilder.equal(root.get("estado"), "Activo"));
+                // Sin estado → solo "Activo"
+                if (!usuario.getEstado().equals("Activo")) {
+                    continue;
+                }
             } else if (!estado.equalsIgnoreCase("Todos")) {
-                predicates.add(criteriaBuilder.equal(root.get("estado"), estado));
+                // Estado específico → filtramos exacto
+                if (!usuario.getEstado().equalsIgnoreCase(estado)) {
+                    continue;
+                }
             }
 
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-        };
+            resultado.add(usuario);
+        }
 
-        List<UsuarioEntity> entities = usuarioRepository.findAll(spec);
-
-        return entities.stream()
-                .map(e -> usuarioAdapter.toModel(e))
-                .collect(Collectors.toList());
+        // 4. Convertimos las entidades a modelos y retornamos
+        List<Usuario> usuarios = new ArrayList<>();
+        for (UsuarioEntity entity : resultado) {
+            usuarios.add(usuarioAdapter.toModel(entity));
+        }
+        return usuarios;
     }
 }

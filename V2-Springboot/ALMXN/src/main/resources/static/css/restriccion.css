@@ -1,9 +1,11 @@
-.modal-oculto {
+/* Modal de restricción - CSS puro con checkbox */
+
+.modal-toggle {
     display: none;
 }
 
-.modal-activo {
-    display: flex;
+.modal-restriccion-overlay {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -13,6 +15,11 @@
     justify-content: center;
     align-items: center;
     z-index: 9999;
+}
+
+/* Cuando el checkbox está marcado, muestra el overlay */
+.modal-toggle:checked ~ .modal-restriccion-overlay {
+    display: flex;
 }
 
 .modal-contenedor-restriccion {
@@ -31,6 +38,7 @@
     color: var(--texto-principal);
     font-size: 2rem;
     cursor: pointer;
+    line-height: 1;
 }
 
 .modal-header-restriccion {

@@ -6,16 +6,12 @@ import Project.ALMXN.adapters.ProductoAdapter;
 import Project.ALMXN.entitys.CategoriaEntity;
 import Project.ALMXN.entitys.ProductoEntity;
 import Project.ALMXN.models.Producto;
-import java.util.ArrayList;
-
 import jakarta.transaction.Transactional;
-import org.springframework.data.jpa.domain.Specification;
-import jakarta.persistence.criteria.Predicate;
-import java.time.LocalDate;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.stream.Collectors;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProductoService {
@@ -31,16 +27,28 @@ public class ProductoService {
     }
 
     public List<Producto> obtenerTodosLosProductos() {
-        return filtrarProducto(null, null, null, null, null, null, null, null, "Activo");
+        return filtrarProducto(null, null, null, null, null, "Activo");
     }
 
     @Transactional
     public Producto guardarProducto(Producto producto) {
+        String nombre = producto.getNombreProducto();
+        Long id = producto.getIdProducto();
+        boolean esNuevo = (id == null || id == 0);
+
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre del producto es obligatorio.");
+        }
+
+        productoRepository.findByNombreProductoIgnoreCase(nombre.trim()).ifPresent(e -> {
+            if (esNuevo || !e.getIdProducto().equals(id)) {
+                throw new IllegalArgumentException("Ya existe un producto registrado con el nombre: " + nombre.trim());
+            }
+        });
 
         ProductoEntity entity;
 
-        if (producto.getIdProducto() == null || producto.getIdProducto() == 0) {
-
+        if (esNuevo) {
             if (producto.getCategoria() == null || producto.getCategoria().getIdCategoria() == null) {
                 throw new RuntimeException("La categoría es obligatoria para registrar un nuevo producto.");
             }
@@ -49,25 +57,22 @@ public class ProductoService {
             CategoriaEntity categoriaEntity = categoriaRepository.findById(idCategoria)
                     .orElseThrow(() -> new RuntimeException("Categoría no encontrada con ID: " + idCategoria));
 
+            producto.setFechaCreacionProducto(LocalDate.now());
             entity = productoAdapter.toEntity(producto, categoriaEntity);
-
             entity.setStockActualProducto(0);
             entity.setEstadoProducto("Activo");
 
             String nombreCat = categoriaEntity.getNombreCategoria();
             String prefijo = nombreCat.substring(0, Math.min(nombreCat.length(), 3)).toUpperCase();
-
             int cantidadActual = productoRepository.countByCategoriaIdCategoria(categoriaEntity.getIdCategoria());
             int siguienteNumero = cantidadActual + 1;
-
             String codigoGenerado = String.format("PROD-%s-%03d", prefijo, siguienteNumero);
-
             entity.setCodigoProducto(codigoGenerado);
             producto.setCodigoProducto(codigoGenerado);
 
         } else {
-            entity = productoRepository.findById(producto.getIdProducto())
-                    .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + producto.getIdProducto()));
+            entity = productoRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
 
             if (producto.getCategoria() != null && producto.getCategoria().getIdCategoria() != null) {
                 Long idCategoria = producto.getCategoria().getIdCategoria();
@@ -76,7 +81,7 @@ public class ProductoService {
                 entity.setCategoria(nuevaCategoria);
             }
 
-            entity.setNombreProducto(producto.getNombreProducto());
+            entity.setNombreProducto(nombre.trim());
             entity.setUnidadMedidaProducto(producto.getUnidadMedidaProducto());
             entity.setPrecioCostoProducto(producto.getPrecioCostoProducto());
             entity.setPrecioVentaProducto(producto.getPrecioVentaProducto());
@@ -84,28 +89,27 @@ public class ProductoService {
         }
 
         ProductoEntity savedEntity = productoRepository.save(entity);
-
         return productoAdapter.toModel(savedEntity);
     }
 
     public Producto buscarProductoPorId(Long idProducto) {
         ProductoEntity entity = productoRepository.findById(idProducto)
-            .orElseThrow(() -> new RuntimeException("Producto no encontrado con el ID: " + idProducto));
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con el ID: " + idProducto));
         return productoAdapter.toModel(entity);
     }
 
     @Transactional
     public void eliminarProducto(Long idProducto) {
         ProductoEntity entity = productoRepository.findById(idProducto)
-            .orElseThrow(() -> new RuntimeException("Categoría no encontrada con el ID: " + idProducto));
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con el ID: " + idProducto));
         entity.setEstadoProducto("Inactivo");
         productoRepository.save(entity);
     }
 
     @Transactional
-    public void activarProducto(Long idProducto){
+    public void activarProducto(Long idProducto) {
         ProductoEntity entity = productoRepository.findById(idProducto)
-            .orElseThrow(() -> new RuntimeException("Categoría no encontrada con el ID: " + idProducto));
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con el ID: " + idProducto));
         entity.setEstadoProducto("Activo");
         productoRepository.save(entity);
     }
@@ -114,76 +118,102 @@ public class ProductoService {
         if (filtro == null) {
             return new ArrayList<>();
         }
-        String busqueda = filtro.trim();
-        String estadoRequerido = "Activo";
 
-        List<ProductoEntity> entities = productoRepository
-                .findByCodigoProductoContainingIgnoreCaseAndEstadoProductoOrNombreProductoContainingIgnoreCaseAndEstadoProducto(
-                        busqueda, estadoRequerido, busqueda, estadoRequerido
-                );
+        // 1. Traemos todos los productos activos
+        List<ProductoEntity> todos = productoRepository.findAll();
+        List<Producto> resultado = new ArrayList<>();
+        String busqueda = filtro.trim().toLowerCase();
 
-        return entities.stream()
-                .map(e -> productoAdapter.toModel(e))
-                .collect(Collectors.toList());
+        // 2. Filtramos los que coincidan con código o nombre y estén activos
+        for (ProductoEntity producto : todos) {
+            if (!producto.getEstadoProducto().equals("Activo")) {
+                continue;
+            }
+
+            boolean coincideCodigo = producto.getCodigoProducto().toLowerCase().contains(busqueda);
+            boolean coincideNombre = producto.getNombreProducto().toLowerCase().contains(busqueda);
+
+            if (coincideCodigo || coincideNombre) {
+                resultado.add(productoAdapter.toModel(producto));
+            }
+        }
+
+        return resultado;
     }
 
-    public List<Producto> filtrarProducto(String nombre, Long idCategoria, Integer stockMin, Integer stockMax, Integer precioMin,
-                                          Integer precioMax, String fechaMin, String fechaMax, String estado){
+    public List<Producto> filtrarProducto(String nombre, Long idCategoria, Integer stock, Double precio,
+                                          String fecha, String estado) {
 
-        Specification<ProductoEntity> spec = (root, query, criteriaBuilder) -> {
+        // 1. Traemos todos los productos de la base de datos
+        List<ProductoEntity> todos = productoRepository.findAll();
 
-            List<Predicate> predicates = new ArrayList<>();
+        // 2. Lista donde guardaremos los que pasen los filtros
+        List<ProductoEntity> resultado = new ArrayList<>();
 
+        // 3. Recorremos uno por uno y aplicamos los filtros
+        for (ProductoEntity producto : todos) {
+
+            // Filtro por nombre: verifica que contenga el texto
             if (nombre != null && !nombre.trim().isEmpty()) {
-                predicates.add(criteriaBuilder.like(
-                        criteriaBuilder.lower(root.get("nombreProducto")),
-                        "%" + nombre.trim().toLowerCase() + "%"
-                ));
+                boolean contieneNombre = producto.getNombreProducto()
+                        .toLowerCase()
+                        .contains(nombre.trim().toLowerCase());
+                if (!contieneNombre) {
+                    continue;
+                }
             }
 
+            // Filtro por categoría: verifica que coincida el ID
             if (idCategoria != null && idCategoria != 0) {
-                predicates.add(criteriaBuilder.equal(root.get("categoria").get("idCategoria"), idCategoria));
+                if (producto.getCategoria() == null ||
+                        !producto.getCategoria().getIdCategoria().equals(idCategoria)) {
+                    continue;
+                }
             }
 
-            if (stockMin != null) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("stockActualProducto"), stockMin));
+            // Filtro por stock: verifica que coincida exacto
+            if (stock != null) {
+                if (producto.getStockActualProducto() != stock) {
+                    continue;
+                }
             }
 
-            if (stockMax != null) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("stockActualProducto"), stockMax));
+            // Filtro por precio: verifica que coincida exacto
+            if (precio != null) {
+                if (producto.getPrecioVentaProducto() != precio) {
+                    continue;
+                }
             }
 
-            if (precioMin != null) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("precioVentaProducto"), precioMin));
+            // Filtro por fecha: verifica que coincida exacto
+            if (fecha != null && !fecha.isEmpty()) {
+                LocalDate fechaLocal = LocalDate.parse(fecha);
+                if (!producto.getFechaCreacionProducto().equals(fechaLocal)) {
+                    continue;
+                }
             }
 
-            if (precioMax != null) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("precioVentaProducto"), precioMax));
-            }
-
-            if (fechaMin != null && !fechaMin.isEmpty()) {
-                LocalDate inicio = LocalDate.parse(fechaMin);
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("fechaCreacionProducto"), inicio));
-            }
-            if (fechaMax != null && !fechaMax.isEmpty()) {
-                LocalDate fin = LocalDate.parse(fechaMax);
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("fechaCreacionProducto"), fin));
-            }
-
+            // Filtro por estado
             if (estado == null || estado.trim().isEmpty()) {
-                predicates.add(criteriaBuilder.equal(root.get("estadoProducto"), "Activo"));
+                // Sin estado → solo "Activo"
+                if (!producto.getEstadoProducto().equals("Activo")) {
+                    continue;
+                }
             } else if (!estado.equalsIgnoreCase("Todos")) {
-                predicates.add(criteriaBuilder.equal(root.get("estadoProducto"), estado));
+                // Estado específico → filtramos exacto
+                if (!producto.getEstadoProducto().equalsIgnoreCase(estado)) {
+                    continue;
+                }
             }
 
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-        };
+            resultado.add(producto);
+        }
 
-        List<ProductoEntity> entities = productoRepository.findAll(spec);
-
-        return entities.stream()
-                .map(e -> productoAdapter.toModel(e))
-                .collect(Collectors.toList());
+        // 4. Convertimos las entidades a modelos y retornamos
+        List<Producto> productos = new ArrayList<>();
+        for (ProductoEntity entity : resultado) {
+            productos.add(productoAdapter.toModel(entity));
+        }
+        return productos;
     }
-
 }

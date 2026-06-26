@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -51,25 +52,36 @@ public class ProveedorController {
     }
 
     @PostMapping("/guardar")
-    public String guardarNuevoProveedor(@ModelAttribute Proveedor proveedor, HttpSession session){
+    public String guardarNuevoProveedor(@ModelAttribute Proveedor proveedor, HttpSession session,
+                                        RedirectAttributes redirectAttributes){
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login";
         }
-        proveedorService.guardarProveedor(proveedor);
+        try {
+            proveedorService.guardarProveedor(proveedor);
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorRuc", e.getMessage());
+            return "redirect:/gestion/adminProveedores";
+        }
         return "redirect:/gestion/adminProveedores";
     }
 
     @GetMapping("/editar")
-    public String mostarEditar(@RequestParam("id") Long idProveedor, Model model, HttpSession session){
+    public String mostarEditar(@RequestParam("id") Long idProveedor, Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login";
         }
-        Proveedor proveedorExistente = proveedorService.buscarProveedorPorId(idProveedor);
+
+        // Carga la lista completa para que la tabla no quede vacía
+        model.addAttribute("listaProveedores", proveedorService.obtenerTodosLosProveedores());
         model.addAttribute("paginaActiva", "gestion");
-        model.addAttribute("proveedor", proveedorExistente);
-        return "gestion/editar/editarProveedor";
+
+        // Proveedor a editar con nombre distinto para no colisionar con th:each
+        model.addAttribute("proveedorEditar", proveedorService.buscarProveedorPorId(idProveedor));
+
+        return "gestion/adminProveedores";
     }
 
     @PostMapping("/eliminar")

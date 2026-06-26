@@ -28,7 +28,6 @@ public class MovimientoAdapter {
         movimientoEntity.setTipoMovimiento(movimiento.getTipoMovimiento());
         movimientoEntity.setFechaMovimiento(movimiento.getFechaMovimiento());
         movimientoEntity.setMotivoMovimiento(movimiento.getMotivoMovimiento());
-        movimientoEntity.setDestinoMovimiento(movimiento.getDestinoMovimiento());
         movimientoEntity.setObservacionesMovimiento(movimiento.getObservacionesMovimiento());
         movimientoEntity.setUsuario(usuarioEntity);
         movimientoEntity.setProveedor(proveedorEntity);
@@ -49,7 +48,6 @@ public class MovimientoAdapter {
         movimiento.setTipoMovimiento(movimientoEntity.getTipoMovimiento());
         movimiento.setFechaMovimiento(movimientoEntity.getFechaMovimiento());
         movimiento.setMotivoMovimiento(movimientoEntity.getMotivoMovimiento());
-        movimiento.setDestinoMovimiento(movimientoEntity.getDestinoMovimiento());
         movimiento.setObservacionesMovimiento(movimientoEntity.getObservacionesMovimiento());
         movimiento.setUsuario(usuarioAdapter.toModel(movimientoEntity.getUsuario()));
         movimiento.setProveedor(proveedorAdapter.toModel(movimientoEntity.getProveedor()));

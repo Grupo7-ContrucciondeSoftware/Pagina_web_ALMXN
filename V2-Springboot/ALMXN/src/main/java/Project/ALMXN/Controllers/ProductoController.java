@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.List;
 
 @Controller
@@ -26,12 +28,9 @@ public class ProductoController {
     public String mostrarAdminProductos(
             @RequestParam(value = "nombre", required = false) String nombreFiltro,
             @RequestParam(value = "idCategoria", required = false) Long idCategoria,
-            @RequestParam(value = "stockMin", required = false) Integer stockMinFiltro,
-            @RequestParam(value = "stockMax", required = false) Integer stockMaxFiltro,
-            @RequestParam(value = "precioMin", required = false) Integer precioMinFiltro,
-            @RequestParam(value = "precioMax", required = false) Integer precioMaxFiltro,
-            @RequestParam(value = "fechaMin", required = false) String fechaMinFiltro,
-            @RequestParam(value = "fechaMax", required = false) String fechaMaxFiltro,
+            @RequestParam(value = "stock", required = false) Integer stockFiltro,
+            @RequestParam(value = "precio", required = false) Double precioFiltro,
+            @RequestParam(value = "fecha", required = false) String fechaFiltro,
             @RequestParam(value = "estado", required = false) String estadoFiltro,
             HttpSession session, Model model) {
 
@@ -43,13 +42,13 @@ public class ProductoController {
         List<Producto> productosFiltrados;
 
         boolean hayFiltros = (nombreFiltro != null && !nombreFiltro.isEmpty()) ||
-                (idCategoria != null) || (stockMinFiltro != null) || (stockMaxFiltro != null) ||
-                (precioMinFiltro != null) || (precioMaxFiltro != null) ||
-                (fechaMinFiltro != null && !fechaMinFiltro.isEmpty()) ||
-                (fechaMaxFiltro != null && !fechaMaxFiltro.isEmpty()) || (estadoFiltro != null && !estadoFiltro.isEmpty());
+                (idCategoria != null) || (stockFiltro != null) ||
+                (precioFiltro != null) ||
+                (fechaFiltro != null && !fechaFiltro.isEmpty()) ||
+                (estadoFiltro != null && !estadoFiltro.isEmpty());
 
         if (hayFiltros) {
-            productosFiltrados = productoService.filtrarProducto(nombreFiltro, idCategoria, stockMinFiltro, stockMaxFiltro, precioMinFiltro, precioMaxFiltro, fechaMinFiltro, fechaMaxFiltro, estadoFiltro);
+            productosFiltrados = productoService.filtrarProducto(nombreFiltro, idCategoria, stockFiltro, precioFiltro, fechaFiltro, estadoFiltro);
         } else {
             productosFiltrados = productoService.obtenerTodosLosProductos();
         }
@@ -61,15 +60,37 @@ public class ProductoController {
         return "gestion/adminProductos";
     }
 
-    @PostMapping("/guardar")
-    public String guardarProducto(@ModelAttribute Producto producto, HttpSession session){
+    // ── NUEVO ──────────────────────────────────────────────────────────────────
+    @GetMapping("/agregar")
+    public String mostrarAgregarProducto(HttpSession session, Model model) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login";
         }
 
-        productoService.guardarProducto(producto);
+        model.addAttribute("listaCategorias", categoriaService.obtenerTodasLasCategorias());
+        model.addAttribute("paginaActiva", "gestion");
+        return "gestion/agregarProducto";
+    }
+    // ──────────────────────────────────────────────────────────────────────────
+
+    @PostMapping("/guardar")
+    public String guardarProducto(@ModelAttribute Producto producto, HttpSession session,
+                                  RedirectAttributes redirectAttributes) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        try {
+            productoService.guardarProducto(producto);
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorNombre", e.getMessage());
+            return "redirect:/gestion/adminProductos";
+        }
+
         return "redirect:/gestion/adminProductos";
     }
 
@@ -81,11 +102,15 @@ public class ProductoController {
             return "redirect:/login";
         }
 
-        Producto productoExistente = productoService.buscarProductoPorId(idProducto);
-        model.addAttribute("paginaActiva", "gestion");
-        model.addAttribute("producto", productoExistente);
+        // Carga la lista completa para que la tabla no quede vacía
+        model.addAttribute("listaProductos", productoService.obtenerTodosLosProductos());
         model.addAttribute("listaCategorias", categoriaService.obtenerTodasLasCategorias());
-        return "gestion/editar/editarProducto";
+        model.addAttribute("paginaActiva", "gestion");
+
+        // Producto a editar con nombre distinto para no colisionar con th:each
+        model.addAttribute("productoEditar", productoService.buscarProductoPorId(idProducto));
+
+        return "gestion/adminProductos";
     }
 
     @PostMapping("/eliminar")

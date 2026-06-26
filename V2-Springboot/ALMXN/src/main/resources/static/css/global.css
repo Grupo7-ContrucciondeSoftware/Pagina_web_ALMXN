@@ -1,14 +1,13 @@
 /* ============================================
    SISTEMA DE GESTIÓN DE ALMACÉN
    ============================================
-   ============================================
-   ESTILOS GLOBALES
+   ESTILOS GLOBALES — TEMA CLARO FIJO
    ============================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 
 /* ============================================
-   DEFINIR VARIABLES
+   VARIABLES — SOLO MODO CLARO
    ============================================ */
 :root {
     /* Colores base */
@@ -30,7 +29,7 @@
     /* Tipografía */
     --fuente-principal: 'DM Sans', sans-serif;
 
-    /* Placas */
+    /* Placas de estado */
     --ingreso-placa: #dcfce7;
     --ingreso-color: #166534;
 
@@ -52,61 +51,17 @@
     --bloqueado-placa: #fee2e2;
     --bloqueado-color: #991b1b;
 
-    /* Gestion */
-
+    /* Colores por módulo */
     --adminProductos: #1d9e75;
     --adminUsuarios: #378add;
     --adminMovimientos: #7f77dd;
     --adminCategorias: #ef9f27;
     --adminProveedores: #d85a30;
-
 }
 
-/* Colores alternativos*/
-
-body:has(#theme-toggle:checked) {
-
-    --color-fondo: #0f1117;
-    --color-superficie: #1a1d27;
-    --color-superficie-2: #22263a;
-    --color-primario: #030510;
-    --color-borde: #2e3248;
-
-    --texto-principal: #e8eaf6;
-    --texto-secundario: #7b83a6;
-    --texto-muted: #4a5070;
-    --color-rol-suave: #1e2d4a;
-
-    /* Placas */
-    --ingreso-placa: #14532d;
-    --ingreso-color: #86efac;
-
-    --salida-placa: #7f1d1d;
-    --salida-color: #fca5a5;
-
-    --admin-placa: #1e3a5f;
-    --admin-color: #93c5fd;
-
-    --usuario-placa: #422006;
-    --usuario-color: #fde68a;
-
-    --activo-placa: #14532d;
-    --activo-color: #86efac;
-
-    --suspendido-placa: #1f2937;
-    --suspendido-color: #9ca3af;
-
-    --bloqueado-placa: #7f1d1d;
-    --bloqueado-color: #fca5a5;
-
-}
-
-#theme-toggle:checked ~ #header-principal .img-logo,
-#theme-toggle:checked ~ #contenido-principal-gestion .img-funcion {
-    filter: invert(1) brightness(2);
-}
-
-/* CUERPO */
+/* ============================================
+   CUERPO
+   ============================================ */
 
 html {
     font-size: 18px;
@@ -150,8 +105,7 @@ ul {
     font-family: var(--fuente-principal);
 }
 
-
-/* RESET: Para configurar libremente */
+/* RESET */
 
 *,
 *::before,
@@ -161,8 +115,9 @@ ul {
     padding: 0;
 }
 
-
-/* BOTONES */
+/* ============================================
+   BOTONES
+   ============================================ */
 
 .btn {
     display: inline-flex;
@@ -193,19 +148,9 @@ ul {
     transition: filter 0.2s ease;
 }
 
-.btn-tema {
-    cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--color-borde);
-    background: var(--color-superficie);
-    color: var(--texto-principal);
-    font-family: var(--fuente-principal);
-    transition: background 0.3s, color 0.3s;
-}
-
-
-/* FORMULARIOS GENERALES (LABELS E INPUTS) */
+/* ============================================
+   FORMULARIOS
+   ============================================ */
 
 .form-label {
     font-size: 0.8rem;
@@ -250,7 +195,9 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
-/* BUSCADOR */
+/* ============================================
+   BUSCADOR
+   ============================================ */
 
 .buscador {
     margin-bottom: 20px;
@@ -259,8 +206,9 @@ input::-webkit-inner-spin-button {
     align-items: center;
 }
 
-
-/* TABLA */
+/* ============================================
+   TABLA
+   ============================================ */
 
 .tabla {
     width: 100%;
@@ -274,7 +222,6 @@ input::-webkit-inner-spin-button {
 .body-tabla {
     padding: 14px;
     justify-content: center;
-
 }
 
 .header-tabla {
@@ -291,8 +238,9 @@ input::-webkit-inner-spin-button {
     font-size: 15px;
 }
 
-
-/* FILTRO*/
+/* ============================================
+   FILTROS
+   ============================================ */
 
 .filtro-container {
     display: grid;
@@ -330,7 +278,9 @@ input::-webkit-inner-spin-button {
     flex: 1;
 }
 
-/* BARRA NAVEGACIÓN */
+/* ============================================
+   BARRA NAVEGACIÓN
+   ============================================ */
 
 .nav-item {
     cursor: pointer;
@@ -362,8 +312,9 @@ input::-webkit-inner-spin-button {
     background-color: var(--color-superficie-2);
 }
 
-
-/* HEADER */
+/* ============================================
+   HEADER
+   ============================================ */
 
 #header-principal {
     background-color: var(--color-superficie);
@@ -390,14 +341,9 @@ input::-webkit-inner-spin-button {
     display: block;
 }
 
-.icono-claro { display: none; }
-.icono-oscuro { display: block; }
-
-/* Al activar el tema oscuro, intercambia */
-body:has(#theme-toggle:checked) .icono-claro { display: block; }
-body:has(#theme-toggle:checked) .icono-oscuro { display: none; }
-
-/* USUARIO */
+/* ============================================
+   USUARIO EN HEADER
+   ============================================ */
 
 .header-usuario {
     display: flex;
@@ -433,8 +379,9 @@ body:has(#theme-toggle:checked) .icono-oscuro { display: none; }
     font-weight: 600;
 }
 
-
-/* PIE DE PÁGINA */
+/* ============================================
+   PIE DE PÁGINA
+   ============================================ */
 
 .footer {
     background-color: var(--color-superficie);
@@ -456,4 +403,3 @@ body:has(#theme-toggle:checked) .icono-oscuro { display: none; }
     color: var(--texto-muted);
     letter-spacing: 0.02em;
 }
-

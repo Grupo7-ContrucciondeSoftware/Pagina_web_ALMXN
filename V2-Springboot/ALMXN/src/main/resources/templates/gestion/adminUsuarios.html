@@ -10,215 +10,224 @@
     <link rel="stylesheet" th:href="@{/css/adminUsuarios.css}">
 </head>
 <body>
-    
-    <!-- ============================================
-                                HEADER
-    ============================================ -->
-    <div th:replace="~{fragments/header :: header}"></div>
-    <main id="contenido-principal-gestion">
+<div th:replace="~{fragments/header :: header}"></div>
+<main id="contenido-principal-gestion">
 
-        <!-- CAMBIO DE PESTAÑAS -->
-        <input type="radio" name="tab" id="pestaña-listaUsuario" checked style="display:none">
-        <input type="radio" name="tab" id="pestaña-agregarUsuario" style="display:none">
+    <input type="radio" name="tab" id="pestaña-listaUsuario" checked style="display:none">
 
-        <div class="centro-pagina-gestion">
+    <div class="centro-pagina-gestion">
 
-            <!-- INICIO DE LA SECCIÓN -->
-            <section class="gestion-inicio">
+        <section class="gestion-inicio">
+            <div>
                 <h1 class="titulo-seccion">Administrar Usuarios</h1>
                 <p class="subtitulo-seccion">Gestione los usuarios del sistema</p>
-                <div class="formulario-acciones">
-                    <a th:href="@{/gestion}" class="btn btn-secundario">Volver</a>
-                </div>
-            </section>
-            <div class="pestañas">
-                <label for="pestaña-listaUsuario" class="pestaña">Lista de Usuario</label>
-                <label for="pestaña-agregarUsuario" class="pestaña">Agregar Usuario</label>
             </div>
-            <div class="pestaña-contenido" id="contenido-listaUsuario">
+            <div class="formulario-acciones">
+                <a th:href="@{/gestion}" class="btn btn-secundario">Volver</a>
+                <label for="toggle-modal-agregar" class="btn btn-primario">+ Agregar Usuario</label>
+            </div>
+        </section>
 
-                <!-- Filtros -->
-                <div class="filtro-container">
+        <div class="pestañas">
+            <label for="pestaña-listaUsuario" class="pestaña">Lista de Usuarios</label>
+        </div>
 
-                    <!-- Nombre -->
-                    <div class="filtro-grupo">
-                        <label class="form-label" for="nombre-filtro">Nombre: </label>
-                        <input class="form-control" type="text" id="nombre-filtro" placeholder="Ingrese nombre">
+        <div class="pestaña-contenido" id="contenido-listaUsuario">
+            <form method="GET" th:action="@{/gestion/adminUsuarios}" class="filtro-container">
+                <input type="hidden" name="tab" value="pestaña-listaUsuario">
+                <div class="filtro-grupo">
+                    <label class="form-label" for="nombre-filtro">Nombre: </label>
+                    <input class="form-control" type="text" id="nombre-filtro" name="nombres" placeholder="Ingrese nombre" th:value="${param.nombres}">
+                </div>
+                <div class="filtro-grupo">
+                    <label class="form-label" for="rol-filtro">Rol:</label>
+                    <select class="form-control" id="rol-filtro" name="rol">
+                        <option value="" th:selected="${param.rol == null or param.rol[0] == ''}">Sin Filtro</option>
+                        <option value="Admin" th:selected="${param.rol != null and param.rol[0] == 'Admin'}">Administrador</option>
+                        <option value="Usuario" th:selected="${param.rol != null and param.rol[0] == 'Usuario'}">Usuario</option>
+                    </select>
+                </div>
+                <div class="filtro-grupo">
+                    <label class="form-label" for="estado-filtro">Estado:</label>
+                    <select class="form-control" id="estado-filtro" name="estado">
+                        <option value="Todos" th:selected="${param.estado == null or param.estado[0] == 'Todos'}">Sin Filtro</option>
+                        <option value="Activo" th:selected="${param.estado != null and param.estado[0] == 'Activo'}">Activo</option>
+                        <option value="Inactivo" th:selected="${param.estado != null and param.estado[0] == 'Inactivo'}">Inactivo</option>
+                    </select>
+                </div>
+                <div class="filtro-grupo">
+                    <label class="form-label" for="fecha-filtro">Fecha: </label>
+                    <input class="form-control" type="date" id="fecha-filtro" name="fecha" th:value="${param.fecha}">
+                </div>
+                </div>
+                <div class="filtro-acciones">
+                    <button type="submit" class="btn btn-secundario">Filtrar</button>
+                    <a th:href="@{/gestion/adminUsuarios(tab='pestaña-listaUsuario')}" class="btn btn-secundario">Limpiar</a>
+                </div>
+            </form>
+
+            <table class="tabla">
+                <thead class="header-tabla">
+                <tr>
+                    <th class="header-tabla">ID</th>
+                    <th class="header-tabla">Nombre</th>
+                    <th class="header-tabla">Correo</th>
+                    <th class="header-tabla">Fecha Creación</th>
+                    <th class="header-tabla">Rol</th>
+                    <th class="header-tabla">Estado</th>
+                    <th class="header-tabla">Acciones</th>
+                </tr>
+                </thead>
+                <tbody class="body-tabla">
+                <tr th:each="usuario : ${listaUsuarios}">
+                    <td class="body-tabla" th:text="${usuario.idUsuario}"></td>
+                    <td class="body-tabla" th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></td>
+                    <td class="body-tabla" th:text="${usuario.correo}"></td>
+                    <td class="body-tabla" th:text="${usuario.fechaCreacion}"></td>
+                    <td class="body-tabla">
+                        <span class="rol" th:classappend="'rol-' + ${#strings.toLowerCase(usuario.rol)}" th:text="${usuario.rol}"></span>
+                    </td>
+                    <td class="body-tabla">
+                        <span class="estado" th:classappend="${#strings.toLowerCase(usuario.estadoUsuario)}" th:text="${usuario.estadoUsuario}"></span>
+                    </td>
+                    <td class="body-tabla">
+                        <th:block th:if="${usuario.estadoUsuario == 'Activo'}">
+                            <a th:if="${session.usuarioLogueado.rol == 'Admin'}"
+                               th:href="@{/gestion/adminUsuarios/editar(id=${usuario.idUsuario})}"
+                               class="btn btn-secundario btn-editar">Editar</a>
+                            <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario" style="font-size: 16px;">Editar</label>
+                            <th:block th:if="${session.usuarioLogueado.rol == 'Admin'}">
+                                <button th:if="${usuario.idUsuario == session.usuarioLogueado.idUsuario}" type="button" class="btn btn-secundario btn-eliminar" disabled style="opacity: 0.5; cursor: not-allowed;" title="No puedes eliminar tu propia cuenta">Eliminar</button>
+                                <form th:if="${usuario.idUsuario != session.usuarioLogueado.idUsuario}" th:action="@{/gestion/adminUsuarios/eliminar}" method="POST" style="display:inline;">
+                                    <input type="hidden" name="idUsuario" th:value="${usuario.idUsuario}">
+                                    <button type="submit" class="btn btn-secundario btn-eliminar">Eliminar</button>
+                                </form>
+                            </th:block>
+                            <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario btn-falso-eliminar">Eliminar</label>
+                        </th:block>
+                        <th:block th:if="${usuario.estadoUsuario != 'Activo'}">
+                            <form th:if="${session.usuarioLogueado.rol == 'Admin'}" th:action="@{/gestion/adminUsuarios/activar}" method="POST">
+                                <input type="hidden" name="idUsuario" th:value="${usuario.idUsuario}">
+                                <button type="submit" class="btn btn-secundario btn-activar">Activar</button>
+                            </form>
+                            <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario btn-falso-activar">Activar</label>
+                        </th:block>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<!-- ===================== MODAL AGREGAR USUARIO ===================== -->
+<input type="checkbox" id="toggle-modal-agregar" style="display:none">
+<div id="modal-agregar-usuario" class="modal-overlay">
+    <div class="modal-ventana">
+        <div class="modal-encabezado">
+            <h2 class="titulo-seccion">Agregar Usuario</h2>
+            <label for="toggle-modal-agregar" class="modal-cerrar">&times;</label>
+        </div>
+        <div class="modal-cuerpo">
+            <div th:if="${error != null}" class="alert alert-danger" role="alert">
+                <p th:text="${error}"></p>
+            </div>
+            <form id="form-agregar-usuario" th:action="@{/gestion/adminUsuarios/guardar}" method="POST">
+                <div class="formulario">
+                    <div class="form-grupo">
+                        <label for="agr-nombres" class="form-label">Nombres</label>
+                        <input type="text" id="agr-nombres" name="nombres" class="form-control" placeholder="Ej: Juan Eduardo" required>
+                        <span class="campo-error" id="agr-error-nombres"></span>
                     </div>
-                    
-                    <!-- Rol -->
-                    <div class="filtro-grupo">
-                        <label class="form-label" for="rol-filtro">Rol:</label>
-                        <select class="form-control" id="rol-filtro">
-                            <option value="">Sin Filtro</option>
+                    <div class="form-grupo">
+                        <label for="agr-apellidos" class="form-label">Apellidos</label>
+                        <input type="text" id="agr-apellidos" name="apellidos" class="form-control" placeholder="Ej: Ramos Pérez" required>
+                        <span class="campo-error" id="agr-error-apellidos"></span>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="agr-correo" class="form-label">Correo electrónico</label>
+                        <input type="email" id="agr-correo" name="correo" class="form-control" placeholder="Ej: juan@email.com" required>
+                        <span class="campo-error" id="agr-error-correo"></span>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="agr-rol" class="form-label">Rol</label>
+                        <select id="agr-rol" name="rol" class="form-control" required>
+                            <option value="" disabled selected>Seleccione un rol</option>
+                            <option value="Admin">Administrador</option>
+                            <option value="Usuario">Usuario</option>
+                        </select>
+                        <span class="campo-error" id="agr-error-rol"></span>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="agr-contrasena" class="form-label">Contraseña</label>
+                        <input type="password" id="agr-contrasena" name="contrasena" class="form-control" placeholder="**********" required>
+                        <div class="fortaleza-barra" id="agr-fortaleza-barra"></div>
+                        <div class="fortaleza-texto" id="agr-fortaleza-texto"></div>
+                        <span class="campo-error" id="agr-error-contrasena"></span>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="agr-confirmar" class="form-label">Confirmar Contraseña</label>
+                        <input type="password" id="agr-confirmar" name="confirmarContraseña" class="form-control" placeholder="**********" required>
+                        <span class="campo-error" id="agr-error-confirmar"></span>
+                    </div>
+                </div>
+                <div class="formulario-acciones">
+                    <button type="reset" class="btn btn-secundario">Limpiar</button>
+                    <button th:if="${session.usuarioLogueado.rol == 'Admin'}" type="submit" class="btn btn-primario">Agregar Usuario</button>
+                    <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario" style="font-size: 16px;">Agregar Usuario</label>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- ================================================================= -->
+
+<!-- ===================== MODAL EDITAR USUARIO ===================== -->
+<input type="checkbox" id="toggle-modal-editar" style="display:none">
+<div id="modal-editar-usuario" class="modal-overlay"
+     th:style="${usuarioEditar != null} ? 'display:flex;' : 'display:none;'">
+    <div class="modal-ventana">
+        <div class="modal-encabezado">
+            <h2 class="titulo-seccion">Editar Usuario</h2>
+            <a th:href="@{/gestion/adminUsuarios}" class="modal-cerrar">&times;</a>
+        </div>
+        <div class="modal-cuerpo" th:if="${usuarioEditar != null}">
+            <p class="subtitulo-seccion">Modificando: <span th:text="${usuarioEditar.nombres} + ' ' + ${usuarioEditar.apellidos}"></span></p>
+            <form th:action="@{/gestion/adminUsuarios/guardar}" method="POST" th:object="${usuarioEditar}">
+                <input type="hidden" th:field="*{idUsuario}">
+                <div class="formulario">
+                    <div class="form-grupo">
+                        <label for="editar-nombres-usuario" class="form-label">Nombres</label>
+                        <input type="text" id="editar-nombres-usuario" th:field="*{nombres}" class="form-control" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="editar-apellidos-usuario" class="form-label">Apellidos</label>
+                        <input type="text" id="editar-apellidos-usuario" th:field="*{apellidos}" class="form-control" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="editar-correo-usuario" class="form-label">Correo Electrónico</label>
+                        <input type="email" id="editar-correo-usuario" th:field="*{correo}" class="form-control" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="editar-rol-usuario" class="form-label">Rol del Sistema</label>
+                        <select id="editar-rol-usuario" th:field="*{rol}" class="form-control" required>
+                            <option value="" disabled>Seleccione un rol</option>
                             <option value="Admin">Administrador</option>
                             <option value="Usuario">Usuario</option>
                         </select>
                     </div>
-
-                    <!-- Estado -->
-                    <div class="filtro-grupo">
-                        <label class="form-label" for="estado-filtro">Estado:</label>
-                        <select class="form-control" id="estado-filtro">
-                            <option value="Todos">Sin Filtro</option>
-                            <option value="Activo">Activo</option>
-                            <option value="Inactivo">Inactivo</option>
-                        </select>
-                    </div>
-                    
-                    <!-- Fecha -->
-                    <div class="filtro-grupo">
-                        <label class="form-label">Fecha: </label>
-                        <div class="filtro-doble">
-                            <input class="form-control" type="date" id="fechaMin-filtro">
-                            <input class="form-control" type="date" id="fechaMax-filtro">
-                        </div>
-                    </div>
-                    
-                    <!-- Botones -->
-                    <div class="filtro-acciones">
-                        <button class="btn btn-secundario" id="btnFiltrar">Filtrar</button>
-                        <button class="btn btn-secundario" id="btnLimpiar">Limpiar</button>
-                    </div>
                 </div>
-
-                <!-- Tabla de usuarios -->
-                <table class="tabla">
-
-                    <!-- Header -->
-                    <thead class="header-tabla">
-                        <tr>
-                            <th class="header-tabla">ID</th>
-                            <th class="header-tabla">Nombre</th>
-                            <th class="header-tabla">Correo</th>
-                            <th class="header-tabla">Fecha Creación</th>
-                            <th class="header-tabla">Rol</th>
-                            <th class="header-tabla">Estado</th>
-                            <th class="header-tabla">Acciones</th>
-                        </tr>
-                    </thead>
-
-                    <!-- Body -->
-                    <tbody class="body-tabla">
-                        <tr th:each="usuario : ${listaUsuarios}">
-                            <td class="body-tabla" th:text="${usuario.idUsuario}"></td>
-                            <td class="body-tabla" th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></td>
-                            <td class="body-tabla" th:text="${usuario.correo}"></td>
-                            <td class="body-tabla" th:text="${usuario.fechaCreacion}"></td>
-                            <td class="body-tabla">
-                                <span class="rol" th:classappend="'rol-' + ${#strings.toLowerCase(usuario.rol)}" th:text="${usuario.rol}"></span>
-                            </td>
-                            <td class="body-tabla">
-                                <span class="estado" th:classappend="${#strings.toLowerCase(usuario.estadoUsuario)}" th:text="${usuario.estadoUsuario}"></span>
-                            </td>
-                            <td class="body-tabla">
-                                <th:block th:if="${usuario.estadoUsuario == 'Activo'}">
-                                    <a th:if="${session.usuarioLogueado.rol == 'Admin'}" th:href="@{/gestion/adminUsuarios/editar(id=${usuario.idUsuario})}" class="btn btn-secundario btn-editar">Editar</a>
-                                    <button th:if="${session.usuarioLogueado.rol != 'Admin'}" type="button" class="btn btn-secundario" onclick="abrirModalPermiso()" style="font-size: 16px;">Editar</button>
-                                    <!-- Eliminar: Admin -->
-                                    <th:block th:if="${session.usuarioLogueado.rol == 'Admin'}">
-                                        <button th:if="${usuario.idUsuario == session.usuarioLogueado.idUsuario}" type="button" class="btn btn-secundario btn-eliminar" disabled style="opacity: 0.5; cursor: not-allowed;" title="No puedes eliminar tu propia cuenta">Eliminar</button>
-                                        <button th:if="${usuario.idUsuario != session.usuarioLogueado.idUsuario}" type="button" class="btn btn-secundario btn-eliminar" th:data-id="${usuario.idUsuario}" th:data-nombre="${usuario.nombres} + ' ' + ${usuario.apellidos}" data-action="/gestion/adminUsuarios/eliminar" data-param="idUsuario">Eliminar</button>
-                                    </th:block>
-                                    <button th:if="${session.usuarioLogueado.rol != 'Admin'}" type="button" class="btn btn-secundario btn-falso-eliminar" onclick="abrirModalPermiso()">Eliminar</button>
-                                </th:block>
-                                <th:block th:if="${usuario.estadoUsuario != 'Activo'}">
-                                    <form th:if="${session.usuarioLogueado.rol == 'Admin'}" th:action="@{/gestion/adminUsuarios/activar}" method="POST">
-                                        <input type="hidden" name="idUsuario" th:value="${usuario.idUsuario}">
-                                        <button type="submit" class="btn btn-secundario btn-activar">Activar</button>
-                                    </form>
-                                    <button th:if="${session.usuarioLogueado.rol != 'Admin'}" type="button" class="btn btn-secundario btn-falso-activar" onclick="abrirModalPermiso()">Activar</button>
-                                </th:block>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Agregar Usuario -->
-            <div class="pestaña-contenido" id="contenido-agregarUsuario">
-                <section class="form-grupo">
-                    
-                    <!-- Formulario -->
-                    <form id="form-agregar-usuario" th:action="@{/gestion/adminUsuarios/guardar}" method="POST" novalidate>
-                        <div class="formulario">
-
-                            <!-- Nombres -->
-                            <div class="form-grupo">
-                                <label for="agr-nombres" class="form-label">Nombres</label>
-                                <input type="text" id="agr-nombres" name="nombres" class="form-control" placeholder="Ej: Juan Eduardo" required>
-                                <span class="campo-error" id="agr-error-nombres"></span>
-                            </div>
-                            
-                            <!-- Apellidos -->
-                            <div class="form-grupo">
-                                <label for="agr-apellidos" class="form-label">Apellidos</label>
-                                <input type="text" id="agr-apellidos" name="apellidos" class="form-control" placeholder="Ej: Ramos Pérez" required>
-                                <span class="campo-error" id="agr-error-apellidos"></span>
-                            </div>
-                            
-                            <!-- Correo -->
-                            <div class="form-grupo">
-                                <label for="agr-correo" class="form-label">Correo electrónico</label>
-                                <input type="email" id="agr-correo" name="correo" class="form-control" placeholder="Ej: juan@email.com" required>
-                                <span class="campo-error" id="agr-error-correo"></span>
-                            </div>
-
-                            <!-- Rol -->
-                            <div class="form-grupo">
-                                <label for="agr-rol" class="form-label">Rol</label>
-                                <select id="agr-rol" name="rol" class="form-control" required>
-                                    <option value="" disabled selected>Seleccione un rol</option>
-                                    <option value="Admin">Administrador</option>
-                                    <option value="Usuario">Usuario</option>
-                                </select>
-                                <span class="campo-error" id="agr-error-rol"></span>
-                            </div>
-
-                            <!-- Contraseña -->
-                            <div class="form-grupo">
-                                <label for="agr-contrasena" class="form-label">Contraseña</label>
-                                <input type="password" id="agr-contrasena" name="contrasena" class="form-control" placeholder="**********" required>
-                                <div class="fortaleza-barra" id="agr-fortaleza-barra"></div>
-                                <div class="fortaleza-texto" id="agr-fortaleza-texto"></div>
-                                <span class="campo-error" id="agr-error-contrasena"></span>
-                            </div>
-
-                            <!-- Confirmar Contraseña -->
-                            <div class="form-grupo">
-                                <label for="agr-confirmar" class="form-label">Confirmar Contraseña</label>
-                                <input type="password" id="agr-confirmar" name="confirmarContraseña" class="form-control" placeholder="**********" required>
-                                <span class="campo-error" id="agr-error-confirmar"></span>
-                            </div>
-
-                        </div>
-
-                        <!-- Botones -->
-                        <div class="formulario-acciones">
-                            <button type="reset" class="btn btn-secundario">Limpiar</button>
-                            <button th:if="${session.usuarioLogueado.rol == 'Admin'}" type="submit" class="btn btn-primario">Agregar Usuario</button>
-                            <button th:if="${session.usuarioLogueado.rol != 'Admin'}" type="button" class="btn btn-primario" onclick="abrirModalPermiso()" style="font-size: 16px;">Agregar Usuario</button>
-                        </div>
-                    </form>
-                </section>
-            </div>
-
-            <!-- Modal Eliminar -->
-            <div th:replace="~{fragments/modalEliminar :: modalEliminar}"></div>
-
+                <div class="formulario-acciones">
+                    <a th:href="@{/gestion/adminUsuarios}" class="btn btn-secundario">Cancelar</a>
+                    <button type="submit" class="btn btn-primario">Guardar Cambios</button>
+                </div>
+            </form>
         </div>
-    </main>
+    </div>
+</div>
+<!-- ================================================================= -->
 
-    <!-- Footer -->
-    <div th:replace="~{fragments/footer :: footer}"></div>
-
-    <!-- Modal Restricción -->
-    <div th:replace="~{fragments/modalRestriccion :: modalRestriccion}"></div>
-
-    <!-- Scripts -->
-    <script th:src="@{/js/tema.js}" defer></script>
-    <script th:src="@{/js/validacionUsuarios.js}" defer></script>
-    <script th:src="@{/js/Filtros/usuarioFiltro.js}" defer></script>
-    <script th:src="@{/js/Eliminar/eliminarFuncion.js}" defer></script>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/modalRestriccion :: modalRestriccion}"></div>
 </body>
 </html>

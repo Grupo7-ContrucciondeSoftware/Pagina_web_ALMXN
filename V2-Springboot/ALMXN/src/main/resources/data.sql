@@ -105,94 +105,94 @@ INSERT INTO producto (codigo, nombre, fecha_creacion, id_categoria, stock_actual
 -- ==========================================
 
 -- MOV 1 | Ingreso | Alicorp | 2026-04-28 | total: 390.00
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Ingreso', '2026-04-28', 'Compra de mercadería semanal', 'Almacén Principal', 'Ingreso con guía de remisión 001-456. Todo conforme.', 1, 1, 390.00);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Ingreso', '2026-04-28', 'Compra de mercadería semanal', 'Ingreso con guía de remisión 001-456. Todo conforme.', 1, 1, 390.00);
 
 -- MOV 2 | Salida | interno | 2026-04-29 | total: 640.00
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Salida', '2026-04-29', 'Reabastecimiento urgente', 'Almacén Frío', 'Lote con vencimiento a 6 meses.', 6, NULL, 640.00);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Salida', '2026-04-29', 'Reabastecimiento urgente', 'Lote con vencimiento a 6 meses.', 6, NULL, 640.00);
 
 -- MOV 3 | Ingreso | Alicorp | 2026-04-10 | total: 650.00
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Ingreso', '2026-04-10', 'Compra', 'Almacén Principal', 'Factura F001-998', 2, 1, 650.00);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Ingreso', '2026-04-10', 'Compra', 'Factura F001-998', 2, 1, 650.00);
 
 -- MOV 4 | Ingreso | Gloria | 2026-04-12 | total: 156.00
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Ingreso', '2026-04-12', 'Compra', 'Almacén Frío', 'Ingreso de lácteos por falta de stock', 7, 2, 156.00);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Ingreso', '2026-04-12', 'Compra', 'Ingreso de lácteos por falta de stock', 7, 2, 156.00);
 
 -- MOV 5 | Salida | interno | 2026-04-15 | total: 40.00
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Salida', '2026-04-15', 'Despacho', 'Tienda Sede Centro', 'Traslado matutino', 3, NULL, 40.00);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Salida', '2026-04-15', 'Despacho', 'Traslado matutino', 3, NULL, 40.00);
 
 -- MOV 6 | Salida | interno | 2026-04-18 | total: 11.70
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Salida', '2026-04-18', 'Merma', 'Desechos', 'Cajas abolladas', 8, NULL, 11.70);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Salida', '2026-04-18', 'Merma', 'Cajas abolladas', 8, NULL, 11.70);
 
 -- MOV 7 | Ingreso | Alicorp | 2026-04-25 | total: 90.00
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Ingreso', '2026-04-25', 'Devolución', 'Almacén Principal', 'La tienda devolvió stock', 4, 1, 90.00);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Ingreso', '2026-04-25', 'Devolución', 'La tienda devolvió stock', 4, 1, 90.00);
 
 -- MOV 8 | Ingreso | P&G | 2026-05-01 | total: 215.50
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Ingreso', '2026-05-01', 'Compra de insumos de limpieza', 'Almacén Principal', 'Factura F002-1045. Productos recibidos en buen estado.', 9, 3, 215.50);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Ingreso', '2026-05-01', 'Compra de insumos de limpieza', 'Factura F002-1045. Productos recibidos en buen estado.', 9, 3, 215.50);
 
 -- MOV 9 | Salida | interno | 2026-05-01 | total: 327.92
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Salida', '2026-05-01', 'Despacho a sucursal', 'Tienda Sede Norte', 'Traslado vespertino autorizado por supervisor.', 5, NULL, 327.92);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Salida', '2026-05-01', 'Despacho a sucursal', 'Traslado vespertino autorizado por supervisor.', 5, NULL, 327.92);
 
 -- MOV 10 | Ingreso | Gloria | 2026-04-30 | total: 174.60
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Ingreso', '2026-04-30', 'Reposición de stock', 'Almacén Frío', 'Ingreso de lácteos y embutidos. Guía de remisión 003-789.', 10, 2, 174.60);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Ingreso', '2026-04-30', 'Reposición de stock', 'Ingreso de lácteos y embutidos. Guía de remisión 003-789.', 10, 2, 174.60);
 
 -- MOV 11 | Ingreso | Nestlé | 2026-05-02 | total: 426.40
 -- Ingreso de snacks, chocolates y lácteos Nestlé
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Ingreso', '2026-05-02', 'Compra mensual Nestlé', 'Almacén Principal', 'Factura F003-201. Recibido por almacenero turno mañana.', 1, 5, 426.40);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Ingreso', '2026-05-02', 'Compra mensual Nestlé', 'Factura F003-201. Recibido por almacenero turno mañana.', 1, 5, 426.40);
 
 -- MOV 12 | Salida | interno | 2026-05-02 | total: 183.80
 -- Despacho de conservas y condimentos a tienda
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Salida', '2026-05-02', 'Despacho tienda', 'Tienda Sede Sur', 'Traslado con nota de salida NS-045.', 6, NULL, 183.80);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Salida', '2026-05-02', 'Despacho tienda', 'Traslado con nota de salida NS-045.', 6, NULL, 183.80);
 
 -- MOV 13 | Ingreso | Laive | 2026-05-03 | total: 511.00
 -- Reposición de embutidos, quesos y mantequilla
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Ingreso', '2026-05-03', 'Reposición embutidos y lácteos', 'Almacén Frío', 'Guía de remisión 004-112. Temperatura de cadena de frío verificada.', 2, 6, 511.00);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Ingreso', '2026-05-03', 'Reposición embutidos y lácteos', 'Guía de remisión 004-112. Temperatura de cadena de frío verificada.', 2, 6, 511.00);
 
 -- MOV 14 | Salida | interno | 2026-05-04 | total: 96.50
 -- Merma por productos vencidos detectados en revisión
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Salida', '2026-05-04', 'Merma por vencimiento', 'Desechos', 'Revisión semanal: yogures y jamonada vencidos retirados.', 8, NULL, 96.50);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Salida', '2026-05-04', 'Merma por vencimiento', 'Revisión semanal: yogures y jamonada vencidos retirados.', 8, NULL, 96.50);
 
 -- MOV 15 | Ingreso | Dist. Norte | 2026-05-05 | total: 348.00
 -- Ingreso de bebidas y snacks de distribuidor regional
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Ingreso', '2026-05-05', 'Compra bebidas y snacks', 'Almacén Principal', 'Factura F004-089. Productos verificados contra orden de compra OC-031.', 3, 8, 348.00);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Ingreso', '2026-05-05', 'Compra bebidas y snacks', 'Factura F004-089. Productos verificados contra orden de compra OC-031.', 3, 8, 348.00);
 
 -- MOV 16 | Salida | interno | 2026-05-05 | total: 261.00
 -- Despacho a tienda sede centro (reabastecimiento semanal)
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Salida', '2026-05-05', 'Despacho semanal', 'Tienda Sede Centro', 'Traslado programado. Autorizado por administrador.', 4, NULL, 261.00);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Salida', '2026-05-05', 'Despacho semanal', 'Traslado programado. Autorizado por administrador.', 4, NULL, 261.00);
 
 -- MOV 17 | Ingreso | P&G | 2026-05-06 | total: 294.00
 -- Compra de cuidado personal y limpieza
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Ingreso', '2026-05-06', 'Compra cuidado personal y limpieza', 'Almacén Principal', 'Factura F005-310. Recibido conforme con orden OC-035.', 5, 3, 326.00);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Ingreso', '2026-05-06', 'Compra cuidado personal y limpieza', 'Factura F005-310. Recibido conforme con orden OC-035.', 5, 3, 326.00);
 
 -- MOV 18 | Salida | interno | 2026-05-07 | total: 156.00
 -- Devolución de productos en mal estado al proveedor Alicorp
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Salida', '2026-05-07', 'Devolución a proveedor', 'Alicorp S.A.A.', 'Fideos y arroz con envases rotos devueltos según acuerdo comercial.', 9, 1, 156.00);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Salida', '2026-05-07', 'Devolución a proveedor', 'Fideos y arroz con envases rotos devueltos según acuerdo comercial.', 9, 1, 156.00);
 
 -- MOV 19 | Ingreso | Backus | 2026-05-07 | total: 684.00
 -- Ingreso de cerveza y bebidas Backus
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Ingreso', '2026-05-07', 'Compra bebidas Backus', 'Almacén Principal', 'Factura F006-478. Cajas de cerveza y gaseosas recibidas en buen estado.', 1, 4, 685.50);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Ingreso', '2026-05-07', 'Compra bebidas Backus', 'Factura F006-478. Cajas de cerveza y gaseosas recibidas en buen estado.', 1, 4, 685.50);
 
 -- MOV 20 | Salida | interno | 2026-05-08 | total: 319.00
 -- Despacho general a tienda sede norte
-INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, destino, observaciones, id_usuario, id_proveedor, total_movimiento)
-VALUES ('Salida', '2026-05-08', 'Despacho a sucursal', 'Tienda Sede Norte', 'Traslado con guía interna GI-022. Conforme.', 7, NULL, 330.50);
+INSERT INTO movimiento (tipo_movimiento, fecha_movimiento, motivo, observaciones, id_usuario, id_proveedor, total_movimiento)
+VALUES ('Salida', '2026-05-08', 'Despacho a sucursal', 'Traslado con guía interna GI-022. Conforme.', 7, NULL, 330.50);
 
 
 -- ==========================================

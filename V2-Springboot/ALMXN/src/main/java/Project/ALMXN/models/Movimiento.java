@@ -1,13 +1,12 @@
 package Project.ALMXN.models;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Movimiento {
     private Long idMovimiento;
     private String tipoMovimiento;
-    private LocalDate fechaMovimiento;
+    private LocalDateTime fechaMovimiento;
     private String motivoMovimiento;
-    private String destinoMovimiento;
     private String observacionesMovimiento;
     private Usuario usuario;
     private Proveedor proveedor;
@@ -16,14 +15,13 @@ public class Movimiento {
     public Movimiento() {
     }
 
-    public Movimiento(Long idMovimiento, String tipoMovimiento, LocalDate fechaMovimiento, String motivoMovimiento,
-            String destinoMovimiento, String observacionesMovimiento, Usuario usuario, Proveedor proveedor,
+    public Movimiento(Long idMovimiento, String tipoMovimiento, LocalDateTime fechaMovimiento, String motivoMovimiento,
+            String observacionesMovimiento, Usuario usuario, Proveedor proveedor,
             double totalMovimiento) {
         this.idMovimiento = idMovimiento;
         this.tipoMovimiento = tipoMovimiento;
         this.fechaMovimiento = fechaMovimiento;
         this.motivoMovimiento = motivoMovimiento;
-        this.destinoMovimiento = destinoMovimiento;
         this.observacionesMovimiento = observacionesMovimiento;
         this.usuario = usuario;
         this.proveedor = proveedor;
@@ -47,11 +45,11 @@ public class Movimiento {
         this.tipoMovimiento = tipoMovimiento;
     }
 
-    public LocalDate getFechaMovimiento() {
+    public LocalDateTime getFechaMovimiento() {
         return fechaMovimiento;
     }
 
-    public void setFechaMovimiento(LocalDate fechaMovimiento) {
+    public void setFechaMovimiento(LocalDateTime fechaMovimiento) {
         this.fechaMovimiento = fechaMovimiento;
     }
 
@@ -61,14 +59,6 @@ public class Movimiento {
 
     public void setMotivoMovimiento(String motivoMovimiento) {
         this.motivoMovimiento = motivoMovimiento;
-    }
-
-    public String getDestinoMovimiento() {
-        return destinoMovimiento;
-    }
-
-    public void setDestinoMovimiento(String destinoMovimiento) {
-        this.destinoMovimiento = destinoMovimiento;
     }
 
     public String getObservacionesMovimiento() {

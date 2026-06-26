@@ -1,7 +1,7 @@
 package Project.ALMXN.entitys;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +17,10 @@ public class MovimientoEntity {
     private String tipoMovimiento;
 
     @Column (name = "fecha_movimiento")
-    private LocalDate fechaMovimiento;
+    private LocalDateTime fechaMovimiento;
 
     @Column (name = "motivo")
     private String motivoMovimiento;
-
-    @Column (name = "destino")
-    private String destinoMovimiento;
 
     @Column (name = "observaciones")
     private String observacionesMovimiento;
@@ -42,12 +39,11 @@ public class MovimientoEntity {
     @OneToMany(mappedBy = "movimiento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleMovimientoEntity> detalles = new ArrayList<>();
 
-    public MovimientoEntity(Long idMovimiento, String tipoMovimiento, LocalDate fechaMovimiento, String motivoMovimiento, String destinoMovimiento, String observacionesMovimiento, double totalMovimiento) {
+    public MovimientoEntity(Long idMovimiento, String tipoMovimiento, LocalDateTime fechaMovimiento, String motivoMovimiento, String observacionesMovimiento, double totalMovimiento) {
         this.idMovimiento = idMovimiento;
         this.tipoMovimiento = tipoMovimiento;
         this.fechaMovimiento = fechaMovimiento;
         this.motivoMovimiento = motivoMovimiento;
-        this.destinoMovimiento = destinoMovimiento;
         this.observacionesMovimiento = observacionesMovimiento;
         this.totalMovimiento = totalMovimiento;
     }
@@ -72,11 +68,11 @@ public class MovimientoEntity {
         this.tipoMovimiento = tipoMovimiento;
     }
 
-    public LocalDate getFechaMovimiento() {
+    public LocalDateTime getFechaMovimiento() {
         return fechaMovimiento;
     }
 
-    public void setFechaMovimiento(LocalDate fechaMovimiento) {
+    public void setFechaMovimiento(LocalDateTime fechaMovimiento) {
         this.fechaMovimiento = fechaMovimiento;
     }
 
@@ -88,21 +84,11 @@ public class MovimientoEntity {
         this.motivoMovimiento = motivoMovimiento;
     }
 
-    public String getDestinoMovimiento() {
-        return destinoMovimiento;
-    }
-
-    public void setDestinoMovimiento(String destinoMovimiento) {
-        this.destinoMovimiento = destinoMovimiento;
-    }
-
     public String getObservacionesMovimiento() {
         return observacionesMovimiento;
     }
 
-    public void setObservacionesMovimiento(String observacionesMovimiento) {
-        this.observacionesMovimiento = observacionesMovimiento;
-    }
+    public void setObservacionesMovimiento(String observacionesMovimiento) { this.observacionesMovimiento = observacionesMovimiento; }
 
     public double getTotalMovimiento() {
         return totalMovimiento;

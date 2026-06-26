@@ -3,68 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Editar Producto - Sistema de Gestión de Almacén">
-    <title>ALMXN - Editar Producto</title>
+    <meta name="description" content="Administrar Productos - Sistema de Gestión de Almacén">
+    <title>ALMXN - Administrar Productos</title>
     <link rel="stylesheet" th:href="@{/css/global.css}">
     <link rel="stylesheet" th:href="@{/css/globalGestion.css}">
     <link rel="stylesheet" th:href="@{/css/adminProductos.css}">
 </head>
 <body>
-    <div th:replace="~{fragments/header :: header}"></div>
-    <main id="contenido-principal-gestion">
-        <div class="centro-pagina-gestion">
-            <section class="gestion-inicio">
-                <div>
-                    <h1 class="titulo-seccion">Editar Producto</h1>
-                    <p class="subtitulo-seccion">Modificando los datos del código: <span th:text="${producto.codigoProducto}"></span></p>
+<div th:replace="~{fragments/header :: header}"></div>
+<main id="contenido-principal-gestion">
+    <input type="radio" name="tab" id="pestaña-listaProducto" checked style="display:none">
+    <div class="centro-pagina-gestion">
+        <section class="gestion-inicio">
+            <div>
+                <h1 class="titulo-seccion">Administrar Productos</h1>
+                <p class="subtitulo-seccion">Gestione los productos del sistema</p>
+            </div>
+            <div class="formulario-acciones">
+                <a th:href="@{/gestion}" class="btn btn-secundario">Volver</a>
+                <label for="toggle-modal-agregar" class="btn btn-primario">+ Agregar Producto</label>
+            </div>
+        </section>
+
+        <div class="pestañas">
+            <label for="pestaña-listaProducto" class="pestaña">Lista de Productos</label>
+        </div>
+
+        <div class="pestaña-contenido" id="contenido-listaProducto">
+            <form method="GET" th:action="@{/gestion/adminProductos}" class="filtro-container">
+                <input type="hidden" name="tab" value="pestaña-listaProducto">
+                <div class="filtro-grupo">
+                    <label class="form-label" for="nombre-filtro">Nombre: </label>
+                    <input class="form-control" type="text" id="nombre-filtro" name="nombre" placeholder="Ej: Leche Gloria" th:value="${param.nombre}">
+                </div>
+                <div class="filtro-grupo">
+                    <label class="form-label" for="categoria-filtro">Categoría:</label>
+                    <select id="categoria-filtro" name="idCategoria" class="form-control">
+                        <option value="" th:selected="${param.idCategoria == null or param.idCategoria[0] == ''}">Sin filtro</option>
+                        <option th:each="catProducto : ${listaCategorias}" th:value="${catProducto.idCategoria}" th:text="${catProducto.nombreCategoria}" th:selected="${param.idCategoria != null and param.idCategoria[0] == catProducto.idCategoria.toString()}"></option>
+                    </select>
+                </div>
+                <div class="filtro-grupo">
+                    <label class="form-label" for="stock-filtro">Stock:</label>
+                    <input class="form-control" type="number" id="stock-filtro" name="stock" placeholder="Ej: 10" th:value="${param.stock}">
+                </div>
+                <div class="filtro-grupo">
+                    <label class="form-label" for="precio-filtro">Precio:</label>
+                    <input class="form-control" type="number" step="0.01" id="precio-filtro" name="precio" placeholder="Ej: 5.5" th:value="${param.precio}">
+                </div>
+                <div class="filtro-grupo">
+                    <label class="form-label" for="fecha-filtro">Fecha: </label>
+                    <input class="form-control" type="date" id="fecha-filtro" name="fecha" th:value="${param.fecha}">
+                </div>
+                <div class="filtro-grupo">
+                    <label class="form-label" for="estado-filtro">Estado:</label>
+                    <select id="estado-filtro" name="estado" class="form-control">
+                        <option value="Todos" th:selected="${param.estado == null or param.estado[0] == 'Todos'}">Sin filtro</option>
+                        <option value="Activo" th:selected="${param.estado != null and param.estado[0] == 'Activo'}">Activo</option>
+                        <option value="Inactivo" th:selected="${param.estado != null and param.estado[0] == 'Inactivo'}">Inactivo</option>
+                    </select>
+                </div>
+                <div class="filtro-acciones">
+                    <button type="submit" class="btn btn-secundario">Filtrar</button>
+                    <a th:href="@{/gestion/adminProductos(tab='pestaña-listaProducto')}" class="btn btn-secundario">Limpiar</a>
+                </div>
+            </form>
+            <table class="tabla">
+                <thead class="header-tabla">
+                <tr>
+                    <th class="header-tabla">Codigo</th>
+                    <th class="header-tabla">Fecha de Adición</th>
+                    <th class="header-tabla">Producto</th>
+                    <th class="header-tabla">Categoría</th>
+                    <th class="header-tabla">Stock Actual</th>
+                    <th class="header-tabla">Unidad de medida</th>
+                    <th class="header-tabla">Precio x Unidad</th>
+                    <th class="header-tabla">Estado</th>
+                    <th class="header-tabla">Acciones</th>
+                </tr>
+                </thead>
+                <tbody class="body-tabla">
+                <tr th:each="producto : ${listaProductos}">
+                    <td class="body-tabla" th:text="${producto.codigoProducto}"></td>
+                    <td class="body-tabla" th:text="${producto.fechaCreacionProducto}"></td>
+                    <td class="body-tabla" th:text="${producto.nombreProducto}"></td>
+                    <td class="body-tabla" th:text="${producto.categoria.nombreCategoria}"></td>
+                    <td class="body-tabla" th:text="${producto.stockActualProducto}"></td>
+                    <td class="body-tabla" th:text="${producto.unidadMedidaProducto}"></td>
+                    <td class="body-tabla" th:text="'S/' + ${producto.precioVentaProducto}"></td>
+                    <td class="body-tabla"><span class="estado" th:classappend="${#strings.toLowerCase(producto.estadoProducto)}" th:text="${producto.estadoProducto}"></span></td>
+                    <td class="body-tabla">
+                        <th:block th:if="${producto.estadoProducto == 'Activo'}">
+                            <!-- Editar: abre modal si es Admin -->
+                            <a th:if="${session.usuarioLogueado.rol == 'Admin'}"
+                               th:href="@{/gestion/adminProductos/editar(id=${producto.idProducto})}"
+                               class="btn btn-secundario btn-editar">Editar</a>
+                            <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario" style="font-size: 13px;">Editar</label>
+                            <form th:action="@{/gestion/adminProductos/eliminar}" method="POST" style="display:inline;">
+                                <input type="hidden" name="idProducto" th:value="${producto.idProducto}">
+                                <button type="submit" class="btn btn-secundario btn-eliminar">Eliminar</button>
+                            </form>
+                            <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario btn-falso-eliminar">Eliminar</label>
+                        </th:block>
+                        <th:block th:if="${producto.estadoProducto != 'Activo'}">
+                            <form th:if="${session.usuarioLogueado.rol == 'Admin'}" th:action="@{/gestion/adminProductos/activar}" method="POST" style="display:inline;">
+                                <input type="hidden" name="idProducto" th:value="${producto.idProducto}">
+                                <button type="submit" class="btn btn-secundario btn-activar">Activar</button>
+                            </form>
+                            <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario btn-falso-activar">Activar</label>
+                        </th:block>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<!-- ===================== MODAL AGREGAR PRODUCTO ===================== -->
+<input type="checkbox" id="toggle-modal-agregar" style="display:none">
+<div id="modal-agregar-producto" class="modal-overlay">
+    <div class="modal-ventana">
+        <div class="modal-encabezado">
+            <h2 class="titulo-seccion">Agregar Producto</h2>
+            <label for="toggle-modal-agregar" class="modal-cerrar">&times;</label>
+        </div>
+        <div class="modal-cuerpo">
+            <form th:action="@{/gestion/adminProductos/guardar}" method="POST">
+                <div class="formulario">
+                    <div class="form-grupo">
+                        <label for="nombre-producto" class="form-label">Nombre del producto</label>
+                        <input type="text" id="nombre-producto" name="nombreProducto" class="form-control" placeholder="Ej: Platano Bizcochito" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="categoriaProducto" class="form-label">Categoría</label>
+                        <select id="categoriaProducto" name="categoria.idCategoria" class="form-control">
+                            <option value="" disabled selected>Seleccione una categoría</option>
+                            <option th:each="catProducto : ${listaCategorias}" th:value="${catProducto.idCategoria}" th:text="${catProducto.nombreCategoria}"></option>
+                        </select>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="unidad-medida" class="form-label">Unidad de medida</label>
+                        <select id="unidad-medida" name="unidadMedidaProducto" class="form-control">
+                            <option value="" disabled selected>Seleccione una unidad</option>
+                            <option value="Unidad">Unidad</option>
+                            <option value="kg">Kg</option>
+                            <option value="Bolsa">Bolsa</option>
+                            <option value="litro">Litro (L)</option>
+                            <option value="Caja">Caja</option>
+                            <option value="Botella">Botella</option>
+                            <option value="Lata">Lata</option>
+                            <option value="Paquete">Paquete</option>
+                            <option value="Saco">Saco</option>
+                        </select>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="precio-costo" class="form-label">Precio de Costo</label>
+                        <input type="number" step="any" id="precio-costo" name="precioCostoProducto" class="form-control" placeholder="Ej: 40" min="0" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="precio-unidad" class="form-label">Precio de Venta</label>
+                        <input type="number" step="any" id="precio-unidad" name="precioVentaProducto" class="form-control" placeholder="Ej: 10" min="0" required>
+                    </div>
+                </div>
+                <div class="form-grupo form-textarea">
+                    <label for="descripcion-producto" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
+                    <textarea id="descripcion-producto" name="descripcionProducto" class="form-control" placeholder="Descripción breve del producto..." rows="3"></textarea>
                 </div>
                 <div class="formulario-acciones">
-                    <a th:href="@{/gestion/adminProductos}" class="btn btn-secundario">Cancelar y Volver</a>
+                    <button type="reset" class="btn btn-secundario">Limpiar</button>
+                    <button type="submit" class="btn btn-primario">Agregar Producto</button>
                 </div>
-            </section>
-            <div class="pestaña-contenido" style="display: block;">
-                <section class="form-grupo">
-                    <form th:action="@{/gestion/adminProductos/guardar}" method="POST" th:object="${producto}">
-                        <input type="hidden" th:field="*{idProducto}">
-                        <div class="formulario">
-                            <div class="form-grupo">
-                                <label for="nombre-producto" class="form-label">Nombre del producto</label>
-                                <input type="text" id="nombre-producto" th:field="*{nombreProducto}" class="form-control" required>
-                            </div>
-                            <div class="form-grupo">
-                                <label for="unidad-medida" class="form-label">Unidad de medida</label>
-                                <select id="unidad-medida" th:field="*{unidadMedidaProducto}" class="form-control" required>
-                                    <option value="" disabled>Seleccione una unidad</option>
-                                    <option value="unidad">Unidad</option>
-                                    <option value="kg">Kg</option>
-                                    <option value="Bolsa">Bolsa</option>
-                                    <option value="litro">Litro (L)</option>
-                                    <option value="Caja">Caja</option>
-                                    <option value="Paquete">Paquete</option>
-                                </select>
-                            </div>
-                            <div class="form-grupo">
-                                <label for="precio-costo" class="form-label">Precio de Costo</label>
-                                <input type="number" step="any" id="precio-costo" th:field="*{precioCostoProducto}" class="form-control" min="0" required>
-                            </div>
-                            <div class="form-grupo">
-                                <label for="precio-unidad" class="form-label">Precio por unidad</label>
-                                <input type="number" step="any" id="precio-unidad" th:field="*{precioVentaProducto}" class="form-control" min="0" required>
-                            </div>
-                        </div>
-                        <div class="form-grupo form-textarea">
-                            <label for="descripcion-producto" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
-                            <textarea id="descripcion-producto" th:field="*{descripcionProducto}" class="form-control" rows="3"></textarea>
-                        </div>
-                        <div class="formulario-acciones">
-                            <button type="submit" class="btn btn-primario">Guardar Cambios</button>
-                        </div>
-                    </form>
-                </section>
-            </div>
+            </form>
         </div>
-    </main>
-    <div th:replace="~{fragments/footer :: footer}"></div>
-    <script th:src="@{/js/tema.js}" defer></script>
+    </div>
+</div>
+<!-- ================================================================= -->
+
+<!-- ===================== MODAL EDITAR PRODUCTO ===================== -->
+<div id="modal-editar-producto" class="modal-overlay" th:classappend="${productoEditar != null} ? ' modal-visible' : ''">
+    <div class="modal-ventana">
+        <div class="modal-encabezado">
+            <h2 class="titulo-seccion">Editar Producto</h2>
+            <a th:href="@{/gestion/adminProductos}" class="modal-cerrar">&times;</a>
+        </div>
+        <div class="modal-cuerpo" th:if="${productoEditar != null}">
+            <p class="subtitulo-seccion">Modificando: <span th:text="${productoEditar.codigoProducto}"></span></p>
+            <form th:action="@{/gestion/adminProductos/guardar}" method="POST" th:object="${productoEditar}">
+                <input type="hidden" th:field="*{idProducto}">
+                <div class="formulario">
+                    <div class="form-grupo">
+                        <label for="editar-nombre-producto" class="form-label">Nombre del producto</label>
+                        <input type="text" id="editar-nombre-producto" th:field="*{nombreProducto}" class="form-control" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="editar-categoriaProducto" class="form-label">Categoría</label>
+                        <select id="editar-categoriaProducto" name="categoria.idCategoria" class="form-control">
+                            <option th:each="catProducto : ${listaCategorias}"
+                                    th:value="${catProducto.idCategoria}"
+                                    th:text="${catProducto.nombreCategoria}"
+                                    th:selected="${catProducto.idCategoria == productoEditar.categoria.idCategoria}"></option>
+                        </select>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="editar-unidad-medida" class="form-label">Unidad de medida</label>
+                        <select id="editar-unidad-medida" th:field="*{unidadMedidaProducto}" class="form-control">
+                            <option value="Unidad">Unidad</option>
+                            <option value="kg">Kg</option>
+                            <option value="Bolsa">Bolsa</option>
+                            <option value="litro">Litro (L)</option>
+                            <option value="Caja">Caja</option>
+                            <option value="Botella">Botella</option>
+                            <option value="Lata">Lata</option>
+                            <option value="Paquete">Paquete</option>
+                            <option value="Saco">Saco</option>
+                        </select>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="editar-precio-costo" class="form-label">Precio de Costo</label>
+                        <input type="number" step="any" id="editar-precio-costo" th:field="*{precioCostoProducto}" class="form-control" min="0" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="editar-precio-unidad" class="form-label">Precio de Venta</label>
+                        <input type="number" step="any" id="editar-precio-unidad" th:field="*{precioVentaProducto}" class="form-control" min="0" required>
+                    </div>
+                </div>
+                <div class="form-grupo form-textarea">
+                    <label for="editar-descripcion-producto" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
+                    <textarea id="editar-descripcion-producto" th:field="*{descripcionProducto}" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="formulario-acciones">
+                    <a th:href="@{/gestion/adminProductos}" class="btn btn-secundario">Cancelar</a>
+                    <button type="submit" class="btn btn-primario">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- ================================================================= -->
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/modalRestriccion :: modalRestriccion}"></div>
 </body>
 </html>

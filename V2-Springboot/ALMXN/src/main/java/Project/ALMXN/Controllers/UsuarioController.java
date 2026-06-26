@@ -25,8 +25,7 @@ public class UsuarioController {
             @RequestParam(value= "nombre", required = false) String nombresFiltro,
             @RequestParam(value= "rol", required = false) String rolFiltro,
             @RequestParam(value= "estado", required = false) String estadoFiltro,
-            @RequestParam(value = "fechaMin", required = false) String fechaMinFiltro,
-            @RequestParam(value = "fechaMax", required = false) String fechaMaxFiltro,
+            @RequestParam(value = "fecha", required = false) String fechaFiltro,
             HttpSession session, Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
@@ -37,10 +36,9 @@ public class UsuarioController {
 
         boolean hayFiltro = (nombresFiltro != null && !nombresFiltro.isEmpty()) ||
                 (rolFiltro != null && !rolFiltro.isEmpty()) || (estadoFiltro != null && !estadoFiltro.isEmpty()) ||
-                (fechaMinFiltro != null && !fechaMinFiltro.isEmpty()) ||
-                (fechaMaxFiltro != null && !fechaMaxFiltro.isEmpty());
+                (fechaFiltro != null && !fechaFiltro.isEmpty());
         if(hayFiltro){
-            usuarioFiltrado = usuarioService.filtrarUsuario(nombresFiltro, rolFiltro, estadoFiltro, fechaMinFiltro, fechaMaxFiltro);
+            usuarioFiltrado = usuarioService.filtrarUsuario(nombresFiltro, rolFiltro, estadoFiltro, fechaFiltro);
         } else {
             usuarioFiltrado = usuarioService.obtenerTodosLosUsuarios();
         }
@@ -52,13 +50,19 @@ public class UsuarioController {
     }
 
     @PostMapping("/guardar")
-    public String guardarNuevoUsuario(@ModelAttribute Usuario usuario, HttpSession session){
+    public String guardarNuevoUsuario(@ModelAttribute Usuario usuario, HttpSession session, Model model){
         Usuario user = (Usuario) session.getAttribute("usuarioLogueado");
         if (user == null) {
             return "redirect:/login";
         }
-        usuarioService.guardarUsuario(usuario);
-        return "redirect:/gestion/adminUsuarios";
+        try{
+            usuarioService.guardarUsuario(usuario);
+            return "redirect:/gestion/adminUsuarios";
+        }
+        catch (RuntimeException e){
+            model.addAttribute("error", e.getMessage());
+            return "redirect:/gestion/adminUsuarios(tab='pestaña-agregarUsuario')";
+        }
     }
 
     @GetMapping("/editar")
@@ -67,10 +71,15 @@ public class UsuarioController {
         if (usuario == null) {
             return "redirect:/login";
         }
-        Usuario usuarioExistente = usuarioService.buscarUsuarioPorId(idUsuario);
+
+        // Carga la lista completa para que la tabla no quede vacía
+        model.addAttribute("listaUsuarios", usuarioService.obtenerTodosLosUsuarios());
         model.addAttribute("paginaActiva", "gestion");
-        model.addAttribute("usuario", usuarioExistente);
-        return "gestion/editar/editarUsuario";
+
+        // Usuario a editar con nombre distinto para no colisionar con th:each
+        model.addAttribute("usuarioEditar", usuarioService.buscarUsuarioPorId(idUsuario));
+
+        return "gestion/adminUsuarios";
     }
 
     @PostMapping("/eliminar")

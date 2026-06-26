@@ -11,338 +11,337 @@
     <link rel="stylesheet" th:href="@{/css/adminMovimientos.css}">
 </head>
 <body>
-    <div th:replace="~{fragments/header :: header}"></div>
-    <main id="contenido-principal-gestion">
-        <input type="radio" name="tab" id="pestaña-salida" checked style="display:none">
-        <input type="radio" name="tab" id="pestaña-ingreso" style="display:none">
-        <input type="radio" name="tab" id="pestaña-historial" style="display:none">
-        <div class="centro-pagina-gestion">
-            <section class="gestion-inicio">
-                <div>
-                    <h1 class="titulo-seccion">Administrar Movimientos</h1>
-                    <p class="subtitulo-seccion">Registra ingresos, salidas y consulta el historial</p>
+<div th:replace="~{fragments/header :: header}"></div>
+<main id="contenido-principal-gestion">
+    <div class="centro-pagina-gestion">
+
+        <section class="gestion-inicio">
+            <div>
+                <h1 class="titulo-seccion">Administrar Movimientos</h1>
+                <p class="subtitulo-seccion">Registra ingresos, salidas y consulta el historial</p>
+            </div>
+            <div class="formulario-acciones">
+                <button type="button" id="btn-abrir-salida" class="btn btn-primario">+ Registrar Salida</button>
+                <button type="button" id="btn-abrir-ingreso" class="btn btn-primario">+ Registrar Ingreso</button>
+                <a th:href="@{/gestion}" class="btn btn-secundario">Volver</a>
+            </div>
+        </section>
+
+
+        <!-- ================================================ -->
+        <!-- HISTORIAL DE MOVIMIENTOS                          -->
+        <!-- ================================================ -->
+        <div class="contenido-historial">
+            <form method="GET" th:action="@{/gestion/adminMovimientos}" class="filtro-container">
+                <div class="filtro-grupo">
+                    <label class="form-label" for="tipo-filtro">Tipo:</label>
+                    <select class="form-control" id="tipo-filtro" name="tipo">
+                        <option value="" th:selected="${param.tipo == null or param.tipo[0] == ''}">Todos</option>
+                        <option value="Ingreso" th:selected="${param.tipo != null and param.tipo[0] == 'Ingreso'}">Ingreso</option>
+                        <option value="Salida"  th:selected="${param.tipo != null and param.tipo[0] == 'Salida'}">Salida</option>
+                    </select>
                 </div>
-                <div class="formulario-acciones">
-                    <a th:href="@{/gestion}" class="btn btn-secundario">Volver</a>
+                <div class="filtro-grupo">
+                    <label class="form-label" for="proveedor-filtro">Proveedor:</label>
+                    <select id="proveedor-filtro" name="idProveedor" class="form-control">
+                        <option value="" th:selected="${param.idProveedor == null or param.idProveedor[0] == ''}">Seleccione un proveedor</option>
+                        <option th:each="proveedorFiltro : ${listaProveedores}"
+                                th:value="${proveedorFiltro.idProveedor}"
+                                th:text="${proveedorFiltro.razonSocialProveedor}"
+                                th:selected="${param.idProveedor != null and param.idProveedor[0] == proveedorFiltro.idProveedor.toString()}">
+                        </option>
+                    </select>
                 </div>
-            </section>
-            <div class="pestañas">
-                <label for="pestaña-salida" class="pestaña">Registrar Salida</label>
-                <label for="pestaña-ingreso" class="pestaña">Registrar Ingreso</label>
-                <label for="pestaña-historial" class="pestaña">Historial de Movimientos</label>
-            </div>
-
-            <!-- REGISTRAR SALIDAS -->
-            <div class="pestaña-contenido" id="contenido-salida">
-                <form th:action="@{/gestion/adminMovimientos/registrarMovimiento}" method="POST">
-                    <input type="hidden" name="tipoMovimiento" value="Salida">
-                    <section class="gestion-inicio">
-                        <div class="formulario">
-                            <div class="form-grupo">
-                                <label for="fecha-salida" class="form-label">Fecha del Movimiento</label>
-                                <input type="date" id="fecha-salida" name="fechaMovimiento" class="form-control" required>
-                            </div>
-                            <div class="form-grupo">
-                                <label for="motivo-salida" class="form-label">Motivo de Salida</label>
-                                <select id="motivo-salida" name="motivoMovimiento" class="form-control" required>
-                                    <option value="" disabled selected>Seleccione motivo</option>
-                                    <option value="Despacho">Despacho</option>
-                                    <option value="Merma">Merma</option>
-                                    <option value="Devolución">Devolución a Proveedor</option>
-                                </select>
-                            </div>
-                            <div class="form-grupo">
-                                <label for="destino-salida" class="form-label">Destino (Opcional)</label>
-                                <input type="text" id="destino-salida" name="destinoMovimiento" class="form-control" placeholder="Ej: Tienda Huancayo">
-                            </div>
-                        </div>
-                        <div class="form-grupo form-textarea">
-                            <label for="observacion-salida" class="form-label">Observaciones Generales (Opcional)</label>
-                            <textarea id="observacion-salida" name="observacionesMovimiento" class="form-control" rows="2" placeholder="Escriba una descripción.."></textarea>
-                        </div>
-                    </section>
-                    <section class="form-grupo">
-                        <p class="form-label lista">Añadir Productos a la Lista</p>
-                        <div class="buscador-boton">
-                            <input type="text" id="busqueda-prod-salida" class="form-control" placeholder="Buscar producto...">
-                            <button type="button" id="btn-buscar-prod-salida" class="btn btn-primario">Buscar</button>
-                        </div>
-                        <table class="tabla">
-                            <thead class="header-tabla">
-                                <tr>
-                                    <th class="header-tabla">Código</th>
-                                    <th class="header-tabla">Producto</th>
-                                    <th class="header-tabla">Stock</th>
-                                    <th class="header-tabla">Precio de Venta</th>
-                                    <th class="header-tabla">Cantidad</th>
-                                    <th class="header-tabla">Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody class="body-tabla" id="tbody-resultados-salida">
-                                <tr>
-                                    <td>---</td><td>---</td><td>---</td><td>---</td>
-                                    <td><input type="number" class="form-control cantidad" value="1" min="1"></td>
-                                    <td><button type="button" class="btn btn-secundario">+ Añadir</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </section>
-                    <section class="form-grupo">
-                        <p class="form-label lista">Productos en este Movimiento</p>
-                        <table class="tabla">
-                            <thead class="header-tabla">
-                                <tr>
-                                    <th class="header-tabla">Código</th>
-                                    <th class="header-tabla">Producto</th>
-                                    <th class="header-tabla">Cantidad</th>
-                                    <th class="header-tabla">Precio de Venta Unitario</th>
-                                    <th class="header-tabla">Subtotal</th>
-                                    <th class="header-tabla">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody class="body-tabla" id="tabla-detalles-salida">
-                                <tr class="fila-vacia">
-                                    <td colspan="6" class="producto-lista">No hay productos en la lista. Use el buscador de arriba.</td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="4" class="total-lista"><strong>TOTAL DEL MOVIMIENTO:</strong></td>
-                                    <td colspan="2" class="total-lista-precio"><span class="total-movimiento">S/ 0.00</span></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        <div class="formulario-acciones">
-                            <button type="reset" class="btn btn-secundario">Cancelar Todo</button>
-                            <button type="submit" class="btn btn-primario">Confirmar y Registrar Salida</button>
-                        </div>
-                    </section>
-                </form>
-            </div>
-
-            <!-- REGISTRAR INGRESOS -->
-            <div class="pestaña-contenido" id="contenido-ingreso">
-                <form th:action="@{/gestion/adminMovimientos/registrarMovimiento}" method="POST">
-                    <input type="hidden" name="tipoMovimiento" value="Ingreso">
-                    <section class="gestion-inicio">
-                        <div class="formulario">
-                            <div class="form-grupo">
-                                <label for="fecha-ingreso" class="form-label">Fecha del Movimiento</label>
-                                <input type="date" id="fecha-ingreso" name="fechaMovimiento" class="form-control" required>
-                            </div>
-                            <div class="form-grupo">
-                                <label for="motivo-ingreso" class="form-label">Motivo de Ingreso</label>
-                                <select id="motivo-ingreso" name="motivoMovimiento" class="form-control">
-                                    <option value="" disabled selected>Seleccione motivo</option>
-                                    <option value="Compra">Compra</option>
-                                    <option value="Devolucion">Devolución</option>
-                                    <option value="Otros">Otros</option>
-                                </select>
-                            </div>
-                            <div class="form-grupo">
-                                <label for="proveedor-ingreso" class="form-label">Proveedor</label>
-                                <select id="proveedor-ingreso" name="proveedor.idProveedor" class="form-control" required>
-                                    <option value="" disabled selected>Seleccione un proveedor</option>
-                                    <option th:each="proveedorIngreso : ${listaProveedores}" th:value="${proveedorIngreso.idProveedor}" th:text="${proveedorIngreso.razonSocialProveedor}"></option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-grupo form-textarea">
-                            <label for="observacion-ingreso" class="form-label">Observaciones Generales (Opcional)</label>
-                            <textarea id="observacion-ingreso" name="observacionesMovimiento" class="form-control" rows="2" placeholder="Escriba una descripción.."></textarea>
-                        </div>
-                    </section>
-                    <section class="form-grupo">
-                        <p class="form-label lista">Añadir Productos a la Lista</p>
-                        <div class="buscador-boton">
-                            <input type="text" id="busqueda-prod-ingreso" class="form-control" placeholder="Buscar producto...">
-                            <button type="button" id="btn-buscar-prod-ingreso" class="btn btn-primario">Buscar</button>
-                        </div>
-                        <table class="tabla">
-                            <thead class="header-tabla">
-                                <tr>
-                                    <th class="header-tabla">Código</th>
-                                    <th class="header-tabla">Producto</th>
-                                    <th class="header-tabla">Precio de Coste</th>
-                                    <th class="header-tabla">Cantidad</th>
-                                    <th class="header-tabla">Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody class="body-tabla" id="tbody-resultados-ingreso">
-                                <tr>
-                                    <td>---</td><td>---</td><td>---</td>
-                                    <td><input type="number" class="form-control cantidad" value="1" min="1"></td>
-                                    <td><button type="button" class="btn btn-secundario">+ Añadir</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </section>
-                    <section class="form-grupo">
-                        <p class="form-label lista">Productos en este Movimiento</p>
-                        <table class="tabla">
-                            <thead class="header-tabla">
-                                <tr>
-                                    <th class="header-tabla">Código</th>
-                                    <th class="header-tabla">Producto</th>
-                                    <th class="header-tabla">Cantidad</th>
-                                    <th class="header-tabla">Precio de Coste Unitario</th>
-                                    <th class="header-tabla">Subtotal</th>
-                                    <th class="header-tabla">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody class="body-tabla" id="tabla-detalles-ingreso">
-                                <tr class="fila-vacia">
-                                    <td colspan="6" class="producto-lista">No hay productos en la lista. Use el buscador de arriba.</td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="4" class="total-lista"><strong>TOTAL DEL MOVIMIENTO:</strong></td>
-                                    <td colspan="2" class="total-lista-precio"><span class="total-movimiento">S/ 0.00</span></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        <div class="formulario-acciones">
-                            <button type="reset" class="btn btn-secundario">Cancelar Todo</button>
-                            <button type="submit" class="btn btn-primario">Confirmar y Registrar Salida</button>
-                        </div>
-                    </section>
-                </form>
-            </div>
-
-            <!-- HISTORIAL DE MOVIMIENTOS -->
-            <div class="pestaña-contenido" id="contenido-historial">
-                <div class="filtro-container">
-                    <div class="filtro-grupo">
-                        <label class="form-label" for="tipo-filtro">Tipo:</label>
-                        <select class="form-control" id="tipo-filtro">
-                            <option value="">Todos</option>
-                            <option value="Ingreso">Ingreso</option>
-                            <option value="Salida">Salida</option>
-                        </select>
-                    </div>
-                    <div class="filtro-grupo">
-                        <label class="form-label" for="origen-filtro">Proveedor:</label>
-                        <select id="proveedor-filtro" name="idProveedor" class="form-control">
-                            <option value="" selected>Seleccione un proveedor</option>
-                            <option th:each="proveedorFiltro : ${listaProveedores}" th:value="${proveedorFiltro.idProveedor}" th:text="${proveedorFiltro.razonSocialProveedor}"></option>
-                        </select>
-                    </div>
-                    <div class="filtro-grupo">
-                        <label class="form-label" for="usuario-filtro">Responsable:</label>
-                        <select id="usuario-filtro" name="idUsuarios" class="form-control">
-                            <option value="" selected>Todos los usuarios</option>
-                            <option th:each="usuarioFiltro : ${listaUsuarios}" th:value="${usuarioFiltro.idUsuario}" th:text="${usuarioFiltro.nombres} + ' ' + ${usuarioFiltro.apellidos}"></option>
-                        </select>
-                    </div>
-                    <div class="filtro-grupo">
-                        <label class="form-label">Rango de Fechas: </label>
-                        <div class="filtro-doble">
-                            <input class="form-control fechaFiltro" type="date" id="fechaMin-filtro" title="Desde">
-                            <input class="form-control fechaFiltro" type="date" id="fechaMax-filtro" title="Hasta">
-                        </div>
-                    </div>
-                    <div class="filtro-acciones">
-                        <button class="btn btn-secundario" id="btnFiltrar">Filtrar</button>
-                        <button class="btn btn-secundario" id="btnLimpiar">Limpiar</button>
+                <div class="filtro-grupo">
+                    <label class="form-label" for="usuario-filtro">Responsable:</label>
+                    <select id="usuario-filtro" name="idUsuario" class="form-control">
+                        <option value="" th:selected="${param.idUsuario == null or param.idUsuario[0] == ''}">Todos los usuarios</option>
+                        <option th:each="usuarioFiltro : ${listaUsuarios}"
+                                th:value="${usuarioFiltro.idUsuario}"
+                                th:text="${usuarioFiltro.nombres} + ' ' + ${usuarioFiltro.apellidos}"
+                                th:selected="${param.idUsuario != null and param.idUsuario[0] == usuarioFiltro.idUsuario.toString()}">
+                        </option>
+                    </select>
+                </div>
+                <div class="filtro-grupo">
+                    <label class="form-label">Rango de Fechas:</label>
+                    <div class="filtro-doble">
+                        <input class="form-control fechaFiltro" type="date" id="fechaMin-filtro" name="fechaMin" title="Desde" th:value="${param.fechaMin}">
+                        <input class="form-control fechaFiltro" type="date" id="fechaMax-filtro" name="fechaMax" title="Hasta" th:value="${param.fechaMax}">
                     </div>
                 </div>
+                <div class="filtro-acciones">
+                    <button type="submit" class="btn btn-secundario">Filtrar</button>
+                    <a th:href="@{/gestion/adminMovimientos}" class="btn btn-secundario">Limpiar</a>
+                </div>
+            </form>
+
+            <table class="tabla">
+                <thead class="header-tabla">
+                <tr>
+                    <th class="header-tabla">ID Mov.</th>
+                    <th class="header-tabla">Fecha</th>
+                    <th class="header-tabla">Tipo</th>
+                    <th class="header-tabla">Responsable</th>
+                    <th class="header-tabla">Proveedor</th>
+                    <th class="header-tabla">Motivo</th>
+                    <th class="header-tabla">Total (S/)</th>
+                    <th class="header-tabla">Acciones</th>
+                </tr>
+                </thead>
+                <tbody class="body-tabla">
+                <tr th:each="mov : ${listaMovimientos}">
+                    <td class="body-tabla" th:text="'#' + ${mov.idMovimiento}"></td>
+                    <td class="body-tabla" th:text="${#temporals.format(mov.fechaMovimiento, 'dd/MM/yyyy hh:mm a')}"></td>
+                    <td class="body-tabla">
+                                <span th:classappend="'tipo-' + ${#strings.toLowerCase(mov.tipoMovimiento)}"
+                                      th:text="${mov.tipoMovimiento}"></span>
+                    </td>
+                    <td class="body-tabla">
+                                <span class="rol"
+                                      th:classappend="'rol-' + ${#strings.toLowerCase(mov.usuario?.rol ?: 'admin')}"
+                                      th:text="${mov.usuario?.nombres} + ' ' + ${mov.usuario?.apellidos}"></span>
+                    </td>
+                    <td class="body-tabla" th:text="${mov.proveedor != null ? mov.proveedor.razonSocialProveedor : 'Ninguno'}"></td>
+                    <td class="body-tabla" th:text="${mov.motivoMovimiento}"></td>
+                    <td class="body-tabla" th:text="${mov.totalMovimiento}"></td>
+                    <td class="body-tabla">
+                        <button class="btn btn-primario btn-ver-detalle"
+                                th:data-id="${mov.idMovimiento}"
+                                th:data-tipo="${mov.tipoMovimiento}"
+                                th:data-fecha="${#temporals.format(mov.fechaMovimiento, 'dd/MM/yyyy hh:mm a')}"
+                                th:data-responsable="${mov.usuario?.nombres} + ' ' + ${mov.usuario?.apellidos}"
+                                th:data-origen="${mov.proveedor != null ? mov.proveedor.razonSocialProveedor : 'Ninguno'}"
+                                th:data-motivo="${mov.motivoMovimiento}"
+                                th:data-observaciones="${mov.observacionesMovimiento}"
+                                th:data-total="${mov.totalMovimiento}">
+                            Ver Detalles
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</main>
+
+
+<!-- ================================================ -->
+<!-- MODAL — Registrar Salida                          -->
+<!-- ================================================ -->
+<div id="modal-registrar-salida" class="modal-oculto-detalle">
+    <div class="modal-contenedor-detalle modal-contenedor-registro">
+        <div class="modal-header-detalle">
+            <h2>Registrar Salida</h2>
+            <button type="button" class="btn-cerrar-modal btn-cerrar-salida">&times;</button>
+        </div>
+        <div class="modal-body-detalle">
+            <form th:action="@{/gestion/adminMovimientos/registrarMovimiento}" method="POST">
+                <input type="hidden" name="tipoMovimiento" value="Salida">
+
+                <div class="form-grupo">
+                    <label for="motivo-salida" class="form-label">Motivo de Salida</label>
+                    <select id="motivo-salida" name="motivoMovimiento" class="form-control" required>
+                        <option value="" disabled selected>Seleccione motivo</option>
+                        <option value="Despacho">Despacho a tienda</option>
+                        <option value="Merma">Envío a otra sucursal</option>
+                        <option value="Devolución">Merma</option>
+                    </select>
+                </div>
+
+                <!-- Selector de producto -->
+                <div class="bloque-agregar-producto">
+                    <label class="form-label">Agregar producto</label>
+                    <div class="agregar-producto-grid">
+                        <select id="select-prod-salida" class="form-control">
+                            <option value="">-- Seleccione un producto --</option>
+                            <option th:each="p : ${listaProductos}"
+                                    th:value="${p.idProducto}"
+                                    th:text="${p.nombreProducto} + ' (Stock: ' + ${p.stockActualProducto} + ')'"
+                                    th:data-nombre="${p.nombreProducto}"
+                                    th:data-precio="${p.precioVentaProducto}"
+                                    th:data-stock="${p.stockActualProducto}">
+                            </option>
+                        </select>
+                        <input type="number" id="cantidad-prod-salida" class="form-control" value="1" min="1" placeholder="Cant.">
+                        <button type="button" id="btn-agregar-salida" class="btn btn-primario">Añadir</button>
+                    </div>
+                </div>
+
+                <!-- Lista de productos del movimiento -->
                 <table class="tabla">
                     <thead class="header-tabla">
-                        <tr>
-                            <th class="header-tabla">ID Mov.</th>
-                            <th class="header-tabla">Fecha</th>
-                            <th class="header-tabla">Tipo</th>
-                            <th class="header-tabla">Responsable</th>
-                            <th class="header-tabla">Origen / Destino</th>
-                            <th class="header-tabla">Motivo</th>
-                            <th class="header-tabla">Total (S/)</th>
-                            <th class="header-tabla">Acciones</th>
-                        </tr>
+                    <tr>
+                        <th class="header-tabla">Producto</th>
+                        <th class="header-tabla">Cantidad</th>
+                        <th class="header-tabla">Subtotal</th>
+                        <th class="header-tabla">Acciones</th>
+                    </tr>
                     </thead>
-                    <tbody class="body-tabla">
-                        <tr th:each="mov : ${listaMovimientos}">
-                            <td class="body-tabla" th:text="'#' + ${mov.idMovimiento}"></td>
-                            <td class="body-tabla" th:text="${mov.fechaMovimiento}"></td>
-                            <td class="body-tabla">
-                                <span th:classappend="'tipo-' + ${#strings.toLowerCase(mov.tipoMovimiento)}" th:text="${mov.tipoMovimiento}"></span>
-                            </td>
-                            <td class="body-tabla">
-                                <span class="rol" th:classappend="'rol-' + ${#strings.toLowerCase(mov.usuario?.rol ?: 'admin')}" th:text="${mov.usuario?.nombres} + ' ' + ${mov.usuario?.apellidos}"></span>
-                            </td>
-                            <td class="body-tabla" th:text="${mov.proveedor != null ? mov.proveedor.razonSocialProveedor : mov.destinoMovimiento}"></td>
-                            <td class="body-tabla" th:text="${mov.motivoMovimiento}"></td>
-                            <td class="body-tabla" th:text="${mov.totalMovimiento}"></td>
-                            <td class="body-tabla">
-                                <button class="btn btn-primario btn-ver-detalle"
-                                        th:data-id="${mov.idMovimiento}"
-                                        th:data-tipo="${mov.tipoMovimiento}"
-                                        th:data-fecha="${mov.fechaMovimiento}"
-                                        th:data-responsable="${mov.usuario?.nombres} + ' ' + ${mov.usuario?.apellidos}"
-                                        th:data-origen="${mov.proveedor != null ? mov.proveedor.razonSocialProveedor : mov.destinoMovimiento}"
-                                        th:data-motivo="${mov.motivoMovimiento}"
-                                        th:data-observaciones="${mov.observacionesMovimiento}"
-                                        th:data-total="${mov.totalMovimiento}">
-                                    Ver Detalles
-                                </button>
-                            </td>
-                        </tr>
+                    <tbody class="body-tabla" id="tabla-detalles-salida">
+                    <tr class="fila-vacia">
+                        <td colspan="4" class="body-tabla producto-lista">
+                            No hay productos en la lista.
+                        </td>
+                    </tr>
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="2" class="total-lista"><strong>TOTAL:</strong></td>
+                        <td colspan="2" class="total-lista-precio"><span class="total-movimiento">S/ 0.00</span></td>
+                    </tr>
+                    </tfoot>
                 </table>
-            </div>
 
-            <!-- MODAL DETALLE MOVIMIENTO -->
-            <div id="modal-detalle-movimiento" class="modal-oculto-detalle">
-                <div class="modal-contenedor-detalle">
-                    <div class="modal-header-detalle">
-                        <h2>Detalle de Movimiento <span id="detalle-id-mov">#001</span></h2>
-                        <button id="btn-cerrar-modal-superior" class="btn-cerrar-modal">&times;</button>
-                    </div>
-                    <div class="modal-body-detalle">
-                        <section class="modal-info-detalle">
-                            <div>
-                                <p><strong>Tipo:</strong> <span id="detalle-tipo">-</span></p>
-                                <p><strong>Fecha y Hora:</strong> <span id="detalle-fecha">-</span></p>
-                                <p><strong>Responsable:</strong> <span id="detalle-responsable">-</span></p>
-                            </div>
-                            <div>
-                                <p><strong>Origen/Destino:</strong> <span id="detalle-origen">-</span></p>
-                                <p><strong>Motivo:</strong> <span id="detalle-motivo">-</span></p>
-                                <p><strong>Observaciones:</strong> <span id="detalle-obs">-</span></p>
-                            </div>
-                        </section>
-                        <h3 class="form-label">Productos Involucrados</h3>
-                        <table class="tabla">
-                            <thead class="header-tabla">
-                                <tr>
-                                    <th class="header-tabla">Código</th>
-                                    <th class="header-tabla">Producto</th>
-                                    <th class="header-tabla">Cantidad</th>
-                                    <th class="header-tabla">Precio Unit.</th>
-                                    <th class="header-tabla">Subtotal</th>
-                                </tr>
-                            </thead>
-                            <tbody class="body-tabla" id="detalle-tabla-cuerpo"></tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="4" class="total-lista"><strong>TOTAL:</strong></td>
-                                    <td><strong id="detalle-total-dinero" class="total-lista-precio">S/ 0.00</strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                    <div class="modal-acciones-detalle">
-                        <button class="btn btn-secundario" id="btn-cerrar-modal-inferior">Cerrar</button>
-                        <button class="btn btn-primario">Imprimir Recibo</button>
+                <div class="formulario-acciones">
+                    <button type="button" class="btn btn-secundario btn-cerrar-salida">Cancelar</button>
+                    <button type="submit" class="btn btn-primario">Confirmar Salida</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================================ -->
+<!-- MODAL — Registrar Ingreso                         -->
+<!-- ================================================ -->
+<div id="modal-registrar-ingreso" class="modal-oculto-detalle">
+    <div class="modal-contenedor-detalle modal-contenedor-registro">
+        <div class="modal-header-detalle">
+            <h2>Registrar Ingreso</h2>
+            <button type="button" class="btn-cerrar-modal btn-cerrar-ingreso">&times;</button>
+        </div>
+        <div class="modal-body-detalle">
+            <form th:action="@{/gestion/adminMovimientos/registrarMovimiento}" method="POST">
+                <input type="hidden" name="tipoMovimiento" value="Ingreso">
+
+                <div class="form-grupo">
+                    <label for="motivo-ingreso" class="form-label">Motivo de Ingreso</label>
+                    <select id="motivo-ingreso" name="motivoMovimiento" class="form-control" required>
+                        <option value="" disabled selected>Seleccione motivo</option>
+                        <option value="Compra">Compra a proveedor</option>
+                        <option value="Devolucion">Devolución de cliente</option>
+                        <option value="Otros">Ajuste por inventario físico</option>
+                    </select>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="proveedor-ingreso" class="form-label">Proveedor</label>
+                    <select id="proveedor-ingreso" name="proveedor.idProveedor" class="form-control" required>
+                        <option value="" disabled selected>Seleccione un proveedor</option>
+                        <option th:each="proveedorIngreso : ${listaProveedores}"
+                                th:value="${proveedorIngreso.idProveedor}"
+                                th:text="${proveedorIngreso.razonSocialProveedor}">
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Selector de producto -->
+                <div class="bloque-agregar-producto">
+                    <label class="form-label">Agregar producto</label>
+                    <div class="agregar-producto-grid">
+                        <select id="select-prod-ingreso" class="form-control">
+                            <option value="">-- Seleccione un producto --</option>
+                            <option th:each="p : ${listaProductos}"
+                                    th:value="${p.idProducto}"
+                                    th:text="${p.nombreProducto} + ' (Stock: ' + ${p.stockActualProducto} + ')'"
+                                    th:data-nombre="${p.nombreProducto}"
+                                    th:data-precio="${p.precioCostoProducto}"
+                                    th:data-stock="${p.stockActualProducto}">
+                            </option>
+                        </select>
+                        <input type="number" id="cantidad-prod-ingreso" class="form-control" value="1" min="1" placeholder="Cant.">
+                        <button type="button" id="btn-agregar-ingreso" class="btn btn-primario">Añadir</button>
                     </div>
                 </div>
-            </div>
 
+                <!-- Lista de productos del movimiento -->
+                <table class="tabla">
+                    <thead class="header-tabla">
+                    <tr>
+                        <th class="header-tabla">Producto</th>
+                        <th class="header-tabla">Cantidad</th>
+                        <th class="header-tabla">Subtotal</th>
+                        <th class="header-tabla">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody class="body-tabla" id="tabla-detalles-ingreso">
+                    <tr class="fila-vacia">
+                        <td colspan="4" class="body-tabla producto-lista">
+                            No hay productos en la lista.
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="2" class="total-lista"><strong>TOTAL:</strong></td>
+                        <td colspan="2" class="total-lista-precio"><span class="total-movimiento">S/ 0.00</span></td>
+                    </tr>
+                    </tfoot>
+                </table>
+
+                <div class="formulario-acciones">
+                    <button type="button" class="btn btn-secundario btn-cerrar-ingreso">Cancelar</button>
+                    <button type="submit" class="btn btn-primario">Confirmar Ingreso</button>
+                </div>
+            </form>
         </div>
-    </main>
-    <div th:replace="~{fragments/footer :: footer}"></div>
-    <script th:src="@{/js/tema.js}" defer></script>
-    <script th:src="@{/js/movimientos.js}" defer></script>
-    <script th:src="@{/js/Filtros/movimientosFiltro.js}" defer></script>
+    </div>
+</div>
+
+
+<!-- ================================================ -->
+<!-- MODAL — Detalle de movimiento                     -->
+<!-- ================================================ -->
+<div id="modal-detalle-movimiento" class="modal-oculto-detalle">
+    <div class="modal-contenedor-detalle">
+        <div class="modal-header-detalle">
+            <h2>Detalle de Movimiento <span id="detalle-id-mov">#001</span></h2>
+            <button id="btn-cerrar-modal-superior" class="btn-cerrar-modal">&times;</button>
+        </div>
+        <div class="modal-body-detalle">
+            <section class="modal-info-detalle">
+                <div>
+                    <p><strong>Tipo:</strong> <span id="detalle-tipo">-</span></p>
+                    <p><strong>Fecha y Hora:</strong> <span id="detalle-fecha">-</span></p>
+                    <p><strong>Responsable:</strong> <span id="detalle-responsable">-</span></p>
+                </div>
+                <div>
+                    <p><strong>Proveedor:</strong> <span id="detalle-origen">-</span></p>
+                    <p><strong>Motivo:</strong> <span id="detalle-motivo">-</span></p>
+                    <p><strong>Observaciones:</strong> <span id="detalle-obs">-</span></p>
+                </div>
+            </section>
+            <h3 class="form-label">Productos Involucrados</h3>
+            <table class="tabla">
+                <thead class="header-tabla">
+                <tr>
+                    <th class="header-tabla">Código</th>
+                    <th class="header-tabla">Producto</th>
+                    <th class="header-tabla">Cantidad</th>
+                    <th class="header-tabla">Precio Unit.</th>
+                    <th class="header-tabla">Subtotal</th>
+                </tr>
+                </thead>
+                <tbody class="body-tabla" id="detalle-tabla-cuerpo"></tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="4" class="total-lista"><strong>TOTAL:</strong></td>
+                    <td><strong id="detalle-total-dinero" class="total-lista-precio">S/ 0.00</strong></td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="modal-acciones-detalle">
+            <button class="btn btn-secundario" id="btn-cerrar-modal-inferior">Cerrar</button>
+            <button class="btn btn-primario">Imprimir Recibo</button>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script th:src="@{/js/movimientos.js}" defer></script>
 </body>
 </html>

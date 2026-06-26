@@ -10,195 +10,187 @@
     <link rel="stylesheet" th:href="@{/css/adminProveedores.css}">
 </head>
 <body>
+<div th:replace="~{fragments/header :: header}"></div>
 
-    <!-- ===== HEADER ===== -->
-    <div th:replace="~{fragments/header :: header}"></div>
-    
-    <!-- ===== CONTENIDO PRINCIPAL ===== -->
-    <main id="contenido-principal-gestion">
+<main id="contenido-principal-gestion">
 
-        <!-- ===== INPUTS PARA CAMBIAR DE PESTAÑAS ===== -->
-        <input type="radio" name="tab" id="pestaña-listaProveedores" checked style="display:none">
-        <input type="radio" name="tab" id="pestaña-agregarProveedores" style="display:none">
-        
-        <div class="centro-pagina-gestion">
+    <input type="radio" name="tab" id="pestaña-listaProveedores" checked style="display:none">
 
-            <!-- TITULO/INICIO -->
-            <section class="gestion-inicio">
-                <div>
-                    <h1 class="titulo-seccion">Administrar Proveedores</h1>
-                    <p class="subtitulo-seccion">Gestione los proveedores que abastecen el almacén</p>
-                </div>
+    <div class="centro-pagina-gestion">
 
-                <!-- BOTON VOLVER -->                
-                <div class="formulario-acciones">
-                    <a th:href="@{/gestion}" class="btn btn-secundario">Volver</a>
-                </div>
-            </section>
-
-
-            <!-- ============================================
-                                PESTAÑAS    
-            ============================================ -->
-            <div class="pestañas">
-                <label for="pestaña-listaProveedores" class="pestaña">Lista de Proveedores</label>
-                <label for="pestaña-agregarProveedores" class="pestaña">Agregar Proveedor</label>
+        <section class="gestion-inicio">
+            <div>
+                <h1 class="titulo-seccion">Administrar Proveedores</h1>
+                <p class="subtitulo-seccion">Gestione los proveedores que abastecen el almacén</p>
             </div>
-
-
-            <!-- ============================================
-                           LISTA PROVEEDORES
-            ============================================ -->            
-
-            <div class="pestaña-contenido" id="contenido-listaProveedores">
-
-                <!-- FILTROS -->
-                <div class="filtro-container">
-
-                    <!-- Razon Social -->
-                    <div class="filtro-grupo">
-                        <label class="form-label" for="razon-filtro">Razón Social: </label>
-                        <input class="form-control" type="text" id="razon-filtro" placeholder="Ej: Alicorp">
-                    </div>
-
-                    <!-- RUC -->
-                    <div class="filtro-grupo">
-                        <label class="form-label" for="ruc-filtro">RUC: </label>
-                        <input class="form-control" type="text" id="ruc-filtro" placeholder="Ej: 20100055237">
-                    </div>
-                    
-                    <!-- Teléfono -->
-                    <div class="filtro-grupo">
-                        <label class="form-label" for="telefono-filtro">Teléfono: </label>
-                        <input class="form-control" type="number" id="telefono-filtro" placeholder="Ej: 998877665">
-                    </div>
-
-                    <!-- Estado -->
-                    <div class="filtro-grupo">
-                        <label class="form-label" for="estado-filtro">Estado:</label>
-                        <select id="estado-filtro" name="estado" class="form-control">
-                            <option value="Todos">Sin filtro</option>
-                            <option value="Activo" selected>Activo</option>
-                            <option value="Inactivo">Inactivo</option>
-                        </select>
-                    </div>
-
-                    <!-- Botones -->
-                    <div class="filtro-acciones">
-                        <button class="btn btn-secundario" id="btnFiltrar">Filtrar</button>
-                        <button class="btn btn-secundario" id="btnLimpiar">Limpiar</button>
-                    </div>
-                </div>
-
-                <!-- TABLA DE PROVEEDORES -->
-                <table class="tabla">
-                    
-                    <!-- HEADER DE LA TABLA -->
-                    <thead class="header-tabla">
-                        <tr>
-                            <th class="header-tabla">ID</th>
-                            <th class="header-tabla">RUC</th>
-                            <th class="header-tabla">Razón Social</th>
-                            <th class="header-tabla">Teléfono</th>
-                            <th class="header-tabla">Correo</th>
-                            <th class="header-tabla">Estado</th>
-                            <th class="header-tabla">Acciones</th>
-                        </tr>
-                    </thead>
-
-                    <!-- BODY DE LA TABLA -->
-                    <tbody class="body-tabla">
-                        <tr th:each="proveedor : ${listaProveedores}">
-                            <td class="body-tabla" th:text="${proveedor.idProveedor}"></td>
-                            <td class="body-tabla" th:text="${proveedor.rucProveedor}"></td>
-                            <td class="body-tabla" th:text="${proveedor.razonSocialProveedor}"></td>
-                            <td class="body-tabla" th:text="${proveedor.telefonoProveedor}"></td>
-                            <td class="body-tabla" th:text="${proveedor.correoProveedor}"></td>
-                            <td class="body-tabla"><span class="estado" th:classappend="${#strings.toLowerCase(proveedor.estadoProveedor)}" th:text="${proveedor.estadoProveedor}"></span></td>
-                            <td class="body-tabla">
-                                <th:block th:if="${proveedor.estadoProveedor == 'Activo'}">
-                                    <a th:if="${session.usuarioLogueado.rol == 'Admin'}" th:href="@{/gestion/adminProveedores/editar(id=${proveedor.idProveedor})}" class="btn btn-secundario btn-editar">Editar</a>
-                                    <button th:if="${session.usuarioLogueado.rol != 'Admin'}" type="button" class="btn btn-secundario" onclick="abrirModalPermiso()" style="font-size: 16px;">Editar</button>
-                                    <button th:if="${session.usuarioLogueado.rol == 'Admin'}" type="button" class="btn btn-secundario btn-eliminar" th:data-id="${proveedor.idProveedor}" th:data-nombre="${proveedor.razonSocialProveedor}" data-action="/gestion/adminProveedores/eliminar" data-param="idProveedor">Eliminar</button>
-                                    <button th:if="${session.usuarioLogueado.rol != 'Admin'}" type="button" class="btn btn-secundario btn-falso-eliminar" onclick="abrirModalPermiso()">Eliminar</button>
-                                </th:block>
-
-                                <!-- ACCIONES DE ACTIVACION -->
-                                <th:block th:if="${proveedor.estadoProveedor != 'Activo'}">
-                                    <form th:if="${session.usuarioLogueado.rol == 'Admin'}" th:action="@{/gestion/adminProveedores/activar}" method="POST">
-                                        <input type="hidden" name="idProveedor" th:value="${proveedor.idProveedor}">
-                                        <button type="submit" class="btn btn-secundario btn-activar">Activar</button>
-                                    </form>
-                                    <button th:if="${session.usuarioLogueado.rol != 'Admin'}" type="button" class="btn btn-secundario btn-falso-activar" onclick="abrirModalPermiso()">Activar</button>
-                                </th:block>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="formulario-acciones">
+                <a th:href="@{/gestion}" class="btn btn-secundario">Volver</a>
+                <label for="toggle-modal-agregar" class="btn btn-primario">+ Agregar Proveedor</label>
             </div>
-            
+        </section>
 
-            <!-- ============================================
-                           FORMULARIO DE AGREGAR PROVEEDOR
-            ============================================ -->
-            
-            <div class="pestaña-contenido" id="contenido-agregarProveedores">
-
-                <!-- FORMULARIO DE AGREGAR PROVEEDOR -->
-                <section class="form-grupo">
-                    <form th:action="@{/gestion/adminProveedores/guardar}" method="POST">
-                        <div class="formulario">
-
-                            <!-- RUC -->
-                            <div class="form-grupo">
-                                <label for="ruc-proveedor" class="form-label">RUC</label>
-                                <input type="number" id="ruc-proveedor" name="rucProveedor" class="form-control" placeholder="Ej: 20123456789" maxlength="11" min="10000000000" required>
-                            </div>
-
-                            <!-- Razón Social -->
-                            <div class="form-grupo">
-                                <label for="razonsocial-proveedor" class="form-label">Razón Social</label>
-                                <input type="text" id="razonsocial-proveedor" name="razonSocialProveedor" class="form-control" placeholder="Ej: Alicorp S.A.A." required>
-                            </div>
-                            
-                            <!-- Teléfono -->
-                            <div class="form-grupo">
-                                <label for="telefono-proveedor" class="form-label">Teléfono</label>
-                                <input type="number" id="telefono-proveedor" name="telefonoProveedor" class="form-control" min="900000000" maxlength="9" placeholder="Ej: 987654321">
-                            </div>
-
-                            <!-- Correo electrónico -->
-                            <div class="form-grupo">
-                                <label for="email-proveedor" class="form-label">Correo electrónico</label>
-                                <input type="email" id="email-proveedor" name="correoProveedor" class="form-control" placeholder="Ej: ventas@empresa.com">
-                            </div>
-                        </div>
-                        
-                        <!-- Botones -->
-                        <div class="formulario-acciones">
-                            <button type="reset" class="btn btn-secundario">Limpiar</button>
-                            <button th:if="${session.usuarioLogueado.rol == 'Admin'}" type="submit" class="btn btn-primario">Agregar Proveedor</button>
-                            <button th:if="${session.usuarioLogueado.rol != 'Admin'}" type="button" class="btn btn-primario" onclick="abrirModalPermiso()" style="font-size: 16px;">Agregar Proveedor</button>
-                        </div>
-                    </form>
-                </section>
-            </div>
-
-            <!-- MODAL DE ELIMINAR -->
-            <div th:replace="~{fragments/modalEliminar :: modalEliminar}"></div>
-            
+        <div class="pestañas">
+            <label for="pestaña-listaProveedores" class="pestaña">Lista de Proveedores</label>
         </div>
-    </main>
 
-    <!-- PIE DE PÁGINA -->
-    <div th:replace="~{fragments/footer :: footer}"></div>
+        <div class="pestaña-contenido" id="contenido-listaProveedores">
+            <form method="GET" th:action="@{/gestion/adminProveedores}" class="filtro-container">
+                <input type="hidden" name="tab" value="pestaña-listaProveedores">
+                <div class="filtro-grupo">
+                    <label class="form-label" for="razon-filtro">Razón Social: </label>
+                    <input class="form-control" type="text" id="razon-filtro" name="razonSocial" placeholder="Ej: Alicorp" th:value="${param.razonSocial}">
+                </div>
+                <div class="filtro-grupo">
+                    <label class="form-label" for="ruc-filtro">RUC: </label>
+                    <input class="form-control" type="text" id="ruc-filtro" name="ruc" placeholder="Ej: 20100055237" th:value="${param.ruc}">
+                </div>
+                <div class="filtro-grupo">
+                    <label class="form-label" for="telefono-filtro">Teléfono: </label>
+                    <input class="form-control" type="number" id="telefono-filtro" name="telefono" placeholder="Ej: 998877665" th:value="${param.telefono}">
+                </div>
+                <div class="filtro-grupo">
+                    <label class="form-label" for="estado-filtro">Estado:</label>
+                    <select id="estado-filtro" name="estado" class="form-control">
+                        <option value="Todos" th:selected="${param.estado == null or param.estado[0] == 'Todos'}">Sin filtro</option>
+                        <option value="Activo" th:selected="${param.estado != null and param.estado[0] == 'Activo'}">Activo</option>
+                        <option value="Inactivo" th:selected="${param.estado != null and param.estado[0] == 'Inactivo'}">Inactivo</option>
+                    </select>
+                </div>
+                <div class="filtro-acciones">
+                    <button type="submit" class="btn btn-secundario" id="btnFiltrar">Filtrar</button>
+                    <a th:href="@{/gestion/adminProveedores}" class="btn btn-secundario" id="btnLimpiar">Limpiar</a>
+                </div>
+            </form>
 
-    <!-- MODAL DE RESTRICCIÓN -->
-    <div th:replace="~{fragments/modalRestriccion :: modalRestriccion}"></div>
+            <table class="tabla">
+                <thead class="header-tabla">
+                <tr>
+                    <th class="header-tabla">ID</th>
+                    <th class="header-tabla">RUC</th>
+                    <th class="header-tabla">Razón Social</th>
+                    <th class="header-tabla">Teléfono</th>
+                    <th class="header-tabla">Correo</th>
+                    <th class="header-tabla">Estado</th>
+                    <th class="header-tabla">Acciones</th>
+                </tr>
+                </thead>
+                <tbody class="body-tabla">
+                <tr th:each="proveedor : ${listaProveedores}">
+                    <td class="body-tabla" th:text="${proveedor.idProveedor}"></td>
+                    <td class="body-tabla" th:text="${proveedor.rucProveedor}"></td>
+                    <td class="body-tabla" th:text="${proveedor.razonSocialProveedor}"></td>
+                    <td class="body-tabla" th:text="${proveedor.telefonoProveedor}"></td>
+                    <td class="body-tabla" th:text="${proveedor.correoProveedor}"></td>
+                    <td class="body-tabla">
+                        <span class="estado" th:classappend="${#strings.toLowerCase(proveedor.estadoProveedor)}" th:text="${proveedor.estadoProveedor}"></span>
+                    </td>
+                    <td class="body-tabla">
+                        <th:block th:if="${proveedor.estadoProveedor == 'Activo'}">
+                            <a th:if="${session.usuarioLogueado.rol == 'Admin'}" th:href="@{/gestion/adminProveedores/editar(id=${proveedor.idProveedor})}" class="btn btn-secundario btn-editar">Editar</a>
+                            <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario" style="font-size: 16px;">Editar</label>
+                            <form th:if="${session.usuarioLogueado.rol == 'Admin'}" th:action="@{/gestion/adminProveedores/eliminar}" method="POST" style="display:inline;">
+                                <input type="hidden" name="idProveedor" th:value="${proveedor.idProveedor}">
+                                <button type="submit" class="btn btn-secundario btn-eliminar">Eliminar</button>
+                            </form>
+                            <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario btn-falso-eliminar">Eliminar</label>
+                        </th:block>
+                        <th:block th:if="${proveedor.estadoProveedor != 'Activo'}">
+                            <form th:if="${session.usuarioLogueado.rol == 'Admin'}" th:action="@{/gestion/adminProveedores/activar}" method="POST">
+                                <input type="hidden" name="idProveedor" th:value="${proveedor.idProveedor}">
+                                <button type="submit" class="btn btn-secundario btn-activar">Activar</button>
+                            </form>
+                            <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario btn-falso-activar">Activar</label>
+                        </th:block>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
 
-    <!-- JAVASCRIPT -->
-    <script th:src="@{/js/tema.js}" defer></script>
-    <script th:src="@{/js/Filtros/proveedorFiltro.js}" defer></script>
-    <script th:src="@{/js/Eliminar/eliminarFuncion.js}" defer></script>
+<!-- ===================== MODAL AGREGAR PROVEEDOR ===================== -->
+<input type="checkbox" id="toggle-modal-agregar" style="display:none">
+<div id="modal-agregar-proveedor" class="modal-overlay">
+    <div class="modal-ventana">
+        <div class="modal-encabezado">
+            <h2 class="titulo-seccion">Agregar Proveedor</h2>
+            <label for="toggle-modal-agregar" class="modal-cerrar">&times;</label>
+        </div>
+        <div class="modal-cuerpo">
+            <form th:action="@{/gestion/adminProveedores/guardar}" method="POST">
+                <div class="formulario">
+                    <div class="form-grupo">
+                        <label for="ruc-proveedor" class="form-label">RUC</label>
+                        <input type="number" id="ruc-proveedor" name="rucProveedor" class="form-control" placeholder="Ej: 20123456789" maxlength="11" min="10000000000" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="razonsocial-proveedor" class="form-label">Razón Social</label>
+                        <input type="text" id="razonsocial-proveedor" name="razonSocialProveedor" class="form-control" placeholder="Ej: Alicorp S.A.A." required>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="telefono-proveedor" class="form-label">Teléfono</label>
+                        <input type="number" id="telefono-proveedor" name="telefonoProveedor" class="form-control" min="900000000" maxlength="9" placeholder="Ej: 987654321">
+                    </div>
+                    <div class="form-grupo">
+                        <label for="email-proveedor" class="form-label">Correo electrónico</label>
+                        <input type="email" id="email-proveedor" name="correoProveedor" class="form-control" placeholder="Ej: ventas@empresa.com">
+                    </div>
+                </div>
+                <div class="formulario-acciones">
+                    <button type="reset" class="btn btn-secundario">Limpiar</button>
+                    <button th:if="${session.usuarioLogueado.rol == 'Admin'}" type="submit" class="btn btn-primario">Agregar Proveedor</button>
+                    <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-primario" style="font-size: 16px;">Agregar Proveedor</label>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- =================================================================== -->
+
+<!-- ===================== MODAL EDITAR PROVEEDOR ===================== -->
+<input type="checkbox" id="toggle-modal-editar" style="display:none">
+<div id="modal-editar-proveedor" class="modal-overlay"
+     th:style="${proveedorEditar != null} ? 'display:flex;' : 'display:none;'">
+    <div class="modal-ventana">
+        <div class="modal-encabezado">
+            <h2 class="titulo-seccion">Editar Proveedor</h2>
+            <a th:href="@{/gestion/adminProveedores}" class="modal-cerrar">&times;</a>
+        </div>
+        <div class="modal-cuerpo" th:if="${proveedorEditar != null}">
+            <p class="subtitulo-seccion">Modificando proveedor con ID: <span th:text="${proveedorEditar.idProveedor}"></span></p>
+            <form th:action="@{/gestion/adminProveedores/guardar}" method="POST" th:object="${proveedorEditar}">
+                <input type="hidden" th:field="*{idProveedor}">
+                <div class="formulario">
+                    <div class="form-grupo">
+                        <label for="editar-ruc-proveedor" class="form-label">RUC</label>
+                        <input type="number" id="editar-ruc-proveedor" th:field="*{rucProveedor}" class="form-control" placeholder="Ej: 20123456789" maxlength="11" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="editar-razonsocial-proveedor" class="form-label">Razón Social</label>
+                        <input type="text" id="editar-razonsocial-proveedor" th:field="*{razonSocialProveedor}" class="form-control" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="editar-telefono-proveedor" class="form-label">Teléfono</label>
+                        <input type="number" id="editar-telefono-proveedor" th:field="*{telefonoProveedor}" class="form-control" placeholder="Ej: 987654321" maxlength="9">
+                    </div>
+                    <div class="form-grupo">
+                        <label for="editar-email-proveedor" class="form-label">Correo Electrónico</label>
+                        <input type="text" id="editar-email-proveedor" th:field="*{correoProveedor}" class="form-control">
+                    </div>
+                </div>
+                <div class="formulario-acciones">
+                    <a th:href="@{/gestion/adminProveedores}" class="btn btn-secundario">Cancelar</a>
+                    <button type="submit" class="btn btn-primario">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- =================================================================== -->
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/modalRestriccion :: modalRestriccion}"></div>
+
 </body>
 </html>

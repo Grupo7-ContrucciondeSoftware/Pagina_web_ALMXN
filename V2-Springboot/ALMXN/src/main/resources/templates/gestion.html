@@ -29,23 +29,6 @@
                     <h1 class="titulo-seccion">Gestión de Almacén</h1>
                     <p class="subtitulo-seccion">Selecciona alguna función:</p>
                 </div>
-
-                <div class="buscador-de-modulo">
-                    <form class="buscador-formulario" onsubmit="event.preventDefault();">
-                        <div class="buscador-boton">
-                            <input type="text" id="busquedaGlobal" class="form-control" placeholder="Ingrese módulo a buscar" autocomplete="off">
-                            <button type="button" class="btn btn-primario btn-buscar">Buscar</button>
-                        </div>
-                    </form>
-
-                    <div class="buscador-sugerencias" id="caja-sugerencias-modulos">
-                        <span>Sugerencias rápidas:</span>
-                        <a th:href="@{/gestion/adminUsuarios(tab='pestaña-agregarUsuario')}" class="tag-sugerencia">Agregar Usuario</a>
-                        <a th:href="@{/gestion/adminMovimientos(tab='pestaña-salida')}" class="tag-sugerencia">Registrar Salida</a>
-                        <a th:href="@{/gestion/adminMovimientos(tab='pestaña-historial')}" class="tag-sugerencia">Historial Movimientos</a>
-                    </div>
-                </div>
-
             </section>
 
             <!-- CUERPO -->
@@ -84,6 +67,12 @@
                         <h3 class="opc-titulo">Administrar Proveedores</h3>
                     </a>
 
+                    <a class="opc gestion-adminMetricas" id="gestion-adminMetricas"
+                        th:href="@{/gestion/adminMetricas}">
+                        <img th:src="@{/img/icono-estadisticas.svg}" class="img img-funcion">
+                        <h3 class="opc-titulo">Métricas del Negocio</h3>
+                    </a>
+
                 </div>
 
             </section>
@@ -94,10 +83,6 @@
 
     <!-- ===== FOOTER ===== -->
     <div th:replace="~{fragments/footer :: footer}"></div>
-
-    <!-- ===== SCRIPTS ===== -->
-    <script th:src="@{/js/tema.js}" defer></script>
-    <script th:src="@{/js/buscadorModulos.js}" defer></script>
 
 </body>
 

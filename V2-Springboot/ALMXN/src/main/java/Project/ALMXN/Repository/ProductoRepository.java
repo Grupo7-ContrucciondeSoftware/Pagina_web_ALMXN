@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductoRepository extends JpaRepository<ProductoEntity, Long>, JpaSpecificationExecutor<ProductoEntity> {
@@ -16,5 +17,7 @@ public interface ProductoRepository extends JpaRepository<ProductoEntity, Long>,
 
     List<ProductoEntity> findByCodigoProductoContainingIgnoreCaseAndEstadoProductoOrNombreProductoContainingIgnoreCaseAndEstadoProducto(
             String codigo, String estado1, String nombre, String estado2);
+
+    Optional<ProductoEntity> findByNombreProductoIgnoreCase(String nombreProducto);
 
 }

@@ -1,251 +1,186 @@
+// ============================================================
+//  MODALES DE REGISTRO (Salida / Ingreso) y DETALLE
+// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
 
+    function abrirModal(modal) {
+        modal.style.display = 'flex';
+        modal.classList.remove('modal-oculto-detalle');
+        modal.classList.add('modal-activo-detalle');
+    }
 
-    // FUNCION PARA CONFIGURAR EL BUSCADOR
-    function configurarBuscador(idInput, idTbodyResultados, idTablaDestino, tipoMovimiento) {
-        const inputBusqueda = document.getElementById(idInput);
-        const tbodyResultados = document.getElementById(idTbodyResultados);
-        let temporizadorBusqueda;
+    function cerrarModal(modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('modal-activo-detalle');
+        modal.classList.add('modal-oculto-detalle');
+    }
 
-        if (!inputBusqueda || !tbodyResultados) return;
+    function configurarModal(btnAbrirId, modalId, claseCerrar) {
+        const btnAbrir = document.getElementById(btnAbrirId);
+        const modal = document.getElementById(modalId);
+        if (!btnAbrir || !modal) return;
 
-        inputBusqueda.addEventListener('input', () => {
-            clearTimeout(temporizadorBusqueda);
-            temporizadorBusqueda = setTimeout(() => {
-                realizarBusqueda(inputBusqueda, tbodyResultados, idTablaDestino, tipoMovimiento);
-            }, 300);
+        btnAbrir.addEventListener('click', () => abrirModal(modal));
+
+        modal.querySelectorAll('.' + claseCerrar).forEach(btn => {
+            btn.addEventListener('click', () => cerrarModal(modal));
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) cerrarModal(modal);
         });
     }
 
-    // FUNCION PARA REALIZAR BUSQUEDA
-    function realizarBusqueda(input, tbody, idDestino, tipoMovimiento) {
-        const query = input.value.trim();
+    configurarModal('btn-abrir-salida', 'modal-registrar-salida', 'btn-cerrar-salida');
+    configurarModal('btn-abrir-ingreso', 'modal-registrar-ingreso', 'btn-cerrar-ingreso');
 
-        const columnas = tipoMovimiento === 'salida' ? 6 : 5;
 
-        if (query.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="${columnas}" class="body-tabla" style="text-align: center;">Escriba un producto para ver sugerencias...</td></tr>`;
-            return;
-        }
+    // ============================================================
+    //  AÑADIR / QUITAR PRODUCTOS DEL MOVIMIENTO
+    // ============================================================
+    function configurarAgregarProducto(selectId, cantidadId, tbodyId, tipo) {
+        const btnId = tipo === 'salida' ? 'btn-agregar-salida' : 'btn-agregar-ingreso';
+        const btn   = document.getElementById(btnId);
+        if (!btn) return;
 
-        tbody.innerHTML = `<tr><td colspan="${columnas}" class="body-tabla" style="text-align: center;">Buscando...</td></tr>`;
+        btn.addEventListener('click', () => {
+            const select  = document.getElementById(selectId);
+            const opt     = select.options[select.selectedIndex];
+            const tbody   = document.getElementById(tbodyId);
 
-        fetch(`/api/productos/buscar?q=${query}`)
-            .then(response => response.json())
-            .then(productos => {
-                tbody.innerHTML = '';
-
-                if (productos.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="${columnas}" class="body-tabla" style="text-align: center;">No se encontraron productos similares.</td></tr>`;
-                    return;
-                }
-
-                productos.forEach(prod => {
-
-                    // DEPENDIENDO EL MOVIMIENTO HARÁ:
-                    const tr = document.createElement('tr');
-
-                    if (tipoMovimiento === 'salida') {
-                        tr.innerHTML = `
-                            <td class="prod-codigo">${prod.codigoProducto}</td>
-                            <td class="prod-nombre">${prod.nombreProducto}</td>
-                            <td>${prod.stockActualProducto}</td>
-                            <td>
-                                S/ <input type="number" class="form-control prod-precio" value="${prod.precioVentaProducto}" style="width: 80px;" readonly disabled>
-                            </td>
-                            <td>
-                                <input type="number" class="form-control prod-cantidad" value="1" min="1" max="${prod.stockActualProducto}" style="width: 80px;">
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-secundario btn-agregar-lista" 
-                                        data-id="${prod.idProducto}" 
-                                        data-target="${idDestino}">
-                                    + Añadir
-                                </button>
-                            </td>
-                        `;
-                    } else if (tipoMovimiento === 'ingreso') {
-                        tr.innerHTML = `
-                            <td class="prod-codigo">${prod.codigoProducto}</td>
-                            <td class="prod-nombre">${prod.nombreProducto}</td>
-                            <td>
-                                S/ <input type="number" class="form-control prod-precio" value="${prod.precioCostoProducto}" style="width: 80px;" disabled>
-                            </td>
-                            <td>
-                                <input type="number" class="form-control prod-cantidad" value="1" min="1" style="width: 80px;">
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-secundario btn-agregar-lista" 
-                                        data-id="${prod.idProducto}" 
-                                        data-target="${idDestino}">
-                                    + Añadir
-                                </button>
-                            </td>
-                        `;
-                    }
-
-                    tbody.appendChild(tr);
-                });
-            })
-            .catch(error => {
-                console.error("Error en la búsqueda:", error);
-                tbody.innerHTML = `<tr><td colspan="${columnas}" class="body-tabla" style="color: red; text-align: center;">Error al conectar con la base de datos.</td></tr>`;
-            });
-    }
-
-    configurarBuscador('busqueda-prod-salida', 'tbody-resultados-salida', 'tabla-detalles-salida', 'salida');
-    configurarBuscador('busqueda-prod-ingreso', 'tbody-resultados-ingreso', 'tabla-detalles-ingreso', 'ingreso');
-
-    // FUNCION PARA AGREGAR A LA LISTA
-    document.addEventListener('click', function(e) {
-        if (e.target && e.target.classList.contains('btn-agregar-lista')) {
-            const btn = e.target;
-            const filaBusqueda = btn.closest('tr');
-
-            const idProducto = btn.getAttribute('data-id');
-            const codigo = filaBusqueda.querySelector('.prod-codigo').innerText;
-            const nombre = filaBusqueda.querySelector('.prod-nombre').innerText;
-
-            const precio = parseFloat(filaBusqueda.querySelector('.prod-precio').value);
-            const cantidad = parseInt(filaBusqueda.querySelector('.prod-cantidad').value);
-
-            if(isNaN(cantidad) || cantidad <= 0) {
-                alert("Por favor, ingrese una cantidad válida.");
+            if (!opt || !opt.value) {
+                alert("Seleccione un producto.");
                 return;
             }
 
-            const inputCantidad = filaBusqueda.querySelector('.prod-cantidad');
-            if(inputCantidad.hasAttribute('max')) {
-                const stockMax = parseInt(inputCantidad.getAttribute('max'));
-                if(cantidad > stockMax) {
-                    alert(`No hay suficiente stock. Solo quedan ${stockMax} unidades.`);
+            const cantidad = parseInt(document.getElementById(cantidadId).value);
+            if (isNaN(cantidad) || cantidad <= 0) {
+                alert("Ingrese una cantidad válida.");
+                return;
+            }
+
+            // Validar stock solo en salidas
+            if (tipo === 'salida') {
+                const stock = parseInt(opt.dataset.stock);
+                if (cantidad > stock) {
+                    alert(`Stock insuficiente. Solo hay ${stock} unidades disponibles.`);
                     return;
                 }
             }
 
+            const id       = opt.value;
+            const nombre   = opt.dataset.nombre;
+            const precio   = parseFloat(opt.dataset.precio);
             const subtotal = precio * cantidad;
-            const tablaDestinoId = btn.getAttribute('data-target');
-            const tbodyDestino = document.getElementById(tablaDestinoId);
 
-            const filaVacia = tbodyDestino.querySelector('.fila-vacia');
-            if(filaVacia) filaVacia.remove();
+            // Quitar fila vacía si existe
+            const filaVacia = tbody.querySelector('.fila-vacia');
+            if (filaVacia) filaVacia.remove();
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td class="body-tabla">
-                    ${codigo}<input type="hidden" name="idProducto[]" value="${idProducto}">
-                </td>
-                <td class="body-tabla">${nombre}</td>
-                <td class="body-tabla">
-                    ${cantidad}<input type="hidden" name="cantidad[]" value="${cantidad}">
+                    ${nombre}
+                    <input type="hidden" name="idProducto[]" value="${id}">
                 </td>
                 <td class="body-tabla">
-                    S/ ${precio.toFixed(2)}<input type="hidden" name="precioUnitario[]" value="${precio}">
+                    ${cantidad}
+                    <input type="hidden" name="cantidad[]" value="${cantidad}">
                 </td>
-                <td class="body-tabla subtotal-celda" data-valor="${subtotal}">S/ ${subtotal.toFixed(2)}</td>
+                <td class="body-tabla subtotal-celda" data-valor="${subtotal}">
+                    S/ ${subtotal.toFixed(2)}
+                    <input type="hidden" name="precioUnitario[]" value="${precio}">
+                </td>
                 <td class="body-tabla">
-                    <button type="button" class="btn btn-secundario btn-eliminar-fila" style="color: red; border-color: red;">Quitar</button>
+                    <button type="button" class="btn btn-secundario btn-eliminar-fila"
+                            style="color:red; border-color:red;">
+                        Quitar
+                    </button>
                 </td>
             `;
+            tbody.appendChild(tr);
+            recalcularTotal(tbody);
 
-            tbodyDestino.appendChild(tr);
-            recalcularTotal(tbodyDestino);
-        }
+            // Resetear el select y cantidad
+            select.selectedIndex = 0;
+            document.getElementById(cantidadId).value = 1;
+        });
+    }
 
-        // PARA ELIMINAR FILA
+    configurarAgregarProducto('select-prod-salida',  'cantidad-prod-salida',  'tabla-detalles-salida',  'salida');
+    configurarAgregarProducto('select-prod-ingreso', 'cantidad-prod-ingreso', 'tabla-detalles-ingreso', 'ingreso');
+
+    // Eliminar fila de la lista (delegación de eventos)
+    document.addEventListener('click', function (e) {
         if (e.target && e.target.classList.contains('btn-eliminar-fila')) {
-            const btn = e.target;
-            const filaAEliminar = btn.closest('tr');
-            const tbodyContenedor = filaAEliminar.closest('tbody');
+            const tbody = e.target.closest('tbody');
+            e.target.closest('tr').remove();
 
-            filaAEliminar.remove();
-
-            if(tbodyContenedor.children.length === 0) {
-                tbodyContenedor.innerHTML = `
+            if (tbody.children.length === 0) {
+                tbody.innerHTML = `
                     <tr class="fila-vacia">
-                        <td colspan="6" class="body-tabla" style="text-align: center; padding: 2rem; color: var(--texto-secundario);">
-                            No hay productos en la lista. Use el buscador de arriba.
+                        <td colspan="4" class="body-tabla producto-lista">
+                            No hay productos en la lista.
                         </td>
-                    </tr>
-                `;
+                    </tr>`;
             }
-
-            recalcularTotal(tbodyContenedor);
+            recalcularTotal(tbody);
         }
     });
 
     function recalcularTotal(tbody) {
         let total = 0;
-        const celdasSubtotal = tbody.querySelectorAll('.subtotal-celda');
-
-        celdasSubtotal.forEach(celda => {
-            total += parseFloat(celda.getAttribute('data-valor'));
+        tbody.querySelectorAll('.subtotal-celda').forEach(c => {
+            total += parseFloat(c.dataset.valor);
         });
-
-        const tabla = tbody.closest('table');
-        const spanTotal = tabla.querySelector('.total-movimiento');
-        if(spanTotal) {
-            spanTotal.innerText = `S/ ${total.toFixed(2)}`;
-        }
+        const span = tbody.closest('table').querySelector('.total-movimiento');
+        if (span) span.innerText = `S/ ${total.toFixed(2)}`;
     }
-});
 
 
-// MOSTRAR MODAL DETALLE DE MOVIMIENTO
-document.addEventListener('DOMContentLoaded', () => {
-
-    const modal = document.getElementById("modal-detalle-movimiento");
-
-    const cerrarModal = () => {
-        modal.style.display = 'none';
-        modal.classList.remove("modal-activo");
-        modal.classList.add("modal-oculto");
-    };
+    // ============================================================
+    //  MODAL — Ver detalle de un movimiento del historial
+    // ============================================================
+    const modalDetalle = document.getElementById("modal-detalle-movimiento");
 
     const btnCerrarSuperior = document.getElementById("btn-cerrar-modal-superior");
     const btnCerrarInferior = document.getElementById("btn-cerrar-modal-inferior");
 
-    if(btnCerrarSuperior) btnCerrarSuperior.addEventListener("click", cerrarModal);
-    if(btnCerrarInferior) btnCerrarInferior.addEventListener("click", cerrarModal);
+    if (btnCerrarSuperior) btnCerrarSuperior.addEventListener("click", () => cerrarModal(modalDetalle));
+    if (btnCerrarInferior) btnCerrarInferior.addEventListener("click", () => cerrarModal(modalDetalle));
 
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) cerrarModal();
+    modalDetalle.addEventListener("click", (e) => {
+        if (e.target === modalDetalle) cerrarModal(modalDetalle);
     });
 
     document.addEventListener('click', async (e) => {
-
-        if (e.target && (e.target.classList.contains('btn-ver-detalle'))) {
+        if (e.target && e.target.classList.contains('btn-ver-detalle')) {
             const btn = e.target;
 
-            const idMovimiento = btn.getAttribute('data-id');
-            document.getElementById('detalle-id-mov').innerText = `#${idMovimiento}`;
-            document.getElementById('detalle-tipo').innerText = btn.getAttribute('data-tipo');
-            document.getElementById('detalle-fecha').innerText = btn.getAttribute('data-fecha');
-            document.getElementById('detalle-responsable').innerText = btn.getAttribute('data-responsable');
-            document.getElementById('detalle-origen').innerText = btn.getAttribute('data-origen');
-            document.getElementById('detalle-motivo').innerText = btn.getAttribute('data-motivo');
-            document.getElementById('detalle-obs').innerText = btn.getAttribute('data-observaciones');
-            document.getElementById('detalle-total-dinero').innerText = `S/ ${parseFloat(btn.getAttribute('data-total')).toFixed(2)}`;
+            document.getElementById('detalle-id-mov').innerText       = `#${btn.dataset.id}`;
+            document.getElementById('detalle-tipo').innerText          = btn.dataset.tipo;
+            document.getElementById('detalle-fecha').innerText         = btn.dataset.fecha;
+            document.getElementById('detalle-responsable').innerText   = btn.dataset.responsable;
+            document.getElementById('detalle-origen').innerText        = btn.dataset.origen;
+            document.getElementById('detalle-motivo').innerText        = btn.dataset.motivo;
+            document.getElementById('detalle-obs').innerText           = btn.dataset.observaciones;
+            document.getElementById('detalle-total-dinero').innerText  = `S/ ${parseFloat(btn.dataset.total).toFixed(2)}`;
 
-            modal.style.display = 'flex';
-            modal.classList.remove("modal-oculto");
-            modal.classList.add("modal-activo");
+            abrirModal(modalDetalle);
 
             const tbodyDetalle = document.getElementById('detalle-tabla-cuerpo');
-            tbodyDetalle.innerHTML = '<tr><td colspan="5" class="body-tabla">Cargando productos...</td></tr>';
+            tbodyDetalle.innerHTML = '<tr><td colspan="5" class="body-tabla" style="text-align:center;">Cargando productos...</td></tr>';
 
             try {
-                const respuesta = await fetch(`/gestion/adminMovimientos/obtenerDetalles?id=${idMovimiento}`);
+                const respuesta = await fetch(`/gestion/adminMovimientos/obtenerDetalles?id=${btn.dataset.id}`);
 
-                if (!respuesta.ok) {
-                    throw new Error(`Error del servidor: ${respuesta.status}`);
-                }
+                if (!respuesta.ok) throw new Error(`Error del servidor: ${respuesta.status}`);
 
                 const productos = await respuesta.json();
                 tbodyDetalle.innerHTML = '';
 
                 if (productos.length === 0) {
-                    tbodyDetalle.innerHTML = '<tr><td colspan="5">No hay productos registrados.</td></tr>';
+                    tbodyDetalle.innerHTML = '<tr><td colspan="5" class="body-tabla">No hay productos registrados.</td></tr>';
                     return;
                 }
 
@@ -262,9 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
             } catch (error) {
-                console.error("Error en Fetch:", error);
-
-                tbodyDetalle.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red;">Error al cargar los productos. Revisa la consola (F12).</td></tr>';
+                console.error("Error al cargar detalles:", error);
+                tbodyDetalle.innerHTML = '<tr><td colspan="5" style="text-align:center;color:red;">Error al cargar los productos. Revisa la consola (F12).</td></tr>';
             }
         }
     });
