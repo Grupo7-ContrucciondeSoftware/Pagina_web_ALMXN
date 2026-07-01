@@ -156,3 +156,16 @@
     margin-top: 15px;
     justify-content: space-between;
 }
+
+.contenido-registro-movimiento {
+    border: 1px solid var(--color-borde);
+    border-radius: 12px;
+    padding: 30px;
+    width: 100%;
+}
+
+.contenido-registro-movimiento form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}

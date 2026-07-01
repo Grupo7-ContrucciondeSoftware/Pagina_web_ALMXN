@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Registrar Ingreso - Sistema de Gestión de Almacén">
+    <title>ALMXN - Registrar Ingreso</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/globalGestion.css}">
+    <link rel="stylesheet" th:href="@{/css/adminUsuarios.css}">
+    <link rel="stylesheet" th:href="@{/css/adminMovimientos.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<main id="contenido-principal-gestion">
+    <div class="centro-pagina-gestion">
+
+        <section class="gestion-inicio">
+            <div>
+                <h1 class="titulo-seccion">Registrar Ingreso</h1>
+                <p class="subtitulo-seccion">Registre el ingreso de productos al almacén</p>
+            </div>
+            <div class="formulario-acciones">
+                <a th:href="@{/gestion/adminMovimientos}" class="btn btn-secundario">Volver a Movimientos</a>
+            </div>
+        </section>
+
+        <div class="contenido-registro-movimiento">
+            <form th:action="@{/gestion/adminMovimientos/registrarMovimiento}" method="POST">
+                <input type="hidden" name="tipoMovimiento" value="Ingreso">
+
+                <div class="form-grupo">
+                    <label for="motivo-ingreso" class="form-label">Motivo de Ingreso</label>
+                    <select id="motivo-ingreso" name="motivoMovimiento" class="form-control" required>
+                        <option value="" disabled selected>Seleccione motivo</option>
+                        <option value="Compra">Compra a proveedor</option>
+                        <option value="Devolucion">Devolución de cliente</option>
+                        <option value="Otros">Ajuste por inventario físico</option>
+                    </select>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="proveedor-ingreso" class="form-label">Proveedor</label>
+                    <select id="proveedor-ingreso" name="proveedor.idProveedor" class="form-control" required>
+                        <option value="" disabled selected>Seleccione un proveedor</option>
+                        <option th:each="proveedorIngreso : ${listaProveedores}"
+                                th:value="${proveedorIngreso.idProveedor}"
+                                th:text="${proveedorIngreso.razonSocialProveedor}">
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Selector de producto -->
+                <div class="bloque-agregar-producto">
+                    <label class="form-label">Agregar producto</label>
+                    <div class="agregar-producto-grid">
+                        <select id="select-prod-ingreso" class="form-control">
+                            <option value="">-- Seleccione un producto --</option>
+                            <option th:each="p : ${listaProductos}"
+                                    th:value="${p.idProducto}"
+                                    th:text="${p.nombreProducto} + ' (Stock: ' + ${p.stockActualProducto} + ')'"
+                                    th:data-nombre="${p.nombreProducto}"
+                                    th:data-precio="${p.precioCostoProducto}"
+                                    th:data-stock="${p.stockActualProducto}">
+                            </option>
+                        </select>
+                        <input type="number" id="cantidad-prod-ingreso" class="form-control" value="1" min="1" placeholder="Cant.">
+                        <button type="button" id="btn-agregar-ingreso" class="btn btn-primario">Añadir</button>
+                    </div>
+                </div>
+
+                <!-- Lista de productos del movimiento -->
+                <table class="tabla">
+                    <thead class="header-tabla">
+                    <tr>
+                        <th class="header-tabla">Producto</th>
+                        <th class="header-tabla">Cantidad</th>
+                        <th class="header-tabla">Subtotal</th>
+                        <th class="header-tabla">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody class="body-tabla" id="tabla-detalles-ingreso">
+                    <tr class="fila-vacia">
+                        <td colspan="4" class="body-tabla producto-lista">
+                            No hay productos en la lista.
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="2" class="total-lista"><strong>TOTAL:</strong></td>
+                        <td colspan="2" class="total-lista-precio"><span class="total-movimiento">S/ 0.00</span></td>
+                    </tr>
+                    </tfoot>
+                </table>
+
+                <div class="formulario-acciones">
+                    <a th:href="@{/gestion/adminMovimientos}" class="btn btn-secundario">Cancelar</a>
+                    <button type="submit" class="btn btn-primario">Confirmar Ingreso</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script th:src="@{/js/registrarIngreso.js}" defer></script>
+</body>
+</html>

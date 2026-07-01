@@ -69,7 +69,6 @@ public class MovimientoController {
         model.addAttribute("listaMovimientos", movimientosFiltrados);
         model.addAttribute("listaUsuarios", usuarioService.obtenerTodosLosUsuarios());
         model.addAttribute("listaProveedores", proveedorService.obtenerTodosLosProveedores());
-        model.addAttribute("listaProductos", productoService.obtenerTodosLosProductos());
         model.addAttribute("paginaActiva", "gestion");
         model.addAttribute("tabActivo", tab != null ? tab : "pestaña-salida");
 
@@ -88,6 +87,33 @@ public class MovimientoController {
         return detalleMovimientoService.buscarPorIdMovimiento(idMovimiento);
     }
 
+
+    @GetMapping("/registrarSalida")
+    public String mostrarRegistrarSalida(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("listaProductos", productoService.obtenerTodosLosProductos());
+        model.addAttribute("paginaActiva", "gestion");
+
+        return "gestion/registrarSalida";
+    }
+
+    @GetMapping("/registrarIngreso")
+    public String mostrarRegistrarIngreso(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("listaProductos", productoService.obtenerTodosLosProductos());
+        model.addAttribute("listaProveedores", proveedorService.obtenerTodosLosProveedores());
+        model.addAttribute("paginaActiva", "gestion");
+
+        return "gestion/registrarIngreso";
+    }
 
     @PostMapping("/registrarMovimiento")
     public String guardarMovimiento(
