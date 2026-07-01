@@ -3,79 +3,15 @@
    ============================================ */
 
 /* Muestra la pestaña del input que está marcado */
-#pestaña-listaCategorias:checked ~ .centro-pagina-gestion #contenido-listaCategorias,
-#pestaña-agregarCategorias:checked ~ .centro-pagina-gestion #contenido-agregarCategorias {
+#pestaña-listaCategorias:checked ~ .centro-pagina-gestion #contenido-listaCategorias{
     display: flex;
     flex-direction: column;
     gap: 40px;
 }
 
 /* Resalta visualmente el label de la pestaña activa. */
-#pestaña-listaCategorias:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-listaCategorias"],
-#pestaña-agregarCategorias:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-agregarCategorias"] {
+#pestaña-listaCategorias:checked ~ .centro-pagina-gestion .pestañas label[for="pestaña-listaCategorias"]{
     color: var(--texto-principal);
     border-bottom: 2px solid var(--color-rol);
     background-color: var(--color-rol);
-}
-
-/* ============================================
-   MODAL AGREGAR CATEGORÍA
-   ============================================ */
-
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: none; /* <-- CAMBIADO */
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.modal-ventana {
-    background-color: var(--fondo-secundario, #fff);
-    border-radius: 12px;
-    width: 90%;
-    max-width: 700px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-direction: column;
-}
-
-.modal-encabezado {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 28px 12px 28px;
-    border-bottom: 1px solid var(--color-borde, #e0e0e0);
-}
-
-.modal-cerrar {
-    background: none;
-    border: none;
-    font-size: 26px;
-    cursor: pointer;
-    color: var(--texto-secundario, #666);
-    line-height: 1;
-    padding: 0 4px;
-}
-
-.modal-cerrar:hover {
-    color: var(--texto-principal, #111);
-}
-
-.modal-cuerpo {
-    padding: 24px 28px 28px 28px;
-}
-
-/* Muestra el modal cuando el checkbox está marcado */
-#toggle-modal-agregar:checked ~ #modal-agregar-categoria {
-    display: flex;
-}
-
-/* Muestra el modal editar cuando el servidor lo activa */
-#toggle-modal-editar:checked ~ #modal-editar-categoria {
-    display: flex;
 }

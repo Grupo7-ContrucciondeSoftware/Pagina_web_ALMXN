@@ -24,6 +24,9 @@
             </section>
             <div class="pestaña-contenido" style="display: block;">
                 <section class="form-grupo">
+                    <div th:if="${error != null}" class="alert alert-danger" role="alert">
+                        <p th:text="${error}"></p>
+                    </div>
                     <form th:action="@{/gestion/adminUsuarios/guardar}" method="POST" th:object="${usuario}" class="form-validable">
                         <input type="hidden" th:field="*{idUsuario}">
                         <div class="formulario">

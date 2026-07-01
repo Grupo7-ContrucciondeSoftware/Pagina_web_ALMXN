@@ -60,20 +60,19 @@ public class ProductoController {
         return "gestion/adminProductos";
     }
 
-    // ── NUEVO ──────────────────────────────────────────────────────────────────
-    @GetMapping("/agregar")
-    public String mostrarAgregarProducto(HttpSession session, Model model) {
+    @GetMapping("/nueva")
+    public String mostrarNueva(HttpSession session, Model model) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuario == null) {
             return "redirect:/login";
         }
 
+        model.addAttribute("producto", new Producto());
         model.addAttribute("listaCategorias", categoriaService.obtenerTodasLasCategorias());
         model.addAttribute("paginaActiva", "gestion");
-        return "gestion/agregarProducto";
+        return "gestion/nueva/nuevoProducto";
     }
-    // ──────────────────────────────────────────────────────────────────────────
 
     @PostMapping("/guardar")
     public String guardarProducto(@ModelAttribute Producto producto, HttpSession session,
@@ -88,7 +87,8 @@ public class ProductoController {
             productoService.guardarProducto(producto);
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("errorNombre", e.getMessage());
-            return "redirect:/gestion/adminProductos";
+            boolean esNuevo = (producto.getIdProducto() == null || producto.getIdProducto() == 0);
+            return esNuevo ? "redirect:/gestion/adminProductos/nueva" : "redirect:/gestion/adminProductos/editar?id=" + producto.getIdProducto();
         }
 
         return "redirect:/gestion/adminProductos";
@@ -102,15 +102,11 @@ public class ProductoController {
             return "redirect:/login";
         }
 
-        // Carga la lista completa para que la tabla no quede vacía
-        model.addAttribute("listaProductos", productoService.obtenerTodosLosProductos());
+        model.addAttribute("producto", productoService.buscarProductoPorId(idProducto));
         model.addAttribute("listaCategorias", categoriaService.obtenerTodasLasCategorias());
         model.addAttribute("paginaActiva", "gestion");
 
-        // Producto a editar con nombre distinto para no colisionar con th:each
-        model.addAttribute("productoEditar", productoService.buscarProductoPorId(idProducto));
-
-        return "gestion/adminProductos";
+        return "gestion/editar/editarProducto";
     }
 
     @PostMapping("/eliminar")

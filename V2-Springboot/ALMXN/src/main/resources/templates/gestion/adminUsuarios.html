@@ -24,7 +24,7 @@
             </div>
             <div class="formulario-acciones">
                 <a th:href="@{/gestion}" class="btn btn-secundario">Volver</a>
-                <label for="toggle-modal-agregar" class="btn btn-primario">+ Agregar Usuario</label>
+                <a th:href="@{/gestion/adminUsuarios/nueva}" class="btn btn-primario">+ Agregar Usuario</a>
             </div>
         </section>
 
@@ -37,7 +37,7 @@
                 <input type="hidden" name="tab" value="pestaña-listaUsuario">
                 <div class="filtro-grupo">
                     <label class="form-label" for="nombre-filtro">Nombre: </label>
-                    <input class="form-control" type="text" id="nombre-filtro" name="nombres" placeholder="Ingrese nombre" th:value="${param.nombres}">
+                    <input class="form-control" type="text" id="nombre-filtro" name="nombre" placeholder="Ingrese nombre" th:value="${param.nombre}">
                 </div>
                 <div class="filtro-grupo">
                     <label class="form-label" for="rol-filtro">Rol:</label>
@@ -59,173 +59,66 @@
                     <label class="form-label" for="fecha-filtro">Fecha: </label>
                     <input class="form-control" type="date" id="fecha-filtro" name="fecha" th:value="${param.fecha}">
                 </div>
-                </div>
-                <div class="filtro-acciones">
-                    <button type="submit" class="btn btn-secundario">Filtrar</button>
-                    <a th:href="@{/gestion/adminUsuarios(tab='pestaña-listaUsuario')}" class="btn btn-secundario">Limpiar</a>
-                </div>
-            </form>
-
-            <table class="tabla">
-                <thead class="header-tabla">
-                <tr>
-                    <th class="header-tabla">ID</th>
-                    <th class="header-tabla">Nombre</th>
-                    <th class="header-tabla">Correo</th>
-                    <th class="header-tabla">Fecha Creación</th>
-                    <th class="header-tabla">Rol</th>
-                    <th class="header-tabla">Estado</th>
-                    <th class="header-tabla">Acciones</th>
-                </tr>
-                </thead>
-                <tbody class="body-tabla">
-                <tr th:each="usuario : ${listaUsuarios}">
-                    <td class="body-tabla" th:text="${usuario.idUsuario}"></td>
-                    <td class="body-tabla" th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></td>
-                    <td class="body-tabla" th:text="${usuario.correo}"></td>
-                    <td class="body-tabla" th:text="${usuario.fechaCreacion}"></td>
-                    <td class="body-tabla">
-                        <span class="rol" th:classappend="'rol-' + ${#strings.toLowerCase(usuario.rol)}" th:text="${usuario.rol}"></span>
-                    </td>
-                    <td class="body-tabla">
-                        <span class="estado" th:classappend="${#strings.toLowerCase(usuario.estadoUsuario)}" th:text="${usuario.estadoUsuario}"></span>
-                    </td>
-                    <td class="body-tabla">
-                        <th:block th:if="${usuario.estadoUsuario == 'Activo'}">
-                            <a th:if="${session.usuarioLogueado.rol == 'Admin'}"
-                               th:href="@{/gestion/adminUsuarios/editar(id=${usuario.idUsuario})}"
-                               class="btn btn-secundario btn-editar">Editar</a>
-                            <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario" style="font-size: 16px;">Editar</label>
-                            <th:block th:if="${session.usuarioLogueado.rol == 'Admin'}">
-                                <button th:if="${usuario.idUsuario == session.usuarioLogueado.idUsuario}" type="button" class="btn btn-secundario btn-eliminar" disabled style="opacity: 0.5; cursor: not-allowed;" title="No puedes eliminar tu propia cuenta">Eliminar</button>
-                                <form th:if="${usuario.idUsuario != session.usuarioLogueado.idUsuario}" th:action="@{/gestion/adminUsuarios/eliminar}" method="POST" style="display:inline;">
-                                    <input type="hidden" name="idUsuario" th:value="${usuario.idUsuario}">
-                                    <button type="submit" class="btn btn-secundario btn-eliminar">Eliminar</button>
-                                </form>
-                            </th:block>
-                            <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario btn-falso-eliminar">Eliminar</label>
-                        </th:block>
-                        <th:block th:if="${usuario.estadoUsuario != 'Activo'}">
-                            <form th:if="${session.usuarioLogueado.rol == 'Admin'}" th:action="@{/gestion/adminUsuarios/activar}" method="POST">
-                                <input type="hidden" name="idUsuario" th:value="${usuario.idUsuario}">
-                                <button type="submit" class="btn btn-secundario btn-activar">Activar</button>
-                            </form>
-                            <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario btn-falso-activar">Activar</label>
-                        </th:block>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
         </div>
+        <div class="filtro-acciones">
+            <button type="submit" class="btn btn-secundario">Filtrar</button>
+            <a th:href="@{/gestion/adminUsuarios(tab='pestaña-listaUsuario')}" class="btn btn-secundario">Limpiar</a>
+        </div>
+        </form>
+
+        <table class="tabla">
+            <thead class="header-tabla">
+            <tr>
+                <th class="header-tabla">ID</th>
+                <th class="header-tabla">Nombre</th>
+                <th class="header-tabla">Correo</th>
+                <th class="header-tabla">Fecha Creación</th>
+                <th class="header-tabla">Rol</th>
+                <th class="header-tabla">Estado</th>
+                <th class="header-tabla">Acciones</th>
+            </tr>
+            </thead>
+            <tbody class="body-tabla">
+            <tr th:each="usuario : ${listaUsuarios}">
+                <td class="body-tabla" th:text="${usuario.idUsuario}"></td>
+                <td class="body-tabla" th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></td>
+                <td class="body-tabla" th:text="${usuario.correo}"></td>
+                <td class="body-tabla" th:text="${usuario.fechaCreacion}"></td>
+                <td class="body-tabla">
+                    <span class="rol" th:classappend="'rol-' + ${#strings.toLowerCase(usuario.rol)}" th:text="${usuario.rol}"></span>
+                </td>
+                <td class="body-tabla">
+                    <span class="estado" th:classappend="${#strings.toLowerCase(usuario.estadoUsuario)}" th:text="${usuario.estadoUsuario}"></span>
+                </td>
+                <td class="body-tabla">
+                    <th:block th:if="${usuario.estadoUsuario == 'Activo'}">
+                        <a th:if="${session.usuarioLogueado.rol == 'Admin'}"
+                           th:href="@{/gestion/adminUsuarios/editar(id=${usuario.idUsuario})}"
+                           class="btn btn-secundario btn-editar">Editar</a>
+                        <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario" style="font-size: 16px;">Editar</label>
+                        <th:block th:if="${session.usuarioLogueado.rol == 'Admin'}">
+                            <button th:if="${usuario.idUsuario == session.usuarioLogueado.idUsuario}" type="button" class="btn btn-secundario btn-eliminar" disabled style="opacity: 0.5; cursor: not-allowed;" title="No puedes eliminar tu propia cuenta">Eliminar</button>
+                            <form th:if="${usuario.idUsuario != session.usuarioLogueado.idUsuario}" th:action="@{/gestion/adminUsuarios/eliminar}" method="POST" style="display:inline;">
+                                <input type="hidden" name="idUsuario" th:value="${usuario.idUsuario}">
+                                <button type="submit" class="btn btn-secundario btn-eliminar">Eliminar</button>
+                            </form>
+                        </th:block>
+                        <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario btn-falso-eliminar">Eliminar</label>
+                    </th:block>
+                    <th:block th:if="${usuario.estadoUsuario != 'Activo'}">
+                        <form th:if="${session.usuarioLogueado.rol == 'Admin'}" th:action="@{/gestion/adminUsuarios/activar}" method="POST">
+                            <input type="hidden" name="idUsuario" th:value="${usuario.idUsuario}">
+                            <button type="submit" class="btn btn-secundario btn-activar">Activar</button>
+                        </form>
+                        <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario btn-falso-activar">Activar</label>
+                    </th:block>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     </div>
 </main>
-
-<!-- ===================== MODAL AGREGAR USUARIO ===================== -->
-<input type="checkbox" id="toggle-modal-agregar" style="display:none">
-<div id="modal-agregar-usuario" class="modal-overlay">
-    <div class="modal-ventana">
-        <div class="modal-encabezado">
-            <h2 class="titulo-seccion">Agregar Usuario</h2>
-            <label for="toggle-modal-agregar" class="modal-cerrar">&times;</label>
-        </div>
-        <div class="modal-cuerpo">
-            <div th:if="${error != null}" class="alert alert-danger" role="alert">
-                <p th:text="${error}"></p>
-            </div>
-            <form id="form-agregar-usuario" th:action="@{/gestion/adminUsuarios/guardar}" method="POST">
-                <div class="formulario">
-                    <div class="form-grupo">
-                        <label for="agr-nombres" class="form-label">Nombres</label>
-                        <input type="text" id="agr-nombres" name="nombres" class="form-control" placeholder="Ej: Juan Eduardo" required>
-                        <span class="campo-error" id="agr-error-nombres"></span>
-                    </div>
-                    <div class="form-grupo">
-                        <label for="agr-apellidos" class="form-label">Apellidos</label>
-                        <input type="text" id="agr-apellidos" name="apellidos" class="form-control" placeholder="Ej: Ramos Pérez" required>
-                        <span class="campo-error" id="agr-error-apellidos"></span>
-                    </div>
-                    <div class="form-grupo">
-                        <label for="agr-correo" class="form-label">Correo electrónico</label>
-                        <input type="email" id="agr-correo" name="correo" class="form-control" placeholder="Ej: juan@email.com" required>
-                        <span class="campo-error" id="agr-error-correo"></span>
-                    </div>
-                    <div class="form-grupo">
-                        <label for="agr-rol" class="form-label">Rol</label>
-                        <select id="agr-rol" name="rol" class="form-control" required>
-                            <option value="" disabled selected>Seleccione un rol</option>
-                            <option value="Admin">Administrador</option>
-                            <option value="Usuario">Usuario</option>
-                        </select>
-                        <span class="campo-error" id="agr-error-rol"></span>
-                    </div>
-                    <div class="form-grupo">
-                        <label for="agr-contrasena" class="form-label">Contraseña</label>
-                        <input type="password" id="agr-contrasena" name="contrasena" class="form-control" placeholder="**********" required>
-                        <div class="fortaleza-barra" id="agr-fortaleza-barra"></div>
-                        <div class="fortaleza-texto" id="agr-fortaleza-texto"></div>
-                        <span class="campo-error" id="agr-error-contrasena"></span>
-                    </div>
-                    <div class="form-grupo">
-                        <label for="agr-confirmar" class="form-label">Confirmar Contraseña</label>
-                        <input type="password" id="agr-confirmar" name="confirmarContraseña" class="form-control" placeholder="**********" required>
-                        <span class="campo-error" id="agr-error-confirmar"></span>
-                    </div>
-                </div>
-                <div class="formulario-acciones">
-                    <button type="reset" class="btn btn-secundario">Limpiar</button>
-                    <button th:if="${session.usuarioLogueado.rol == 'Admin'}" type="submit" class="btn btn-primario">Agregar Usuario</button>
-                    <label th:if="${session.usuarioLogueado.rol != 'Admin'}" for="toggle-modal-permiso" class="btn btn-secundario" style="font-size: 16px;">Agregar Usuario</label>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- ================================================================= -->
-
-<!-- ===================== MODAL EDITAR USUARIO ===================== -->
-<input type="checkbox" id="toggle-modal-editar" style="display:none">
-<div id="modal-editar-usuario" class="modal-overlay"
-     th:style="${usuarioEditar != null} ? 'display:flex;' : 'display:none;'">
-    <div class="modal-ventana">
-        <div class="modal-encabezado">
-            <h2 class="titulo-seccion">Editar Usuario</h2>
-            <a th:href="@{/gestion/adminUsuarios}" class="modal-cerrar">&times;</a>
-        </div>
-        <div class="modal-cuerpo" th:if="${usuarioEditar != null}">
-            <p class="subtitulo-seccion">Modificando: <span th:text="${usuarioEditar.nombres} + ' ' + ${usuarioEditar.apellidos}"></span></p>
-            <form th:action="@{/gestion/adminUsuarios/guardar}" method="POST" th:object="${usuarioEditar}">
-                <input type="hidden" th:field="*{idUsuario}">
-                <div class="formulario">
-                    <div class="form-grupo">
-                        <label for="editar-nombres-usuario" class="form-label">Nombres</label>
-                        <input type="text" id="editar-nombres-usuario" th:field="*{nombres}" class="form-control" required>
-                    </div>
-                    <div class="form-grupo">
-                        <label for="editar-apellidos-usuario" class="form-label">Apellidos</label>
-                        <input type="text" id="editar-apellidos-usuario" th:field="*{apellidos}" class="form-control" required>
-                    </div>
-                    <div class="form-grupo">
-                        <label for="editar-correo-usuario" class="form-label">Correo Electrónico</label>
-                        <input type="email" id="editar-correo-usuario" th:field="*{correo}" class="form-control" required>
-                    </div>
-                    <div class="form-grupo">
-                        <label for="editar-rol-usuario" class="form-label">Rol del Sistema</label>
-                        <select id="editar-rol-usuario" th:field="*{rol}" class="form-control" required>
-                            <option value="" disabled>Seleccione un rol</option>
-                            <option value="Admin">Administrador</option>
-                            <option value="Usuario">Usuario</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="formulario-acciones">
-                    <a th:href="@{/gestion/adminUsuarios}" class="btn btn-secundario">Cancelar</a>
-                    <button type="submit" class="btn btn-primario">Guardar Cambios</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- ================================================================= -->
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 <div th:replace="~{fragments/modalRestriccion :: modalRestriccion}"></div>

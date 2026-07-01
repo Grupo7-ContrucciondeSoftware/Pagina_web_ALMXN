@@ -67,6 +67,19 @@ public class ProveedorController {
         return "redirect:/gestion/adminProveedores";
     }
 
+    @GetMapping("/nueva")
+    public String mostrarNueva(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("proveedor", new Proveedor());
+        model.addAttribute("paginaActiva", "gestion");
+
+        return "gestion/nueva/nuevoProveedor";
+    }
+
     @GetMapping("/editar")
     public String mostarEditar(@RequestParam("id") Long idProveedor, Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
@@ -74,14 +87,10 @@ public class ProveedorController {
             return "redirect:/login";
         }
 
-        // Carga la lista completa para que la tabla no quede vacía
-        model.addAttribute("listaProveedores", proveedorService.obtenerTodosLosProveedores());
+        model.addAttribute("proveedor", proveedorService.buscarProveedorPorId(idProveedor));
         model.addAttribute("paginaActiva", "gestion");
 
-        // Proveedor a editar con nombre distinto para no colisionar con th:each
-        model.addAttribute("proveedorEditar", proveedorService.buscarProveedorPorId(idProveedor));
-
-        return "gestion/adminProveedores";
+        return "gestion/editar/editarProveedor";
     }
 
     @PostMapping("/eliminar")

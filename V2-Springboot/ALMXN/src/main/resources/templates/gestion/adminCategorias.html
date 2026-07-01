@@ -25,7 +25,7 @@
             </div>
             <div class="formulario-acciones">
                 <a th:href="@{/gestion}" class="btn btn-secundario">Volver</a>
-                <label for="toggle-modal-agregar" class="btn btn-primario">+ Agregar Categoría</label>
+                <a th:href="@{/gestion/adminCategorias/nueva}" class="btn btn-primario">+ Agregar Categoría</a>
             </div>
         </section>
 
@@ -103,69 +103,6 @@
         </div>
     </div>
 </main>
-
-<!-- ===================== MODAL AGREGAR CATEGORÍA ===================== -->
-<input type="checkbox" id="toggle-modal-agregar" style="display:none">
-<div id="modal-agregar-categoria" class="modal-overlay">
-    <div class="modal-ventana">
-        <div class="modal-encabezado">
-            <h2 class="titulo-seccion">Agregar Categoría</h2>
-            <label for="toggle-modal-agregar" class="modal-cerrar">&times;</label>
-        </div>
-        <div class="modal-cuerpo">
-            <form th:action="@{/gestion/adminCategorias/guardar}" method="POST">
-                <div class="formulario">
-                    <div class="form-grupo">
-                        <label for="nombre-categoria" class="form-label">Nombre de la Categoría</label>
-                        <input type="text" id="nombre-categoria" name="nombreCategoria" class="form-control" placeholder="Ej: Abarrotes" required>
-                    </div>
-                </div>
-                <div class="form-grupo form-textarea">
-                    <label for="descripcion-categoria" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
-                    <textarea id="descripcion-categoria" name="descripcionCategoria" class="form-control" placeholder="Descripción breve de la categoría..." rows="3"></textarea>
-                </div>
-                <div class="formulario-acciones">
-                    <button type="reset" class="btn btn-secundario">Limpiar</button>
-                    <button type="submit" class="btn btn-primario">Agregar Categoría</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- ================================================================== -->
-
-<!-- ===================== MODAL EDITAR CATEGORÍA ===================== -->
-<input type="checkbox" id="toggle-modal-editar" style="display:none">
-<div id="modal-editar-categoria" class="modal-overlay"
-     th:style="${categoriaEditar != null} ? 'display:flex;' : 'display:none;'">
-    <div class="modal-ventana">
-        <div class="modal-encabezado">
-            <h2 class="titulo-seccion">Editar Categoría</h2>
-            <a th:href="@{/gestion/adminCategorias}" class="modal-cerrar">&times;</a>
-        </div>
-        <div class="modal-cuerpo" th:if="${categoriaEditar != null}">
-            <p class="subtitulo-seccion">Modificando la categoría: <span th:text="${categoriaEditar.idCategoria}"></span></p>
-            <form th:action="@{/gestion/adminCategorias/guardar}" method="POST" th:object="${categoriaEditar}">
-                <input type="hidden" th:field="*{idCategoria}">
-                <div class="formulario">
-                    <div class="form-grupo">
-                        <label for="editar-nombre-categoria" class="form-label">Nombre</label>
-                        <input type="text" id="editar-nombre-categoria" th:field="*{nombreCategoria}" class="form-control" required>
-                    </div>
-                </div>
-                <div class="form-grupo form-textarea">
-                    <label for="editar-descripcion-categoria" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
-                    <textarea id="editar-descripcion-categoria" th:field="*{descripcionCategoria}" class="form-control" rows="3"></textarea>
-                </div>
-                <div class="formulario-acciones">
-                    <a th:href="@{/gestion/adminCategorias}" class="btn btn-secundario">Cancelar</a>
-                    <button type="submit" class="btn btn-primario">Guardar Cambios</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- ================================================================== -->
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 <div th:replace="~{fragments/modalRestriccion :: modalRestriccion}"></div>

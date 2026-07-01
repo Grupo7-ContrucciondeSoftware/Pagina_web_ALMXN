@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Agregar Proveedor - Sistema de Gestión de Almacén">
+    <title>ALMXN - Agregar Proveedor</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/globalGestion.css}">
+    <link rel="stylesheet" th:href="@{/css/adminProveedores.css}">
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+    <main id="contenido-principal-gestion">
+        <div class="centro-pagina-gestion">
+            <section class="gestion-inicio">
+                <div>
+                    <h1 class="titulo-seccion">Agregar Proveedor</h1>
+                    <p class="subtitulo-seccion">Registre un nuevo proveedor para el almacén</p>
+                </div>
+                <div class="formulario-acciones">
+                    <a th:href="@{/gestion/adminProveedores}" class="btn btn-secundario">Cancelar y Volver</a>
+                </div>
+            </section>
+            <div class="pestaña-contenido" style="display: block;">
+                <section class="form-grupo">
+                    <form th:action="@{/gestion/adminProveedores/guardar}" method="POST" th:object="${proveedor}">
+                        <div class="formulario">
+                            <div class="form-grupo">
+                                <label for="ruc-proveedor" class="form-label">RUC</label>
+                                <input type="number" id="ruc-proveedor" th:field="*{rucProveedor}" class="form-control" placeholder="Ej: 20123456789" maxlength="11" min="10000000000" required>
+                            </div>
+                            <div class="form-grupo">
+                                <label for="razonsocial-proveedor" class="form-label">Razón Social</label>
+                                <input type="text" id="razonsocial-proveedor" th:field="*{razonSocialProveedor}" class="form-control" placeholder="Ej: Alicorp S.A.A." required>
+                            </div>
+                            <div class="form-grupo">
+                                <label for="telefono-proveedor" class="form-label">Teléfono</label>
+                                <input type="number" id="telefono-proveedor" th:field="*{telefonoProveedor}" class="form-control" min="900000000" maxlength="9" placeholder="Ej: 987654321">
+                            </div>
+                            <div class="form-grupo">
+                                <label for="email-proveedor" class="form-label">Correo electrónico</label>
+                                <input type="email" id="email-proveedor" th:field="*{correoProveedor}" class="form-control" placeholder="Ej: ventas@empresa.com">
+                            </div>
+                        </div>
+                        <div class="formulario-acciones">
+                            <button type="reset" class="btn btn-secundario">Limpiar</button>
+                            <button type="submit" class="btn btn-primario">Agregar Proveedor</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </main>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

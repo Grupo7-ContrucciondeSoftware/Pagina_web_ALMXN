@@ -64,6 +64,21 @@ public class CategoriaController {
         return "redirect:/gestion/adminCategorias";
     }
 
+    @GetMapping("/nueva")
+    public String mostrarNueva(Model model, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        // Objeto vacío para que el formulario tenga algo a qué enlazarse (th:object)
+        model.addAttribute("categoria", new Categoria());
+        model.addAttribute("paginaActiva", "gestion");
+
+        return "/gestion/nueva/nuevaCategoria";
+    }
+
     @GetMapping("/editar")
     public String mostrarEditar(@RequestParam("id") Long idCategoria, Model model, HttpSession session) {
 
@@ -72,14 +87,10 @@ public class CategoriaController {
             return "redirect:/login";
         }
 
-        // Carga la lista completa para que la tabla no quede vacía
-        model.addAttribute("listaCategorias", categoriaService.obtenerTodasLasCategorias());
+        model.addAttribute("categoria", categoriaService.buscarCategoriaPorId(idCategoria));
         model.addAttribute("paginaActiva", "gestion");
 
-        // Categoría a editar con nombre distinto para no colisionar con th:each
-        model.addAttribute("categoriaEditar", categoriaService.buscarCategoriaPorId(idCategoria));
-
-        return "/gestion/adminCategorias";
+        return "/gestion/editar/editarCategoria";
     }
 
     @PostMapping("/eliminar")

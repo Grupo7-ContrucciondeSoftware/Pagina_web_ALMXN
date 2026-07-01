@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Agregar Producto - Sistema de Gestión de Almacén">
+    <title>ALMXN - Agregar Producto</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/globalGestion.css}">
+    <link rel="stylesheet" th:href="@{/css/adminProductos.css}">
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+    <main id="contenido-principal-gestion">
+        <div class="centro-pagina-gestion">
+            <section class="gestion-inicio">
+                <div>
+                    <h1 class="titulo-seccion">Agregar Producto</h1>
+                    <p class="subtitulo-seccion">Registre un nuevo producto en el almacén</p>
+                </div>
+                <div class="formulario-acciones">
+                    <a th:href="@{/gestion/adminProductos}" class="btn btn-secundario">Cancelar y Volver</a>
+                </div>
+            </section>
+            <div class="pestaña-contenido" style="display: block;">
+                <section class="form-grupo">
+                    <div th:if="${errorNombre != null}" class="alert alert-danger" role="alert">
+                        <p th:text="${errorNombre}"></p>
+                    </div>
+                    <form th:action="@{/gestion/adminProductos/guardar}" method="POST" th:object="${producto}">
+                        <div class="formulario">
+                            <div class="form-grupo">
+                                <label for="nombre-producto" class="form-label">Nombre del producto</label>
+                                <input type="text" id="nombre-producto" th:field="*{nombreProducto}" class="form-control" placeholder="Ej: Platano Bizcochito" required>
+                            </div>
+                            <div class="form-grupo">
+                                <label for="categoriaProducto" class="form-label">Categoría</label>
+                                <select id="categoriaProducto" name="categoria.idCategoria" class="form-control">
+                                    <option value="" disabled selected>Seleccione una categoría</option>
+                                    <option th:each="catProducto : ${listaCategorias}" th:value="${catProducto.idCategoria}" th:text="${catProducto.nombreCategoria}"></option>
+                                </select>
+                            </div>
+                            <div class="form-grupo">
+                                <label for="unidad-medida" class="form-label">Unidad de medida</label>
+                                <select id="unidad-medida" th:field="*{unidadMedidaProducto}" class="form-control">
+                                    <option value="" disabled selected>Seleccione una unidad</option>
+                                    <option value="Unidad">Unidad</option>
+                                    <option value="kg">Kg</option>
+                                    <option value="Bolsa">Bolsa</option>
+                                    <option value="litro">Litro (L)</option>
+                                    <option value="Caja">Caja</option>
+                                    <option value="Botella">Botella</option>
+                                    <option value="Lata">Lata</option>
+                                    <option value="Paquete">Paquete</option>
+                                    <option value="Saco">Saco</option>
+                                </select>
+                            </div>
+                            <div class="form-grupo">
+                                <label for="precio-costo" class="form-label">Precio de Costo</label>
+                                <input type="number" step="any" id="precio-costo" th:field="*{precioCostoProducto}" class="form-control" placeholder="Ej: 40" min="0" required>
+                            </div>
+                            <div class="form-grupo">
+                                <label for="precio-unidad" class="form-label">Precio de Venta</label>
+                                <input type="number" step="any" id="precio-unidad" th:field="*{precioVentaProducto}" class="form-control" placeholder="Ej: 10" min="0" required>
+                            </div>
+                        </div>
+                        <div class="form-grupo form-textarea">
+                            <label for="descripcion-producto" class="form-label">Descripción <span class="formulario-opcional">(opcional)</span></label>
+                            <textarea id="descripcion-producto" th:field="*{descripcionProducto}" class="form-control" placeholder="Descripción breve del producto..." rows="3"></textarea>
+                        </div>
+                        <div class="formulario-acciones">
+                            <button type="reset" class="btn btn-secundario">Limpiar</button>
+                            <button type="submit" class="btn btn-primario">Agregar Producto</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </main>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import Project.ALMXN.models.Usuario;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -50,19 +51,34 @@ public class UsuarioController {
     }
 
     @PostMapping("/guardar")
-    public String guardarNuevoUsuario(@ModelAttribute Usuario usuario, HttpSession session, Model model){
+    public String guardarNuevoUsuario(@ModelAttribute Usuario usuario, HttpSession session,
+                                      RedirectAttributes redirectAttributes){
         Usuario user = (Usuario) session.getAttribute("usuarioLogueado");
         if (user == null) {
             return "redirect:/login";
         }
+        boolean esNuevo = (usuario.getIdUsuario() == null || usuario.getIdUsuario() == 0);
         try{
             usuarioService.guardarUsuario(usuario);
             return "redirect:/gestion/adminUsuarios";
         }
         catch (RuntimeException e){
-            model.addAttribute("error", e.getMessage());
-            return "redirect:/gestion/adminUsuarios(tab='pestaña-agregarUsuario')";
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return esNuevo ? "redirect:/gestion/adminUsuarios/nueva" : "redirect:/gestion/adminUsuarios/editar?id=" + usuario.getIdUsuario();
         }
+    }
+
+    @GetMapping("/nueva")
+    public String mostrarNueva(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("usuario", new Usuario());
+        model.addAttribute("paginaActiva", "gestion");
+
+        return "gestion/nueva/nuevoUsuario";
     }
 
     @GetMapping("/editar")
@@ -72,14 +88,10 @@ public class UsuarioController {
             return "redirect:/login";
         }
 
-        // Carga la lista completa para que la tabla no quede vacía
-        model.addAttribute("listaUsuarios", usuarioService.obtenerTodosLosUsuarios());
+        model.addAttribute("usuario", usuarioService.buscarUsuarioPorId(idUsuario));
         model.addAttribute("paginaActiva", "gestion");
 
-        // Usuario a editar con nombre distinto para no colisionar con th:each
-        model.addAttribute("usuarioEditar", usuarioService.buscarUsuarioPorId(idUsuario));
-
-        return "gestion/adminUsuarios";
+        return "gestion/editar/editarUsuario";
     }
 
     @PostMapping("/eliminar")
